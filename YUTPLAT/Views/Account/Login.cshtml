@@ -1,7 +1,7 @@
 ﻿@using YUTPLAT.Models
 @model LoginViewModel
 @{
-    ViewBag.Title = "Iniciar sesión";
+    ViewBag.Title = "Y U T P L A T - Iniciar sesión";
 }
 
 <h2>@ViewBag.Title.</h2>
@@ -14,14 +14,20 @@
                 <hr />
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 <div class="form-group">
-                    @Html.LabelFor(m => m.User, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-2 control-label">
+                        @Html.LabelFor(m => m.User)
+                        <span class="text-danger">*</span>
+                    </div>
                     <div class="col-md-10">
                         @Html.TextBoxFor(m => m.User, new { @class = "form-control" })
                         @Html.ValidationMessageFor(m => m.User, "", new { @class = "text-danger" })
                     </div>
                 </div>
                 <div class="form-group">
-                    @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-2 control-label">
+                        @Html.LabelFor(m => m.Password)
+                        <span class="text-danger">*</span>
+                    </div>
                     <div class="col-md-10">
                         @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
                         @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
