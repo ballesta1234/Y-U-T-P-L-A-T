@@ -35,24 +35,8 @@
     font-size: 13px;
 }
 
-#map{
-    position:relative;
-    width:100%;
-    height: calc(100% - 60px);
-}
-
 .places-buttons .btn{
     margin-bottom: 30px
-}
-.sidebar .nav > li.active-pro{
-    position: absolute;
-    width: 100%;
-    bottom: 10px;
-}
-.sidebar .nav > li.active-pro a{
-    background: rgba(255, 255, 255, 0.14);
-    opacity: 1;
-    color: #FFFFFF;
 }
 
 .table-upgrade td:nth-child(2),

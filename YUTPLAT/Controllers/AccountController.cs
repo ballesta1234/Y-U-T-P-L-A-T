@@ -144,7 +144,7 @@ namespace YUTPLAT.Controllers
 
         private ActionResult RedirectToLocal()
         {
-            return Redirect("/Home/Admin");
+            return Redirect("/Demo/Dashboard");
         }
 
         internal class ChallengeResult : HttpUnauthorizedResult

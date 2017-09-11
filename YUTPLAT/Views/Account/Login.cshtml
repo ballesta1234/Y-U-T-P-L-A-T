@@ -1,55 +1,66 @@
 ﻿@using YUTPLAT.Models
 @model LoginViewModel
+
 @{
-    ViewBag.Title = "Y U T P L A T - Iniciar sesión";
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
 }
 
-<h2>@ViewBag.Title.</h2>
-<div class="row">
-    <div class="col-md-8">
-        <section id="loginForm">
-            @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+<div class="wrapper">
+    <div class="main-panel">
+        <div class="content">
+            <div class="container-fluid">
+               <div class="row">
+                    <div class="col-md-8">
+                        <div class="card">
+                            <div class="header">
+                                <h4 class="title">¡Bienvenido a Y U T P L A T !</h4>
+                                <p class="category">Iniciar sesión</p>
+                            </div>
+                            <div class="content">
+                                <section id="loginForm">
+                                    @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
             {
-                @Html.AntiForgeryToken()                
-                <hr />
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                <div class="form-group">
-                    <div class="col-md-2 control-label">
-                        @Html.LabelFor(m => m.User)
-                        <span class="text-danger">*</span>
-                    </div>
-                    <div class="col-md-10">
-                        @Html.TextBoxFor(m => m.User, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(m => m.User, "", new { @class = "text-danger" })
+                                @Html.AntiForgeryToken()
+                                <hr />
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                <div class="form-group">
+                                    <div class="col-md-2 control-label">
+                                        @Html.LabelFor(m => m.User)
+                                        <span class="text-danger">*</span>
+                                    </div>
+                                    <div class="col-md-6">
+                                        @Html.TextBoxFor(m => m.User, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(m => m.User, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-2 control-label">
+                                        @Html.LabelFor(m => m.Password)
+                                        <span class="text-danger">*</span>
+                                    </div>
+                                    <div class="col-md-6">
+                                        @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-offset-2 col-md-10">
+                                        @Html.CheckBoxFor(m => m.RememberMe)
+                                        @Html.LabelFor(m => m.RememberMe)
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-offset-2 col-md-10">
+                                        <input type="submit" value="Iniciar sesión" class="btn btn-default" />
+                                    </div>
+                                </div>
+                                }
+                                </section>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="form-group">
-                    <div class="col-md-2 control-label">
-                        @Html.LabelFor(m => m.Password)
-                        <span class="text-danger">*</span>
-                    </div>
-                    <div class="col-md-10">
-                        @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">                        
-                            @Html.CheckBoxFor(m => m.RememberMe)
-                            @Html.LabelFor(m => m.RememberMe)                       
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value="Iniciar sesión" class="btn btn-default" />
-                    </div>
-                </div>               
-            }
-        </section>
+            </div>
+        </div>
     </div>
-    
 </div>
-
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}

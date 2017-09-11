@@ -206,6 +206,10 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ObjetivoController.cs" />
+    <Compile Include="Controllers\AreaController.cs" />
+    <Compile Include="Controllers\IndicadorController.cs" />
+    <Compile Include="Controllers\DemoController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Global.asax.cs">
@@ -216,6 +220,10 @@
       <DependentUpon>201708220014129_InitialCreate.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\ObjetivoViewModel.cs" />
+    <Compile Include="Models\AreaViewModel.cs" />
+    <Compile Include="Models\IndicadorViewModel.cs" />
+    <Compile Include="Models\DemoViewModel.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -231,6 +239,7 @@
     <Content Include="Content\demo.css" />
     <Content Include="Content\light-bootstrap-dashboard.css" />
     <Content Include="Content\pe-icon-7-stroke.css" />
+    <Content Include="images\sidebar-5.jpg" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="fonts\Pe-icon-7-stroke.svg" />
@@ -283,17 +292,19 @@
     <Content Include="Views\Home\assets\img\sidebar-2.jpg" />
     <Content Include="Views\Home\assets\img\sidebar-3.jpg" />
     <Content Include="Views\Home\assets\img\sidebar-4.jpg" />
-    <Content Include="Views\Home\assets\img\sidebar-5.jpg" />
+    <Content Include="Views\Home\assets\img\sidebar-5.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Views\Home\assets\img\tim_80x80.png" />
-    <Content Include="Views\Home\dashboard.html" />
-    <None Include="Views\Home\icons.cshtml" />
-    <Content Include="Views\Home\maps.html" />
-    <Content Include="Views\Home\notifications.html" />
-    <Content Include="Views\Home\table.html" />
-    <Content Include="Views\Home\template.html" />
-    <Content Include="Views\Home\typography.html" />
-    <Content Include="Views\Home\upgrade.html" />
-    <Content Include="Views\Home\user.html" />
+    <Content Include="Views\Indicador\Buscar.cshtml" />
+    <None Include="Views\Demo\Icons.cshtml" />
+    <Content Include="Views\Objetivo\Buscar.cshtml" />
+    <None Include="Views\Demo\Maps.cshtml" />
+    <None Include="Views\Demo\Notifications.cshtml" />
+    <Content Include="Views\Area\Buscar.cshtml" />
+    <None Include="Views\Demo\Table.cshtml" />
+    <None Include="Views\Demo\Typography.cshtml" />
+    <None Include="Views\Demo\Users.cshtml" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -307,10 +318,14 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
-    <Content Include="Views\Manage\Index.cshtml" />
+    <Content Include="Views\Home\Manage\Index.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Home\Admin.cshtml" />
+    <Content Include="Views\Demo\Dashboard.cshtml" />
+    <Content Include="Views\Shared\_LayoutLogin.cshtml" />
+    <Content Include="Views\Shared\_TopBar.cshtml" />
+    <Content Include="Views\Shared\_SideBar.cshtml" />
+    <Content Include="Views\Shared\_BottomBar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
