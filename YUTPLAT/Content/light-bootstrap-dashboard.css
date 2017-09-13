@@ -115,7 +115,9 @@ h1 .subtitle {
   color: #FF9500 !important; }
 
 .text-danger, .text-danger:hover {
-  color: #FF4A55 !important; }
+  color: #FF4A55 !important;
+  text-transform:none;
+}
 
 /*     General overwrite     */
 body,
@@ -462,7 +464,7 @@ body > .navbar-collapse {
   filter: alpha(opacity=80);
   padding: 8px 16px;
   border-color: #888888;
-  color: #888888; }
+  color: black; }
   .btn:hover, .btn:focus, .btn:active, .btn.active, .open > .btn.dropdown-toggle {
     background-color: transparent;
     color: #777777;
