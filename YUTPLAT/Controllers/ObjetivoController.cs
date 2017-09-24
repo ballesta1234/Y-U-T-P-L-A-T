@@ -1,5 +1,5 @@
 ﻿using System.Web.Mvc;
-using YUTPLAT.Models;
+using YUTPLAT.ViewModel;
 
 namespace YUTPLAT.Controllers
 {

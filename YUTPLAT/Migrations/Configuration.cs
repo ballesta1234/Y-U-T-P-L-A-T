@@ -2,11 +2,11 @@ namespace YUTPLAT.Migrations
 {
     using Microsoft.AspNet.Identity;
     using Microsoft.AspNet.Identity.EntityFramework;
-    using Models;
+    using ViewModel;
     using System.Data.Entity.Migrations;
     using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<YUTPLAT.Models.ApplicationDbContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<YUTPLAT.ViewModel.ApplicationDbContext>
     {
         public Configuration()
         {
@@ -14,7 +14,7 @@ namespace YUTPLAT.Migrations
             ContextKey = "YUTPLAT.Models.ApplicationDbContext";
         }
 
-        protected override void Seed(YUTPLAT.Models.ApplicationDbContext context)
+        protected override void Seed(YUTPLAT.ViewModel.ApplicationDbContext context)
         {
             if (!context.Roles.Any(r => r.Name == "admin"))
             {
