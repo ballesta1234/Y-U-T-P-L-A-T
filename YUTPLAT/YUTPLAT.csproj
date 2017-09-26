@@ -255,10 +255,15 @@
     <Compile Include="Repositories\Migrations\201709242237198_Areas1.Designer.cs">
       <DependentUpon>201709242237198_Areas1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Repositories\Migrations\201709260111300_Areas2.cs" />
+    <Compile Include="Repositories\Migrations\201709260111300_Areas2.Designer.cs">
+      <DependentUpon>201709260111300_Areas2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Repositories\Migrations\Configuration.cs" />
     <Compile Include="Repositories\YutplatDbContext.cs" />
     <Compile Include="Services\AreaService.cs" />
     <Compile Include="Services\Interface\IAreaService.cs" />
+    <Compile Include="ViewModel\BuscarAreaViewModel.cs" />
     <Compile Include="ViewModel\DemoViewModel.cs" />
     <Compile Include="ViewModel\ObjetivoViewModel.cs" />
     <Compile Include="ViewModel\AreaViewModel.cs" />
@@ -380,6 +385,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Repositories\Migrations\201709242237198_Areas1.resx">
       <DependentUpon>201709242237198_Areas1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Repositories\Migrations\201709260111300_Areas2.resx">
+      <DependentUpon>201709260111300_Areas2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

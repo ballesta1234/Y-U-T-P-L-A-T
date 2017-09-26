@@ -17,12 +17,23 @@ namespace YUTPLAT.Controllers
 
         public ActionResult Buscar()
         {
+            BuscarAreaViewModel model = new BuscarAreaViewModel();
+            model.Busqueda.Titulo = "Áreas";
+
+            ViewBag.Titulo = model.Busqueda.Titulo;
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult Buscar(BuscarAreaViewModel model)
+        {
             IList<AreaViewModel> areas = AreaService.Todas();
 
-            AreaViewModel model = new AreaViewModel();
-            model.Titulo = "Áreas";
+            model.Resultados = areas;
+            model.Busqueda.Titulo = "Áreas";
 
-            ViewBag.Titulo = model.Titulo;
+            ViewBag.Titulo = model.Busqueda.Titulo;
 
             return View(model);
         }
