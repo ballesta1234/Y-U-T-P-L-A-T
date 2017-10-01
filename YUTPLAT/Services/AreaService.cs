@@ -20,5 +20,10 @@ namespace YUTPLAT.Services.Interface
         {
             return AutoMapper.Mapper.Map<IList<AreaViewModel>>(AreaRepository.Todas().ToList());            
         }
+
+        public IList<AreaViewModel> Buscar(BuscarAreaViewModel filtro)
+        {
+            return AutoMapper.Mapper.Map<IList<AreaViewModel>>(AreaRepository.Buscar(filtro.Busqueda).ToList());           
+        }
     }
 }

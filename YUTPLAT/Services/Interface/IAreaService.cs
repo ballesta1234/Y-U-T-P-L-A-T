@@ -8,5 +8,7 @@ namespace YUTPLAT.Services.Interface
     public interface IAreaService
     {
         IList<AreaViewModel> Todas();
+
+        IList<AreaViewModel> Buscar(BuscarAreaViewModel filtro);
     }
 }

@@ -28,12 +28,15 @@ namespace YUTPLAT.Controllers
         [HttpPost]
         public ActionResult Buscar(BuscarAreaViewModel model)
         {
-            IList<AreaViewModel> areas = AreaService.Todas();
+            IList<AreaViewModel> areas = AreaService.Buscar(model);
 
             model.Resultados = areas;
             model.Busqueda.Titulo = "Áreas";
 
             ViewBag.Titulo = model.Busqueda.Titulo;
+
+            if(areas == null || areas.Count <=0)
+                ViewBag.SinResultados = "No se han encontrado áreas para la búsqueda realizada.";
 
             return View(model);
         }

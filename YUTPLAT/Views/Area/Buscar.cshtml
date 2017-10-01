@@ -1,6 +1,25 @@
 ﻿@using YUTPLAT.ViewModel
 @model BuscarAreaViewModel
 
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $('#dpFechaCracion').datetimepicker(
+            {
+                format: "DD/MM/YYYY",
+                locale: 'es',
+                keepOpen: false
+            });
+
+        $('#dpFechaUltimaModificacion').datetimepicker(
+            {
+                format: "DD/MM/YYYY",
+                locale: 'es',
+                keepOpen: false
+            });
+    });
+</script>
+
 <div class="content">
     <div class="container-fluid">
 
@@ -14,56 +33,89 @@
                         @using (Html.BeginForm("Buscar", "Area", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form" }))
                         {
                             <div class="row">
-                                <div class="col-lg-4">
+                                <div class="col-xs-12 col-sm-6 col-md-3">
                                     @Html.LabelFor(m => m.Busqueda.Nombre)
                                     @Html.TextBoxFor(m => m.Busqueda.Nombre, new { @class = "form-control" })
                                 </div>
-                            </div>
 
+                                <div class="col-xs-12 col-sm-6 col-md-3">
+                                    @Html.LabelFor(m => m.Busqueda.FechaCreacion)
+                                    <div class="input-group date" id="dpFechaCracion">
+                                        @Html.TextBoxFor(m => m.Busqueda.FechaCreacion, new { @class = "form-control" })
+                                        <div class="input-group-addon">
+                                            <span class="glyphicon glyphicon-calendar"></span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-xs-12 col-sm-6 col-md-3">
+                                    @Html.LabelFor(m => m.Busqueda.UltimoUsuarioModifico)
+                                    @Html.TextBoxFor(m => m.Busqueda.UltimoUsuarioModifico, new { @class = "form-control" })
+                                </div>
+
+                                <div class="col-xs-12 col-sm-6 col-md-3">
+                                    @Html.LabelFor(m => m.Busqueda.FechaUltimaModificacion)
+                                    <div class="input-group date" id="dpFechaUltimaModificacion">
+                                        @Html.TextBoxFor(m => m.Busqueda.FechaUltimaModificacion, new { @class = "form-control" })
+                                        <div class="input-group-addon">
+                                            <span class="glyphicon glyphicon-calendar"></span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
                             <div class="row">
                                 <div class="col-lg-12">
                                     <button type="submit" class="btn btn-info btn-fill pull-left">Buscar</button>
                                 </div>
                             </div>
                         }
+
+                        @if (ViewBag.SinResultados != null)
+                        {
+                            <br/>
+                            <h5 class="title">@ViewBag.SinResultados</h5>
+                        }
+
                         @if (Model != null && Model.Resultados != null && Model.Resultados.Count > 0)
                         {
                             <br />
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="card">
-                                        <div class="header">
-                                            <h5 class="title">Resultados de la búsqueda</h5>
-                                            <p class="category">@Model.Resultados.Count áreas encontradas</p>
-                                        </div>
-                                        <div class="content table-responsive table-full-width">
-                                            <table class="table table-hover table-striped">
-                                                <thead>
-                                                    <th>@Html.LabelFor(m => m.Busqueda.Nombre)</th>  
-                                                    <th>@Html.LabelFor(m => m.Busqueda.Descripcion)</th>  
-                                                    <th>@Html.LabelFor(m => m.Busqueda.FechaCreacion)</th>  
-                                                    <th>@Html.LabelFor(m => m.Busqueda.UltimoUsuarioModifico)</th>  
-                                                    <th>@Html.LabelFor(m => m.Busqueda.FechaUltimaModificacion)</th>                      
-                                                </thead>
-                                                <tbody>
-                                                    @foreach (AreaViewModel area in Model.Resultados)
-                                                    {
-                                                        <tr>
-                                                            <td>@area.Nombre</td>
-                                                            <td>@((area.Descripcion.Length > 65) ? area.Descripcion.Substring(0, 65) + "..." : area.Descripcion)</td>
-                                                            <td>@area.FechaCreacion</td>
-                                                            <td>@area.UltimoUsuarioModifico</td>
-                                                            <td>@area.FechaUltimaModificacion</td>                                                                                                             
-                                                        </tr>
-                                                    }
-                                                </tbody>
-                                            </table>
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <div class="card">
+                                                                        <div class="header">
+                                                                            <h5 class="title">Resultados de la búsqueda</h5>
+                                                                            <p class="category">@Model.Resultados.Count áreas encontradas</p>
+                                                                        </div>
+                                                                        <div class="content table-responsive table-full-width">
+                                                                            <table class="table table-hover table-striped">
+                                                                                <thead>
+                                                                                <th>@Html.LabelFor(m => m.Busqueda.Nombre)</th>
+                                                                                <th>@Html.LabelFor(m => m.Busqueda.Descripcion)</th>
+                                                                                <th>@Html.LabelFor(m => m.Busqueda.FechaCreacion)</th>
+                                                                                <th>@Html.LabelFor(m => m.Busqueda.UltimoUsuarioModifico)</th>
+                                                                                <th>@Html.LabelFor(m => m.Busqueda.FechaUltimaModificacion)</th>
+                                                                                </thead>
+                                                                                <tbody>
+                                                                                    @foreach (AreaViewModel area in Model.Resultados)
+                                                                                    {
+                                                                                        <tr>
+                                                                                            <td>@area.Nombre</td>
+                                                                                            <td>@((area.Descripcion.Length > 65) ? area.Descripcion.Substring(0, 65) + "..." : area.Descripcion)</td>
+                                                                                            <td>@area.FechaCreacion</td>
+                                                                                            <td>@area.UltimoUsuarioModifico</td>
+                                                                                            <td>@area.FechaUltimaModificacion</td>
+                                                                                        </tr>
+                                                                                    }
+                                                                                </tbody>
+                                                                            </table>
 
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
                         }
+
                     </div>
                 </div>
             </div>
