@@ -429,6 +429,7 @@
     </Content>
     <Content Include="Views\Home\assets\img\tim_80x80.png" />
     <Content Include="Views\Indicador\Buscar.cshtml" />
+    <Content Include="Views\Area\Crear.cshtml" />
     <None Include="Views\Demo\Icons.cshtml" />
     <Content Include="Views\Objetivo\Buscar.cshtml" />
     <None Include="Views\Demo\Maps.cshtml" />

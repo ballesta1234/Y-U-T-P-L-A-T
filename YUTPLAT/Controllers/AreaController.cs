@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Web.Mvc;
 using YUTPLAT.Models;
 using YUTPLAT.Services.Interface;
@@ -37,6 +38,27 @@ namespace YUTPLAT.Controllers
 
             if(areas == null || areas.Count <=0)
                 ViewBag.SinResultados = "No se han encontrado áreas para la búsqueda realizada.";
+
+            return View(model);
+        }
+
+        public ActionResult Crear()
+        {
+            AreaViewModel model = new AreaViewModel();
+            model.Titulo = "Áreas";
+            model.FechaCreacion = DateTime.Now.ToString();
+
+            ViewBag.Titulo = model.Titulo;
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult Crear(AreaViewModel model)
+        {   
+            model.Titulo = "Áreas";
+
+            ViewBag.Titulo = model.Titulo;
 
             return View(model);
         }
