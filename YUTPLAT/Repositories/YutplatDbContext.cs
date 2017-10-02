@@ -9,6 +9,8 @@ namespace YUTPLAT.Repositories
     {
         public virtual IDbSet<Area> Areas { get; set; }
 
+        public virtual IDbSet<Objetivo> Objetivos { get; set; }
+
         public YutplatDbContext() : base("DefaultConnection")
         {
         }

@@ -8,9 +8,12 @@ namespace YUTPLAT.ViewModel
 
         public string Titulo { get; set; }
 
+        [Required]
         [Display(Name = "Nombre")]
+        [StringLength(150)]
         public string Nombre { get; set; }
 
+        [StringLength(2000)]
         [Display(Name = "Descripción")]
         public string Descripcion { get; set; }
 

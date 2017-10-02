@@ -244,7 +244,18 @@
       <DependentUpon>201708220014129_InitialCreate.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\Objetivo.cs" />
     <Compile Include="Models\Area.cs" />
+    <Compile Include="Repositories\Interface\IObjetivoRepository.cs" />
+    <Compile Include="Repositories\Migrations\201710021550578_Objetivos.cs" />
+    <Compile Include="Repositories\Migrations\201710021550578_Objetivos.Designer.cs">
+      <DependentUpon>201710021550578_Objetivos.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Repositories\Migrations\201710022141443_Objetivos1.cs" />
+    <Compile Include="Repositories\Migrations\201710022141443_Objetivos1.Designer.cs">
+      <DependentUpon>201710022141443_Objetivos1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Repositories\ObjetivoRepository.cs" />
     <Compile Include="Repositories\AreaRepository.cs" />
     <Compile Include="Repositories\Interface\IAreaRepository.cs" />
     <Compile Include="Repositories\Migrations\201709242144111_Areas.cs" />
@@ -261,8 +272,11 @@
     </Compile>
     <Compile Include="Repositories\Migrations\Configuration.cs" />
     <Compile Include="Repositories\YutplatDbContext.cs" />
+    <Compile Include="Services\Interface\IObjetivoService.cs" />
+    <Compile Include="Services\ObjetivoService.cs" />
     <Compile Include="Services\AreaService.cs" />
     <Compile Include="Services\Interface\IAreaService.cs" />
+    <Compile Include="ViewModel\BuscarObjetivoViewModel.cs" />
     <Compile Include="ViewModel\BuscarAreaViewModel.cs" />
     <Compile Include="ViewModel\DemoViewModel.cs" />
     <Compile Include="ViewModel\ObjetivoViewModel.cs" />
@@ -286,6 +300,8 @@
     <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\light-bootstrap-dashboard.css" />
     <Content Include="Content\pe-icon-7-stroke.css" />
+    <Content Include="Content\select2.css" />
+    <Content Include="Content\select2.min.css" />
     <Content Include="images\bosque.jpg" />
     <Content Include="images\sidebar-5.jpg" />
     <Content Include="favicon.ico" />
@@ -386,6 +402,7 @@
     <Content Include="Content\bootstrap-datetimepicker-build.less" />
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
     <Content Include="Scripts\bootstrap-checkbox-radio-switch.js" />
+    <Content Include="Scripts\i18n\es.js" />
     <Content Include="Scripts\locales\bootstrap-datetimepicker.es.js" />
     <Content Include="Scripts\bootstrap-datetimepicker.js" />
     <Content Include="Scripts\bootstrap-datetimepicker.min.js" />
@@ -414,6 +431,8 @@
     <Content Include="Scripts\moment.min.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\select2.full.js" />
+    <Content Include="Scripts\select2.full.min.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Views\Home\assets\img\default-avatar.png" />
     <Content Include="Views\Home\assets\img\favicon.ico" />
@@ -430,6 +449,8 @@
     <Content Include="Views\Home\assets\img\tim_80x80.png" />
     <Content Include="Views\Indicador\Buscar.cshtml" />
     <Content Include="Views\Area\Crear.cshtml" />
+    <Content Include="Views\Area\Editar.cshtml" />
+    <Content Include="Views\Area\Ver.cshtml" />
     <None Include="Views\Demo\Icons.cshtml" />
     <Content Include="Views\Objetivo\Buscar.cshtml" />
     <None Include="Views\Demo\Maps.cshtml" />
@@ -457,6 +478,9 @@
     <Content Include="Views\Shared\_TopBar.cshtml" />
     <Content Include="Views\Shared\_SideBar.cshtml" />
     <Content Include="Views\Shared\_BottomBar.cshtml" />
+    <Content Include="Views\Objetivo\Crear.cshtml" />
+    <Content Include="Views\Objetivo\Editar.cshtml" />
+    <Content Include="Views\Objetivo\Ver.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -476,6 +500,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Repositories\Migrations\201709260111300_Areas2.resx">
       <DependentUpon>201709260111300_Areas2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Repositories\Migrations\201710021550578_Objetivos.resx">
+      <DependentUpon>201710021550578_Objetivos.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Repositories\Migrations\201710022141443_Objetivos1.resx">
+      <DependentUpon>201710022141443_Objetivos1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

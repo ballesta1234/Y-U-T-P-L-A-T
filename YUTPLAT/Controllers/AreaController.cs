@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
-using YUTPLAT.Models;
 using YUTPLAT.Services.Interface;
 using YUTPLAT.ViewModel;
 
@@ -16,6 +15,7 @@ namespace YUTPLAT.Controllers
             this.AreaService = areaService;
         }
 
+        [HttpGet]
         public ActionResult Buscar()
         {
             BuscarAreaViewModel model = new BuscarAreaViewModel();
@@ -42,6 +42,7 @@ namespace YUTPLAT.Controllers
             return View(model);
         }
 
+        [HttpGet]
         public ActionResult Crear()
         {
             AreaViewModel model = new AreaViewModel();
@@ -55,11 +56,60 @@ namespace YUTPLAT.Controllers
 
         [HttpPost]
         public ActionResult Crear(AreaViewModel model)
-        {   
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
             model.Titulo = "Áreas";
 
             ViewBag.Titulo = model.Titulo;
 
+            int idArea = AreaService.Guardar(model);
+
+            return RedirectToAction("Editar", "Area", new { id = idArea, msgExito = "El área se ha guardado exitosamente." });
+        }
+
+        [HttpGet]
+        public ActionResult Editar(int id, string msgExito)
+        {
+            AreaViewModel model = AreaService.GetById(id);
+
+            model.Titulo = "Áreas";            
+
+            ViewBag.Titulo = model.Titulo;
+            ViewBag.MensageExito = msgExito;
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult Editar(AreaViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            model.Titulo = "Áreas";
+            ViewBag.Titulo = model.Titulo;
+
+            model.FechaUltimaModificacion = DateTime.Now.ToString();
+            model.UltimoUsuarioModifico = User.Identity.Name;
+
+            int idArea = AreaService.Guardar(model);
+
+            return RedirectToAction("Editar", "Area", new { id = idArea, msgExito = "El área se ha guardado exitosamente." });
+        }
+
+        [HttpGet]
+        public ActionResult Ver(int id)
+        {
+            AreaViewModel model = AreaService.GetById(id);
+            model.Titulo = "Áreas";
+            ViewBag.Titulo = model.Titulo;
+            
             return View(model);
         }
     }

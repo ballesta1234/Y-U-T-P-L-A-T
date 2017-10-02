@@ -63,11 +63,13 @@ namespace YUTPLAT.App_Start
         private static void RegisterRepositories(IKernel kernel)
         {
             kernel.Bind<IAreaRepository>().To<AreaRepository>();
+            kernel.Bind<IObjetivoRepository>().To<ObjetivoRepository>();
         }
 
         private static void RegisterServices(IKernel kernel)
         {
             kernel.Bind<IAreaService>().To<AreaService>();
+            kernel.Bind<IObjetivoService>().To<ObjetivoService>();
         }        
     }
 }

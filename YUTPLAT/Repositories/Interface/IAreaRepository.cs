@@ -8,8 +8,12 @@ namespace YUTPLAT.Repositories.Interface
 {
     public interface IAreaRepository : IDisposable
     {
+        IQueryable<Area> GetById(int id);
+
         IQueryable<Area> Todas();
 
         IQueryable<Area> Buscar(AreaViewModel filtro);
+
+        void Guardar(Area area);
     }
 }

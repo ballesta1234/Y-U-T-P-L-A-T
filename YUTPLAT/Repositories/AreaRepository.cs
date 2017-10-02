@@ -4,6 +4,7 @@ using System.Linq;
 using YUTPLAT.Models;
 using YUTPLAT.Repositories.Interface;
 using YUTPLAT.ViewModel;
+using System.Data.Entity.Migrations;
 
 namespace YUTPLAT.Repositories
 {
@@ -16,6 +17,17 @@ namespace YUTPLAT.Repositories
             this.context = context;
         }
 
+        public IQueryable<Area> GetById(int id)
+        {
+            return this.context.Areas.Where(a => a.Id == id);
+        }
+
+        public void Guardar(Area area)
+        {
+            this.context.Areas.AddOrUpdate(area);
+            this.context.SaveChanges();
+        }
+
         public IQueryable<Area> Todas()
         {
             return this.context.Areas;
@@ -25,7 +37,7 @@ namespace YUTPLAT.Repositories
         {
             IQueryable<Area> queryable = this.context.Areas;
 
-            if(filtro.Nombre != null && !string.IsNullOrEmpty(filtro.Nombre.Trim()))
+            if (filtro.Nombre != null && !string.IsNullOrEmpty(filtro.Nombre.Trim()))
             {
                 queryable = queryable.Where(a => a.Nombre.Contains(filtro.Nombre.Trim()));
             }
