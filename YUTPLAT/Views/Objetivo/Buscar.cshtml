@@ -18,7 +18,9 @@
                 keepOpen: false
             });
 
-        $("#Busqueda_Nombre").rules("remove", "required")
+        $("#Busqueda_Nombre").rules("remove", "required");
+
+        $("#ddlAreas").rules("remove", "required");
     });
 </script>
 
@@ -76,14 +78,7 @@
                                     <button type="submit" class="btn btn-info btn-fill pull-left">Buscar</button>
                                 </div>
                             </div>
-
-
-                            if (ViewBag.SinResultados != null)
-                            {
-                                <br />
-                                <h5 class="title">@ViewBag.SinResultados</h5>
-                            }
-
+                            
                             if (Model != null && Model.Resultados != null && Model.Resultados.Count > 0)
                             {
                                 <br />
@@ -98,7 +93,7 @@
                                                 <table class="table table-hover table-striped">
                                                     <thead>
                                                     <th class="col-md-2">@Html.LabelFor(m => m.Busqueda.Nombre)</th>
-                                                    <th class="col-md-2">@Html.LabelFor(m => m.Busqueda.NombreArea)</th>
+                                                    <th class="col-md-2"><label>Área</label></th>
                                                     <th class="col-md-2">@Html.LabelFor(m => m.Busqueda.FechaCreacion)</th>
                                                     <th class="col-md-2">@Html.LabelFor(m => m.Busqueda.UltimoUsuarioModifico)</th>
                                                     <th class="col-md-2">@Html.LabelFor(m => m.Busqueda.FechaUltimaModificacion)</th>
@@ -109,7 +104,7 @@
                                                         {
                                                             <tr>
                                                                 <td>@objetivo.Nombre</td>
-                                                                <td>@objetivo.NombreArea</td>
+                                                                <td>@objetivo.AreaViewModel.Nombre</td>
                                                                 <td>@objetivo.FechaCreacion</td>
                                                                 <td>@objetivo.UltimoUsuarioModifico</td>
                                                                 <td>@objetivo.FechaUltimaModificacion</td>
@@ -143,18 +138,18 @@
 
     $("#ddlAreas").select2({
         ajax: {
-            beforeSend: function (xhr, opts) {               
+            beforeSend: function (xhr, opts) {
             },
             url: '@Url.Action("BuscarAreas", "Objetivo")',
             dataType: 'json',
             delay: 250,
             data: function (params) {
                 return {
-                    nombreArea: params.term,                    
+                    nombreArea: params.term,
                 };
             },
             processResults: function (data, page) {
-                return {                    
+                return {
                     results: procesarArea(data)
                 };
             },
@@ -162,10 +157,10 @@
         },
         minimumInputLength: 1,
         language: {
-            inputTooShort: function (args) {               
+            inputTooShort: function (args) {
                 return "Ingrese al menos un caracter";
             },
-            inputTooLong: function (args) {                
+            inputTooLong: function (args) {
                 return "Texto demadiado largo";
             },
             errorLoading: function () {
@@ -180,22 +175,28 @@
             searching: function () {
                 return "Buscando...";
             },
-            maximumSelected: function (args) {                
+            maximumSelected: function (args) {
                 return "Error al cargar resultados";
             }
         }
     });
-   
-    function procesarResultado(resultado) {        
+
+    function procesarResultado(resultado) {
         return { id: resultado.Id, text: resultado.Nombre };
     }
 
-    function procesarArea(resultados) {        
+    function procesarArea(resultados) {
         var array = [];
         for (i = 0; i < resultados.length; i++) {
             array.push(procesarResultado(resultados[i]));
         }
         return array
+    }
+
+    var sinResultados = '@Html.Raw(@ViewBag.SinResultados)';
+
+    if (sinResultados != '') {
+        demo.showNotificationWarning('top', 'center', sinResultados, 'pe-7s-attention');
     }
 
 </script>

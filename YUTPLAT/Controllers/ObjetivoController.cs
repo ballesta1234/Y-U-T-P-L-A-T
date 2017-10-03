@@ -32,7 +32,9 @@ namespace YUTPLAT.Controllers
         [HttpPost]
         public ActionResult Buscar(BuscarObjetivoViewModel model)
         {
-            IList<ObjetivoViewModel> objetivos = ObjetivoService.Buscar(model);
+            ViewBag.SinResultados = null;
+
+            IList <ObjetivoViewModel> objetivos = ObjetivoService.Buscar(model);
 
             model.Resultados = objetivos;
             model.Busqueda.Titulo = "Objetivos";
@@ -50,7 +52,7 @@ namespace YUTPLAT.Controllers
         {
             ObjetivoViewModel model = new ObjetivoViewModel();
             model.Titulo = "Objetivos";
-            model.FechaCreacion = DateTime.Now.ToString();
+            model.FechaCreacion = DateTime.Now.ToString("dd/MM/yyyy HH:mm tt");
 
             ViewBag.Titulo = model.Titulo;
 
@@ -98,7 +100,7 @@ namespace YUTPLAT.Controllers
             model.Titulo = "Objetivos";
             ViewBag.Titulo = model.Titulo;
 
-            model.FechaUltimaModificacion = DateTime.Now.ToString();
+            model.FechaUltimaModificacion = DateTime.Now.ToString("dd/MM/yyyy HH:mm tt");
             model.UltimoUsuarioModifico = User.Identity.Name;
 
             int idObjetivo = ObjetivoService.Guardar(model);

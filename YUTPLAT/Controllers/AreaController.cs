@@ -29,7 +29,9 @@ namespace YUTPLAT.Controllers
         [HttpPost]
         public ActionResult Buscar(BuscarAreaViewModel model)
         {
-            IList<AreaViewModel> areas = AreaService.Buscar(model);
+            ViewBag.SinResultados = null;
+
+            IList <AreaViewModel> areas = AreaService.Buscar(model);
 
             model.Resultados = areas;
             model.Busqueda.Titulo = "Áreas";
@@ -47,7 +49,7 @@ namespace YUTPLAT.Controllers
         {
             AreaViewModel model = new AreaViewModel();
             model.Titulo = "Áreas";
-            model.FechaCreacion = DateTime.Now.ToString();
+            model.FechaCreacion = DateTime.Now.ToString("dd/MM/yyyy HH:mm tt");
 
             ViewBag.Titulo = model.Titulo;
 
@@ -95,7 +97,7 @@ namespace YUTPLAT.Controllers
             model.Titulo = "Áreas";
             ViewBag.Titulo = model.Titulo;
 
-            model.FechaUltimaModificacion = DateTime.Now.ToString();
+            model.FechaUltimaModificacion = DateTime.Now.ToString("dd/MM/yyyy HH:mm tt");
             model.UltimoUsuarioModifico = User.Identity.Name;
 
             int idArea = AreaService.Guardar(model);

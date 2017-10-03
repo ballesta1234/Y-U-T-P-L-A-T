@@ -4,6 +4,11 @@ namespace YUTPLAT.ViewModel
 {
     public class ObjetivoViewModel
     {
+        public ObjetivoViewModel()
+        {
+            this.AreaViewModel = new AreaViewModel();
+        }
+
         public int Id { get; set; }
 
         public string Titulo { get; set; }
@@ -13,11 +18,11 @@ namespace YUTPLAT.ViewModel
         [StringLength(150)]
         public string Nombre { get; set; }
 
+        [Required]
         [Display(Name = "Área")]
         public string IdArea { get; set; }
-
-        [Display(Name = "Área")]
-        public string NombreArea { get; set; }
+                
+        public AreaViewModel AreaViewModel { get; set; }
 
         [StringLength(2000)]
         [Display(Name = "Descripción")]

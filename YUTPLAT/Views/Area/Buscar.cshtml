@@ -73,13 +73,6 @@
                                 </div>
                             </div>
 
-
-                            if (ViewBag.SinResultados != null)
-                            {
-                                <br />
-                                <h5 class="title">@ViewBag.SinResultados</h5>
-                            }
-
                             if (Model != null && Model.Resultados != null && Model.Resultados.Count > 0)
                             {
                                 <br />
@@ -134,3 +127,11 @@
         </div>
     </div>
 </div>
+
+<script type="text/javascript">
+    var sinResultados = '@Html.Raw(@ViewBag.SinResultados)';
+
+    if (sinResultados != '') {
+        demo.showNotificationWarning('top', 'center', sinResultados, 'pe-7s-attention');
+    }
+</script>

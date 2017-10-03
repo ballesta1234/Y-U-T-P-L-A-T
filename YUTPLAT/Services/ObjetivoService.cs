@@ -21,26 +21,52 @@ namespace YUTPLAT.Services.Interface
 
         public ObjetivoViewModel GetById(int id)
         {
-            return AutoMapper.Mapper.Map<ObjetivoViewModel>(ObjetivoRepository.GetById(id).First());
+            return ToObjetivoViewModel(ObjetivoRepository.GetById(id).First());
         }
 
         public IList<ObjetivoViewModel> Todas()
         {
-            return AutoMapper.Mapper.Map<IList<ObjetivoViewModel>>(ObjetivoRepository.Todas().ToList());            
+            IList<Objetivo> objetivos = ObjetivoRepository.Todas().ToList();
+
+            IList<ObjetivoViewModel> dtos = new List<ObjetivoViewModel>();
+
+            foreach (Objetivo objetivo in objetivos)
+            {
+                dtos.Add(ToObjetivoViewModel(objetivo));
+            }
+
+            return dtos;
         }
 
         public IList<ObjetivoViewModel> Buscar(BuscarObjetivoViewModel filtro)
         {
-            return AutoMapper.Mapper.Map<IList<ObjetivoViewModel>>(ObjetivoRepository.Buscar(filtro.Busqueda).ToList());           
+            IList<Objetivo> objetivos = ObjetivoRepository.Buscar(filtro.Busqueda).ToList();
+
+            IList<ObjetivoViewModel> dtos = new List<ObjetivoViewModel>();
+
+            foreach (Objetivo objetivo in objetivos)
+            {
+                dtos.Add(ToObjetivoViewModel(objetivo));
+            }
+
+            return dtos;
         }
 
         public int Guardar(ObjetivoViewModel objetivoViewModel)
         {
             Objetivo objetivo = AutoMapper.Mapper.Map<Objetivo>(objetivoViewModel);
-            
+
             ObjetivoRepository.Guardar(objetivo);
 
             return objetivo.Id;
+        }
+
+        public ObjetivoViewModel ToObjetivoViewModel(Objetivo objetivo)
+        {
+            ObjetivoViewModel objetivoViewModel = AutoMapper.Mapper.Map<ObjetivoViewModel>(objetivo);
+            objetivoViewModel.AreaViewModel = AutoMapper.Mapper.Map<AreaViewModel>(objetivo.Area);
+
+            return objetivoViewModel;
         }
     }
 }

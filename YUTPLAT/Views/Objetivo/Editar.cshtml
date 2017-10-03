@@ -3,6 +3,7 @@
 
 <div class="content">
     <div class="container-fluid">
+
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
@@ -23,25 +24,12 @@
                                     @Html.ValidationMessageFor(m => m.Nombre, "", new { @class = "text-danger" })
                                 </div>
 
-                                <div class="col-xs-12 col-sm-6 col-md-2">
-                                    @Html.LabelFor(m => m.FechaCreacion)
-                                    <p class="description">@Model.FechaCreacion</p>
-                                    @Html.HiddenFor(m => m.FechaCreacion)
+                                <div class="col-xs-12 col-sm-6 col-md-4">
+                                    @Html.LabelFor(m => m.IdArea)
+                                    <span class="text-danger">*</span>
+                                    @Html.DropDownListFor(m => m.IdArea, new SelectList(new List<SelectListItem> { new SelectListItem { Text = Model.AreaViewModel.Nombre, Value = Model.AreaViewModel.Id.ToString() } }, "Value", "Text"), new { @id = "ddlAreas", @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.IdArea, "", new { @class = "text-danger" })
                                 </div>
-
-                                @if (!String.IsNullOrEmpty(Model.FechaUltimaModificacion))
-                                {
-                                    <div class="col-xs-12 col-sm-6 col-md-3">
-                                        @Html.LabelFor(m => m.FechaUltimaModificacion)
-                                        <p class="description">@Model.FechaUltimaModificacion</p>
-                                        @Html.HiddenFor(m => m.FechaUltimaModificacion)
-                                    </div>
-
-                                    <div class="col-xs-12 col-sm-6 col-md-3">
-                                        @Html.LabelFor(m => m.UltimoUsuarioModifico)
-                                        <p class="description">@Model.UltimoUsuarioModifico</p>
-                                    </div>
-                                }
                             </div>
                             <div class="row">
                                 <div class="col-xs-12 col-sm-12 col-md-12">
@@ -50,6 +38,27 @@
                                     <span class="aclaracion">(máximo 2000 caracteres)</span>
                                     @Html.ValidationMessageFor(m => m.Descripcion, "", new { @class = "text-danger" })
                                 </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12 col-sm-6 col-md-3">
+                                    @Html.LabelFor(m => m.FechaCreacion)
+                                    <p class="description">@Model.FechaCreacion</p>
+                                    @Html.HiddenFor(m => m.FechaCreacion)
+                                </div>
+
+                                @if (!String.IsNullOrEmpty(Model.FechaUltimaModificacion))
+                                {
+                                    <div class="col-xs-12 col-sm-6 col-md-3">
+                                        @Html.LabelFor(m => m.UltimoUsuarioModifico)
+                                        <p class="description">@Model.UltimoUsuarioModifico</p>
+                                    </div>
+
+                                    <div class="col-xs-12 col-sm-6 col-md-3">
+                                        @Html.LabelFor(m => m.FechaUltimaModificacion)
+                                        <p class="description">@Model.FechaUltimaModificacion</p>
+                                        @Html.HiddenFor(m => m.FechaUltimaModificacion)
+                                    </div>
+                                }
                             </div>
                             <div class="row">
                                 <div class="col-lg-12">
@@ -76,9 +85,67 @@
 
 <script type="text/javascript">
 
+    $("#ddlAreas").select2({
+        ajax: {
+            beforeSend: function (xhr, opts) {
+            },
+            url: '@Url.Action("BuscarAreas", "Objetivo")',
+            dataType: 'json',
+            delay: 250,
+            data: function (params) {
+                return {
+                    nombreArea: params.term,
+                };
+            },
+            processResults: function (data, page) {
+                return {
+                    results: procesarArea(data)
+                };
+            },
+            cache: true
+        },
+        minimumInputLength: 1,
+        language: {
+            inputTooShort: function (args) {
+                return "Ingrese al menos un caracter";
+            },
+            inputTooLong: function (args) {
+                return "Texto demadiado largo";
+            },
+            errorLoading: function () {
+                return "Error al cargar resultados";
+            },
+            loadingMore: function () {
+                return "Cargando más resultados";
+            },
+            noResults: function () {
+                return "No se encontraron resultados";
+            },
+            searching: function () {
+                return "Buscando...";
+            },
+            maximumSelected: function (args) {
+                return "Error al cargar resultados";
+            }
+        }
+    });
+
+    function procesarResultado(resultado) {
+        return { id: resultado.Id, text: resultado.Nombre };
+    }
+
+    function procesarArea(resultados) {
+        var array = [];
+        for (i = 0; i < resultados.length; i++) {
+            array.push(procesarResultado(resultados[i]));
+        }
+        return array
+    }
+
     var mensageExito = '@Html.Raw(@ViewBag.MensageExito)';
 
     if (mensageExito != '') {
         demo.showNotificationInfo('top', 'center', mensageExito, 'pe-7s-check');
     }
+
 </script>
