@@ -27,8 +27,17 @@
                                 <div class="col-xs-12 col-sm-6 col-md-4">
                                     @Html.LabelFor(m => m.IdArea)
                                     <span class="text-danger">*</span>
-                                    @Html.DropDownListFor(m => m.IdArea, Enumerable.Empty<SelectListItem>(), new { @id = "ddlAreas", @class = "form-control" })
-                                    @Html.ValidationMessageFor(m => m.IdArea, "", new { @class = "text-danger" })
+
+                                    @if (Model.AreaViewModel.Id > 0)
+                                    {
+                                        @Html.DropDownListFor(m => m.IdArea, new SelectList(new List<SelectListItem> { new SelectListItem { Text = Model.AreaViewModel.Nombre, Value = Model.AreaViewModel.Id.ToString() } }, "Value", "Text"), new { @id = "ddlAreas", @class = "form-control" })
+                                    }
+                                    else
+                                    {
+                                        @Html.DropDownListFor(m => m.IdArea, Enumerable.Empty<SelectListItem>(), new { @id = "ddlAreas", @class = "form-control" })
+                                        @Html.ValidationMessageFor(m => m.IdArea, "", new { @class = "text-danger" })
+                                    }
+                                    
                                 </div>
                             </div>
                             <div class="row">

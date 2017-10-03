@@ -48,16 +48,19 @@ namespace YUTPLAT.Controllers
         }
 
         [HttpGet]
-        public ActionResult Crear()
+        public ActionResult Crear(int? idArea)
         {
             ObjetivoViewModel model = new ObjetivoViewModel();
             model.Titulo = "Objetivos";
             model.FechaCreacion = DateTime.Now.ToString("dd/MM/yyyy HH:mm tt");
 
+            if(idArea != null)
+                model.AreaViewModel = AreaService.GetById(idArea.Value);
+
             ViewBag.Titulo = model.Titulo;
 
             return View(model);
-        }
+        }       
 
         [HttpPost]
         public ActionResult Crear(ObjetivoViewModel model)

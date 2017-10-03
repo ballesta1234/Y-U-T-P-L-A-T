@@ -34,6 +34,16 @@ namespace YUTPLAT.Migrations
                 manager.Create(user, "123qwe");
                 manager.AddToRole(user.Id, "admin");
             }
+
+            if (!context.Users.Any(u => u.UserName == "pepe"))
+            {
+                var store = new UserStore<ApplicationUser>(context);
+                var manager = new UserManager<ApplicationUser>(store);
+                var user = new ApplicationUser { UserName = "pepe" };
+
+                manager.Create(user, "123qwe");
+                manager.AddToRole(user.Id, "admin");
+            }
         }
     }
 }
