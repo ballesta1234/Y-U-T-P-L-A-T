@@ -9,8 +9,8 @@ namespace YUTPLAT.Context
     public class YutplatDbContext : IdentityDbContext<Persona>
     {
         public virtual IDbSet<Area> Areas { get; set; }
-
         public virtual IDbSet<Objetivo> Objetivos { get; set; }
+        public virtual IDbSet<Indicador> Indicadores { get; set; }
 
         public YutplatDbContext() : base("DefaultConnection", throwIfV1Schema: false)
         {
@@ -24,7 +24,6 @@ namespace YUTPLAT.Context
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
         }
     }    
