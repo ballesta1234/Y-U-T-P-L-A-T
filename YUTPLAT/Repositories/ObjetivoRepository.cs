@@ -5,6 +5,7 @@ using YUTPLAT.Models;
 using YUTPLAT.Repositories.Interface;
 using YUTPLAT.ViewModel;
 using System.Data.Entity.Migrations;
+using YUTPLAT.Context;
 
 namespace YUTPLAT.Repositories
 {

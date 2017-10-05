@@ -239,39 +239,18 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201708220014129_InitialCreate.cs" />
-    <Compile Include="Migrations\201708220014129_InitialCreate.Designer.cs">
-      <DependentUpon>201708220014129_InitialCreate.cs</DependentUpon>
+    <Compile Include="Migrations\201710050326098_Creacion_Inicial.cs" />
+    <Compile Include="Migrations\201710050326098_Creacion_Inicial.Designer.cs">
+      <DependentUpon>201710050326098_Creacion_Inicial.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Objetivo.cs" />
     <Compile Include="Models\Area.cs" />
     <Compile Include="Repositories\Interface\IObjetivoRepository.cs" />
-    <Compile Include="Repositories\Migrations\201710021550578_Objetivos.cs" />
-    <Compile Include="Repositories\Migrations\201710021550578_Objetivos.Designer.cs">
-      <DependentUpon>201710021550578_Objetivos.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Repositories\Migrations\201710022141443_Objetivos1.cs" />
-    <Compile Include="Repositories\Migrations\201710022141443_Objetivos1.Designer.cs">
-      <DependentUpon>201710022141443_Objetivos1.cs</DependentUpon>
-    </Compile>
     <Compile Include="Repositories\ObjetivoRepository.cs" />
     <Compile Include="Repositories\AreaRepository.cs" />
     <Compile Include="Repositories\Interface\IAreaRepository.cs" />
-    <Compile Include="Repositories\Migrations\201709242144111_Areas.cs" />
-    <Compile Include="Repositories\Migrations\201709242144111_Areas.Designer.cs">
-      <DependentUpon>201709242144111_Areas.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Repositories\Migrations\201709242237198_Areas1.cs" />
-    <Compile Include="Repositories\Migrations\201709242237198_Areas1.Designer.cs">
-      <DependentUpon>201709242237198_Areas1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Repositories\Migrations\201709260111300_Areas2.cs" />
-    <Compile Include="Repositories\Migrations\201709260111300_Areas2.Designer.cs">
-      <DependentUpon>201709260111300_Areas2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Repositories\Migrations\Configuration.cs" />
-    <Compile Include="Repositories\YutplatDbContext.cs" />
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Context\YutplatDbContext.cs" />
     <Compile Include="Services\Interface\IObjetivoService.cs" />
     <Compile Include="Services\ObjetivoService.cs" />
     <Compile Include="Services\AreaService.cs" />
@@ -283,7 +262,7 @@
     <Compile Include="ViewModel\AreaViewModel.cs" />
     <Compile Include="ViewModel\IndicadorViewModel.cs" />
     <Compile Include="ViewModel\AccountViewModels.cs" />
-    <Compile Include="ViewModel\IdentityModels.cs" />
+    <Compile Include="Models\Persona.cs" />
     <Compile Include="ViewModel\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -490,23 +469,8 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201708220014129_InitialCreate.resx">
-      <DependentUpon>201708220014129_InitialCreate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Repositories\Migrations\201709242144111_Areas.resx">
-      <DependentUpon>201709242144111_Areas.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Repositories\Migrations\201709242237198_Areas1.resx">
-      <DependentUpon>201709242237198_Areas1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Repositories\Migrations\201709260111300_Areas2.resx">
-      <DependentUpon>201709260111300_Areas2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Repositories\Migrations\201710021550578_Objetivos.resx">
-      <DependentUpon>201710021550578_Objetivos.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Repositories\Migrations\201710022141443_Objetivos1.resx">
-      <DependentUpon>201710022141443_Objetivos1.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201710050326098_Creacion_Inicial.resx">
+      <DependentUpon>201710050326098_Creacion_Inicial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
