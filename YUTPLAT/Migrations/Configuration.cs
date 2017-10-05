@@ -16,6 +16,13 @@ namespace YUTPLAT.Migrations
 
         protected override void Seed(YUTPLAT.Context.YutplatDbContext context)
         {
+            CargarRoles(context);
+            CargarUsuarios(context);
+            CargarFrecuenciasMedicionIndicadores(context);
+        }
+
+        private void CargarRoles(YUTPLAT.Context.YutplatDbContext context)
+        {
             if (!context.Roles.Any(r => r.Name == "admin"))
             {
                 var store = new RoleStore<IdentityRole>(context);
@@ -24,7 +31,10 @@ namespace YUTPLAT.Migrations
 
                 manager.Create(role);
             }
+        }
 
+        private void CargarUsuarios(YUTPLAT.Context.YutplatDbContext context)
+        {
             if (!context.Users.Any(u => u.UserName == "matias"))
             {
                 var store = new UserStore<Persona>(context);
@@ -44,6 +54,31 @@ namespace YUTPLAT.Migrations
                 manager.Create(user, "123qwe");
                 manager.AddToRole(user.Id, "admin");
             }
+        }
+
+        private void CargarFrecuenciasMedicionIndicadores(YUTPLAT.Context.YutplatDbContext context)
+        {
+            if (!context.FrecuenciasMedicionIndicadores.Any(f => f.Descripcion == "Al final de cada proyecto de capacitación"))
+            {
+                context.FrecuenciasMedicionIndicadores.AddOrUpdate(new FrecuenciaMedicionIndicador { Descripcion = "Al final de cada proyecto de capacitación" });
+            }
+
+            if (!context.FrecuenciasMedicionIndicadores.Any(f => f.Descripcion == "Mensual"))
+            {
+                context.FrecuenciasMedicionIndicadores.AddOrUpdate(new FrecuenciaMedicionIndicador { Descripcion = "Mensual" });
+            }
+
+            if (!context.FrecuenciasMedicionIndicadores.Any(f => f.Descripcion == "Trimestral"))
+            {
+                context.FrecuenciasMedicionIndicadores.AddOrUpdate(new FrecuenciaMedicionIndicador { Descripcion = "Trimestral" });
+            }
+
+            if (!context.FrecuenciasMedicionIndicadores.Any(f => f.Descripcion == "Cuatrimestral"))
+            {
+                context.FrecuenciasMedicionIndicadores.AddOrUpdate(new FrecuenciaMedicionIndicador { Descripcion = "Cuatrimestral" });
+            }
+
+            context.SaveChanges();
         }
     }
 }

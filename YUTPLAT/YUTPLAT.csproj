@@ -247,6 +247,12 @@
     <Compile Include="Migrations\201710050403481_Indicador.Designer.cs">
       <DependentUpon>201710050403481_Indicador.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201710052005454_Indicador1.cs" />
+    <Compile Include="Migrations\201710052005454_Indicador1.Designer.cs">
+      <DependentUpon>201710052005454_Indicador1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Models\FrecuenciaMedicionIndicador.cs" />
+    <Compile Include="Models\InteresadoIndicador.cs" />
     <Compile Include="Models\ResponsableIndicador.cs" />
     <Compile Include="Models\Indicador.cs" />
     <Compile Include="Models\Objetivo.cs" />
@@ -480,6 +486,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201710050403481_Indicador.resx">
       <DependentUpon>201710050403481_Indicador.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710052005454_Indicador1.resx">
+      <DependentUpon>201710052005454_Indicador1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

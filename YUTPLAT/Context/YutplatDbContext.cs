@@ -11,6 +11,7 @@ namespace YUTPLAT.Context
         public virtual IDbSet<Area> Areas { get; set; }
         public virtual IDbSet<Objetivo> Objetivos { get; set; }
         public virtual IDbSet<Indicador> Indicadores { get; set; }
+        public virtual IDbSet<FrecuenciaMedicionIndicador> FrecuenciasMedicionIndicadores { get; set; }
 
         public YutplatDbContext() : base("DefaultConnection", throwIfV1Schema: false)
         {
