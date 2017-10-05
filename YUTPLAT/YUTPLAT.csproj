@@ -302,6 +302,7 @@
     <Content Include="Content\pe-icon-7-stroke.css" />
     <Content Include="Content\select2.css" />
     <Content Include="Content\select2.min.css" />
+    <Content Include="images\paisaje.jpg" />
     <Content Include="images\bosque.jpg" />
     <Content Include="images\sidebar-5.jpg" />
     <Content Include="favicon.ico" />
