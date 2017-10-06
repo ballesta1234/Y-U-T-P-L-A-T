@@ -121,12 +121,12 @@ namespace YUTPLAT.Controllers
             return View(model);
         }
 
-        public JsonResult BuscarAreas(string nombreArea)
+        public JsonResult BuscarObjetivos(string nombreObjetivo)
         {
-            BuscarAreaViewModel filtro = new BuscarAreaViewModel();
-            filtro.Busqueda.Nombre = nombreArea;
-                        
-            return Json(AreaService.Buscar(filtro), JsonRequestBehavior.AllowGet);
+            BuscarObjetivoViewModel filtro = new BuscarObjetivoViewModel();
+            filtro.Busqueda.Nombre = nombreObjetivo;
+
+            return Json(ObjetivoService.Buscar(filtro), JsonRequestBehavior.AllowGet);
         }
     }
 }

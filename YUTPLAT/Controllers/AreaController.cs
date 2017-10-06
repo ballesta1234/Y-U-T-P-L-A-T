@@ -9,10 +9,10 @@ namespace YUTPLAT.Controllers
     public class AreaController : Controller
     {
         public IAreaService AreaService { get; set; }
-
+        
         public AreaController(IAreaService areaService)
         {
-            this.AreaService = areaService;
+            this.AreaService = areaService;            
         }
 
         [HttpGet]
@@ -113,6 +113,14 @@ namespace YUTPLAT.Controllers
             ViewBag.Titulo = model.Titulo;
             
             return View(model);
+        }
+
+        public JsonResult BuscarAreas(string nombreArea)
+        {
+            BuscarAreaViewModel filtro = new BuscarAreaViewModel();
+            filtro.Busqueda.Nombre = nombreArea;
+
+            return Json(AreaService.Buscar(filtro), JsonRequestBehavior.AllowGet);
         }
     }
 }

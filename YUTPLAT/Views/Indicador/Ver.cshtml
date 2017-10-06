@@ -1,0 +1,53 @@
+﻿@using YUTPLAT.ViewModel
+@model IndicadorViewModel
+
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="header">
+                        <h4 class="title">Ver</h4>
+                    </div>
+                    <div class="content">
+                        <form>
+                            <div class="row">
+                                <div class="col-xs-12 col-sm-6 col-md-4">
+                                    @Html.LabelFor(m => m.Nombre)
+                                    @Html.TextBoxFor(m => m.Nombre, new { @disabled = "true", @class = "form-control" })
+                                </div>
+                                <div class="col-xs-12 col-sm-6 col-md-2">
+                                    @Html.LabelFor(m => m.FechaCreacion)
+                                    <p class="description">@Model.FechaCreacion</p>
+                                </div>
+
+                                @if (!String.IsNullOrEmpty(Model.FechaUltimaModificacion))
+                                {
+                                <div class="col-xs-12 col-sm-6 col-md-3">
+                                    @Html.LabelFor(m => m.FechaUltimaModificacion)
+                                    <p class="description">@Model.FechaUltimaModificacion</p>
+                                </div>
+                                <div class="col-xs-12 col-sm-6 col-md-3">
+                                    @Html.LabelFor(m => m.UltimoUsuarioModifico)
+                                    <p class="description">@Model.UltimoUsuarioModifico</p>
+                                </div>
+                                }
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12 col-sm-12 col-md-12">
+                                    @Html.LabelFor(m => m.Descripcion)
+                                    @Html.TextAreaFor(m => m.Descripcion, new { @disabled = "true", @rows = 5, @class = "form-control" })
+                                </div>
+                            </div>
+                        </form>
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-3 col-md-3">                               
+                                <button class="btn btn-fill btn-info" onclick="history.go(-1); return false;">Volver</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
