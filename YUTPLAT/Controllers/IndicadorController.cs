@@ -72,7 +72,7 @@ namespace YUTPLAT.Controllers
 
             int idIndicador = IndicadorService.Guardar(model);
 
-            return RedirectToAction("Editar", "Indicador", new { id = idIndicador, msgExito = "El área se ha guardado exitosamente." });
+            return RedirectToAction("Editar", "Indicador", new { id = idIndicador, msgExito = "El indicador se ha guardado exitosamente." });
         }
 
         [HttpGet]

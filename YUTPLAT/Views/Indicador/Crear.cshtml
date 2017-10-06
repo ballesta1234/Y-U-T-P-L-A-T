@@ -25,26 +25,26 @@
                                 </div>
 
                                 <div class="col-xs-12 col-sm-6 col-md-4">
-                                    @Html.LabelFor(m => m.IdObjetivo)
+                                    @Html.LabelFor(m => m.ObjetivoID)
                                     <span class="text-danger">*</span>
 
                                     @if (Model.ObjetivoViewModel.Id > 0)
                                     {
-                                        @Html.DropDownListFor(m => m.IdObjetivo, new SelectList(new List<SelectListItem> { new SelectListItem { Text = Model.ObjetivoViewModel.Nombre, Value = Model.ObjetivoViewModel.Id.ToString() } }, "Value", "Text"), new { @id = "ddlObjetivos", @class = "form-control" })
+                                        @Html.DropDownListFor(m => m.ObjetivoID, new SelectList(new List<SelectListItem> { new SelectListItem { Text = Model.ObjetivoViewModel.Nombre, Value = Model.ObjetivoViewModel.Id.ToString() } }, "Value", "Text"), new { @id = "ddlObjetivos", @class = "form-control" })
                                     }
                                     else
                                     {
-                                        @Html.DropDownListFor(m => m.IdObjetivo, Enumerable.Empty<SelectListItem>(), new { @id = "ddlObjetivos", @class = "form-control" })
-                                        @Html.ValidationMessageFor(m => m.IdObjetivo, "", new { @class = "text-danger" })
+                                        @Html.DropDownListFor(m => m.ObjetivoID, Enumerable.Empty<SelectListItem>(), new { @id = "ddlObjetivos", @class = "form-control" })
+                                        @Html.ValidationMessageFor(m => m.ObjetivoID, "", new { @class = "text-danger" })
                                     }
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-xs-12 col-sm-6 col-md-4">
-                                    @Html.LabelFor(m => m.IdFrecuenciaMedicionIndicador)
+                                    @Html.LabelFor(m => m.FrecuenciaMedicionIndicadorID)
                                     <span class="text-danger">*</span>
-                                    @Html.DropDownListFor(m => m.IdFrecuenciaMedicionIndicador, Enumerable.Empty<SelectListItem>(), new { @id = "ddlFrecuencias", @class = "form-control" })
-                                    @Html.ValidationMessageFor(m => m.IdFrecuenciaMedicionIndicador, "", new { @class = "text-danger" })
+                                    @Html.DropDownListFor(m => m.FrecuenciaMedicionIndicadorID, Enumerable.Empty<SelectListItem>(), new { @id = "ddlFrecuencias", @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.FrecuenciaMedicionIndicadorID, "", new { @class = "text-danger" })
                                 </div>
                                 <div class="col-xs-12 col-sm-6 col-md-2">
                                     @Html.LabelFor(m => m.FechaCreacion)

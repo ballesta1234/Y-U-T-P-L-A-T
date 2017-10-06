@@ -20,11 +20,11 @@ namespace YUTPLAT.ViewModel
 
         [Required]
         [Display(Name = "Objetivo")]
-        public string IdObjetivo { get; set; }
+        public string ObjetivoID { get; set; }
 
         [Required]
         [Display(Name = "Frecuencia de medición")]
-        public string IdFrecuenciaMedicionIndicador { get; set; }
+        public string FrecuenciaMedicionIndicadorID { get; set; }
 
         public ObjetivoViewModel ObjetivoViewModel { get; set; }
 
