@@ -38,6 +38,12 @@
                                         @Html.ValidationMessageFor(m => m.ObjetivoID, "", new { @class = "text-danger" })
                                     }
                                 </div>
+
+                                <div class="col-xs-12 col-sm-6 col-md-4">
+                                    @Html.LabelFor(m => m.AreaID)
+                                    @Html.DropDownListFor(m => m.AreaID, Enumerable.Empty<SelectListItem>(), new { @id = "ddlAreas", @class = "form-control" })
+
+                                </div>
                             </div>
                             <div class="row">
                                 <div class="col-xs-12 col-sm-6 col-md-4">
@@ -109,11 +115,88 @@
             data: function (params) {
                 return {
                     nombreObjetivo: params.term,
+                    idArea: $("#ddlAreas").val(),
                 };
             },
             processResults: function (data, page) {
                 return {
                     results: procesarObjetivos(data)
+                };
+            },
+            placeholder: "Select a customer",
+            initSelection: function(element, callback) {
+            },
+            cache: true
+        },
+        minimumInputLength: 1,
+        language: {
+            inputTooShort: function (args) {
+                return "Ingrese al menos un caracter";
+            },
+            inputTooLong: function (args) {
+                return "Texto demadiado largo";
+            },
+            errorLoading: function () {
+                return "Error al cargar resultados";
+            },
+            loadingMore: function () {
+                return "Cargando más resultados";
+            },
+            noResults: function () {
+                return "No se encontraron resultados";
+            },
+            searching: function () {
+                return "Buscando...";
+            },
+            maximumSelected: function (args) {
+                return "Error al cargar resultados";
+            }
+        }
+    });
+
+    $('#ddlObjetivos').on("select2:selecting", function (e) {
+
+        var idObjetivo = e.params.args.data.id;
+
+        var parametros = {
+            "idObjetivo": idObjetivo
+        };
+        $.ajax({
+            data: parametros,
+            url: '@Url.Action("BuscarArea", "Objetivo")',
+            type: 'post',
+            beforeSend: function () {
+            },
+            success: function (response) {                
+
+                var option = $('<option>', {
+                    value: response.Id
+                }).html(response.Nombre).appendTo("#ddlAreas");
+
+                $("#ddlAreas").val(response.Id).trigger('change');
+            }
+        });        
+    });
+
+    $('#ddlAreas').on("select2:selecting", function (e) {
+        $("#ddlObjetivos").val('').trigger('change');
+    });
+
+    $("#ddlAreas").select2({
+        ajax: {
+            beforeSend: function (xhr, opts) {
+            },
+            url: '@Url.Action("BuscarAreas", "Area")',
+            dataType: 'json',
+            delay: 250,
+            data: function (params) {
+                return {
+                    nombreArea: params.term,
+                };
+            },
+            processResults: function (data, page) {
+                return {
+                    results: procesarAreas(data)
                 };
             },
             cache: true
@@ -206,6 +289,18 @@
     }
 
     function procesarObjetivos(resultados) {
+        var array = [];
+        for (i = 0; i < resultados.length; i++) {
+            array.push(procesarObjetivo(resultados[i]));
+        }
+        return array
+    }
+
+    function procesarArea(resultado) {
+        return { id: resultado.Id, text: resultado.Nombre };
+    }
+
+    function procesarAreas(resultados) {
         var array = [];
         for (i = 0; i < resultados.length; i++) {
             array.push(procesarObjetivo(resultados[i]));

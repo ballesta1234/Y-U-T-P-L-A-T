@@ -23,6 +23,11 @@ namespace YUTPLAT.Repositories
             return this.context.Areas.Where(a => a.Id == id);
         }
 
+        public IQueryable<Area> GetByIdObjetivo(int idObjetivo)
+        {
+            return this.context.Objetivos.Where(o => o.Id == idObjetivo).Select(o => o.Area);
+        }
+
         public void Guardar(Area area)
         {
             this.context.Areas.AddOrUpdate(area);

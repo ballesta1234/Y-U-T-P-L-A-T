@@ -22,6 +22,9 @@ namespace YUTPLAT.ViewModel
         [Display(Name = "Objetivo")]
         public string ObjetivoID { get; set; }
 
+        [Display(Name = "Área")]
+        public string AreaID { get; set; }
+
         [Required]
         [Display(Name = "Frecuencia de medición")]
         public string FrecuenciaMedicionIndicadorID { get; set; }

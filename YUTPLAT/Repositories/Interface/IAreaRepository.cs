@@ -10,6 +10,8 @@ namespace YUTPLAT.Repositories.Interface
     {
         IQueryable<Area> GetById(int id);
 
+        IQueryable<Area> GetByIdObjetivo(int idObjetivo);
+
         IQueryable<Area> Todas();
 
         IQueryable<Area> Buscar(AreaViewModel filtro);

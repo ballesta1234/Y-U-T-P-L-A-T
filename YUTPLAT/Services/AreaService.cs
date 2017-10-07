@@ -21,6 +21,11 @@ namespace YUTPLAT.Services.Interface
             return AutoMapper.Mapper.Map<AreaViewModel>(AreaRepository.GetById(id).First());
         }
 
+        public AreaViewModel GetByIdObjetivo(int idObjetivo)
+        {
+            return AutoMapper.Mapper.Map<AreaViewModel>(AreaRepository.GetByIdObjetivo(idObjetivo).First());
+        }
+
         public IList<AreaViewModel> Todas()
         {
             return AutoMapper.Mapper.Map<IList<AreaViewModel>>(AreaRepository.Todas().ToList());            

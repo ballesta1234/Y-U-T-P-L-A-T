@@ -9,6 +9,8 @@ namespace YUTPLAT.Services.Interface
     {
         AreaViewModel GetById(int id);
 
+        AreaViewModel GetByIdObjetivo(int idObjetivo);
+        
         IList<AreaViewModel> Todas();
 
         IList<AreaViewModel> Buscar(BuscarAreaViewModel filtro);
