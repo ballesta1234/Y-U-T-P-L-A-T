@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace YUTPLAT.ViewModel
 {
@@ -7,6 +8,8 @@ namespace YUTPLAT.ViewModel
         public IndicadorViewModel()
         {
             this.ObjetivoViewModel = new ObjetivoViewModel();
+            this.Interesados = new List<PersonaViewModel>();
+            this.Responsables = new List<PersonaViewModel>();
         }
 
         public int Id { get; set; }
@@ -29,7 +32,19 @@ namespace YUTPLAT.ViewModel
         [Display(Name = "Frecuencia de medición")]
         public string FrecuenciaMedicionIndicadorID { get; set; }
 
+        public FrecuenciaMedicionIndicadorViewModel FrecuenciaMedicionIndicadorViewModel { get; set; }
+
         public ObjetivoViewModel ObjetivoViewModel { get; set; }
+        
+        public IList<PersonaViewModel> Responsables { get; set; }
+
+        [Display(Name = "Responsables")]
+        public string ResponsableID { get; set; }
+
+        public IList<PersonaViewModel> Interesados { get; set; }
+
+        [Display(Name = "Interesados")]
+        public string InteresadoID { get; set; }
 
         [StringLength(2000)]
         [Display(Name = "Descripción")]

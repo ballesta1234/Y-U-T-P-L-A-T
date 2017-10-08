@@ -79,3 +79,17 @@ textarea {
 .label-login {
     font-weight : normal !important;
 }
+
+.label-blanco {
+    color: white !important;
+}
+
+.boton-agregar {
+    font-size: 40px;
+    font-weight:bold;
+    color: #5bc0de;    
+}
+
+.boton-agregar:hover {
+    color: #1DC7EA;   
+}

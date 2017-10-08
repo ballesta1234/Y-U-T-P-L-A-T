@@ -80,6 +80,110 @@
                                     @Html.ValidationMessageFor(m => m.Descripcion, "", new { @class = "text-danger" })
                                 </div>
                             </div>
+
+                            <div class="row">
+                                <div class="col-xs-6 col-sm-6 col-md-6">
+                                    <div class="row">
+                                        <div class="col-xs-8 col-sm-8 col-md-8">
+                                            @Html.LabelFor(m => m.ResponsableID)
+                                            <span class="text-danger">*</span>
+                                            @Html.DropDownListFor(m => m.ResponsableID, Enumerable.Empty<SelectListItem>(), new { @id = "ddlResponsables", @class = "form-control" })
+                                        </div>
+                                        <div class="col-xs-1 col-sm-1 col-md-1">
+                                            <label class="label-blanco">a</label>
+                                            <a href="javascript:agregarResponsable();">
+                                                <i class="pe-7s-plus boton-agregar"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-9 col-sm-9 col-md-9">
+                                            <div class="content table-responsive table-full-width">
+                                                @if (Model != null && Model.Responsables != null)
+                                                {
+                                                    <table id="tblResponsables" class="table table-striped table-responsive">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Nombre</th>
+                                                                <th></th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody id="tblBodyResponsables">
+                                                            @foreach (PersonaViewModel persona in Model.Responsables)
+                                                            {
+                                                                <tr>
+                                                                    <td>
+                                                                        @persona.Nombre @persona.Apellido
+                                                                    </td>
+
+                                                                    <td>
+                                                                        <a id="@persona.Id" class="aQuitarResponsable" href="#">
+                                                                            <i data-toggle="tooltip" data-placement="bottom" title="Quitar" class="glyphicon glyphicon-trash"></i>
+                                                                        </a>
+                                                                    </td>
+
+                                                                </tr>
+                                                            }
+                                                        </tbody>
+                                                    </table>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-xs-6 col-sm-6 col-md-6">
+                                    <div class="row">
+                                        <div class="col-xs-8 col-sm-8 col-md-8">
+                                            @Html.LabelFor(m => m.InteresadoID)
+                                            <span class="text-danger">*</span>
+
+                                            @Html.DropDownListFor(m => m.InteresadoID, Enumerable.Empty<SelectListItem>(), new { @id = "ddlInteresados", @class = "form-control" })
+                                        </div>
+                                        <div class="col-xs-1 col-sm-1 col-md-1">
+                                            <label class="label-blanco">a</label>
+                                            <a href="javascript:agregarInteresado();">
+                                                <i class="pe-7s-plus boton-agregar"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-9 col-sm-9 col-md-9">
+                                            <div class="content table-responsive table-full-width">
+                                                @if (Model != null && Model.Interesados != null)
+                                                {
+                                                    <table id="tblInteresados" class="table table-striped table-responsive">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Nombre</th>
+                                                                <th></th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody id="tblBodyInteresados">
+                                                            @foreach (PersonaViewModel persona in Model.Interesados)
+                                                            {
+                                                                <tr>
+                                                                    <td>
+                                                                        @persona.Nombre @persona.Apellido
+                                                                    </td>
+
+                                                                    <td>
+                                                                        <a id="@persona.Id" class="aQuitarInteresado" href="#">
+                                                                            <i data-toggle="tooltip" data-placement="bottom" title="Quitar" class="glyphicon glyphicon-trash"></i>
+                                                                        </a>
+                                                                    </td>
+
+                                                                </tr>
+                                                            }
+                                                        </tbody>
+                                                    </table>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                             <div class="row">
                                 <div class="col-lg-12">
                                     <h6>
@@ -105,6 +209,74 @@
 
 <script type="text/javascript">
 
+    function agregarInteresado() {
+        var interesado = $("#ddlInteresados option:selected").text();
+        var idInteresado = $("#ddlInteresados option:selected").val();
+
+        if (interesado != '') {
+            var parametros = {
+                "idPersona": idInteresado,
+                "nombre": interesado
+            };
+            $.ajax({
+                data: parametros,
+                url: '@Url.Action("AgregarInteresado", "Indicador")',
+                type: 'post',
+                beforeSend: function () {
+                },
+                success: function (response) {
+
+                    $('#tblBodyInteresados').empty();
+
+                    $.each(response, function (i, persona) {
+                        var $tr = $('<tr>').append(
+                          $('<td>').text(persona.Nombre),
+                            '<td><div class="divTolltip" title="Quitar"><a id="' + persona.Id + '" class="glyphicon glyphicon-trash aQuitarInteresado" href="#" /></div></td>'
+                        ).appendTo('#tblInteresados');
+                    });
+
+                    $("#ddlInteresados").val('').trigger('change');
+
+                    demo.showNotificationInfo('top', 'center', 'Interesado ' + interesado + ' agregado exitosamente.', 'pe-7s-check');
+                }
+            });
+        }
+    }
+
+    function agregarResponsable() {
+        var responsable = $("#ddlResponsables option:selected").text();
+        var idResponsable = $("#ddlResponsables option:selected").val();
+
+        if (responsable != '') {
+            var parametros = {
+                "idPersona": idResponsable,
+                "nombre": responsable
+            };
+            $.ajax({
+                data: parametros,
+                url: '@Url.Action("AgregarResponsable", "Indicador")',
+                type: 'post',
+                beforeSend: function () {
+                },
+                success: function (response) {
+
+                    $('#tblBodyResponsables').empty();
+
+                    $.each(response, function (i, persona) {
+                        var $tr = $('<tr>').append(
+                          $('<td>').text(persona.Nombre),
+                            '<td><div class="divTolltip" title="Quitar"><a id="' + persona.Id + '" class="glyphicon glyphicon-trash aQuitarResponsable" href="#" /></div></td>'
+                        ).appendTo('#tblResponsables');
+                    });
+
+                    $("#ddlResponsables").val('').trigger('change');
+
+                    demo.showNotificationInfo('top', 'center', 'Responsable ' + responsable + ' agregado exitosamente.', 'pe-7s-check');
+                }
+            });
+        }
+    }
+
     $("#ddlObjetivos").select2({
         ajax: {
             beforeSend: function (xhr, opts) {
@@ -124,11 +296,11 @@
                 };
             },
             placeholder: "Select a customer",
-            initSelection: function(element, callback) {
+            initSelection: function (element, callback) {
             },
             cache: true
         },
-        minimumInputLength: 1,
+        minimumInputLength: 0,
         language: {
             inputTooShort: function (args) {
                 return "Ingrese al menos un caracter";
@@ -167,7 +339,7 @@
             type: 'post',
             beforeSend: function () {
             },
-            success: function (response) {                
+            success: function (response) {
 
                 var option = $('<option>', {
                     value: response.Id
@@ -175,7 +347,7 @@
 
                 $("#ddlAreas").val(response.Id).trigger('change');
             }
-        });        
+        });
     });
 
     $('#ddlAreas').on("select2:selecting", function (e) {
@@ -201,7 +373,7 @@
             },
             cache: true
         },
-        minimumInputLength: 1,
+        minimumInputLength: 0,
         language: {
             inputTooShort: function (args) {
                 return "Ingrese al menos un caracter";
@@ -246,7 +418,7 @@
             },
             cache: true
         },
-        minimumInputLength: 1,
+        minimumInputLength: 0,
         language: {
             inputTooShort: function (args) {
                 return "Ingrese al menos un caracter";
@@ -308,4 +480,169 @@
         return array
     }
 
+    $("#ddlResponsables").select2({
+        ajax: {
+            beforeSend: function (xhr, opts) {
+            },
+            url: '@Url.Action("BuscarResponsable", "Indicador")',
+            dataType: 'json',
+            delay: 250,
+            data: function (params) {
+                return {
+                    nombreOApellidoONombreUsuario: params.term,
+                };
+            },
+            processResults: function (data, page) {
+                return {
+                    results: procesarPersonas(data)
+                };
+            },
+            cache: true
+        },
+        minimumInputLength: 1,
+        language: {
+            inputTooShort: function (args) {
+                return "Ingrese nombre, apellido o usuario";
+            },
+            inputTooLong: function (args) {
+                return "Texto demadiado largo";
+            },
+            errorLoading: function () {
+                return "Error al cargar resultados";
+            },
+            loadingMore: function () {
+                return "Cargando más resultados";
+            },
+            noResults: function () {
+                return "No se encontraron resultados";
+            },
+            searching: function () {
+                return "Buscando...";
+            },
+            maximumSelected: function (args) {
+                return "Error al cargar resultados";
+            }
+        }
+    });
+
+    $("#ddlInteresados").select2({
+        ajax: {
+            beforeSend: function (xhr, opts) {
+            },
+            url: '@Url.Action("BuscarInteresado", "Indicador")',
+            dataType: 'json',
+            delay: 250,
+            data: function (params) {
+                return {
+                    nombreOApellidoONombreUsuario: params.term,
+                };
+            },
+            processResults: function (data, page) {
+                return {
+                    results: procesarPersonas(data)
+                };
+            },
+            cache: true
+        },
+        minimumInputLength: 1,
+        language: {
+            inputTooShort: function (args) {
+                return "Ingrese nombre, apellido o usuario";
+            },
+            inputTooLong: function (args) {
+                return "Texto demadiado largo";
+            },
+            errorLoading: function () {
+                return "Error al cargar resultados";
+            },
+            loadingMore: function () {
+                return "Cargando más resultados";
+            },
+            noResults: function () {
+                return "No se encontraron resultados";
+            },
+            searching: function () {
+                return "Buscando...";
+            },
+            maximumSelected: function (args) {
+                return "Error al cargar resultados";
+            }
+        }
+    });
+
+    function procesarPersona(resultado) {
+        return { id: resultado.Id, text: resultado.Nombre + ' ' + resultado.Apellido };
+    }
+
+    function procesarPersonas(resultados) {
+        var array = [];
+        for (i = 0; i < resultados.length; i++) {
+            array.push(procesarPersona(resultados[i]));
+        }
+        return array
+    }
+
+    $('body').on('click', '.aQuitarInteresado', function () {
+
+        var tempScrollTop = $(window).scrollTop();
+
+        var idInteresado = [$(this).attr('id')];
+        
+        var parametros = {
+            "idPersona": idInteresado            
+        };
+
+        $.ajax({
+            data: parametros,
+            url: '@Url.Action("QuitarInteresado", "Indicador")',
+            type: 'post',
+            beforeSend: function () {
+            },
+            success: function (response) {
+
+                $('#tblBodyInteresados').empty();
+
+                $.each(response, function (i, persona) {
+                    var $tr = $('<tr>').append(
+                      $('<td>').text(persona.Nombre),
+                        '<td><div class="divTolltip" title="Quitar"><a id="' + persona.Id + '" class="glyphicon glyphicon-trash aQuitarInteresado" href="#" /></div></td>'
+                    ).appendTo('#tblInteresados');
+                });
+
+                demo.showNotificationInfo('top', 'center', 'Interesado quitado exitosamente.', 'pe-7s-check');
+            }
+        });
+    });
+
+    $('body').on('click', '.aQuitarResponsable', function () {
+
+        var tempScrollTop = $(window).scrollTop();
+
+        var idResponsable = [$(this).attr('id')];
+
+        var parametros = {
+            "idPersona": idResponsable
+        };
+
+        $.ajax({
+            data: parametros,
+            url: '@Url.Action("QuitarResponsable", "Indicador")',
+            type: 'post',
+            beforeSend: function () {
+            },
+            success: function (response) {
+
+                $('#tblBodyResponsables').empty();
+
+                $.each(response, function (i, persona) {
+                    var $tr = $('<tr>').append(
+                      $('<td>').text(persona.Nombre),
+                        '<td><div class="divTolltip" title="Quitar"><a id="' + persona.Id + '" class="glyphicon glyphicon-trash aQuitarResponsable" href="#" /></div></td>'
+                    ).appendTo('#tblResponsables');
+                });
+
+                demo.showNotificationInfo('top', 'center', 'Responsable quitado exitosamente.', 'pe-7s-check');
+            }
+        });
+    });
 </script>

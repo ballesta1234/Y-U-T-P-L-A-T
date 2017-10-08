@@ -3,17 +3,22 @@ using System.Collections.Generic;
 using System.Web.Mvc;
 using YUTPLAT.Services.Interface;
 using YUTPLAT.ViewModel;
+using System.Linq;
 
 namespace YUTPLAT.Controllers
 {
     public class IndicadorController : Controller
     {
         public IIndicadorService IndicadorService { get; set; }
+        public IPersonaService PersonaService { get; set; }
         public IFrecuenciaMedicionIndicadorService FrecuenciaMedicionIndicadorService { get; set; }
 
-        public IndicadorController(IIndicadorService indicadorService, IFrecuenciaMedicionIndicadorService frecuenciaMedicionIndicadorService)
+        public IndicadorController(IIndicadorService indicadorService, 
+                                   IFrecuenciaMedicionIndicadorService frecuenciaMedicionIndicadorService,
+                                   IPersonaService personaService)
         {
             this.IndicadorService = indicadorService;
+            this.PersonaService = personaService;
             this.FrecuenciaMedicionIndicadorService = frecuenciaMedicionIndicadorService;
         }
 
@@ -52,6 +57,9 @@ namespace YUTPLAT.Controllers
             IndicadorViewModel model = new IndicadorViewModel();
             model.Titulo = "Indicadores";
             model.FechaCreacion = DateTime.Now.ToString("dd/MM/yyyy HH:mm tt");
+                        
+            Session["InteresadosSeleccionados"] = model.Interesados;
+            Session["ResponsablesSeleccionados"] = model.Responsables;
 
             ViewBag.Titulo = model.Titulo;
 
@@ -70,8 +78,11 @@ namespace YUTPLAT.Controllers
 
             ViewBag.Titulo = model.Titulo;
 
-            int idIndicador = IndicadorService.Guardar(model);
+            model.Interesados = (IList<PersonaViewModel>)Session["InteresadosSeleccionados"];
+            model.Responsables = (IList<PersonaViewModel>)Session["ResponsablesSeleccionados"];
 
+            int idIndicador = IndicadorService.Guardar(model);
+            
             return RedirectToAction("Editar", "Indicador", new { id = idIndicador, msgExito = "El indicador se ha guardado exitosamente." });
         }
 
@@ -81,6 +92,9 @@ namespace YUTPLAT.Controllers
             IndicadorViewModel model = IndicadorService.GetById(id);
 
             model.Titulo = "Indicadores";
+
+            Session["InteresadosSeleccionados"] = model.Interesados;
+            Session["ResponsablesSeleccionados"] = model.Responsables;
 
             ViewBag.Titulo = model.Titulo;
             ViewBag.MensageExito = msgExito;
@@ -102,9 +116,12 @@ namespace YUTPLAT.Controllers
             model.FechaUltimaModificacion = DateTime.Now.ToString("dd/MM/yyyy HH:mm tt");
             model.UltimoUsuarioModifico = User.Identity.Name;
 
+            model.Interesados = (IList<PersonaViewModel>)Session["InteresadosSeleccionados"];
+            model.Responsables = (IList<PersonaViewModel>)Session["ResponsablesSeleccionados"];
+
             int idIndicador = IndicadorService.Guardar(model);
 
-            return RedirectToAction("Editar", "Indicador", new { id = idIndicador, msgExito = "El área se ha guardado exitosamente." });
+            return RedirectToAction("Editar", "Indicador", new { id = idIndicador, msgExito = "El indicador se ha guardado exitosamente." });
         }
 
         [HttpGet]
@@ -123,6 +140,80 @@ namespace YUTPLAT.Controllers
             filtro.Descripcion = nombreFrecuencia;
 
             return Json(FrecuenciaMedicionIndicadorService.Buscar(filtro), JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult AgregarInteresado(string idPersona, string nombre)
+        {
+            PersonaViewModel interesado = new PersonaViewModel();
+            interesado.Id = idPersona;
+            interesado.Nombre = nombre;
+
+            IList<PersonaViewModel> interesados = (IList<PersonaViewModel>)Session["InteresadosSeleccionados"];
+            interesados.Add(interesado);
+
+            return Json(interesados, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult AgregarResponsable(string idPersona, string nombre)
+        {
+            PersonaViewModel responsable = new PersonaViewModel();
+            responsable.Id = idPersona;
+            responsable.Nombre = nombre;
+
+            IList<PersonaViewModel> responsables = (IList<PersonaViewModel>)Session["ResponsablesSeleccionados"];
+            responsables.Add(responsable);
+
+            return Json(responsables, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult QuitarInteresado(string idPersona)
+        {
+            PersonaViewModel interesado = new PersonaViewModel();
+            interesado.Id = idPersona;
+           
+            IList<PersonaViewModel> interesados = (IList<PersonaViewModel>)Session["InteresadosSeleccionados"];
+            interesados.Remove(interesados.First(i => i.Id.Equals(idPersona)));
+
+            return Json(interesados, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult QuitarResponsable(string idPersona)
+        {
+            PersonaViewModel responsable = new PersonaViewModel();
+            responsable.Id = idPersona;
+
+            IList<PersonaViewModel> responsables = (IList<PersonaViewModel>)Session["ResponsablesSeleccionados"];
+            responsables.Remove(responsables.First(i => i.Id.Equals(idPersona)));
+
+            return Json(responsables, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult BuscarInteresado(string nombreOApellidoONombreUsuario)
+        {
+            PersonaViewModel filtro = new PersonaViewModel();
+            filtro.NombreOApellidoONombreUsuario = nombreOApellidoONombreUsuario;
+
+            IList<PersonaViewModel> interesadosSeleccionados = 
+                (IList<PersonaViewModel>)Session["InteresadosSeleccionados"];
+
+            IList<PersonaViewModel> busqueda =
+                PersonaService.Buscar(filtro).Except(interesadosSeleccionados, new PersonaViewModelComparer()).ToList();
+
+            return Json(busqueda, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult BuscarResponsable(string nombreOApellidoONombreUsuario)
+        {
+            PersonaViewModel filtro = new PersonaViewModel();
+            filtro.NombreOApellidoONombreUsuario = nombreOApellidoONombreUsuario;
+
+            IList<PersonaViewModel> responsablesSeleccionados =
+                (IList<PersonaViewModel>)Session["ResponsablesSeleccionados"];
+
+            IList<PersonaViewModel> busqueda =
+                PersonaService.Buscar(filtro).Except(responsablesSeleccionados, new PersonaViewModelComparer()).ToList();
+
+            return Json(busqueda, JsonRequestBehavior.AllowGet);
         }
     }
 }

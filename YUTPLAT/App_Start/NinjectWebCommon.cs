@@ -66,6 +66,9 @@ namespace YUTPLAT.App_Start
             kernel.Bind<IObjetivoRepository>().To<ObjetivoRepository>();
             kernel.Bind<IIndicadorRepository>().To<IndicadorRepository>();
             kernel.Bind<IFrecuenciaMedicionIndicadorRepository>().To<FrecuenciaMedicionIndicadorRepository>();
+            kernel.Bind<IPersonaRepository>().To<PersonaRepository>();
+            kernel.Bind<IResponsableIndicadorRepository>().To<ResponsableIndicadorRepository>();
+            kernel.Bind<IInteresadoIndicadorRepository>().To<InteresadoIndicadorRepository>();
         }
 
         private static void RegisterServices(IKernel kernel)
@@ -74,6 +77,7 @@ namespace YUTPLAT.App_Start
             kernel.Bind<IObjetivoService>().To<ObjetivoService>();
             kernel.Bind<IIndicadorService>().To<IndicadorService>();
             kernel.Bind<IFrecuenciaMedicionIndicadorService>().To<FrecuenciaMedicionIndicadorService>();
+            kernel.Bind<IPersonaService>().To<PersonaService>();
         }        
     }
 }

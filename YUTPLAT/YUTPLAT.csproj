@@ -228,8 +228,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\Log.cs" />
-    <Compile Include="Controllers\ILog.cs" />
+    <Compile Include="Controllers\PersonaController.cs" />
     <Compile Include="Controllers\ObjetivoController.cs" />
     <Compile Include="Controllers\AreaController.cs" />
     <Compile Include="Controllers\IndicadorController.cs" />
@@ -257,6 +256,12 @@
     <Compile Include="Models\Indicador.cs" />
     <Compile Include="Models\Objetivo.cs" />
     <Compile Include="Models\Area.cs" />
+    <Compile Include="Repositories\ResponsableIndicadorRepository.cs" />
+    <Compile Include="Repositories\InteresadoIndicadorRepository.cs" />
+    <Compile Include="Repositories\Interface\IInteresadoIndicadorRepository.cs" />
+    <Compile Include="Repositories\Interface\IResponsableIndicadorRepository.cs" />
+    <Compile Include="Repositories\Interface\IPersonaRepository.cs" />
+    <Compile Include="Repositories\PersonaRepository.cs" />
     <Compile Include="Repositories\FrecuenciaMedicionIndicadorRepository.cs" />
     <Compile Include="Repositories\IndicadorRepository.cs" />
     <Compile Include="Repositories\Interface\IFrecuenciaMedicionIndicadorRepository.cs" />
@@ -267,6 +272,8 @@
     <Compile Include="Repositories\Interface\IAreaRepository.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Context\YutplatDbContext.cs" />
+    <Compile Include="Services\Interface\IPersonaService.cs" />
+    <Compile Include="Services\PersonaService.cs" />
     <Compile Include="Services\FrecuenciaMedicionIndicadorService.cs" />
     <Compile Include="Services\IndicadorService.cs" />
     <Compile Include="Services\Interface\IFrecuenciaMedicionIndicadorService.cs" />
@@ -275,6 +282,7 @@
     <Compile Include="Services\ObjetivoService.cs" />
     <Compile Include="Services\AreaService.cs" />
     <Compile Include="Services\Interface\IAreaService.cs" />
+    <Compile Include="ViewModel\PersonaViewModel.cs" />
     <Compile Include="ViewModel\FrecuenciaMedicionIndicadorViewModel.cs" />
     <Compile Include="ViewModel\BuscarIndicadorViewModel.cs" />
     <Compile Include="ViewModel\BuscarObjetivoViewModel.cs" />
