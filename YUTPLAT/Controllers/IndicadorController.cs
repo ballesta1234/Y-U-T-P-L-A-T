@@ -11,14 +11,17 @@ namespace YUTPLAT.Controllers
     {
         public IIndicadorService IndicadorService { get; set; }
         public IPersonaService PersonaService { get; set; }
+        public IObjetivoService ObjetivoService { get; set; }
         public IFrecuenciaMedicionIndicadorService FrecuenciaMedicionIndicadorService { get; set; }
 
         public IndicadorController(IIndicadorService indicadorService, 
                                    IFrecuenciaMedicionIndicadorService frecuenciaMedicionIndicadorService,
-                                   IPersonaService personaService)
+                                   IPersonaService personaService,
+                                   IObjetivoService objetivoService)
         {
             this.IndicadorService = indicadorService;
             this.PersonaService = personaService;
+            this.ObjetivoService = objetivoService;
             this.FrecuenciaMedicionIndicadorService = frecuenciaMedicionIndicadorService;
         }
 
@@ -90,6 +93,8 @@ namespace YUTPLAT.Controllers
         public ActionResult Editar(int id, string msgExito)
         {
             IndicadorViewModel model = IndicadorService.GetById(id);
+            model.CantidadInteresadosElegidos = model.Interesados.Count;
+            model.CantidadResponsablesElegidos = model.Responsables.Count;
 
             model.Titulo = "Indicadores";
 
@@ -105,6 +110,17 @@ namespace YUTPLAT.Controllers
         [HttpPost]
         public ActionResult Editar(IndicadorViewModel model)
         {
+            model.FrecuenciaMedicionIndicadorViewModel = FrecuenciaMedicionIndicadorService.GetById(Int32.Parse(model.FrecuenciaMedicionIndicadorID));
+
+            if(!String.IsNullOrEmpty(model.ObjetivoID) && !model.ObjetivoID.Equals("0"))
+                model.ObjetivoViewModel = ObjetivoService.GetById(Int32.Parse(model.ObjetivoID));
+
+            model.Interesados = (IList<PersonaViewModel>)Session["InteresadosSeleccionados"];
+            model.Responsables = (IList<PersonaViewModel>)Session["ResponsablesSeleccionados"];
+
+            model.CantidadInteresadosElegidos = model.Interesados.Count;
+            model.CantidadResponsablesElegidos = model.Responsables.Count;
+
             if (!ModelState.IsValid)
             {
                 return View(model);
@@ -115,10 +131,7 @@ namespace YUTPLAT.Controllers
 
             model.FechaUltimaModificacion = DateTime.Now.ToString("dd/MM/yyyy HH:mm tt");
             model.UltimoUsuarioModifico = User.Identity.Name;
-
-            model.Interesados = (IList<PersonaViewModel>)Session["InteresadosSeleccionados"];
-            model.Responsables = (IList<PersonaViewModel>)Session["ResponsablesSeleccionados"];
-
+            
             int idIndicador = IndicadorService.Guardar(model);
 
             return RedirectToAction("Editar", "Indicador", new { id = idIndicador, msgExito = "El indicador se ha guardado exitosamente." });

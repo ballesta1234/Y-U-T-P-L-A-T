@@ -282,6 +282,7 @@
     <Compile Include="Services\ObjetivoService.cs" />
     <Compile Include="Services\AreaService.cs" />
     <Compile Include="Services\Interface\IAreaService.cs" />
+    <Compile Include="Validadores\ValidarLista.cs" />
     <Compile Include="ViewModel\PersonaViewModel.cs" />
     <Compile Include="ViewModel\FrecuenciaMedicionIndicadorViewModel.cs" />
     <Compile Include="ViewModel\BuscarIndicadorViewModel.cs" />

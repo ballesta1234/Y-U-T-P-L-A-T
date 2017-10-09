@@ -26,7 +26,7 @@
 
                                 <div class="col-xs-12 col-sm-6 col-md-4">
                                     @Html.LabelFor(m => m.ObjetivoID)
-                                    <span class="text-danger">*</span>                                    
+                                    <span class="text-danger">*</span>
                                     @Html.DropDownListFor(m => m.ObjetivoID, new SelectList(new List<SelectListItem> { new SelectListItem { Text = Model.ObjetivoViewModel.Nombre, Value = Model.ObjetivoViewModel.Id.ToString() } }, "Value", "Text"), new { @id = "ddlObjetivos", @class = "form-control" })
                                     @Html.ValidationMessageFor(m => m.ObjetivoID, "", new { @class = "text-danger" })
                                 </div>
@@ -80,6 +80,7 @@
                                             @Html.LabelFor(m => m.ResponsableID)
                                             <span class="text-danger">*</span>
                                             @Html.DropDownListFor(m => m.ResponsableID, Enumerable.Empty<SelectListItem>(), new { @id = "ddlResponsables", @class = "form-control" })
+                                            @Html.ValidationMessageFor(m => m.CantidadResponsablesElegidos, "", new { @class = "text-danger" })
                                         </div>
                                         <div class="col-xs-1 col-sm-1 col-md-1">
                                             <label class="label-blanco">a</label>
@@ -129,8 +130,8 @@
                                         <div class="col-xs-8 col-sm-8 col-md-8">
                                             @Html.LabelFor(m => m.InteresadoID)
                                             <span class="text-danger">*</span>
-
                                             @Html.DropDownListFor(m => m.InteresadoID, Enumerable.Empty<SelectListItem>(), new { @id = "ddlInteresados", @class = "form-control" })
+                                            @Html.ValidationMessageFor(m => m.CantidadInteresadosElegidos, "", new { @class = "text-danger" })
                                         </div>
                                         <div class="col-xs-1 col-sm-1 col-md-1">
                                             <label class="label-blanco">a</label>
@@ -191,12 +192,16 @@
                                     <button class="btn btn-fill btn-info" onclick="history.go(-1); return false;">Volver</button>
                                 </div>
                             </div>
+                            @Html.HiddenFor(m => m.CantidadInteresadosElegidos)
+                            @Html.HiddenFor(m => m.CantidadResponsablesElegidos)
                         }
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+
 </div>
 
 <script type="text/javascript">
@@ -219,6 +224,8 @@
                 success: function (response) {
 
                     $('#tblBodyInteresados').empty();
+
+                    $("#CantidadInteresadosElegidos").val(response.length);
 
                     $.each(response, function (i, persona) {
                         var $tr = $('<tr>').append(
@@ -251,6 +258,8 @@
                 beforeSend: function () {
                 },
                 success: function (response) {
+
+                    $("#CantidadResponsablesElegidos").val(response.length);
 
                     $('#tblBodyResponsables').empty();
 
@@ -592,6 +601,8 @@
             },
             success: function (response) {
 
+                $("#CantidadInteresadosElegidos").val(response.length);
+
                 $('#tblBodyInteresados').empty();
 
                 $.each(response, function (i, persona) {
@@ -624,6 +635,8 @@
             },
             success: function (response) {
 
+                $("#CantidadResponsablesElegidos").val(response.length);
+                
                 $('#tblBodyResponsables').empty();
 
                 $.each(response, function (i, persona) {

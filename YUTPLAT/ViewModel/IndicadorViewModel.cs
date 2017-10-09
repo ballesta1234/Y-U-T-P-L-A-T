@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using YUTPLAT.Validadores;
 
 namespace YUTPLAT.ViewModel
 {
@@ -8,6 +9,7 @@ namespace YUTPLAT.ViewModel
         public IndicadorViewModel()
         {
             this.ObjetivoViewModel = new ObjetivoViewModel();
+            this.FrecuenciaMedicionIndicadorViewModel = new FrecuenciaMedicionIndicadorViewModel();
             this.Interesados = new List<PersonaViewModel>();
             this.Responsables = new List<PersonaViewModel>();
         }
@@ -35,13 +37,21 @@ namespace YUTPLAT.ViewModel
         public FrecuenciaMedicionIndicadorViewModel FrecuenciaMedicionIndicadorViewModel { get; set; }
 
         public ObjetivoViewModel ObjetivoViewModel { get; set; }
-        
+                
         public IList<PersonaViewModel> Responsables { get; set; }
 
         [Display(Name = "Responsables")]
-        public string ResponsableID { get; set; }
+        [ValidarLista]
+        public int CantidadResponsablesElegidos { get; set; }
 
+        [Display(Name = "Responsables")]
+        public string ResponsableID { get; set; }
+                
         public IList<PersonaViewModel> Interesados { get; set; }
+
+        [Display(Name = "Interesados")]
+        [ValidarLista]
+        public int CantidadInteresadosElegidos { get; set; }
 
         [Display(Name = "Interesados")]
         public string InteresadoID { get; set; }
