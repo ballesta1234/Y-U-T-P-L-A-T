@@ -238,6 +238,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\EnumHelper.cs" />
     <Compile Include="Migrations\201710050326098_Creacion_Inicial.cs" />
     <Compile Include="Migrations\201710050326098_Creacion_Inicial.Designer.cs">
       <DependentUpon>201710050326098_Creacion_Inicial.cs</DependentUpon>
@@ -250,6 +251,11 @@
     <Compile Include="Migrations\201710052005454_Indicador1.Designer.cs">
       <DependentUpon>201710052005454_Indicador1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201710102115313_Indicador2.cs" />
+    <Compile Include="Migrations\201710102115313_Indicador2.Designer.cs">
+      <DependentUpon>201710102115313_Indicador2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Meta.cs" />
     <Compile Include="Models\FrecuenciaMedicionIndicador.cs" />
     <Compile Include="Models\InteresadoIndicador.cs" />
     <Compile Include="Models\ResponsableIndicador.cs" />
@@ -511,6 +517,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201710052005454_Indicador1.resx">
       <DependentUpon>201710052005454_Indicador1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201710102115313_Indicador2.resx">
+      <DependentUpon>201710102115313_Indicador2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

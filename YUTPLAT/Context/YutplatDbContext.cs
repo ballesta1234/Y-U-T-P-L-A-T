@@ -8,6 +8,7 @@ namespace YUTPLAT.Context
 {
     public class YutplatDbContext : IdentityDbContext<Persona>
     {
+        public virtual IDbSet<Meta> Metas { get; set; }
         public virtual IDbSet<Area> Areas { get; set; }
         public virtual IDbSet<Objetivo> Objetivos { get; set; }
         public virtual IDbSet<Indicador> Indicadores { get; set; }

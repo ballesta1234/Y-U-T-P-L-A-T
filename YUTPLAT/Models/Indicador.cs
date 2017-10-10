@@ -30,6 +30,21 @@ namespace YUTPLAT.Models
         public int FrecuenciaMedicionIndicadorID { get; set; }
         public virtual FrecuenciaMedicionIndicador FrecuenciaMedicion { get; set; }
 
+        public int? MetaInaceptableMetaID { get; set; }
+        public Meta MetaInaceptable { get; set; }
+
+        public int? MetaAMejorarMetaID { get; set; }
+        public Meta MetaAMejorar { get; set; }
+
+        public int? MetaAceptableMetaID { get; set; }
+        public Meta MetaAceptable { get; set; }
+
+        public int? MetaSatisfactoriaMetaID { get; set; }
+        public Meta MetaSatisfactoria { get; set; }
+
+        public int? MetaExcelenteMetaID { get; set; }
+        public Meta MetaExcelente { get; set; }
+
         public virtual ICollection<ResponsableIndicador> Responsables { get; set; }
         public virtual ICollection<InteresadoIndicador> Interesados { get; set; }
     }
