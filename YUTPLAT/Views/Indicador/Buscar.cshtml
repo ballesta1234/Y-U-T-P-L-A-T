@@ -18,7 +18,11 @@
                 keepOpen: false
             });
 
-        $("#Busqueda_Nombre").rules("remove", "required")
+        $("#Busqueda_Nombre").rules("remove", "required");
+
+        $("#ddlObjetivos").rules("remove", "required");
+
+        $("#ddlAreas").rules("remove", "required");
     });
 </script>
 
@@ -36,11 +40,22 @@
                         @using (Html.BeginForm("Buscar", "Indicador", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form" }))
                         {
                             <div class="row">
-                                <div class="col-xs-12 col-sm-6 col-md-3">
+                                <div class="col-xs-12 col-sm-6 col-md-4">
                                     @Html.LabelFor(m => m.Busqueda.Nombre)
                                     @Html.TextBoxFor(m => m.Busqueda.Nombre, new { @class = "form-control" })
                                 </div>
 
+                                <div class="col-xs-12 col-sm-6 col-md-4">
+                                    @Html.LabelFor(m => m.Busqueda.ObjetivoID)
+                                    @Html.DropDownListFor(m => m.Busqueda.ObjetivoID, Enumerable.Empty<SelectListItem>(), new { @id = "ddlObjetivos", @class = "form-control" })
+                                </div>
+
+                                <div class="col-xs-12 col-sm-6 col-md-4">
+                                    @Html.LabelFor(m => m.Busqueda.AreaID)
+                                    @Html.DropDownListFor(m => m.Busqueda.AreaID, Enumerable.Empty<SelectListItem>(), new { @id = "ddlAreas", @class = "form-control" })
+                                </div>
+                            </div>
+                            <div class="row">
                                 <div class="col-xs-12 col-sm-6 col-md-3">
                                     @Html.LabelFor(m => m.Busqueda.FechaCreacion)
                                     <div class="input-group date" id="dpFechaCracion">
@@ -51,12 +66,12 @@
                                     </div>
                                 </div>
 
-                                <div class="col-xs-12 col-sm-6 col-md-3">
+                                <div class="col-xs-12 col-sm-6 col-md-3 col-md-offset-1">
                                     @Html.LabelFor(m => m.Busqueda.UltimoUsuarioModifico)
                                     @Html.TextBoxFor(m => m.Busqueda.UltimoUsuarioModifico, new { @class = "form-control" })
                                 </div>
 
-                                <div class="col-xs-12 col-sm-6 col-md-3">
+                                <div class="col-xs-12 col-sm-6 col-md-3 col-md-offset-1">
                                     @Html.LabelFor(m => m.Busqueda.FechaUltimaModificacion)
                                     <div class="input-group date" id="dpFechaUltimaModificacion">
                                         @Html.TextBoxFor(m => m.Busqueda.FechaUltimaModificacion, new { @class = "form-control" })
@@ -67,11 +82,11 @@
                                 </div>
 
                             </div>
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <button type="submit" class="btn btn-info btn-fill pull-left">Buscar</button>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <button type="submit" class="btn btn-info btn-fill pull-left">Buscar</button>
+                                    </div>
                                 </div>
-                            </div>
 
                             if (Model != null && Model.Resultados != null && Model.Resultados.Count > 0)
                             {
@@ -81,36 +96,34 @@
                                         <div class="card">
                                             <div class="header">
                                                 <h5 class="title">Resultados de la búsqueda</h5>
-                                                <p class="category">@Model.Resultados.Count áreas encontradas</p>
+                                                <p class="category">@Model.Resultados.Count indicadores encontrados</p>
                                             </div>
                                             <div class="content table-responsive table-full-width">
                                                 <table class="table table-hover table-striped">
                                                     <thead>
                                                     <th class="col-md-2">@Html.LabelFor(m => m.Busqueda.Nombre)</th>
-                                                    <th class="col-md-3">@Html.LabelFor(m => m.Busqueda.Descripcion)</th>
-                                                    <th class="col-md-2">@Html.LabelFor(m => m.Busqueda.FechaCreacion)</th>
-                                                    <th class="col-md-2">@Html.LabelFor(m => m.Busqueda.UltimoUsuarioModifico)</th>
-                                                    <th class="col-md-2">@Html.LabelFor(m => m.Busqueda.FechaUltimaModificacion)</th>
+                                                    <th class="col-md-3">Objetivo</th>
+                                                    <th class="col-md-3">Área</th>
+                                                    <th class="col-md-2">@Html.LabelFor(m => m.Busqueda.FechaCreacion)</th>                                                    
                                                     <th class="col-md-1">Acciones</th>
                                                     </thead>
                                                     <tbody>
-                                                        @foreach (IndicadorViewModel area in Model.Resultados)
+                                                        @foreach (IndicadorViewModel indicador in Model.Resultados)
                                                         {
                                                             <tr>
-                                                                <td>@area.Nombre</td>
-                                                                <td>@((area.Descripcion != null && area.Descripcion.Length > 50) ? area.Descripcion.Substring(0, 50) + "..." : area.Descripcion)</td>
-                                                                <td>@area.FechaCreacion</td>
-                                                                <td>@area.UltimoUsuarioModifico</td>
-                                                                <td>@area.FechaUltimaModificacion</td>
+                                                                <td>@indicador.Nombre</td>
+                                                                <td>@indicador.ObjetivoViewModel.Nombre</td>
+                                                                <td>@indicador.ObjetivoViewModel.AreaViewModel.Nombre</td>
+                                                                <td>@indicador.FechaCreacion</td>                                                                
                                                                 <td>
-                                                                    <a href='@Url.Action("Editar", "Indicador", new { id = area.Id })'>
+                                                                    <a href='@Url.Action("Editar", "Indicador", new { id = indicador.Id })'>
                                                                         <i data-toggle="tooltip" data-placement="bottom" title="Editar" class="glyphicon glyphicon-pencil"></i>
                                                                     </a>
-                                                                    <a href='@Url.Action("Ver", "Indicador", new { id = area.Id })'>
+                                                                    <a href='@Url.Action("Ver", "Indicador", new { id = indicador.Id })'>
                                                                         <i data-toggle="tooltip" data-placement="bottom" title="Ver" class="glyphicon glyphicon-search"></i>
                                                                     </a>
-                                                                    <a href='@Url.Action("Crear", "Objetivo", new { idIndicador = area.Id })'>
-                                                                        <i data-toggle="tooltip" data-placement="bottom" title="Crear objetivo" class="glyphicon glyphicon-list-alt"></i>
+                                                                    <a href='@Url.Action("Cargar", "Indicador", new { id = indicador.Id })'>
+                                                                        <i data-toggle="tooltip" data-placement="bottom" title="Cargar indicador" class="glyphicon glyphicon-list-alt"></i>
                                                                     </a>
                                                                 </td>
                                                             </tr>
@@ -132,6 +145,153 @@
 </div>
 
 <script type="text/javascript">
+
+    $("#ddlObjetivos").select2({
+        ajax: {
+            beforeSend: function (xhr, opts) {
+            },
+            url: '@Url.Action("BuscarObjetivos", "Objetivo")',
+            dataType: 'json',
+            delay: 250,
+            data: function (params) {
+                return {
+                    nombreObjetivo: params.term,
+                    idArea: $("#ddlAreas").val(),
+                };
+            },
+            processResults: function (data, page) {
+                return {
+                    results: procesarObjetivos(data)
+                };
+            },
+            placeholder: "Select a customer",
+            initSelection: function (element, callback) {
+            },
+            cache: true
+        },
+        minimumInputLength: 0,
+        language: {
+            inputTooShort: function (args) {
+                return "Ingrese al menos un caracter";
+            },
+            inputTooLong: function (args) {
+                return "Texto demadiado largo";
+            },
+            errorLoading: function () {
+                return "Error al cargar resultados";
+            },
+            loadingMore: function () {
+                return "Cargando más resultados";
+            },
+            noResults: function () {
+                return "No se encontraron resultados";
+            },
+            searching: function () {
+                return "Buscando...";
+            },
+            maximumSelected: function (args) {
+                return "Error al cargar resultados";
+            }
+        }
+    });
+
+    $('#ddlObjetivos').on("select2:selecting", function (e) {
+
+        var idObjetivo = e.params.args.data.id;
+
+        var parametros = {
+            "idObjetivo": idObjetivo
+        };
+        $.ajax({
+            data: parametros,
+            url: '@Url.Action("BuscarArea", "Objetivo")',
+            type: 'post',
+            beforeSend: function () {
+            },
+            success: function (response) {
+
+                var option = $('<option>', {
+                    value: response.Id
+                }).html(response.Nombre).appendTo("#ddlAreas");
+
+                $("#ddlAreas").val(response.Id).trigger('change');
+            }
+        });
+    });
+
+    $('#ddlAreas').on("select2:selecting", function (e) {
+        $("#ddlObjetivos").val('').trigger('change');
+    });
+
+    $("#ddlAreas").select2({
+        ajax: {
+            beforeSend: function (xhr, opts) {
+            },
+            url: '@Url.Action("BuscarAreas", "Area")',
+            dataType: 'json',
+            delay: 250,
+            data: function (params) {
+                return {
+                    nombreArea: params.term,
+                };
+            },
+            processResults: function (data, page) {
+                return {
+                    results: procesarAreas(data)
+                };
+            },
+            cache: true
+        },
+        minimumInputLength: 0,
+        language: {
+            inputTooShort: function (args) {
+                return "Ingrese al menos un caracter";
+            },
+            inputTooLong: function (args) {
+                return "Texto demadiado largo";
+            },
+            errorLoading: function () {
+                return "Error al cargar resultados";
+            },
+            loadingMore: function () {
+                return "Cargando más resultados";
+            },
+            noResults: function () {
+                return "No se encontraron resultados";
+            },
+            searching: function () {
+                return "Buscando...";
+            },
+            maximumSelected: function (args) {
+                return "Error al cargar resultados";
+            }
+        }
+    });
+
+    function procesarObjetivo(resultado) {
+        return { id: resultado.Id, text: resultado.Nombre };
+    }
+
+    function procesarObjetivos(resultados) {
+        var array = [];
+        for (i = 0; i < resultados.length; i++) {
+            array.push(procesarObjetivo(resultados[i]));
+        }
+        return array
+    }
+
+    function procesarArea(resultado) {
+        return { id: resultado.Id, text: resultado.Nombre };
+    }
+
+    function procesarAreas(resultados) {
+        var array = [];
+        for (i = 0; i < resultados.length; i++) {
+            array.push(procesarObjetivo(resultados[i]));
+        }
+        return array
+    }
+
     var sinResultados = '@Html.Raw(@ViewBag.SinResultados)';
 
     if (sinResultados != '') {

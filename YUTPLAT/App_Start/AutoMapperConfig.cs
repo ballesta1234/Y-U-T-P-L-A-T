@@ -37,6 +37,7 @@ namespace YUTPLAT.App_Start
                     .ForMember(x => x.FechaUltimaModificacion, x => x.MapFrom(y => y.FechaUltimaModificacion != null ? y.FechaUltimaModificacion.Value.ToString("dd/MM/yyyy HH:mm tt") : ""))
                     .ForMember(x => x.FrecuenciaMedicionIndicadorID, x => x.MapFrom(y => y.FrecuenciaMedicion != null ? y.FrecuenciaMedicion.FrecuenciaMedicionIndicadorID.ToString() : ""))
                     .ForMember(x => x.AreaID, x => x.MapFrom(y => y.Objetivo != null ? y.Objetivo.Area.Id.ToString() : ""))
+                    .ForMember(x => x.ObjetivoViewModel, x => x.MapFrom(y => y.Objetivo))
                     .ForMember(x => x.Responsables, x => x.Ignore())
                     .ForMember(x => x.Interesados, x => x.Ignore());
 

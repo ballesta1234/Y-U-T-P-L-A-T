@@ -62,6 +62,16 @@ namespace YUTPLAT.Repositories
                 DateTime hasta = desde.AddDays(1).AddSeconds(-1);
                 queryable = queryable.Where(a => a.FechaUltimaModificacion <= hasta);
             }
+            if (filtro.AreaID != null && !string.IsNullOrEmpty(filtro.AreaID.Trim()))
+            {
+                int areaId = Int32.Parse(filtro.AreaID.Trim());
+                queryable = queryable.Where(a => a.Objetivo.AreaID == areaId);
+            }
+            if (filtro.ObjetivoID != null && !string.IsNullOrEmpty(filtro.ObjetivoID.Trim()))
+            {
+                int objetivoId = Int32.Parse(filtro.ObjetivoID.Trim());
+                queryable = queryable.Where(a => a.ObjetivoID == objetivoId);
+            }
 
             return queryable;
         }

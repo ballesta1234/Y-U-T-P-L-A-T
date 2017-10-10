@@ -41,14 +41,14 @@ namespace YUTPLAT.Controllers
         {
             ViewBag.SinResultados = null;
 
-            IList<IndicadorViewModel> indicadors = IndicadorService.Buscar(model);
+            IList<IndicadorViewModel> indicadores = IndicadorService.Buscar(model);
 
-            model.Resultados = indicadors;
+            model.Resultados = indicadores;
             model.Busqueda.Titulo = "Indicadores";
 
             ViewBag.Titulo = model.Busqueda.Titulo;
 
-            if (indicadors == null || indicadors.Count <= 0)
+            if (indicadores == null || indicadores.Count <= 0)
                 ViewBag.SinResultados = "No se han encontrado indicadores para la búsqueda realizada.";
 
             return View(model);
@@ -72,18 +72,26 @@ namespace YUTPLAT.Controllers
         [HttpPost]
         public ActionResult Crear(IndicadorViewModel model)
         {
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
+            model.FrecuenciaMedicionIndicadorViewModel = FrecuenciaMedicionIndicadorService.GetById(Int32.Parse(model.FrecuenciaMedicionIndicadorID));
 
-            model.Titulo = "Indicadores";
-
-            ViewBag.Titulo = model.Titulo;
+            if (!String.IsNullOrEmpty(model.ObjetivoID) && !model.ObjetivoID.Equals("0"))
+                model.ObjetivoViewModel = ObjetivoService.GetById(Int32.Parse(model.ObjetivoID));
 
             model.Interesados = (IList<PersonaViewModel>)Session["InteresadosSeleccionados"];
             model.Responsables = (IList<PersonaViewModel>)Session["ResponsablesSeleccionados"];
 
+            model.CantidadInteresadosElegidos = model.Interesados.Count;
+            model.CantidadResponsablesElegidos = model.Responsables.Count;
+
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            
+            model.Titulo = "Indicadores";
+
+            ViewBag.Titulo = model.Titulo;
+            
             int idIndicador = IndicadorService.Guardar(model);
             
             return RedirectToAction("Editar", "Indicador", new { id = idIndicador, msgExito = "El indicador se ha guardado exitosamente." });
