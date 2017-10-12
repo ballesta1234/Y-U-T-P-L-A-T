@@ -59,8 +59,13 @@ namespace YUTPLAT.App_Start
                     cfg.CreateMap<Persona, PersonaViewModel>()
                    .ForMember(x => x.NombreUsuario, x => x.MapFrom(y => y.UserName));
 
-                    cfg.CreateMap<Meta, MetaViewModel>();
-                    cfg.CreateMap<MetaViewModel, Meta>();
+                    cfg.CreateMap<Meta, MetaViewModel>()
+                    .ForMember(x => x.Valor1, x => x.MapFrom(y => y.Valor1.ToString().Replace(",", ".")))
+                    .ForMember(x => x.Valor2, x => x.MapFrom(y => y.Valor2.ToString().Replace(",", ".")));
+
+                    cfg.CreateMap<MetaViewModel, Meta>()
+                    .ForMember(x => x.Valor1, x => x.MapFrom(y => Decimal.Parse(y.Valor1.Replace(".",","))))
+                    .ForMember(x => x.Valor2, x => x.MapFrom(y => Decimal.Parse(y.Valor2.Replace(".", ","))));
                 });
         }
     }

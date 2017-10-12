@@ -63,7 +63,119 @@
 
                                 </div>
                             </div>
+                            <div class="row">
+                                <div class="col-xs-4 col-sm-4 col-md-6">
+                                    @Html.LabelFor(m => m.MetaExcelenteViewModel)
+                                    <div class="row">
+                                        <div class="col-xs-3 col-sm-3 col-md-2">
+                                            @Html.TextBoxFor(m => m.MetaExcelenteViewModel.Valor1, new { @class = "form-control", @disabled = "true" })
+                                        </div>
+                                        <div class="col-xs-3 col-sm-3 col-md-2">
+                                            @Html.EnumDropDownListFor(x => x.MetaExcelenteViewModel.Signo1, new { @class = "form-control", @disabled = "true" })
+                                        </div>
+                                        <div class="col-xs-1 col-sm-1 text-center col-md-1">
+                                            i
+                                        </div>
+                                        <div class="col-xs-3 col-sm-3 col-md-2">
+                                            @Html.EnumDropDownListFor(x => x.MetaExcelenteViewModel.Signo2, new { @class = "form-control", @disabled = "true" })
+                                        </div>
+                                        <div class="col-xs-3 col-sm-3 col-md-2">
+                                            @Html.TextBoxFor(m => m.MetaExcelenteViewModel.Valor2, new { @class = "form-control", @disabled = "true" })
+                                        </div>
+                                    </div>
+                                  
+                                    
+                                                                </div>
 
+                                <div class="col-xs-4 col-sm-4 col-md-6">
+                                    <label>Meta satisfactoria</label>
+                                    <div class="row">
+                                        <div class="col-xs-3 col-sm-3 col-md-2">
+                                            @Html.TextBoxFor(m => m.MetaSatisfactoriaViewModel.Valor1, new { @class = "form-control", @disabled = "true" })
+                                        </div>
+                                        <div class="col-xs-3 col-sm-3 col-md-2">
+                                            @Html.EnumDropDownListFor(x => x.MetaSatisfactoriaViewModel.Signo1, new { @class = "form-control", @disabled = "true" })
+                                        </div>
+                                        <div class="col-xs-1 col-sm-1 text-center col-md-1">
+                                            i
+                                        </div>
+                                        <div class="col-xs-3 col-sm-3 col-md-2">
+                                            @Html.EnumDropDownListFor(x => x.MetaSatisfactoriaViewModel.Signo2, new { @class = "form-control", @disabled = "true" })
+                                        </div>
+                                        <div class="col-xs-3 col-sm-3 col-md-2">
+                                            @Html.TextBoxFor(m => m.MetaSatisfactoriaViewModel.Valor2, new { @class = "form-control", @disabled = "true" })
+                                        </div>
+                                    </div>
+                                   
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-4 col-sm-4 col-md-6">
+                                    <label>Meta aceptable</label>
+                                    <div class="row">
+                                        <div class="col-xs-3 col-sm-3 col-md-2">
+                                            @Html.TextBoxFor(m => m.MetaAceptableViewModel.Valor1, new { @class = "form-control", @disabled = "true" })
+                                        </div>
+                                        <div class="col-xs-3 col-sm-3 col-md-2">
+                                            @Html.EnumDropDownListFor(x => x.MetaAceptableViewModel.Signo1, new { @class = "form-control", @disabled = "true" })
+                                        </div>
+                                        <div class="col-xs-1 col-sm-1 text-center col-md-1">
+                                            i
+                                        </div>
+                                        <div class="col-xs-3 col-sm-3 col-md-2">
+                                            @Html.EnumDropDownListFor(x => x.MetaAceptableViewModel.Signo2, new { @class = "form-control", @disabled = "true" })
+                                        </div>
+                                        <div class="col-xs-3 col-sm-3 col-md-2">
+                                            @Html.TextBoxFor(m => m.MetaAceptableViewModel.Valor2, new { @class = "form-control", @disabled = "true" })
+                                        </div>
+                                    </div>
+                                 
+                                </div>
+                                <div class="col-xs-4 col-sm-4 col-md-6">
+                                    <label>Meta a mejorar</label>
+                                    <div class="row">
+                                        <div class="col-xs-3 col-sm-3 col-md-2">
+                                            @Html.TextBoxFor(m => m.MetaAMejorarViewModel.Valor1, new { @class = "form-control", @disabled = "true" })
+                                        </div>
+                                        <div class="col-xs-3 col-sm-3 col-md-2">
+                                            @Html.EnumDropDownListFor(x => x.MetaAMejorarViewModel.Signo1, new { @class = "form-control", @disabled = "true" })
+                                        </div>
+                                        <div class="col-xs-1 col-sm-1 text-center col-md-1">
+                                            i
+                                        </div>
+                                        <div class="col-xs-3 col-sm-3 col-md-2">
+                                            @Html.EnumDropDownListFor(x => x.MetaAMejorarViewModel.Signo2, new { @class = "form-control", @disabled = "true" })
+                                        </div>
+                                        <div class="col-xs-3 col-sm-3 col-md-2">
+                                            @Html.TextBoxFor(m => m.MetaAMejorarViewModel.Valor2, new { @class = "form-control", @disabled = "true" })
+                                        </div>
+                                    </div>
+                                   
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-4 col-sm-4 col-md-6">
+                                    <label>Meta inaceptable</label>
+                                    <div class="row">
+                                        <div class="col-xs-3 col-sm-3 col-md-2">
+                                            @Html.TextBoxFor(m => m.MetaInaceptableViewModel.Valor1, new { @class = "form-control", @disabled = "true" })
+                                        </div>
+                                        <div class="col-xs-3 col-sm-3 col-md-2">
+                                            @Html.EnumDropDownListFor(x => x.MetaInaceptableViewModel.Signo1, new { @class = "form-control", @disabled = "true" })
+                                        </div>
+                                        <div class="col-xs-1 col-sm-1 text-center col-md-1">
+                                            i
+                                        </div>
+                                        <div class="col-xs-3 col-sm-3 col-md-2">
+                                            @Html.EnumDropDownListFor(x => x.MetaInaceptableViewModel.Signo2, new { @class = "form-control", @disabled = "true" })
+                                        </div>
+                                        <div class="col-xs-3 col-sm-3 col-md-2">
+                                            @Html.TextBoxFor(m => m.MetaInaceptableViewModel.Valor2, new { @class = "form-control", @disabled = "true" })
+                                        </div>
+                                    </div>
+                                 
+                                </div>
+                            </div>
                             <div class="row">
                                 <div class="col-xs-6 col-sm-6 col-md-6">
                                     <div class="row">

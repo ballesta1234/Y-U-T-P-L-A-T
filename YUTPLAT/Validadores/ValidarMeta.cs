@@ -9,7 +9,11 @@ namespace YUTPLAT.Validadores
         {
             MetaViewModel metaViewModel = (MetaViewModel)value;
 
-            if (metaViewModel != null && metaViewModel.Signo1 > 0 && metaViewModel.Signo2 > 0)
+            if (metaViewModel != null && 
+                metaViewModel.Signo1 > 0 && 
+                metaViewModel.Signo2 > 0 &&
+                !string.IsNullOrEmpty(metaViewModel.Valor1) &&
+                !string.IsNullOrEmpty(metaViewModel.Valor2))
             {
                 return null;
             }
