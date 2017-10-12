@@ -35,21 +35,71 @@ namespace YUTPLAT.Migrations
 
         private void CargarUsuarios(YUTPLAT.Context.YutplatDbContext context)
         {
-            if (!context.Users.Any(u => u.UserName == "matias"))
+            if (!context.Users.Any(u => u.UserName == "mballestero"))
             {
                 var store = new UserStore<Persona>(context);
                 var manager = new UserManager<Persona>(store);
-                var user = new Persona { UserName = "matias", Nombre = "Matias", Apellido = "Ballestero" };
+                var user = new Persona { UserName = "mballestero", Nombre = "Matias", Apellido = "Ballestero" };
 
                 manager.Create(user, "123qwe");
                 manager.AddToRole(user.Id, "admin");
             }
 
-            if (!context.Users.Any(u => u.UserName == "pepe"))
+            if (!context.Users.Any(u => u.UserName == "amolinari"))
             {
                 var store = new UserStore<Persona>(context);
                 var manager = new UserManager<Persona>(store);
-                var user = new Persona { UserName = "pepe", Nombre = "Juan", Apellido = "Perez" };
+                var user = new Persona { UserName = "amolinari", Nombre = "Alejandro", Apellido = "Molinari" };
+
+                manager.Create(user, "123qwe");
+                manager.AddToRole(user.Id, "admin");
+            }
+
+            if (!context.Users.Any(u => u.UserName == "jbarbosa"))
+            {
+                var store = new UserStore<Persona>(context);
+                var manager = new UserManager<Persona>(store);
+                var user = new Persona { UserName = "jbarbosa", Nombre = "Jorge", Apellido = "Barbosa" };
+
+                manager.Create(user, "123qwe");
+                manager.AddToRole(user.Id, "admin");
+            }
+
+            if (!context.Users.Any(u => u.UserName == "cfontela"))
+            {
+                var store = new UserStore<Persona>(context);
+                var manager = new UserManager<Persona>(store);
+                var user = new Persona { UserName = "cfontela", Nombre = "Carlos", Apellido = "Fontela" };
+
+                manager.Create(user, "123qwe");
+                manager.AddToRole(user.Id, "admin");
+            }
+
+            if (!context.Users.Any(u => u.UserName == "elara"))
+            {
+                var store = new UserStore<Persona>(context);
+                var manager = new UserManager<Persona>(store);
+                var user = new Persona { UserName = "elara", Nombre = "Enrique", Apellido = "Lara" };
+
+                manager.Create(user, "123qwe");
+                manager.AddToRole(user.Id, "admin");
+            }
+
+            if (!context.Users.Any(u => u.UserName == "ncaniggia"))
+            {
+                var store = new UserStore<Persona>(context);
+                var manager = new UserManager<Persona>(store);
+                var user = new Persona { UserName = "ncaniggia", Nombre = "Norberto", Apellido = "Caniggia" };
+
+                manager.Create(user, "123qwe");
+                manager.AddToRole(user.Id, "admin");
+            }
+
+            if (!context.Users.Any(u => u.UserName == "lbertuzzi"))
+            {
+                var store = new UserStore<Persona>(context);
+                var manager = new UserManager<Persona>(store);
+                var user = new Persona { UserName = "lbertuzzi", Nombre = "Liliana", Apellido = "Bertuzzi" };
 
                 manager.Create(user, "123qwe");
                 manager.AddToRole(user.Id, "admin");
