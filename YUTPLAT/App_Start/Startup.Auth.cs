@@ -24,6 +24,8 @@ namespace YUTPLAT
             // Configurar cookie de inicio de sesión
             app.UseCookieAuthentication(new CookieAuthenticationOptions
             {
+                SlidingExpiration = true,
+                ExpireTimeSpan = TimeSpan.FromMinutes(20),
                 AuthenticationType = DefaultAuthenticationTypes.ApplicationCookie,
                 LoginPath = new PathString("/Account/Login"),
                 Provider = new CookieAuthenticationProvider

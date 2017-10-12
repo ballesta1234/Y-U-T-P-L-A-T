@@ -3,6 +3,7 @@ using YUTPLAT.ViewModel;
 
 namespace YUTPLAT.Controllers
 {
+    [Authorize]
     public class DemoController : Controller
     {
         public ActionResult Dashboard()
@@ -15,6 +16,7 @@ namespace YUTPLAT.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = "admin")]
         public ActionResult Users()
         {
             DemoViewModel model = new DemoViewModel();
@@ -25,6 +27,7 @@ namespace YUTPLAT.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = "admin")]
         public ActionResult Table()
         {
             DemoViewModel model = new DemoViewModel();
@@ -35,6 +38,7 @@ namespace YUTPLAT.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = "admin")]
         public ActionResult Typography()
         {
             DemoViewModel model = new DemoViewModel();
@@ -45,6 +49,7 @@ namespace YUTPLAT.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = "admin")]
         public ActionResult Icons()
         {
             DemoViewModel model = new DemoViewModel();
@@ -55,6 +60,7 @@ namespace YUTPLAT.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = "admin")]
         public ActionResult Maps()
         {
             DemoViewModel model = new DemoViewModel();
@@ -65,6 +71,7 @@ namespace YUTPLAT.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = "admin")]
         public ActionResult Notifications()
         {
             DemoViewModel model = new DemoViewModel();

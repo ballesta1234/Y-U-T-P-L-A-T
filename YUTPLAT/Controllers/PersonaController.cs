@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using YUTPLAT.Services.Interface;
 using YUTPLAT.ViewModel;
 
 namespace YUTPLAT.Controllers
 {
+    [Authorize]
     public class PersonaController : Controller
     {
         public IPersonaService PersonaService { get; set; }

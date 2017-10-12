@@ -7,6 +7,7 @@ using System.Linq;
 
 namespace YUTPLAT.Controllers
 {
+    [Authorize]
     public class IndicadorController : Controller
     {
         public IIndicadorService IndicadorService { get; set; }
@@ -54,7 +55,7 @@ namespace YUTPLAT.Controllers
             return View(model);
         }
 
-        [HttpGet]
+        [HttpGet]       
         public ActionResult Crear()
         {
             IndicadorViewModel model = new IndicadorViewModel();
@@ -69,7 +70,7 @@ namespace YUTPLAT.Controllers
             return View(model);
         }
 
-        [HttpPost]
+        [HttpPost]        
         public ActionResult Crear(IndicadorViewModel model)
         {
             model.FrecuenciaMedicionIndicadorViewModel = FrecuenciaMedicionIndicadorService.GetById(Int32.Parse(model.FrecuenciaMedicionIndicadorID));

@@ -47,17 +47,14 @@ namespace YUTPLAT.Controllers
                 _userManager = value;
             }
         }
-
-        //
-        // GET: /Account/Login
+        
         [AllowAnonymous]
         public ActionResult Login()
-        {            
+        {
+            LogOff();
             return View();
         }
-
-        //
-        // POST: /Account/Login
+                
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]

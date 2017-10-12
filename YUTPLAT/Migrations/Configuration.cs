@@ -31,6 +31,15 @@ namespace YUTPLAT.Migrations
 
                 manager.Create(role);
             }
+
+            if (!context.Roles.Any(r => r.Name == "lector"))
+            {
+                var store = new RoleStore<IdentityRole>(context);
+                var manager = new RoleManager<IdentityRole>(store);
+                var role = new IdentityRole { Name = "lector" };
+
+                manager.Create(role);
+            }
         }
 
         private void CargarUsuarios(YUTPLAT.Context.YutplatDbContext context)
@@ -43,6 +52,7 @@ namespace YUTPLAT.Migrations
 
                 manager.Create(user, "123qwe");
                 manager.AddToRole(user.Id, "admin");
+                manager.AddToRole(user.Id, "lector");
             }
 
             if (!context.Users.Any(u => u.UserName == "amolinari"))
@@ -52,7 +62,7 @@ namespace YUTPLAT.Migrations
                 var user = new Persona { UserName = "amolinari", Nombre = "Alejandro", Apellido = "Molinari" };
 
                 manager.Create(user, "123qwe");
-                manager.AddToRole(user.Id, "admin");
+                manager.AddToRole(user.Id, "lector");
             }
 
             if (!context.Users.Any(u => u.UserName == "jbarbosa"))
@@ -62,7 +72,7 @@ namespace YUTPLAT.Migrations
                 var user = new Persona { UserName = "jbarbosa", Nombre = "Jorge", Apellido = "Barbosa" };
 
                 manager.Create(user, "123qwe");
-                manager.AddToRole(user.Id, "admin");
+                manager.AddToRole(user.Id, "lector");
             }
 
             if (!context.Users.Any(u => u.UserName == "cfontela"))
@@ -72,7 +82,7 @@ namespace YUTPLAT.Migrations
                 var user = new Persona { UserName = "cfontela", Nombre = "Carlos", Apellido = "Fontela" };
 
                 manager.Create(user, "123qwe");
-                manager.AddToRole(user.Id, "admin");
+                manager.AddToRole(user.Id, "lector");
             }
 
             if (!context.Users.Any(u => u.UserName == "elara"))
@@ -82,7 +92,7 @@ namespace YUTPLAT.Migrations
                 var user = new Persona { UserName = "elara", Nombre = "Enrique", Apellido = "Lara" };
 
                 manager.Create(user, "123qwe");
-                manager.AddToRole(user.Id, "admin");
+                manager.AddToRole(user.Id, "lector");
             }
 
             if (!context.Users.Any(u => u.UserName == "ncaniggia"))
@@ -92,7 +102,7 @@ namespace YUTPLAT.Migrations
                 var user = new Persona { UserName = "ncaniggia", Nombre = "Norberto", Apellido = "Caniggia" };
 
                 manager.Create(user, "123qwe");
-                manager.AddToRole(user.Id, "admin");
+                manager.AddToRole(user.Id, "lector");
             }
 
             if (!context.Users.Any(u => u.UserName == "lbertuzzi"))
@@ -102,7 +112,7 @@ namespace YUTPLAT.Migrations
                 var user = new Persona { UserName = "lbertuzzi", Nombre = "Liliana", Apellido = "Bertuzzi" };
 
                 manager.Create(user, "123qwe");
-                manager.AddToRole(user.Id, "admin");
+                manager.AddToRole(user.Id, "lector");
             }
         }
 

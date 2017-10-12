@@ -6,6 +6,7 @@ using YUTPLAT.ViewModel;
 
 namespace YUTPLAT.Controllers
 {
+    [Authorize]
     public class AreaController : Controller
     {
         public IAreaService AreaService { get; set; }

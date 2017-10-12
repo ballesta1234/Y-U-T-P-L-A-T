@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
-using YUTPLAT.Models;
 using YUTPLAT.Services.Interface;
 using YUTPLAT.ViewModel;
 
 namespace YUTPLAT.Controllers
 {
+    [Authorize]
     public class ObjetivoController : Controller
     {
         public IObjetivoService ObjetivoService { get; set; }
