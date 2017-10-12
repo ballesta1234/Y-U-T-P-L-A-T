@@ -12,14 +12,17 @@ namespace YUTPLAT.Services.Interface
         private IIndicadorRepository IndicadorRepository { get; set; }
         private IResponsableIndicadorRepository ResponsableIndicadorRepository { get; set; }
         private IInteresadoIndicadorRepository InteresadoIndicadorRepository { get; set; }
+        private IMetaRepository MetaRepository { get; set; }
 
         public IndicadorService(IIndicadorRepository indicadorRepository,
                                 IResponsableIndicadorRepository responsableIndicadorRepository,
-                                IInteresadoIndicadorRepository interesadoIndicadorRepository)
+                                IInteresadoIndicadorRepository interesadoIndicadorRepository,
+                                IMetaRepository metaRepository)
         {
             this.IndicadorRepository = indicadorRepository;
             this.ResponsableIndicadorRepository = responsableIndicadorRepository;
             this.InteresadoIndicadorRepository = interesadoIndicadorRepository;
+            this.MetaRepository = metaRepository;
         }
 
         public IndicadorViewModel GetById(int id)
@@ -54,8 +57,15 @@ namespace YUTPLAT.Services.Interface
             // Borrar los interesados previos
             InteresadoIndicadorRepository.EliminarPorIndicador(indicadorViewModel.Id);
 
-            // Guardar el indicador
             Indicador indicador = AutoMapper.Mapper.Map<Indicador>(indicadorViewModel);
+
+            indicador.MetaAceptableMetaID = GuardarMeta(indicadorViewModel.MetaAceptableViewModel);
+            indicador.MetaAMejorarMetaID = GuardarMeta(indicadorViewModel.MetaAMejorarViewModel);
+            indicador.MetaExcelenteMetaID = GuardarMeta(indicadorViewModel.MetaExcelenteViewModel);
+            indicador.MetaInaceptableMetaID = GuardarMeta(indicadorViewModel.MetaInaceptableViewModel);
+            indicador.MetaSatisfactoriaMetaID = GuardarMeta(indicadorViewModel.MetaSatisfactoriaViewModel);
+            
+            // Guardar el indicador
             IndicadorRepository.Guardar(indicador);
             
             // Guardar los responsables
@@ -65,6 +75,12 @@ namespace YUTPLAT.Services.Interface
             GuardarInteresados(indicadorViewModel.Interesados, indicador.IndicadorID);
 
             return indicador.IndicadorID;
+        }
+
+        private int GuardarMeta(MetaViewModel metaViewModel)
+        {
+            Meta meta = AutoMapper.Mapper.Map<Meta>(metaViewModel);
+            return MetaRepository.Guardar(meta);
         }
 
         private void GuardarResponsables(IList<PersonaViewModel> responsables, int indicadorID)

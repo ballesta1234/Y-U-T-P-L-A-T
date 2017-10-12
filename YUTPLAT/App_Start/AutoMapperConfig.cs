@@ -38,6 +38,11 @@ namespace YUTPLAT.App_Start
                     .ForMember(x => x.FrecuenciaMedicionIndicadorID, x => x.MapFrom(y => y.FrecuenciaMedicion != null ? y.FrecuenciaMedicion.FrecuenciaMedicionIndicadorID.ToString() : ""))
                     .ForMember(x => x.AreaID, x => x.MapFrom(y => y.Objetivo != null ? y.Objetivo.Area.Id.ToString() : ""))
                     .ForMember(x => x.ObjetivoViewModel, x => x.MapFrom(y => y.Objetivo))
+                    .ForMember(x => x.MetaAceptableViewModel, x => x.MapFrom(y => y.MetaAceptable))
+                    .ForMember(x => x.MetaAMejorarViewModel, x => x.MapFrom(y => y.MetaAMejorar))
+                    .ForMember(x => x.MetaExcelenteViewModel, x => x.MapFrom(y => y.MetaExcelente))
+                    .ForMember(x => x.MetaInaceptableViewModel, x => x.MapFrom(y => y.MetaInaceptable))
+                    .ForMember(x => x.MetaSatisfactoriaViewModel, x => x.MapFrom(y => y.MetaSatisfactoria))
                     .ForMember(x => x.Responsables, x => x.Ignore())
                     .ForMember(x => x.Interesados, x => x.Ignore());
 
@@ -52,7 +57,10 @@ namespace YUTPLAT.App_Start
                     cfg.CreateMap<FrecuenciaMedicionIndicadorViewModel, FrecuenciaMedicionIndicador>();
                                        
                     cfg.CreateMap<Persona, PersonaViewModel>()
-                   .ForMember(x => x.NombreUsuario, x => x.MapFrom(y => y.UserName));                  
+                   .ForMember(x => x.NombreUsuario, x => x.MapFrom(y => y.UserName));
+
+                    cfg.CreateMap<Meta, MetaViewModel>();
+                    cfg.CreateMap<MetaViewModel, Meta>();
                 });
         }
     }

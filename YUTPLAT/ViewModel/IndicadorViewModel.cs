@@ -68,6 +68,26 @@ namespace YUTPLAT.ViewModel
 
         [Display(Name = "Fecha última modificación")]
         public string FechaUltimaModificacion { get; set; }
+                
+        [ValidarMeta]
+        [Display(Name = "Meta inaceptable")]
+        public MetaViewModel MetaInaceptableViewModel { get; set; }
+
+        [ValidarMeta]
+        [Display(Name = "Meta a mejorar")]
+        public MetaViewModel MetaAMejorarViewModel { get; set; }
+
+        [ValidarMeta]
+        [Display(Name = "Meta aceptable")]
+        public MetaViewModel MetaAceptableViewModel { get; set; }
+
+        [ValidarMeta]
+        [Display(Name = "Meta satisfactoria")]
+        public MetaViewModel MetaSatisfactoriaViewModel { get; set; }
+
+        [ValidarMeta]
+        [Display(Name = "Meta excelente")]
+        public MetaViewModel MetaExcelenteViewModel { get; set; }
     }
 }
 

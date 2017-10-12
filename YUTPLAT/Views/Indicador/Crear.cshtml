@@ -94,131 +94,247 @@
                                     @Html.ValidationMessageFor(m => m.Descripcion, "", new { @class = "text-danger" })
                                 </div>
                             </div>
-
                             <div class="row">
-                                <div class="col-xs-6 col-sm-6 col-md-6">
+                                <div class="col-xs-4 col-sm-4 col-md-6">
+                                    @Html.LabelFor(m => m.MetaExcelenteViewModel)
                                     <div class="row">
-                                        <div class="col-xs-8 col-sm-8 col-md-8">
-                                            @Html.LabelFor(m => m.ResponsableID)
-                                            <span class="text-danger">*</span>
-                                            @Html.DropDownListFor(m => m.ResponsableID, Enumerable.Empty<SelectListItem>(), new { @id = "ddlResponsables", @class = "form-control" })
-                                            @Html.ValidationMessageFor(m => m.CantidadResponsablesElegidos, "", new { @class = "text-danger" })
+                                        <div class="col-xs-3 col-sm-3 col-md-2">
+                                            @Html.TextBoxFor(m => m.MetaExcelenteViewModel.Valor1, new { @class = "form-control" })
                                         </div>
-                                        <div class="col-xs-1 col-sm-1 col-md-1">
-                                            <label class="label-blanco">a</label>
-                                            <a href="javascript:agregarResponsable();">
-                                                <i class="pe-7s-plus boton-agregar"></i>
-                                            </a>
+                                        <div class="col-xs-3 col-sm-3 col-md-2">
+                                            @Html.EnumDropDownListFor(x => x.MetaExcelenteViewModel.Signo1, new { @class = "form-control" })
+                                        </div>
+                                        <div class="col-xs-1 col-sm-1 text-center col-md-1">
+                                            i
+                                        </div>
+                                        <div class="col-xs-3 col-sm-3 col-md-2">
+                                            @Html.EnumDropDownListFor(x => x.MetaExcelenteViewModel.Signo2, new { @class = "form-control" })
+                                        </div>
+                                        <div class="col-xs-3 col-sm-3 col-md-2">
+                                            @Html.TextBoxFor(m => m.MetaExcelenteViewModel.Valor2, new { @class = "form-control" })
                                         </div>
                                     </div>
+                                    <span class="aclaracion">(ejemplo: 1 >= i > 0.8)</span>
+                                    @Html.ValidationMessageFor(m => m.MetaExcelenteViewModel, "", new { @class = "text-danger" })
+                                </div>
+
+                                <div class="col-xs-4 col-sm-4 col-md-6">
+                                    <label>Meta satisfactoria</label>
                                     <div class="row">
-                                        <div class="col-xs-9 col-sm-9 col-md-9">
-                                            <div class="content table-responsive table-full-width">
-                                                @if (Model != null && Model.Responsables != null)
-                                                {
-                                                    <table id="tblResponsables" class="table table-striped table-responsive">
-                                                        <thead>
-                                                            <tr>
-                                                                <th>Nombre</th>
-                                                                <th></th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody id="tblBodyResponsables">
-                                                            @foreach (PersonaViewModel persona in Model.Responsables)
-                                                            {
+                                        <div class="col-xs-3 col-sm-3 col-md-2">
+                                            @Html.TextBoxFor(m => m.MetaSatisfactoriaViewModel.Valor1, new { @class = "form-control" })
+                                        </div>
+                                        <div class="col-xs-3 col-sm-3 col-md-2">
+                                            @Html.EnumDropDownListFor(x => x.MetaSatisfactoriaViewModel.Signo1, new { @class = "form-control" })
+                                        </div>
+                                        <div class="col-xs-1 col-sm-1 text-center col-md-1">
+                                            i
+                                        </div>
+                                        <div class="col-xs-3 col-sm-3 col-md-2">
+                                            @Html.EnumDropDownListFor(x => x.MetaSatisfactoriaViewModel.Signo2, new { @class = "form-control" })
+                                        </div>
+                                        <div class="col-xs-3 col-sm-3 col-md-2">
+                                            @Html.TextBoxFor(m => m.MetaSatisfactoriaViewModel.Valor2, new { @class = "form-control" })
+                                        </div>
+                                    </div>
+                                    <span class="aclaracion">(ejemplo: 0.80 >= i > 0.6)</span>
+                                    @Html.ValidationMessageFor(m => m.MetaSatisfactoriaViewModel, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                                <div class="row">
+                                    <div class="col-xs-4 col-sm-4 col-md-6">
+                                        <label>Meta aceptable</label>
+                                        <div class="row">
+                                            <div class="col-xs-3 col-sm-3 col-md-2">
+                                                @Html.TextBoxFor(m => m.MetaAceptableViewModel.Valor1, new { @class = "form-control" })
+                                            </div>
+                                            <div class="col-xs-3 col-sm-3 col-md-2">
+                                                @Html.EnumDropDownListFor(x => x.MetaAceptableViewModel.Signo1, new { @class = "form-control" })
+                                            </div>
+                                            <div class="col-xs-1 col-sm-1 text-center col-md-1">
+                                                i
+                                            </div>
+                                            <div class="col-xs-3 col-sm-3 col-md-2">
+                                                @Html.EnumDropDownListFor(x => x.MetaAceptableViewModel.Signo2, new { @class = "form-control" })
+                                            </div>
+                                            <div class="col-xs-3 col-sm-3 col-md-2">
+                                                @Html.TextBoxFor(m => m.MetaAceptableViewModel.Valor2, new { @class = "form-control" })
+                                            </div>
+                                        </div>
+                                        <span class="aclaracion">(ejemplo: 0.60 >= i > 0.40)</span>
+                                        @Html.ValidationMessageFor(m => m.MetaAceptableViewModel, "", new { @class = "text-danger" })
+                                    </div>
+                                    <div class="col-xs-4 col-sm-4 col-md-6">
+                                        <label>Meta a mejorar</label>
+                                        <div class="row">
+                                            <div class="col-xs-3 col-sm-3 col-md-2">
+                                                @Html.TextBoxFor(m => m.MetaAMejorarViewModel.Valor1, new { @class = "form-control" })
+                                            </div>
+                                            <div class="col-xs-3 col-sm-3 col-md-2">
+                                                @Html.EnumDropDownListFor(x => x.MetaAMejorarViewModel.Signo1, new { @class = "form-control" })
+                                            </div>
+                                            <div class="col-xs-1 col-sm-1 text-center col-md-1">
+                                                i
+                                            </div>
+                                            <div class="col-xs-3 col-sm-3 col-md-2">
+                                                @Html.EnumDropDownListFor(x => x.MetaAMejorarViewModel.Signo2, new { @class = "form-control" })
+                                            </div>
+                                            <div class="col-xs-3 col-sm-3 col-md-2">
+                                                @Html.TextBoxFor(m => m.MetaAMejorarViewModel.Valor2, new { @class = "form-control" })
+                                            </div>
+                                        </div>
+                                        <span class="aclaracion">(ejemplo: 0.4 >= i > 0.2)</span>
+                                        @Html.ValidationMessageFor(m => m.MetaAMejorarViewModel, "", new { @class = "text-danger" })
+                                    </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-4 col-sm-4 col-md-6">
+                                    <label>Meta inaceptable</label>
+                                    <div class="row">
+                                        <div class="col-xs-3 col-sm-3 col-md-2">
+                                            @Html.TextBoxFor(m => m.MetaInaceptableViewModel.Valor1, new { @class = "form-control" })
+                                        </div>
+                                        <div class="col-xs-3 col-sm-3 col-md-2">
+                                            @Html.EnumDropDownListFor(x => x.MetaInaceptableViewModel.Signo1, new { @class = "form-control" })
+                                        </div>
+                                        <div class="col-xs-1 col-sm-1 text-center col-md-1">
+                                            i
+                                        </div>
+                                        <div class="col-xs-3 col-sm-3 col-md-2">
+                                            @Html.EnumDropDownListFor(x => x.MetaInaceptableViewModel.Signo2, new { @class = "form-control" })
+                                        </div>
+                                        <div class="col-xs-3 col-sm-3 col-md-2">
+                                            @Html.TextBoxFor(m => m.MetaInaceptableViewModel.Valor2, new { @class = "form-control" })
+                                        </div>
+                                    </div>
+                                    <span class="aclaracion">(ejemplo: 0.2 >= i)</span>
+                                    @Html.ValidationMessageFor(m => m.MetaInaceptableViewModel, "", new { @class = "text-danger" })
+                                </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-6 col-sm-6 col-md-6">
+                                        <div class="row">
+                                            <div class="col-xs-8 col-sm-8 col-md-8">
+                                                @Html.LabelFor(m => m.ResponsableID)
+                                                <span class="text-danger">*</span>
+                                                @Html.DropDownListFor(m => m.ResponsableID, Enumerable.Empty<SelectListItem>(), new { @id = "ddlResponsables", @class = "form-control" })
+                                                @Html.ValidationMessageFor(m => m.CantidadResponsablesElegidos, "", new { @class = "text-danger" })
+                                            </div>
+                                            <div class="col-xs-1 col-sm-1 col-md-1">
+                                                <label class="label-blanco">a</label>
+                                                <a href="javascript:agregarResponsable();">
+                                                    <i class="pe-7s-plus boton-agregar"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xs-9 col-sm-9 col-md-9">
+                                                <div class="content table-responsive table-full-width">
+                                                    @if (Model != null && Model.Responsables != null)
+                                                    {
+                                                        <table id="tblResponsables" class="table table-striped table-responsive">
+                                                            <thead>
                                                                 <tr>
-                                                                    <td>
-                                                                        @persona.NombreApellido
-                                                                    </td>
-
-                                                                    <td>
-                                                                        <a id="@persona.Id" class="aQuitarResponsable" href="#">
-                                                                            <i data-toggle="tooltip" data-placement="bottom" title="Quitar" class="glyphicon glyphicon-trash"></i>
-                                                                        </a>
-                                                                    </td>
-
+                                                                    <th>Nombre</th>
+                                                                    <th></th>
                                                                 </tr>
-                                                            }
-                                                        </tbody>
-                                                    </table>
-                                                }
+                                                            </thead>
+                                                            <tbody id="tblBodyResponsables">
+                                                                @foreach (PersonaViewModel persona in Model.Responsables)
+                                                                {
+                                                                    <tr>
+                                                                        <td>
+                                                                            @persona.NombreApellido
+                                                                        </td>
+
+                                                                        <td>
+                                                                            <a id="@persona.Id" class="aQuitarResponsable" href="#">
+                                                                                <i data-toggle="tooltip" data-placement="bottom" title="Quitar" class="glyphicon glyphicon-trash"></i>
+                                                                            </a>
+                                                                        </td>
+
+                                                                    </tr>
+                                                                }
+                                                            </tbody>
+                                                        </table>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-xs-6 col-sm-6 col-md-6">
+                                        <div class="row">
+                                            <div class="col-xs-8 col-sm-8 col-md-8">
+                                                @Html.LabelFor(m => m.InteresadoID)
+                                                <span class="text-danger">*</span>
+
+                                                @Html.DropDownListFor(m => m.InteresadoID, Enumerable.Empty<SelectListItem>(), new { @id = "ddlInteresados", @class = "form-control" })
+                                                @Html.ValidationMessageFor(m => m.CantidadInteresadosElegidos, "", new { @class = "text-danger" })
+                                            </div>
+                                            <div class="col-xs-1 col-sm-1 col-md-1">
+                                                <label class="label-blanco">a</label>
+                                                <a href="javascript:agregarInteresado();">
+                                                    <i class="pe-7s-plus boton-agregar"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xs-9 col-sm-9 col-md-9">
+                                                <div class="content table-responsive table-full-width">
+                                                    @if (Model != null && Model.Interesados != null)
+                                                    {
+                                                        <table id="tblInteresados" class="table table-striped table-responsive">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Nombre</th>
+                                                                    <th></th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody id="tblBodyInteresados">
+                                                                @foreach (PersonaViewModel persona in Model.Interesados)
+                                                                {
+                                                                    <tr>
+                                                                        <td>
+                                                                            @persona.NombreApellido
+                                                                        </td>
+
+                                                                        <td>
+                                                                            <a id="@persona.Id" class="aQuitarInteresado" href="#">
+                                                                                <i data-toggle="tooltip" data-placement="bottom" title="Quitar" class="glyphicon glyphicon-trash"></i>
+                                                                            </a>
+                                                                        </td>
+
+                                                                    </tr>
+                                                                }
+                                                            </tbody>
+                                                        </table>
+                                                    }
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
 
-                                <div class="col-xs-6 col-sm-6 col-md-6">
-                                    <div class="row">
-                                        <div class="col-xs-8 col-sm-8 col-md-8">
-                                            @Html.LabelFor(m => m.InteresadoID)
-                                            <span class="text-danger">*</span>
-
-                                            @Html.DropDownListFor(m => m.InteresadoID, Enumerable.Empty<SelectListItem>(), new { @id = "ddlInteresados", @class = "form-control" })
-                                            @Html.ValidationMessageFor(m => m.CantidadInteresadosElegidos, "", new { @class = "text-danger" })
-                                        </div>
-                                        <div class="col-xs-1 col-sm-1 col-md-1">
-                                            <label class="label-blanco">a</label>
-                                            <a href="javascript:agregarInteresado();">
-                                                <i class="pe-7s-plus boton-agregar"></i>
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-xs-9 col-sm-9 col-md-9">
-                                            <div class="content table-responsive table-full-width">
-                                                @if (Model != null && Model.Interesados != null)
-                                                {
-                                                    <table id="tblInteresados" class="table table-striped table-responsive">
-                                                        <thead>
-                                                            <tr>
-                                                                <th>Nombre</th>
-                                                                <th></th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody id="tblBodyInteresados">
-                                                            @foreach (PersonaViewModel persona in Model.Interesados)
-                                                            {
-                                                                <tr>
-                                                                    <td>
-                                                                        @persona.NombreApellido
-                                                                    </td>
-
-                                                                    <td>
-                                                                        <a id="@persona.Id" class="aQuitarInteresado" href="#">
-                                                                            <i data-toggle="tooltip" data-placement="bottom" title="Quitar" class="glyphicon glyphicon-trash"></i>
-                                                                        </a>
-                                                                    </td>
-
-                                                                </tr>
-                                                            }
-                                                        </tbody>
-                                                    </table>
-                                                }
-                                            </div>
-                                        </div>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <h6>
+                                            <small>
+                                                <span class="text-danger">* campos obligatorios</span>
+                                            </small>
+                                        </h6>
                                     </div>
                                 </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <h6>
-                                        <small>
-                                            <span class="text-danger">* campos obligatorios</span>
-                                        </small>
-                                    </h6>
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-3 col-md-3">
+                                        <input type="submit" class="btn btn-fill btn-info" value="Guardar" />
+                                        <button class="btn btn-fill btn-info" onclick="history.go(-1); return false;">Volver</button>
+                                    </div>
                                 </div>
+                                @Html.HiddenFor(m => m.CantidadInteresadosElegidos)
+                                @Html.HiddenFor(m => m.CantidadResponsablesElegidos)
+                                }
                             </div>
-                            <div class="row">
-                                <div class="col-xs-12 col-sm-3 col-md-3">
-                                    <input type="submit" class="btn btn-fill btn-info" value="Guardar" />
-                                    <button class="btn btn-fill btn-info" onclick="history.go(-1); return false;">Volver</button>
-                                </div>
-                            </div>
-                            @Html.HiddenFor(m => m.CantidadInteresadosElegidos)
-                            @Html.HiddenFor(m => m.CantidadResponsablesElegidos)
-                        }
-                    </div>
                 </div>
             </div>
         </div>
@@ -226,6 +342,62 @@
 </div>
 
 <script type="text/javascript">
+
+    $("#MetaExcelenteViewModel_Valor1").keydown(function (e) {
+        soloNumeros(e);
+    });
+       
+    $("#MetaExcelenteViewModel_Valor2").keydown(function (e) {
+        soloNumeros(e);
+    });
+
+    $("#MetaAceptableViewModel_Valor1").keydown(function (e) {
+        soloNumeros(e);
+    });
+
+    $("#MetaAceptableViewModel_Valor2").keydown(function (e) {
+        soloNumeros(e);
+    });
+
+    $("#MetaAMejorarViewModel_Valor1").keydown(function (e) {
+        soloNumeros(e);
+    });
+
+    $("#MetaAMejorarViewModel_Valor2").keydown(function (e) {
+        soloNumeros(e);
+    });
+
+    $("#MetaInaceptableViewModel_Valor1").keydown(function (e) {
+        soloNumeros(e);
+    });
+
+    $("#MetaInaceptableViewModel_Valor2").keydown(function (e) {
+        soloNumeros(e);
+    });
+
+    $("#MetaSatisfactoriaViewModel_Valor1").keydown(function (e) {
+        soloNumeros(e);
+    });
+
+    $("#MetaSatisfactoriaViewModel_Valor2").keydown(function (e) {
+        soloNumeros(e);
+    });
+
+    function soloNumeros(e) {
+        // Allow: backspace, delete, tab, escape, enter and .
+        if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
+            // Allow: Ctrl+A, Command+A
+            (e.keyCode === 65 && (e.ctrlKey === true || e.metaKey === true)) ||
+            // Allow: home, end, left, right, down, up
+            (e.keyCode >= 35 && e.keyCode <= 40)) {
+            // let it happen, don't do anything
+            return;
+        }
+        // Ensure that it is a number and stop the keypress
+        if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+            e.preventDefault();
+        }
+    }
 
     function agregarInteresado() {
         var interesado = $("#ddlInteresados option:selected").text();

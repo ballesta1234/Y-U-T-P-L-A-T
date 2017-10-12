@@ -93,3 +93,9 @@ textarea {
 .boton-agregar:hover {
     color: #1DC7EA;   
 }
+
+.col-centered{
+display: inline-block;
+    vertical-align: middle;
+    float: none;
+}

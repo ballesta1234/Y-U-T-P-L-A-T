@@ -6,6 +6,7 @@ using YUTPLAT.Repositories.Interface;
 using YUTPLAT.ViewModel;
 using System.Data.Entity.Migrations;
 using YUTPLAT.Context;
+using System.Data.Entity;
 
 namespace YUTPLAT.Repositories
 {
@@ -20,7 +21,13 @@ namespace YUTPLAT.Repositories
 
         public IQueryable<Indicador> GetById(int id)
         {
-            return this.context.Indicadores.Where(i => i.IndicadorID == id);
+            return this.context.Indicadores
+                .Include(i => i.MetaAceptable)
+                .Include(i => i.MetaAMejorar)
+                .Include(i => i.MetaExcelente)
+                .Include(i => i.MetaInaceptable)
+                .Include(i => i.MetaSatisfactoria)
+                .Where(i => i.IndicadorID == id);
         }
 
         public void Guardar(Indicador indicador)
