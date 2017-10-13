@@ -57,7 +57,6 @@ namespace YUTPLAT.Controllers
                 
         [HttpPost]
         [AllowAnonymous]
-        [ValidateAntiForgeryToken]
         public async Task<ActionResult> Login(LoginViewModel model)
         {
             if (!ModelState.IsValid)
