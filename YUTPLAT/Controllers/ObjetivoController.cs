@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
+using YUTPLAT.Helpers;
+using YUTPLAT.Helpers.Filters;
 using YUTPLAT.Services.Interface;
 using YUTPLAT.ViewModel;
 
@@ -48,14 +50,15 @@ namespace YUTPLAT.Controllers
         }
 
         [HttpGet]
-        public ActionResult Crear(int? idArea)
+        [EncryptedActionParameter]
+        public ActionResult Crear(string idArea)
         {
             ObjetivoViewModel model = new ObjetivoViewModel();
             model.Titulo = "Objetivos";
             model.FechaCreacion = DateTime.Now.ToString("dd/MM/yyyy HH:mm tt");
 
             if(idArea != null)
-                model.AreaViewModel = AreaService.GetById(idArea.Value);
+                model.AreaViewModel = AreaService.GetById(Int32.Parse(idArea));
 
             ViewBag.Titulo = model.Titulo;
 
@@ -80,9 +83,10 @@ namespace YUTPLAT.Controllers
         }
 
         [HttpGet]
-        public ActionResult Editar(int id, string msgExito)
+        [EncryptedActionParameter]
+        public ActionResult Editar(string id, string msgExito)
         {
-            ObjetivoViewModel model = ObjetivoService.GetById(id);
+            ObjetivoViewModel model = ObjetivoService.GetById(Int32.Parse(id));
 
             model.Titulo = "Objetivos";
 
@@ -108,13 +112,14 @@ namespace YUTPLAT.Controllers
 
             int idObjetivo = ObjetivoService.Guardar(model);
 
-            return RedirectToAction("Editar", "Objetivo", new { id = idObjetivo, msgExito = "El objetivo se ha guardado exitosamente." });
+            return RedirectToAction("Editar", "Objetivo", new { q = MyExtensions.Encrypt(new { id = idObjetivo, msgExito = "El objetivo se ha guardado exitosamente." }) });
         }
 
         [HttpGet]
-        public ActionResult Ver(int id)
+        [EncryptedActionParameter]
+        public ActionResult Ver(string id)
         {
-            ObjetivoViewModel model = ObjetivoService.GetById(id);
+            ObjetivoViewModel model = ObjetivoService.GetById(Int32.Parse(id));
             model.Titulo = "Objetivos";
             ViewBag.Titulo = model.Titulo;
 

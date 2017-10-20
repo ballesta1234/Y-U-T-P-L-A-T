@@ -1,4 +1,6 @@
 ﻿@using YUTPLAT.ViewModel
+@using YUTPLAT.Helpers
+
 @model BuscarIndicadorViewModel
 
 <script type="text/javascript">
@@ -116,13 +118,13 @@
                                                                 <td>@indicador.ObjetivoViewModel.AreaViewModel.Nombre</td>
                                                                 <td>@indicador.FechaCreacion</td>                                                                
                                                                 <td>
-                                                                    <a href='@Url.Action("Editar", "Indicador", new { id = indicador.Id })'>
+                                                                    <a href='@Url.Action("Editar", "Indicador", new { q = MyExtensions.Encrypt(new { id = indicador.Id }) })'>
                                                                         <i data-toggle="tooltip" data-placement="bottom" title="Editar" class="glyphicon glyphicon-pencil"></i>
                                                                     </a>
-                                                                    <a href='@Url.Action("Ver", "Indicador", new { id = indicador.Id })'>
+                                                                    <a href='@Url.Action("Ver", "Indicador", new { q = MyExtensions.Encrypt(new { id = indicador.Id }) })'>
                                                                         <i data-toggle="tooltip" data-placement="bottom" title="Ver" class="glyphicon glyphicon-search"></i>
                                                                     </a>
-                                                                    <a href='@Url.Action("Cargar", "Indicador", new { id = indicador.Id })'>
+                                                                    <a href='@Url.Action("Cargar", "Indicador", new { q = MyExtensions.Encrypt(new { id = indicador.Id }) })'>
                                                                         <i data-toggle="tooltip" data-placement="bottom" title="Cargar indicador" class="glyphicon glyphicon glyphicon-stats"></i>
                                                                     </a>
                                                                 </td>

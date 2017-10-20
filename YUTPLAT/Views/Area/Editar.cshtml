@@ -12,6 +12,8 @@
                     <div class="content">
                         @using (Html.BeginForm("Editar", "Area", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form" }))
                         {
+                            @Html.HiddenFor(m => m.Id);
+
                             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
                             <div class="row">

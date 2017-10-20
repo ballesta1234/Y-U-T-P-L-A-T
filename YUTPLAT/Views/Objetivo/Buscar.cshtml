@@ -1,4 +1,6 @@
 ﻿@using YUTPLAT.ViewModel
+@using YUTPLAT.Helpers
+
 @model BuscarObjetivoViewModel
 
 <script type="text/javascript">
@@ -109,13 +111,13 @@
                                                                 <td>@objetivo.UltimoUsuarioModifico</td>
                                                                 <td>@objetivo.FechaUltimaModificacion</td>
                                                                 <td>
-                                                                    <a href='@Url.Action("Editar", "Objetivo", new { id = objetivo.Id })'>
+                                                                    <a href='@Url.Action("Editar", "Objetivo", new { q = MyExtensions.Encrypt(new { id = objetivo.Id }) })'>
                                                                         <i data-toggle="tooltip" data-placement="bottom" title="Editar" class="glyphicon glyphicon-pencil"></i>
                                                                     </a>
-                                                                    <a href='@Url.Action("Ver", "Objetivo", new { id = objetivo.Id })'>
+                                                                    <a href='@Url.Action("Ver", "Objetivo", new { q = MyExtensions.Encrypt(new { id = objetivo.Id }) })'>
                                                                         <i data-toggle="tooltip" data-placement="bottom" title="Ver" class="glyphicon glyphicon-search"></i>
                                                                     </a>
-                                                                    <a href='@Url.Action("Crear", "Indicador", new { id = objetivo.Id })'>
+                                                                    <a href='@Url.Action("Crear", "Indicador", new { q = MyExtensions.Encrypt(new { idObjetivo = objetivo.Id }) })'>
                                                                         <i data-toggle="tooltip" data-placement="bottom" title="Crear indicador" class="glyphicon glyphicon glyphicon-saved"></i>
                                                                     </a>
                                                                 </td>

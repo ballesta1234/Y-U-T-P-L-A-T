@@ -240,6 +240,8 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\EnumHelper.cs" />
+    <Compile Include="Helpers\Filters\EncryptedActionParameterAttribute.cs" />
+    <Compile Include="Helpers\MyExtensions.cs" />
     <Compile Include="Migrations\201710050326098_Creacion_Inicial.cs" />
     <Compile Include="Migrations\201710050326098_Creacion_Inicial.Designer.cs">
       <DependentUpon>201710050326098_Creacion_Inicial.cs</DependentUpon>

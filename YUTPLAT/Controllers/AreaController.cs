@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
+using YUTPLAT.Helpers;
+using YUTPLAT.Helpers.Filters;
 using YUTPLAT.Services.Interface;
 using YUTPLAT.ViewModel;
 
@@ -10,13 +12,14 @@ namespace YUTPLAT.Controllers
     public class AreaController : Controller
     {
         public IAreaService AreaService { get; set; }
-        
+
         public AreaController(IAreaService areaService)
         {
-            this.AreaService = areaService;            
+            this.AreaService = areaService;
         }
 
         [HttpGet]
+        [EncryptedActionParameter]
         public ActionResult Buscar()
         {
             BuscarAreaViewModel model = new BuscarAreaViewModel();
@@ -71,13 +74,14 @@ namespace YUTPLAT.Controllers
 
             int idArea = AreaService.Guardar(model);
 
-            return RedirectToAction("Editar", "Area", new { id = idArea, msgExito = "El área se ha guardado exitosamente." });
+            return RedirectToAction("Editar", "Area", new { q = MyExtensions.Encrypt(new { id = idArea, msgExito = "El área se ha guardado exitosamente." })});
         }
 
         [HttpGet]
-        public ActionResult Editar(int id, string msgExito)
+        [EncryptedActionParameter]
+        public ActionResult Editar(string id, string msgExito)
         {
-            AreaViewModel model = AreaService.GetById(id);
+            AreaViewModel model = AreaService.GetById(Int32.Parse(id));
 
             model.Titulo = "Áreas";            
 
@@ -103,13 +107,14 @@ namespace YUTPLAT.Controllers
 
             int idArea = AreaService.Guardar(model);
 
-            return RedirectToAction("Editar", "Area", new { id = idArea, msgExito = "El área se ha guardado exitosamente." });
+            return RedirectToAction("Editar", "Area", new { q = MyExtensions.Encrypt(new { id = idArea, msgExito = "El área se ha guardado exitosamente." }) });
         }
 
         [HttpGet]
-        public ActionResult Ver(int id)
+        [EncryptedActionParameter]
+        public ActionResult Ver(string id)
         {
-            AreaViewModel model = AreaService.GetById(id);
+            AreaViewModel model = AreaService.GetById(Int32.Parse(id));
             model.Titulo = "Áreas";
             ViewBag.Titulo = model.Titulo;
             

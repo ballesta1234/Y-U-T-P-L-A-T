@@ -1,4 +1,5 @@
 ﻿@using YUTPLAT.ViewModel
+@using YUTPLAT.Helpers
 @model BuscarAreaViewModel
 
 <script type="text/javascript">
@@ -86,12 +87,12 @@
                                             <div class="content table-responsive table-full-width">
                                                 <table class="table table-hover table-striped">
                                                     <thead>
-                                                    <th class="col-md-2">@Html.LabelFor(m => m.Busqueda.Nombre)</th>
-                                                    <th class="col-md-3">@Html.LabelFor(m => m.Busqueda.Descripcion)</th>
-                                                    <th class="col-md-2">@Html.LabelFor(m => m.Busqueda.FechaCreacion)</th>
-                                                    <th class="col-md-2">@Html.LabelFor(m => m.Busqueda.UltimoUsuarioModifico)</th>
-                                                    <th class="col-md-2">@Html.LabelFor(m => m.Busqueda.FechaUltimaModificacion)</th>
-                                                    <th class="col-md-1">Acciones</th>
+                                                        <th class="col-md-2">@Html.LabelFor(m => m.Busqueda.Nombre)</th>
+                                                        <th class="col-md-3">@Html.LabelFor(m => m.Busqueda.Descripcion)</th>
+                                                        <th class="col-md-2">@Html.LabelFor(m => m.Busqueda.FechaCreacion)</th>
+                                                        <th class="col-md-2">@Html.LabelFor(m => m.Busqueda.UltimoUsuarioModifico)</th>
+                                                        <th class="col-md-2">@Html.LabelFor(m => m.Busqueda.FechaUltimaModificacion)</th>
+                                                        <th class="col-md-1">Acciones</th>
                                                     </thead>
                                                     <tbody>
                                                         @foreach (AreaViewModel area in Model.Resultados)
@@ -103,13 +104,13 @@
                                                                 <td>@area.UltimoUsuarioModifico</td>
                                                                 <td>@area.FechaUltimaModificacion</td>
                                                                 <td>
-                                                                    <a href='@Url.Action("Editar", "Area", new { id = area.Id })'>
+                                                                    <a href='@Url.Action("Editar", "Area", new { q = MyExtensions.Encrypt(new { id = area.Id }) })'>
                                                                         <i data-toggle="tooltip" data-placement="bottom" title="Editar" class="glyphicon glyphicon-pencil"></i>
                                                                     </a>
-                                                                    <a href='@Url.Action("Ver", "Area", new { id = area.Id })'>
+                                                                    <a href='@Url.Action("Ver", "Area", new { q = MyExtensions.Encrypt(new { id = area.Id }) })'>
                                                                         <i data-toggle="tooltip" data-placement="bottom" title="Ver" class="glyphicon glyphicon-search"></i>
                                                                     </a>
-                                                                    <a href='@Url.Action("Crear", "Objetivo", new { idArea = area.Id })'>
+                                                                    <a href='@Url.Action("Crear", "Objetivo", new { q = MyExtensions.Encrypt(new { idArea = area.Id }) })'>
                                                                         <i data-toggle="tooltip" data-placement="bottom" title="Crear objetivo" class="glyphicon glyphicon-list-alt"></i>
                                                                     </a>
                                                                 </td>

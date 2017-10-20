@@ -4,6 +4,8 @@ using System.Web.Mvc;
 using YUTPLAT.Services.Interface;
 using YUTPLAT.ViewModel;
 using System.Linq;
+using YUTPLAT.Helpers.Filters;
+using YUTPLAT.Helpers;
 
 namespace YUTPLAT.Controllers
 {
@@ -55,8 +57,9 @@ namespace YUTPLAT.Controllers
             return View(model);
         }
 
-        [HttpGet]       
-        public ActionResult Crear()
+        [HttpGet]
+        [EncryptedActionParameter]
+        public ActionResult Crear(string idObjetivo)
         {
             IndicadorViewModel model = new IndicadorViewModel();
             model.Titulo = "Indicadores";
@@ -64,6 +67,9 @@ namespace YUTPLAT.Controllers
                         
             Session["InteresadosSeleccionados"] = model.Interesados;
             Session["ResponsablesSeleccionados"] = model.Responsables;
+
+            if (idObjetivo != null)
+                model.ObjetivoViewModel = ObjetivoService.GetById(Int32.Parse(idObjetivo));
 
             ViewBag.Titulo = model.Titulo;
 
@@ -99,9 +105,10 @@ namespace YUTPLAT.Controllers
         }
 
         [HttpGet]
-        public ActionResult Editar(int id, string msgExito)
+        [EncryptedActionParameter]
+        public ActionResult Editar(string id, string msgExito)
         {
-            IndicadorViewModel model = IndicadorService.GetById(id);
+            IndicadorViewModel model = IndicadorService.GetById(Int32.Parse(id));
             model.CantidadInteresadosElegidos = model.Interesados.Count;
             model.CantidadResponsablesElegidos = model.Responsables.Count;
 
@@ -143,13 +150,14 @@ namespace YUTPLAT.Controllers
             
             int idIndicador = IndicadorService.Guardar(model);
 
-            return RedirectToAction("Editar", "Indicador", new { id = idIndicador, msgExito = "El indicador se ha guardado exitosamente." });
+            return RedirectToAction("Editar", "Indicador", new { q = MyExtensions.Encrypt(new { id = idIndicador, msgExito = "El indicador se ha guardado exitosamente." }) });
         }
 
         [HttpGet]
-        public ActionResult Ver(int id)
+        [EncryptedActionParameter]
+        public ActionResult Ver(string id)
         {
-            IndicadorViewModel model = IndicadorService.GetById(id);
+            IndicadorViewModel model = IndicadorService.GetById(Int32.Parse(id));
             model.Titulo = "Indicadores";
             ViewBag.Titulo = model.Titulo;
 
