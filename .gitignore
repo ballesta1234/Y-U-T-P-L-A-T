@@ -6,3 +6,4 @@ bin
 packages
 /YUTPLAT/App_Data/aspnet-YUTPLAT-20170821111852_log.ldf
 /YUTPLAT/App_Data/aspnet-YUTPLAT-20170821111852.mdf
+/.vs/config/applicationhost.config
