@@ -92,6 +92,7 @@ namespace YUTPLAT.Controllers
 
             if (!ModelState.IsValid)
             {
+                ModelState.AddModelError(string.Empty, "Verifique que todos los campos estén cargados y sean correctos.");
                 return View(model);
             }
             
@@ -101,7 +102,7 @@ namespace YUTPLAT.Controllers
             
             int idIndicador = IndicadorService.Guardar(model);
             
-            return RedirectToAction("Editar", "Indicador", new { id = idIndicador, msgExito = "El indicador se ha guardado exitosamente." });
+            return RedirectToAction("Editar", "Indicador", new { q = MyExtensions.Encrypt(new { id = idIndicador, msgExito = "El indicador se ha guardado exitosamente." }) });
         }
 
         [HttpGet]
@@ -139,6 +140,7 @@ namespace YUTPLAT.Controllers
 
             if (!ModelState.IsValid)
             {
+                ModelState.AddModelError(string.Empty, "Verifique que todos los campos estén cargados y sean correctos.");
                 return View(model);
             }
 

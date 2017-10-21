@@ -6,6 +6,8 @@ namespace YUTPLAT.Enums
     {
         public enum Signo
         {
+            [Display(Name = " ")]
+            Indefinido = 0,
             [Display(Name = "<")]
             Menor = 1,
             [Display(Name = ">")]

@@ -1,6 +1,35 @@
 ﻿@using YUTPLAT.ViewModel
 @model IndicadorViewModel
 
+<style type="text/css">
+    .validation-summary-errors ul { 
+        list-style: none;
+        margin-left:-40px
+    }
+</style>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $(".errorGeneral").hide();
+
+        $("input[type=text]").keydown(function () {
+            $(".errorGeneral").hide();
+        });
+
+        $('#form').submit(function () {
+            $(".errorGeneralSummary").hide();
+            if (!$('#form').valid()) {
+                $(".errorGeneral").show();
+                return false;
+            }
+            else {
+                return true;
+            }
+        });
+    });
+</script>
+
 <div class="content">
     <div class="container-fluid">
 
@@ -11,9 +40,13 @@
                         <h4 class="title">Crear</h4>
                     </div>
                     <div class="content">
-                        @using (Html.BeginForm("Crear", "Indicador", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form" }))
+                        @using (Html.BeginForm("Crear", "Indicador", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { id = "form", role = "form" }))
                         {
-                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger errorGeneralSummary" })
+
+                            <div style="display:none;" class="text-danger errorGeneral">                                
+                                Verifique que todos los campos estén cargados y sean correctos.
+                            </div>
 
                             <div class="row">
                                 <div class="col-xs-12 col-sm-6 col-md-4">
