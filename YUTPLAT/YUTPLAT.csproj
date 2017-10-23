@@ -228,6 +228,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\PersonaController.cs" />
     <Compile Include="Controllers\ObjetivoController.cs" />
     <Compile Include="Controllers\AreaController.cs" />
@@ -295,6 +296,7 @@
     <Compile Include="Services\Interface\IAreaService.cs" />
     <Compile Include="Validadores\ValidarMeta.cs" />
     <Compile Include="Validadores\ValidarLista.cs" />
+    <Compile Include="ViewModel\ErrorViewModel.cs" />
     <Compile Include="ViewModel\MetaViewModel.cs" />
     <Compile Include="ViewModel\PersonaViewModel.cs" />
     <Compile Include="ViewModel\FrecuenciaMedicionIndicadorViewModel.cs" />
@@ -508,6 +510,8 @@
     <Content Include="Views\Indicador\Crear.cshtml" />
     <Content Include="Views\Indicador\Editar.cshtml" />
     <Content Include="Views\Indicador\Ver.cshtml" />
+    <Content Include="Views\Error\HttpError.cshtml" />
+    <Content Include="Views\Error\HttpErrorGeneral.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
