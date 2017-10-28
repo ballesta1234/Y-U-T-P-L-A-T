@@ -40,18 +40,18 @@ namespace YUTPLAT
                         break;
                     case 404:
                         // page not found
-                        mensaje = "La pagina solicitada no se ha encontrado, intentelo de nuevo y verifique que sea correcta.";
+                        mensaje = "La página solicitada no se ha encontrado, inténtelo de nuevo y verifique que sea correcta.";
                         break;
                     case 500:
                         // server error
-                        mensaje = "Ha ocurrido un error en el servidor, por favor cantactese con el administrador.";
+                        mensaje = "Ha ocurrido un error en el servidor, por favor cantáctese con el administrador.";
                         break;
                     case 503:
                         // server error
-                        mensaje = "Servicio no disponible, por favor cantactese con el administrador.";
+                        mensaje = "Servicio no disponible, por favor cantáctese con el administrador.";
                         break;
                     default:
-                        mensaje = "Ha ocurrido un error en el servidor, por favor cantactese con el administrador.";
+                        mensaje = "Ha ocurrido un error en el servidor, por favor cantáctese con el administrador.";
                         break;
                 }
                 // clear error on server
@@ -59,7 +59,7 @@ namespace YUTPLAT
             }
             else
             {
-                mensaje = "Ha ocurrido un error en el servidor, por favor cantactese con el administrador.";                
+                mensaje = "Ha ocurrido un error en el servidor, por favor cantáctese con el administrador.";                
             }
             
             string msgEncrypt = MyExtensions.Encrypt(new { msg = mensaje });
