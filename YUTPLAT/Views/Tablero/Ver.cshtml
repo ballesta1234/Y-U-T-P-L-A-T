@@ -1,0 +1,275 @@
+﻿@using YUTPLAT.ViewModel
+@model TableroViewModel
+
+<script src="~/Scripts/Graficos/d3.v3.js"></script>
+<script src="~/Scripts/Graficos/d3.tip.v0.6.3.js"></script>
+
+<style>
+    .square:hover {
+        stroke: DarkBlue;
+        stroke-width: 3px;
+    }
+
+    text.mono {
+        font-size: 9pt;
+        font-family: verdana;
+        fill: #aaa;
+    }
+
+    text.mono:hover {      
+        font-size: 9pt;      
+        font-family: verdana;
+        fill: #aaa;         
+    }
+
+    text.mono1 {
+        font-size: 9pt;
+        font-family: verdana;
+        fill: #aaa;
+    }
+
+    text.mono1:hover {      
+        font-size: 9pt;      
+        font-family: verdana;
+        fill: black;         
+    }
+
+    .text-mono1-hover {
+        font-size: 9pt;
+        font-family: verdana;
+        fill: black;      
+    }
+
+    .square {
+        opacity: 1.0;
+    }
+
+        .square:hover {
+            opacity: 1.0;
+        }
+
+    .d3-tip {
+        font-family: Verdana;
+        background: rgba(0, 0, 0, 0.8);
+        padding: 8px;
+        color: #fff;
+        z-index: 5070;
+    }
+</style>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        function obtenerValores() {
+
+            //var serviceURL = '/Dashboard/ObtenerValores';
+
+            var serviceURL = '@Url.Action("ObtenerValores", "Tablero")'
+
+            var hola;
+
+            jQuery.ajax({
+                type: "POST",
+                url: serviceURL,
+                async: false,
+                data: param = "",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function successFunc(data, status) {
+                    hola = data;
+                },
+                error: function errorFunc() {
+                    alert('error');
+                }
+            });
+
+            return hola;
+        };
+
+
+        jQuery.noConflict();
+
+        // top left, ubicacion
+        var margin = { top: 40, right: 0, bottom: 0, left: 30 },
+
+            dim_1 = [
+                { "mati": "A154334543543543543", "value": 10 },
+                { "mati": "B1", "value": 10 },
+                { "mati": "C1", "value": 10 },
+                { "mati": "D1", "value": 10 },
+                { "mati": "E1", "value": 10 },
+                { "mati": "F1", "value": 10 },
+                { "mati": "G1", "value": 10 },
+                { "mati": "H1", "value": 10 },
+                { "mati": "I1", "value": 10 },
+                { "mati": "J1", "value": 10 }
+            ],
+            dim_2 = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
+
+            gridSize = 40,
+
+            width = (gridSize + 30) * dim_2.length + gridSize + 700,
+            height = gridSize * dim_1.length + gridSize;
+
+        var svg = d3.select("#chart").append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+        var data = obtenerValores();
+
+        /*
+        var data = [
+            { "dim1": 1, "dim2": 1, "value": Math.random() },
+            { "dim1": 1, "dim2": 2, "value": Math.random() },
+            { "dim1": 1, "dim2": 3, "value": Math.random() },
+            { "dim1": 1, "dim2": 4, "value": Math.random() },
+            { "dim1": 1, "dim2": 5, "value": Math.random() },
+            { "dim1": 1, "dim2": 6, "value": Math.random() },
+            { "dim1": 1, "dim2": 7, "value": Math.random() },
+            { "dim1": 1, "dim2": 8, "value": Math.random() },
+            { "dim1": 1, "dim2": 9, "value": Math.random() },
+            { "dim1": 1, "dim2": 10, "value": Math.random() },
+            { "dim1": 1, "dim2": 11, "value": Math.random() },
+            { "dim1": 1, "dim2": 12, "value": Math.random() },
+            { "dim1": 2, "dim2": 1, "value": Math.random() },
+            { "dim1": 2, "dim2": 2, "value": Math.random() },
+            { "dim1": 2, "dim2": 3, "value": Math.random() },
+            { "dim1": 2, "dim2": 4, "value": Math.random() },
+            { "dim1": 2, "dim2": 5, "value": Math.random() },
+            { "dim1": 2, "dim2": 6, "value": Math.random() },
+            { "dim1": 2, "dim2": 7, "value": Math.random() },
+            { "dim1": 2, "dim2": 8, "value": Math.random() },
+            { "dim1": 5, "dim2": 1, "value": Math.random() }
+        ];
+        */
+
+        //var colors = ['red','#ffffbf','#91cf60', 'green', 'blue']
+        var colors = ['red', 'blue', 'yellow', 'green', 'black']
+
+        var colorScale = d3.scale.quantile()
+            .domain([0, 1])
+            .range(colors);
+
+        var tip = d3.tip()
+                    .attr('class', 'd3-tip')
+                    .style("visibility", "visible")
+                    .offset([0, 0])
+                    .html(function (d) {
+                        return "Value:  <span style='color:blue'>" + d.value;
+                    });
+
+        tip(svg.append("g"));
+
+        var indicadorElegido;
+
+        // Etiquetas tipo meses
+        var dim1Labels = svg.selectAll(".dim1Label")
+          .data(dim_1)
+          .enter()
+            .append("a").attr("xlink:href", function (d) { return "#" })
+            .append("text")
+            .text(function (d) { return d.mati; })
+            .attr("x", +70)
+            .attr("y", function (d, i) { return i * gridSize; })
+            .style("text-anchor", "end")
+            .attr("transform", "translate(-6," + gridSize / 1.5 + ")")
+            .attr("class", "mono1")
+            .on('click',
+                function (d) {
+                    if (indicadorElegido !== undefined) {
+                        indicadorElegido.classed("mono1", true);
+                        indicadorElegido.classed("text-mono1-hover", false);
+                    }
+                    indicadorElegido = d3.select(this);
+                    d3.select(this).attr("class", "mono1 text-mono1-hover")
+                    d3.select(this).classed("mono1", false);
+                    d3.select(this).classed("text-mono1-hover", true);
+                    abrirGrafico(d.value);
+                });
+
+        // Etiquetas tipo nombre indicadores
+        var dim2Labels = svg.selectAll(".dim2Label")
+            .data(dim_2)
+            .enter().append("text")
+                .text(function (d) { return d; })
+                .attr("x", function (d, i) { return (i + 1) * + 71; })
+                .attr("y", 0)
+                .style("text-anchor", "middle")
+                .attr("transform", "translate(" + gridSize / 2 + ", -6)")
+                .attr("class", "mono");
+
+        var heatMap = svg.selectAll(".dim2")
+            .data(data)
+            .enter().append("rect")
+                .attr("x", function (d) { return ((d.dim2 - 1) * (gridSize + 30)) + 70; })
+                .attr("y", function (d) { return (d.dim1 - 1) * gridSize; })
+                .attr("rx", 3) // redondeado de la celda
+                .attr("ry", 3) // redondeado de la celda
+                .attr("width", (gridSize + 30) - 2)
+                .attr("height", gridSize - 2)
+                .style("fill", "gray")
+                .attr("class", "square")
+                .on('mouseover', tip.show)
+                .on('mouseout', tip.hide)
+                .on('click', function (d) {
+                    jQuery(".modal-body #hola").text(d.value);
+                    jQuery('#exampleModal').modal('show');
+                });
+
+        heatMap.transition().style("fill", function (d) { return colorScale(d.value); });
+
+        heatMap.append("title").text(function (d) { return d.value; });
+    });
+
+    function abrirGrafico(indicador) {
+
+        jQuery('#exampleModal').modal('show');
+        //alert("dddd");
+        //alert(indicador);
+    }
+
+</script>
+
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="content">
+                        <div id="chart"></div>
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="exampleModal" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <label id="hola">Holaaaa</label>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-primary">Save changes</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+
+
+
+

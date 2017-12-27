@@ -20,30 +20,31 @@ namespace YUTPLAT
                         "~/Scripts/modernizr-*"));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
-                "~/Scripts/moment-with-locales.js",
-                "~/Scripts/bootstrap.js",
-                "~/Scripts/bootstrap-datetimepicker.js",
-                
-                      "~/Scripts/respond.js",
-                      "~/Scripts/bootstrap-checkbox-radio-switch.js",
-                      "~/Scripts/bootstrap-notify.js",
-                      "~/Scripts/bootstrap-select.js",
-                      "~/Scripts/chartist.min.js",
-                      "~/Scripts/demo.js",
-                      "~/Scripts/light-bootstrap-dashboard.js",
-                      "~/Scripts/select2.full.min.js"
-                      ));
+                        "~/Scripts/moment-with-locales.js",
+                        "~/Scripts/bootstrap.js",
+                        "~/Scripts/bootstrap-datetimepicker.js",
+                        "~/Scripts/respond.js",
+                        "~/Scripts/bootstrap-checkbox-radio-switch.js",
+                        "~/Scripts/bootstrap-notify.js",
+                        "~/Scripts/bootstrap-select.js",
+                        "~/Scripts/chartist.min.js",
+                        "~/Scripts/demo.js",
+                        "~/Scripts/light-bootstrap-dashboard.js",
+                        "~/Scripts/select2.full.min.js",
+                        "~/Scripts/Graficos/d3.v3.js",
+                        "~/Scripts/Graficos/d3.tip.v0.6.3.js"
+                        ));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/bootstrap.css",
-                      "~/Content/bootstrap-datetimepicker.min.css",
-                      "~/Content/site.css",
-                      "~/Content/demo.css",
-                      "~/Content/light-bootstrap-dashboard.css",
-                      "~/Content/pe-icon-7-stroke.css",
-                      "~/Content/animate.min.css",
-                      "~/Content/select2.min.css"
-                      ));
+                        "~/Content/bootstrap.css",
+                        "~/Content/bootstrap-datetimepicker.min.css",
+                        "~/Content/site.css",
+                        "~/Content/demo.css",
+                        "~/Content/light-bootstrap-dashboard.css",
+                        "~/Content/pe-icon-7-stroke.css",
+                        "~/Content/animate.min.css",
+                        "~/Content/select2.min.css"
+                        ));           
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿<div class="sidebar" data-color="purple" data-image="/images/sidebar-5.jpg">
-    <!--   you can change the color of the sidebar using: data-color="blue | azure | green | orange | red | purple" -->
+﻿<div class="sidebar" data-color="purple" data-image="/images/sidebar-5.jpg">    
     <div class="sidebar-wrapper">
         <div class="logo">
             <a href="#" class="simple-text">
@@ -8,13 +7,13 @@
         </div>
 
         <ul class="nav">
-            <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Demo" &&
-                         ViewContext.RouteData.Values["Action"].ToString() == "Dashboard" ? "active" : "")">
-                <a href="@Url.Action("Dashboard", "Demo")">
+            <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Tablero" &&
+                         ViewContext.RouteData.Values["Action"].ToString() == "Ver" ? "active" : "")">
+                <a href="@Url.Action("Ver", "Tablero")">
                     <i class="pe-7s-graph"></i>
-                    <p>Dashboard</p>
+                    <p>Tablero</p>
                 </a>
-            </li>
+            </li>           
             <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Indicador" &&
                          ViewContext.RouteData.Values["Action"].ToString() == "Buscar" ? "active" : "")">
                 <a href="@Url.Action("Buscar", "Indicador")">

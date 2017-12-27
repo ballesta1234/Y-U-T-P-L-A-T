@@ -228,6 +228,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\TableroController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\PersonaController.cs" />
     <Compile Include="Controllers\ObjetivoController.cs" />
@@ -259,6 +260,11 @@
     <Compile Include="Migrations\201710102115313_Indicador2.Designer.cs">
       <DependentUpon>201710102115313_Indicador2.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201712262353297_Medicion.cs" />
+    <Compile Include="Migrations\201712262353297_Medicion.Designer.cs">
+      <DependentUpon>201712262353297_Medicion.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Medicion.cs" />
     <Compile Include="Models\Meta.cs" />
     <Compile Include="Models\FrecuenciaMedicionIndicador.cs" />
     <Compile Include="Models\InteresadoIndicador.cs" />
@@ -296,6 +302,7 @@
     <Compile Include="Services\Interface\IAreaService.cs" />
     <Compile Include="Validadores\ValidarMeta.cs" />
     <Compile Include="Validadores\ValidarLista.cs" />
+    <Compile Include="ViewModel\TableroViewModel.cs" />
     <Compile Include="ViewModel\ErrorViewModel.cs" />
     <Compile Include="ViewModel\MetaViewModel.cs" />
     <Compile Include="ViewModel\PersonaViewModel.cs" />
@@ -428,6 +435,8 @@
     <Content Include="Content\bootstrap-datetimepicker-build.less" />
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
     <Content Include="Scripts\bootstrap-checkbox-radio-switch.js" />
+    <Content Include="Scripts\Graficos\d3.tip.v0.6.3.js" />
+    <Content Include="Scripts\Graficos\d3.v3.js" />
     <Content Include="Scripts\i18n\es.js" />
     <Content Include="Scripts\locales\bootstrap-datetimepicker.es.js" />
     <Content Include="Scripts\bootstrap-datetimepicker.js" />
@@ -476,6 +485,11 @@
     <Content Include="Views\Area\Crear.cshtml" />
     <Content Include="Views\Area\Editar.cshtml" />
     <Content Include="Views\Area\Ver.cshtml" />
+    <Content Include="Views\Tablero\Verr.cshtml" />
+    <Content Include="images\stocks.csv" />
+    <Content Include="Views\Tablero\Gauge.cshtml" />
+    <Content Include="Views\Tablero\Tablero.cshtml" />
+    <Content Include="Views\Tablero\Ver.cshtml" />
     <None Include="Views\Demo\Icons.cshtml" />
     <Content Include="Views\Objetivo\Buscar.cshtml" />
     <None Include="Views\Demo\Maps.cshtml" />
@@ -531,6 +545,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201710102115313_Indicador2.resx">
       <DependentUpon>201710102115313_Indicador2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712262353297_Medicion.resx">
+      <DependentUpon>201712262353297_Medicion.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

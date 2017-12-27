@@ -49,15 +49,17 @@ namespace YUTPLAT.Controllers
         }
         
         [AllowAnonymous]
-        public ActionResult Login()
+        public ActionResult Login(string returnUrl)
         {
             LogOff();
+
+            ViewBag.ReturnUrl = returnUrl;
             return View();
         }
                 
         [HttpPost]
         [AllowAnonymous]
-        public async Task<ActionResult> Login(LoginViewModel model)
+        public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
         {
             if (!ModelState.IsValid)
             {
@@ -70,11 +72,9 @@ namespace YUTPLAT.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    return RedirectToLocal();
+                    return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
-                    return View("Lockout");
-                case SignInStatus.RequiresVerification:
-                    return RedirectToAction("SendCode", new { RememberMe = model.RememberMe });
+                    return View("Lockout");               
                 case SignInStatus.Failure:
                 default:
                     ModelState.AddModelError("", "Intento de inicio de sesión no válido.");
@@ -130,9 +130,23 @@ namespace YUTPLAT.Controllers
             }
         }
 
-        private ActionResult RedirectToLocal()
-        {
-            return Redirect("/Demo/Dashboard");
+        private ActionResult RedirectToLocal(string returnUrl)
+        {            
+            string decodedUrl = "";
+
+            if (!string.IsNullOrEmpty(returnUrl) && !returnUrl.Equals("/") && !returnUrl.Contains("LogOff"))
+            {
+                decodedUrl = Server.UrlDecode(returnUrl);
+            }
+
+            if (Url.IsLocalUrl(decodedUrl))
+            {
+                return Redirect(decodedUrl);
+            }
+            else
+            {
+                return RedirectToAction("Ver", "Tablero");
+            }            
         }
 
         internal class ChallengeResult : HttpUnauthorizedResult
