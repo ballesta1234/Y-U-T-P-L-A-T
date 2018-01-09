@@ -66,6 +66,16 @@ namespace YUTPLAT.App_Start
                     cfg.CreateMap<MetaViewModel, Meta>()
                     .ForMember(x => x.Valor1, x => x.MapFrom(y => Decimal.Parse(y.Valor1.Replace(".",","))))
                     .ForMember(x => x.Valor2, x => x.MapFrom(y => Decimal.Parse(y.Valor2.Replace(".", ","))));
+
+                    cfg.CreateMap<Medicion, MedicionViewModel>()
+                    .ForMember(x => x.Valor, x => x.MapFrom(y => (y.Valor == 0) ? "" : y.Valor.ToString().Replace(",", ".")))
+                    .ForMember(x => x.FechaCarga, x => x.MapFrom(y => y.FechaCarga != null ? y.FechaCarga.Value.ToString("dd/MM/yyyy HH:mm tt") : ""))
+                    .ForMember(x => x.IndicadorViewModel, x => x.MapFrom(y => y.Indicador));
+
+                    cfg.CreateMap<MedicionViewModel, Medicion>()
+                    .ForMember(x => x.Valor, x => x.MapFrom(y => Decimal.Parse(y.Valor.Replace(".", ","))))
+                    .ForMember(x => x.FechaCarga, x => x.MapFrom(y => !string.IsNullOrEmpty(y.FechaCarga) ? DateTime.Parse(y.FechaCarga) : (DateTime?)null))
+                    .ForMember(x => x.Indicador, x => x.MapFrom(y => y.IndicadorViewModel));
                 });
         }
     }

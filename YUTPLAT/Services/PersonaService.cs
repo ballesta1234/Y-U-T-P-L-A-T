@@ -11,9 +11,9 @@ namespace YUTPLAT.Services.Interface
     {
         private IPersonaRepository PersonaRepository { get; set; }
 
-        public PersonaService(IPersonaRepository areaRepository)
+        public PersonaService(IPersonaRepository personaRepository)
         {
-            this.PersonaRepository = areaRepository;
+            this.PersonaRepository = personaRepository;
         }
 
         public PersonaViewModel GetById(string id)

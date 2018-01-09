@@ -9,9 +9,9 @@ namespace YUTPLAT.Controllers
     {
         public IPersonaService PersonaService { get; set; }
         
-        public PersonaController(IPersonaService areaService)
+        public PersonaController(IPersonaService personaService)
         {
-            this.PersonaService = areaService;            
+            this.PersonaService = personaService;            
         }
 
         public JsonResult BuscarPersonas(string nombreOApellidoONombreUsuario)

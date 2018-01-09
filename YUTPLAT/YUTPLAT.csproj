@@ -273,7 +273,9 @@
     <Compile Include="Models\Objetivo.cs" />
     <Compile Include="Models\Area.cs" />
     <Compile Include="Repositories\Interface\IMetaRepository.cs" />
+    <Compile Include="Repositories\Interface\IMedicionRepository.cs" />
     <Compile Include="Repositories\MetaRepository.cs" />
+    <Compile Include="Repositories\MedicionRepository.cs" />
     <Compile Include="Repositories\ResponsableIndicadorRepository.cs" />
     <Compile Include="Repositories\InteresadoIndicadorRepository.cs" />
     <Compile Include="Repositories\Interface\IInteresadoIndicadorRepository.cs" />
@@ -290,7 +292,9 @@
     <Compile Include="Repositories\Interface\IAreaRepository.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Context\YutplatDbContext.cs" />
+    <Compile Include="Services\Interface\IMedicionService.cs" />
     <Compile Include="Services\Interface\IPersonaService.cs" />
+    <Compile Include="Services\MedicionService.cs" />
     <Compile Include="Services\PersonaService.cs" />
     <Compile Include="Services\FrecuenciaMedicionIndicadorService.cs" />
     <Compile Include="Services\IndicadorService.cs" />
@@ -302,6 +306,7 @@
     <Compile Include="Services\Interface\IAreaService.cs" />
     <Compile Include="Validadores\ValidarMeta.cs" />
     <Compile Include="Validadores\ValidarLista.cs" />
+    <Compile Include="ViewModel\MedicionViewModel.cs" />
     <Compile Include="ViewModel\TableroViewModel.cs" />
     <Compile Include="ViewModel\ErrorViewModel.cs" />
     <Compile Include="ViewModel\MetaViewModel.cs" />
@@ -437,6 +442,8 @@
     <Content Include="Scripts\bootstrap-checkbox-radio-switch.js" />
     <Content Include="Scripts\Graficos\d3.tip.v0.6.3.js" />
     <Content Include="Scripts\Graficos\d3.v3.js" />
+    <Content Include="Scripts\Graficos\heatMap.js" />
+    <Content Include="Scripts\Graficos\gauge.js" />
     <Content Include="Scripts\i18n\es.js" />
     <Content Include="Scripts\locales\bootstrap-datetimepicker.es.js" />
     <Content Include="Scripts\bootstrap-datetimepicker.js" />
@@ -485,10 +492,7 @@
     <Content Include="Views\Area\Crear.cshtml" />
     <Content Include="Views\Area\Editar.cshtml" />
     <Content Include="Views\Area\Ver.cshtml" />
-    <Content Include="Views\Tablero\Verr.cshtml" />
     <Content Include="images\stocks.csv" />
-    <Content Include="Views\Tablero\Gauge.cshtml" />
-    <Content Include="Views\Tablero\Tablero.cshtml" />
     <Content Include="Views\Tablero\Ver.cshtml" />
     <None Include="Views\Demo\Icons.cshtml" />
     <Content Include="Views\Objetivo\Buscar.cshtml" />

@@ -12,7 +12,7 @@ namespace YUTPLAT.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int MedicionId { get; set; }
 
-        public Indicador Indicador { get; set; }
+        public virtual Indicador Indicador { get; set; }
         public int IndicadorID { get; set; }
 
         public Mes Mes { get; set; }
