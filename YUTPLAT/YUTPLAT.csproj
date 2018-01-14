@@ -311,6 +311,7 @@
     <Compile Include="ViewModel\GaugeViewModel.cs" />
     <Compile Include="ViewModel\FilaHeatMapViewModel.cs" />
     <Compile Include="ViewModel\HeatMapViewModel.cs" />
+    <Compile Include="ViewModel\EscalaGraficosViewModel.cs" />
     <Compile Include="ViewModel\MedicionViewModel.cs" />
     <Compile Include="ViewModel\TableroViewModel.cs" />
     <Compile Include="ViewModel\ErrorViewModel.cs" />

@@ -63,9 +63,11 @@ namespace YUTPLAT.Services.Interface
             return gaugeViewModel;
         }
 
-        private void CompletarEscalasGauge(GaugeViewModel gauge, MedicionViewModel medicion)
+        private EscalaGraficosViewModel ObtenerEscalasGrafico(MedicionViewModel medicion)
         {
-            decimal valorExcelente = 
+            EscalaGraficosViewModel escalas = new EscalaGraficosViewModel();
+
+            decimal valorExcelente =
                 ObtenerValorEscala(medicion.IndicadorViewModel.MetaExcelenteViewModel, medicion.IndicadorViewModel.MetaSatisfactoriaViewModel);
 
             decimal valorSatisfactorio =
@@ -79,14 +81,23 @@ namespace YUTPLAT.Services.Interface
 
             if (valorExcelente > valorSatisfactorio)
             {
-                gauge.Escala = new decimal[6]{ 0, valorAMejorar, valorAceptable, valorSatisfactorio, valorExcelente, 1 };
-                gauge.Colores = ColorMetaInaceptableExcelente;
+                escalas.EscalaValores = new decimal[6] { 0, valorAMejorar, valorAceptable, valorSatisfactorio, valorExcelente, 1 };
+                escalas.EscalaColores = ColorMetaInaceptableExcelente;
             }
             else
             {
-                gauge.Escala = new decimal[6] { 0, valorExcelente, valorSatisfactorio, valorAceptable, valorAMejorar, 1 };
-                gauge.Colores = ColorMetaExcelenteInaceptable;
+                escalas.EscalaValores = new decimal[6] { 0, valorExcelente, valorSatisfactorio, valorAceptable, valorAMejorar, 1 };
+                escalas.EscalaColores = ColorMetaExcelenteInaceptable;
             }
+
+            return escalas;
+        }
+
+        private void CompletarEscalasGauge(GaugeViewModel gauge, MedicionViewModel medicion)
+        {
+            EscalaGraficosViewModel escalas = ObtenerEscalasGrafico(medicion);
+            gauge.Escala = escalas.EscalaValores;
+            gauge.Colores = escalas.EscalaColores;       
         }
         
         private decimal ObtenerValorEscala(MetaViewModel meta1, MetaViewModel meta2)
@@ -118,6 +129,24 @@ namespace YUTPLAT.Services.Interface
             }
 
             return valor;
+        }
+
+        private string ObtenerColorCeldaHeatMap(MedicionViewModel medicion)
+        {
+            EscalaGraficosViewModel escalas = ObtenerEscalasGrafico(medicion);
+
+            decimal valor = 0;
+            int i = 0;
+
+            decimal valorMedicion = decimal.Parse(medicion.Valor.Replace(".", ","));
+
+            while(valorMedicion >= valor)
+            {
+                i++;
+                valor = escalas.EscalaValores[i];                
+            }
+
+            return escalas.EscalaColores[i-1];
         }
 
         public HeatMapViewModel ObtenerHeatMapViewModel()
@@ -154,7 +183,7 @@ namespace YUTPLAT.Services.Interface
 
                             celdaHeatMapViewModel.IdIndicador = medicionPorMes.IndicadorID;
                             celdaHeatMapViewModel.Medicion = medicionPorMes.Valor;
-                            celdaHeatMapViewModel.ColorMeta = "#DF0101";
+                            celdaHeatMapViewModel.ColorMeta = ObtenerColorCeldaHeatMap(medicionPorMes);
                             celdaHeatMapViewModel.MedicionCargada = true;
                         }
 
