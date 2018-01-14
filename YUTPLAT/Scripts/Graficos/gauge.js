@@ -69,8 +69,6 @@
 
     function render(newValue) {
 
-        d3.select(".gauge").remove();
-
         svg = d3.select(container)
             .append('svg:svg')
                 .attr('class', 'gauge')
@@ -140,17 +138,27 @@
     return that;
 };
 
-function onDocumentReadyGauge(valor) {
-    var powerGauge = gauge('#power-gauge', {
-        size: 300,
-        clipWidth: 300,
-        clipHeight: 200,
-        ringWidth: 60,
-        maxValue: 1,
-        transitionMs: 4000,
-        ticks: [0, 0.1, 0.3, 0.6, 0.75, 1],
-        colors: ['#DF0101', '#F79F81', '#F7FE2E', '#81F781', '#0B610B']
-    });
-    powerGauge.render();
-    powerGauge.update(valor);
+function onDocumentReadyGauge(datosGauge) {
+
+    d3.select(".gauge").remove();
+
+    if (!datosGauge.Valor) {
+        jQuery(".gaugeSubtitulo").text("No hay información disponible.");
+    }
+    else {
+        jQuery(".gaugeSubtitulo").text(datosGauge.NombreMes + ' - ' + datosGauge.NombreIndicador);
+
+        var powerGauge = gauge('#power-gauge', {
+            size: 300,
+            clipWidth: 300,
+            clipHeight: 200,
+            ringWidth: 60,
+            maxValue: 1,
+            transitionMs: 4000,
+            ticks: datosGauge.Escala,
+            colors: datosGauge.Colores
+        });
+        powerGauge.render();
+        powerGauge.update(datosGauge.Valor);
+    }
 }

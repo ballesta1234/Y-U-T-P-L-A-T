@@ -43,7 +43,7 @@ namespace YUTPLAT.Services.Interface
         {
             return AutoMapper.Mapper.Map<IList<IndicadorViewModel>>(IndicadorRepository.Todas().ToList());            
         }
-
+        
         public IList<IndicadorViewModel> Buscar(BuscarIndicadorViewModel filtro)
         {
             return AutoMapper.Mapper.Map<IList<IndicadorViewModel>>(IndicadorRepository.Buscar(filtro.Busqueda).ToList());           

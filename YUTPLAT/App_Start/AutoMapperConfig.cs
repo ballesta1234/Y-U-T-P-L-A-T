@@ -46,6 +46,10 @@ namespace YUTPLAT.App_Start
                     .ForMember(x => x.Responsables, x => x.Ignore())
                     .ForMember(x => x.Interesados, x => x.Ignore());
 
+                    cfg.CreateMap<Indicador, FilaHeatMapViewModel>()
+                    .ForMember(x => x.IdIndicador, x => x.MapFrom(y => y.IndicadorID))
+                    .ForMember(x => x.NombreIndicador, x => x.MapFrom(y => y.Nombre));
+
                     cfg.CreateMap<IndicadorViewModel, Indicador>()
                     .ForMember(x => x.IndicadorID, x => x.MapFrom(y => y.Id))
                     .ForMember(x => x.FechaCreacion, x => x.MapFrom(y => !string.IsNullOrEmpty(y.FechaCreacion) ? DateTime.Parse(y.FechaCreacion) : (DateTime?)null))
@@ -72,10 +76,10 @@ namespace YUTPLAT.App_Start
                     .ForMember(x => x.FechaCarga, x => x.MapFrom(y => y.FechaCarga != null ? y.FechaCarga.Value.ToString("dd/MM/yyyy HH:mm tt") : ""))
                     .ForMember(x => x.IndicadorViewModel, x => x.MapFrom(y => y.Indicador));
 
-                    cfg.CreateMap<MedicionViewModel, Medicion>()
-                    .ForMember(x => x.Valor, x => x.MapFrom(y => Decimal.Parse(y.Valor.Replace(".", ","))))
+                    cfg.CreateMap<MedicionViewModel, Medicion>()                    
                     .ForMember(x => x.FechaCarga, x => x.MapFrom(y => !string.IsNullOrEmpty(y.FechaCarga) ? DateTime.Parse(y.FechaCarga) : (DateTime?)null))
-                    .ForMember(x => x.Indicador, x => x.MapFrom(y => y.IndicadorViewModel));
+                    .ForMember(x => x.Indicador, x => x.MapFrom(y => y.IndicadorViewModel))
+                    .ForMember(x => x.Valor, x => x.MapFrom(y => Decimal.Parse(y.Valor.Replace(".", ","))));
                 });
         }
     }

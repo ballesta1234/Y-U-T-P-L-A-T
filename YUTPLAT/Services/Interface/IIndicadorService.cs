@@ -12,6 +12,6 @@ namespace YUTPLAT.Services.Interface
 
         IList<IndicadorViewModel> Buscar(BuscarIndicadorViewModel filtro);
 
-        int Guardar(IndicadorViewModel indicadorViewModel);
+        int Guardar(IndicadorViewModel indicadorViewModel);        
     }
 }

@@ -86,8 +86,8 @@
         alert(aTag.offset().top);
     }
 
-    function obtenerValores() {
-        var serviceURL = '@Url.Action("ObtenerValores", "Tablero")';
+    function obtenerHeatMapViewModel() {
+        var serviceURL = '@Url.Action("ObtenerHeatMapViewModel", "Tablero")';
         var valores;
 
         jQuery.ajax({
@@ -104,9 +104,31 @@
                 alert('error');
             }
         });
-
         return valores;
     };
+
+    function obtenerGaugeViewModel(idIndicador) {
+                
+        var serviceURL = '@Url.Action("ObtenerGaugeViewModel", "Tablero")';
+        var valores;
+
+        jQuery.ajax({
+            type: "POST",
+            url: serviceURL,
+            async: false,
+            data: JSON.stringify({ idIndicador: idIndicador}),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function successFunc(data, status) {
+                valores = data;
+            },
+            error: function errorFunc() {
+                alert('error');
+            }
+        });
+        return valores;
+    };
+
 </script>
 
 <div class="content">
@@ -118,7 +140,7 @@
 
                     <div class="header">
                         <h4 class="title">Tablero de comando</h4>
-                        <p class="category">Año 2017</p>
+                        <p class="category">Año @DateTime.Now.Year</p>
                     </div>
                     <div class="content">
                         <div id="chart"></div>
@@ -146,8 +168,8 @@
                         <div class="row detalleGrafico">
                             <div class="col-md-6">
                                 <div class="header">
-                                    <h4 class="title">Detalle última carga</h4>
-                                    <p class="category">Detalle última carga</p>
+                                    <h4 class="title">Detalle de la última carga</h4>
+                                    <p class="category gaugeSubtitulo">Detalle última carga</p>
                                 </div>
 
                                 <div id="power-gauge"></div>

@@ -10,6 +10,10 @@ namespace YUTPLAT.Services.Interface
 
         IList<MedicionViewModel> Todas();
 
-        IList<MedicionViewModel> Buscar(MedicionViewModel filtro);        
+        IList<MedicionViewModel> Buscar(MedicionViewModel filtro);
+        
+        HeatMapViewModel ObtenerHeatMapViewModel();
+
+        GaugeViewModel ObtenerGaugeViewModel(int idIndicador);
     }
 }

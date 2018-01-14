@@ -5,71 +5,27 @@
     jQuery.noConflict();
 
     // top left, ubicacion
-    var margin = { top: 40, right: 0, bottom: 0, left: 30 },
+    var margin = { top: 40, right: 0, bottom: 0, left: 30 };
 
-        dim_1 = [
-            { "mati": "CPI Servicios", "value": 10 },
-            { "mati": "CPI Proyectos llave en mano", "value": 10 },
-            { "mati": "% Retrabajo por detección externa", "value": 10 },
-            { "mati": "Grado de satisfacción de los alumnos en cuanto al curso en general", "value": 10 },
-            { "mati": "Personal que renuncia por año (acumulado)", "value": 10 },
-            { "mati": "Solicitudes de acción aplicadas sobre solicitud de acción requeridas", "value": 10 }
-        ],
-        dim_2 = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
+    var heatMap = obtenerHeatMapViewModel();
 
-        gridSize = 40,
-
-        width = (gridSize + 30) * dim_2.length + gridSize + 700,
-        height = gridSize * dim_1.length + gridSize;
+    var gridSize = 40;
+    var width = (gridSize + 30) * heatMap.Meses.length + gridSize + 700;
+    var height = gridSize * heatMap.FilasHeatMapViewModel.length + gridSize;
 
     var svg = d3.select("#chart").append("svg")
-        .attr("width", (gridSize + 30) * dim_2.length + gridSize + 100)
+        .attr("width", (gridSize + 30) * heatMap.Meses.length + gridSize + 100)
         .attr("height", height)
         .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-    var data = obtenerValores();
-
-    /*
-    var data = [
-        { "dim1": 1, "dim2": 1, "value": Math.random() },
-        { "dim1": 1, "dim2": 2, "value": Math.random() },
-        { "dim1": 1, "dim2": 3, "value": Math.random() },
-        { "dim1": 1, "dim2": 4, "value": Math.random() },
-        { "dim1": 1, "dim2": 5, "value": Math.random() },
-        { "dim1": 1, "dim2": 6, "value": Math.random() },
-        { "dim1": 1, "dim2": 7, "value": Math.random() },
-        { "dim1": 1, "dim2": 8, "value": Math.random() },
-        { "dim1": 1, "dim2": 9, "value": Math.random() },
-        { "dim1": 1, "dim2": 10, "value": Math.random() },
-        { "dim1": 1, "dim2": 11, "value": Math.random() },
-        { "dim1": 1, "dim2": 12, "value": Math.random() },
-        { "dim1": 2, "dim2": 1, "value": Math.random() },
-        { "dim1": 2, "dim2": 2, "value": Math.random() },
-        { "dim1": 2, "dim2": 3, "value": Math.random() },
-        { "dim1": 2, "dim2": 4, "value": Math.random() },
-        { "dim1": 2, "dim2": 5, "value": Math.random() },
-        { "dim1": 2, "dim2": 6, "value": Math.random() },
-        { "dim1": 2, "dim2": 7, "value": Math.random() },
-        { "dim1": 2, "dim2": 8, "value": Math.random() },
-        { "dim1": 5, "dim2": 1, "value": Math.random() }
-    ];
-    */
-
-    //var colors = ['red','#ffffbf','#91cf60', 'green', 'blue']
-    var colors = ['#DF0101', '#F79F81', '#F7FE2E', '#81F781', '#0B610B']
-
-    var colorScale = d3.scale.quantile()
-        .domain([0, 1])
-        .range(colors);
-
-    var tip = d3.tip()
-                .attr('class', 'd3-tip')
-                .style("visibility", "visible")
-                .offset([0, 0])
-                .html(function (d) {
-                    return "Valor:  <span style='color:blue'>" + d.value;
-                });
+    var tip = d3.tip()        
+        .attr('class', 'd3-tip')   
+        .style("visibility", "visible")
+        .offset([0, 0])
+        .html(function (d) {
+            return "Valor:  <span style='color:blue'>" + d.Medicion;
+        });
 
     tip(svg.append("g"));
 
@@ -77,15 +33,14 @@
 
     // Etiquetas tipo meses
     var dim1Labels = svg.selectAll(".dim1Label")
-      .data(dim_1)
+      .data(heatMap.FilasHeatMapViewModel)
       .enter()
-        .append("a").attr("xlink:href", function (d) { return "#" }).attr("xlink:title", function (d) { return d.mati; })
+        .append("a").attr("xlink:href", function (d) { return "#" }).attr("xlink:title", function (d) { return d.NombreIndicador; })
         .append("text")
         .text(function (d) {
-            if (d.mati.length >= 14)
-                return d.mati.substring(0, 11) + '...';
-
-            return d.mati;
+            if (d.NombreIndicador.length >= 14)
+                return d.NombreIndicador.substring(0, 11) + '...';
+            return d.NombreIndicador;
         })
         .attr("x", +70)
         .attr("y", function (d, i) { return i * gridSize; })
@@ -94,37 +49,35 @@
         .attr("class", "mono1")
         .on('click',
             function (d) {
-                      
+                var gauge = obtenerGaugeViewModel(d.IdIndicador);
+
                 if (d3.select(this).classed("mono1")) {
                     jQuery('.detalleGrafico').show();
-
-//                    scrollToAnchor('gaugeAncla');
-
+                    //scrollToAnchor('gaugeAncla');
                 }
                 else {
                     jQuery('.detalleGrafico').toggle();
                 }
-                
+
                 if (jQuery('.detalleGrafico').is(":visible")) {
-                    onDocumentReadyGauge(Math.random());
+                    onDocumentReadyGauge(gauge);
                 }
-               
+
                 if (indicadorElegido !== undefined) {
                     indicadorElegido.classed("mono1", true);
                     indicadorElegido.classed("text-mono1-hover", false);
                 }
 
                 indicadorElegido = d3.select(this);
-                
+
                 d3.select(this).attr("class", "mono1 text-mono1-hover")
                 d3.select(this).classed("mono1", false);
                 d3.select(this).classed("text-mono1-hover", true);
-               
             });
 
     // Etiquetas tipo nombre indicadores
     var dim2Labels = svg.selectAll(".dim2Label")
-        .data(dim_2)
+        .data(heatMap.Meses)
         .enter().append("text")
             .text(function (d) { return d; })
             .attr("x", function (d, i) { return (i + 1) * +71; })
@@ -133,27 +86,30 @@
             .attr("transform", "translate(" + gridSize / 2 + ", -6)")
             .attr("class", "mono");
 
-    var heatMap = svg.selectAll(".dim2")
-        .data(data)
+    var heatMapGrafico = svg.selectAll(".dim2")
+        .data(heatMap.Celdas)
         .enter().append("rect")
-            .attr("x", function (d) { return ((d.dim2 - 1) * (gridSize + 30)) + 70; })
-            .attr("y", function (d) { return (d.dim1 - 1) * gridSize; })
+            .attr("x", function (d) { return ((d.Mes - 1) * (gridSize + 30)) + 70; })
+            .attr("y", function (d) { return (d.IndiceIndicador - 1) * gridSize; })
             .attr("rx", 3) // redondeado de la celda
             .attr("ry", 3) // redondeado de la celda
             .attr("width", (gridSize + 30) - 2)
             .attr("height", gridSize - 2)
             .style("fill", "gray")
             .attr("class", "square")
-            .on('mouseover', tip.show)
+            .on('mouseover', function (d, i) {
+                if (d.MedicionCargada)
+                    tip.show(d, i);
+            })
             .on('mouseout', tip.hide)
             .on('click', function (d) {
-                jQuery(".modal-body #hola").text('Valor: ' + d.value);
+                jQuery(".modal-body #hola").text('Valor: ' + d.Medicion);
                 jQuery('#exampleModal').modal('show');
             });
 
-    heatMap.transition().style("fill", function (d) { return colorScale(d.value); });
+    heatMapGrafico.transition().style("fill", function (d) { return d.ColorMeta; });
 
-    heatMap.append("title").text(function (d) { return d.value; });
+    heatMapGrafico.append("title").text(function (d) { return d.Medicion; });
 });
 
 function abrirGrafico(indicador) {

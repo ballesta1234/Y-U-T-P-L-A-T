@@ -35,5 +35,14 @@ namespace YUTPLAT.Enums
             Noviembre = 11,
             Diciembre = 12,
         }
+
+        public enum ColorMeta
+        {
+            MetaExcelente = 0,
+            MetaSatisfactoria = 1,
+            MetaAceptable = 2,
+            MetaAMejorar = 3,
+            MetaInaceptable = 4
+        }
     }
 }

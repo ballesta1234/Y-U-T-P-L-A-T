@@ -28,12 +28,13 @@ namespace YUTPLAT.Repositories
         public IQueryable<Medicion> Buscar(MedicionViewModel filtro)
         {
             IQueryable<Medicion> queryable = this.context.Mediciones;
+                        
+            if (filtro.IndicadorID > 0)
+            {
+                queryable = queryable.Where(a => a.Indicador.IndicadorID == filtro.IndicadorID);
+            }
 
             /*
-            if (filtro.Nombre != null && !string.IsNullOrEmpty(filtro.Nombre.Trim()))
-            {
-                queryable = queryable.Where(a => a.Nombre.Contains(filtro.Nombre.Trim()));
-            }
             if (filtro.Apellido != null && !string.IsNullOrEmpty(filtro.Apellido.Trim()))
             {
                 queryable = queryable.Where(a => a.Apellido.Contains(filtro.Apellido.Trim()));

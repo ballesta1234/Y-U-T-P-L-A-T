@@ -241,6 +241,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\DateTimeHelper.cs" />
     <Compile Include="Helpers\EnumHelper.cs" />
     <Compile Include="Helpers\Filters\EncryptedActionParameterAttribute.cs" />
     <Compile Include="Helpers\MyExtensions.cs" />
@@ -306,6 +307,10 @@
     <Compile Include="Services\Interface\IAreaService.cs" />
     <Compile Include="Validadores\ValidarMeta.cs" />
     <Compile Include="Validadores\ValidarLista.cs" />
+    <Compile Include="ViewModel\CeldaHeatMapViewModel.cs" />
+    <Compile Include="ViewModel\GaugeViewModel.cs" />
+    <Compile Include="ViewModel\FilaHeatMapViewModel.cs" />
+    <Compile Include="ViewModel\HeatMapViewModel.cs" />
     <Compile Include="ViewModel\MedicionViewModel.cs" />
     <Compile Include="ViewModel\TableroViewModel.cs" />
     <Compile Include="ViewModel\ErrorViewModel.cs" />

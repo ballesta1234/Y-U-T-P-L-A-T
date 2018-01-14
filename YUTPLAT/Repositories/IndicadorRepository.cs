@@ -40,7 +40,7 @@ namespace YUTPLAT.Repositories
         {
             return this.context.Indicadores;
         }
-
+        
         public IQueryable<Indicador> Buscar(IndicadorViewModel filtro)
         {
             IQueryable<Indicador> queryable = this.context.Indicadores;
