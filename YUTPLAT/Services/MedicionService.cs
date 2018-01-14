@@ -81,12 +81,25 @@ namespace YUTPLAT.Services.Interface
 
             if (valorExcelente > valorSatisfactorio)
             {
-                escalas.EscalaValores = new decimal[6] { 0, valorAMejorar, valorAceptable, valorSatisfactorio, valorExcelente, 1 };
+                decimal maximoEscala = (!string.IsNullOrEmpty(medicion.IndicadorViewModel.MetaExcelenteViewModel.Valor1) && decimal.Parse(medicion.IndicadorViewModel.MetaExcelenteViewModel.Valor1.Replace(".", ",")) > valorExcelente ? decimal.Parse(medicion.IndicadorViewModel.MetaExcelenteViewModel.Valor1.Replace(".", ",")) : decimal.Parse(medicion.IndicadorViewModel.MetaExcelenteViewModel.Valor2.Replace(".", ",")));
+                decimal minimoEscala = (!string.IsNullOrEmpty(medicion.IndicadorViewModel.MetaInaceptableViewModel.Valor1) && decimal.Parse(medicion.IndicadorViewModel.MetaInaceptableViewModel.Valor1.Replace(".", ",")) < valorAMejorar ? decimal.Parse(medicion.IndicadorViewModel.MetaInaceptableViewModel.Valor1.Replace(".", ",")) : decimal.Parse(medicion.IndicadorViewModel.MetaInaceptableViewModel.Valor2.Replace(".", ",")));
+
+                if (minimoEscala > 0)
+                    minimoEscala = 0;
+
+                escalas.EscalaValores = new decimal[6] { minimoEscala, valorAMejorar, valorAceptable, valorSatisfactorio, valorExcelente, maximoEscala };
                 escalas.EscalaColores = ColorMetaInaceptableExcelente;
             }
             else
             {
-                escalas.EscalaValores = new decimal[6] { 0, valorExcelente, valorSatisfactorio, valorAceptable, valorAMejorar, 1 };
+                decimal maximoEscala = (!string.IsNullOrEmpty(medicion.IndicadorViewModel.MetaInaceptableViewModel.Valor1) && decimal.Parse(medicion.IndicadorViewModel.MetaInaceptableViewModel.Valor1.Replace(".", ",")) > valorAMejorar ? decimal.Parse(medicion.IndicadorViewModel.MetaInaceptableViewModel.Valor1.Replace(".", ",")) : decimal.Parse(medicion.IndicadorViewModel.MetaInaceptableViewModel.Valor2.Replace(".", ",")));
+                decimal minimoEscala = (!string.IsNullOrEmpty(medicion.IndicadorViewModel.MetaExcelenteViewModel.Valor1) && decimal.Parse(medicion.IndicadorViewModel.MetaExcelenteViewModel.Valor1.Replace(".", ",")) < valorExcelente ? decimal.Parse(medicion.IndicadorViewModel.MetaExcelenteViewModel.Valor1.Replace(".", ",")) : decimal.Parse(medicion.IndicadorViewModel.MetaExcelenteViewModel.Valor2.Replace(".", ",")));
+
+
+                if (minimoEscala > 0)
+                    minimoEscala = 0;
+
+                escalas.EscalaValores = new decimal[6] { minimoEscala, valorExcelente, valorSatisfactorio, valorAceptable, valorAMejorar, maximoEscala };
                 escalas.EscalaColores = ColorMetaExcelenteInaceptable;
             }
 
@@ -183,7 +196,7 @@ namespace YUTPLAT.Services.Interface
 
                             celdaHeatMapViewModel.IdIndicador = medicionPorMes.IndicadorID;
                             celdaHeatMapViewModel.Medicion = medicionPorMes.Valor;
-                            celdaHeatMapViewModel.ColorMeta = ObtenerColorCeldaHeatMap(medicionPorMes);
+                            celdaHeatMapViewModel.ColorMeta = "black";//ObtenerColorCeldaHeatMap(medicionPorMes);
                             celdaHeatMapViewModel.MedicionCargada = true;
                         }
 
