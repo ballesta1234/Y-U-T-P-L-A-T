@@ -196,7 +196,7 @@ namespace YUTPLAT.Services.Interface
 
                             celdaHeatMapViewModel.IdIndicador = medicionPorMes.IndicadorID;
                             celdaHeatMapViewModel.Medicion = medicionPorMes.Valor;
-                            celdaHeatMapViewModel.ColorMeta = "black";//ObtenerColorCeldaHeatMap(medicionPorMes);
+                            celdaHeatMapViewModel.ColorMeta = ObtenerColorCeldaHeatMap(medicionPorMes);
                             celdaHeatMapViewModel.MedicionCargada = true;
                         }
 
