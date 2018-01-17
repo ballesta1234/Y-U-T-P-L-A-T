@@ -61,6 +61,7 @@
 
                 if (jQuery('.detalleGrafico').is(":visible")) {
                     onDocumentReadyGauge(gauge);
+                    showLine();
                 }
 
                 if (indicadorElegido !== undefined) {

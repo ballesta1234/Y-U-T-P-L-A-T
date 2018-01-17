@@ -6,8 +6,11 @@
 
 <script src="~/Scripts/Graficos/heatMap.js"></script>
 <script src="~/Scripts/Graficos/gauge.js"></script>
+<script src="~/Scripts/Graficos/line.js"></script>
 
 <style>
+
+    /*HEATMAP*/
     .square:hover {
         stroke: DarkBlue;
         stroke-width: 3px;
@@ -19,11 +22,11 @@
         fill: #aaa;
     }
 
-        text.mono:hover {
-            font-size: 9pt;
-            font-family: verdana;
-            fill: #aaa;
-        }
+    text.mono:hover {
+        font-size: 9pt;
+        font-family: verdana;
+        fill: #aaa;
+    }
 
     text.mono1 {
         font-size: 9pt;
@@ -31,11 +34,11 @@
         fill: #aaa;
     }
 
-        text.mono1:hover {
-            font-size: 9pt;
-            font-family: verdana;
-            fill: black;
-        }
+    text.mono1:hover {
+        font-size: 9pt;
+        font-family: verdana;
+        fill: black;
+    }
 
     .text-mono1-hover {
         font-size: 9pt;
@@ -47,9 +50,9 @@
         opacity: 1.0;
     }
 
-        .square:hover {
-            opacity: 1.0;
-        }
+    .square:hover {
+        opacity: 1.0;
+    }
 
     .d3-tip {
         font-family: Verdana;
@@ -59,6 +62,7 @@
         z-index: 5070;
     }
 
+    /* GAUGE */
     #power-gauge g.arc {
         fill: steelblue;
     }
@@ -73,6 +77,44 @@
         font-size: 14px;
         font-weight: bold;
         fill: #666;
+    }
+
+    /* LINE */
+    .axis path,
+    .axis line {
+        fill: none;
+        stroke: #000;
+        shape-rendering: crispEdges;
+    }
+
+    .line {
+        fill: none;
+        stroke: #3498db;
+        stroke-width: 2px;
+    }
+
+    .area {
+        opacity: .25;
+        fill: #3498db;
+    }
+
+    .circle {
+        stroke: #3498db;
+        fill: #fff;
+        stroke-width: 2px;
+    }
+
+    .circle.active {
+        stroke-width: 3px;
+    }
+
+    .bubble rect {
+        stroke: #3498db;
+        fill: #fff;
+    }
+
+    .bubble text {
+        font-size: 12px;
     }
 </style>
 
@@ -108,7 +150,7 @@
     };
 
     function obtenerGaugeViewModel(idIndicador) {
-                
+
         var serviceURL = '@Url.Action("ObtenerGaugeViewModel", "Tablero")';
         var valores;
 
@@ -116,7 +158,7 @@
             type: "POST",
             url: serviceURL,
             async: false,
-            data: JSON.stringify({ idIndicador: idIndicador}),
+            data: JSON.stringify({ idIndicador: idIndicador }),
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function successFunc(data, status) {
@@ -181,12 +223,11 @@
                                     <h4 class="title">Evolución últimos meses</h4>
                                     <p class="category">Detalle año 2017</p>
                                 </div>
-
-                                <div id="power-gauge"></div>
+                                <div class="chart-container"></div>                                
                             </div>
                         </div>
 
-                       
+
                     </div>
                 </div>
             </div>

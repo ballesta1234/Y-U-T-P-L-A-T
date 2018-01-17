@@ -448,6 +448,7 @@
     <Content Include="Scripts\bootstrap-checkbox-radio-switch.js" />
     <Content Include="Scripts\Graficos\d3.tip.v0.6.3.js" />
     <Content Include="Scripts\Graficos\d3.v3.js" />
+    <Content Include="Scripts\Graficos\line.js" />
     <Content Include="Scripts\Graficos\heatMap.js" />
     <Content Include="Scripts\Graficos\gauge.js" />
     <Content Include="Scripts\i18n\es.js" />
