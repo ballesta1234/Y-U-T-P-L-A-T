@@ -50,8 +50,6 @@
         .on('click',
             function (d) {
                 
-                var gauge = obtenerGaugeViewModel(d.Grupo);
-
                 if (d3.select(this).classed("mono1")) {
                     jQuery('.detalleGrafico').show();
                     //scrollToAnchor('gaugeAncla');
@@ -61,8 +59,11 @@
                 }
 
                 if (jQuery('.detalleGrafico').is(":visible")) {
+                    var gauge = obtenerGaugeViewModel(d.Grupo);
                     onDocumentReadyGauge(gauge);
-                    showLine();
+
+                    var line = obtenerLineViewModel(d.Grupo);
+                    showLine(line);
                 }
 
                 if (indicadorElegido !== undefined) {

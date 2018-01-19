@@ -1,13 +1,19 @@
-﻿$(function () {
+﻿$(function () {    
+});
+
+function showLine(dataLine) {
+    
+    alert("in line");
+
     initLine();
-    
-    matias();
-    
+
+    cargarGraficoLinea(dataLine);
+
     marginContainer.append('g')
       .attr('class', 'x axis')
       .attr('transform', 'translate(0,' + height + ')')
       .call(xAxis);
-      
+
     marginContainer.append('g')
       .attr('class', 'y axis')
       .call(yAxis)
@@ -17,8 +23,6 @@
       .style('text-anchor', 'end')
       .text('Valor');
 
-    var data = eval('datos');
-
     marginContainer.append('path')
       .datum(startData)
       .attr('class', 'line')
@@ -27,14 +31,14 @@
       .duration(500)
       .ease('quad')
       .attrTween('d', function () {
-          var interpolator = d3.interpolateArray(startData, data);
+          var interpolator = d3.interpolateArray(startData, dataLine);
 
           return function (t) {
               return line(interpolator(t));
           }
       })
       .each('end', function () {
-          drawCircles(data, marginContainer);
+          drawCircles(dataLine, marginContainer);
       });
 
     marginContainer.append('path')
@@ -45,24 +49,19 @@
       .duration(500)
       .ease('quad')
       .attrTween('d', function () {
-          var interpolator = d3.interpolateArray(startData, data);
+          var interpolator = d3.interpolateArray(startData, dataLine);
 
           return function (t) {
               return area(interpolator(t));
           }
       });
 
-
-
     d3.select(window).on('resize', function () {
-        resize();
+        resize(dataLine);
     });
-});
 
 
-
-function showLine() {
-    updateData();    
+    updateData(line);
 }
 
 var chartContainer;
@@ -99,13 +98,13 @@ function drawCircle(datum, index) {
       .attr(
         'cx',
         function (d) {
-            return x(d.mes) + x.rangeBand() / 2;
+            return x(d.Mes) + x.rangeBand() / 2;
         }
       )
       .attr(
         'cy',
         function (d) {
-            return y(d.value);
+            return y(d.Valor);
         }
       )
       .on('mouseenter', function (d) {
@@ -169,7 +168,7 @@ function showCircleDetail(datos) {
         function () {
             var result = 'translate(';
 
-            var xVal = x(datos.mes) - detailWidth / 2;
+            var xVal = x(datos.Mes) - detailWidth / 2;
             if (xVal + detailWidth > width) {
                 xVal = width - detailWidth;
             }
@@ -179,7 +178,7 @@ function showCircleDetail(datos) {
 
             result += xVal;
             result += ', ';
-            result += y(datos.value) - detailHeight - detailMargin;
+            result += y(datos.Valor) - detailHeight - detailMargin;
             result += ')';
 
             return result;
@@ -200,25 +199,25 @@ function showCircleDetail(datos) {
       .attr('x', detailWidth / 2)
       .attr('y', detailHeight / 3)
       .attr('text-anchor', 'middle')
-      .text('Valor: ' + datos.value);
+      .text('Valor: ' + datos.Valor);
 
     text.append('tspan')
       .attr('class', 'date')
       .attr('x', detailWidth / 2)
       .attr('y', detailHeight / 4 * 3)
       .attr('text-anchor', 'middle')
-      .text('Mes: ' + datos.mes);
+      .text('Mes: ' + datos.Mes);
 }
 
-function updateData() {
-    matias();
+function updateData(dataLine) {
 
-    
+    cargarGraficoLinea(dataLine);
+
     marginContainer.select('.x.axis')
       .transition()
       .attr('transform', 'translate(0,' + height + ')')
       .call(xAxis);
-      
+
 
     marginContainer.select('.y.axis')
       .transition()
@@ -231,14 +230,14 @@ function updateData() {
       .duration(500)
       .ease('quad')
       .attrTween('d', function () {
-          var interpolator = d3.interpolateArray(startData, data);
+          var interpolator = d3.interpolateArray(startData, dataLine);
 
           return function (t) {
               return line(interpolator(t));
           }
       })
       .each('end', function () {
-          drawCircles(data, marginContainer);
+          drawCircles(dataLine, marginContainer);
       });
 
     marginContainer.select('.area')
@@ -246,7 +245,7 @@ function updateData() {
       .duration(500)
       .ease('quad')
       .attrTween('d', function () {
-          var interpolator = d3.interpolateArray(startData, data);
+          var interpolator = d3.interpolateArray(startData, dataLine);
 
           return function (t) {
               return area(interpolator(t));
@@ -268,40 +267,11 @@ function getDimensions() {
     height = .75 * width;
 }
 
-function resize() {
-    updateData();
+function resize(dataLine) {
+    updateData(dataLine);
 }
 
-
-
-
-
-var datos = [
-    {       
-        mes: 'Enero',
-        value: 0.02
-    },  
-  {      
-      mes: 'Marzo',
-      value: 0.04
-  },
-  {      
-      mes: 'Abril',
-      value: 0.10
-  },
-  {     
-      mes: 'Mayo',
-      value: 0.50
-  }
-];
-
-
-
-
-
-function matias() {
-
-    data = eval('datos');
+function cargarGraficoLinea(dataLine) {
 
     getDimensions();
 
@@ -311,30 +281,49 @@ function matias() {
     marginContainer
       .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-    x = d3.scale.ordinal().rangeRoundBands([0, width]);    
-    x.domain(data.map(function (d) { return d.mes; }));
-    
-    xAxis = d3.svg.axis().scale(x).orient("bottom");
-       
-    y = d3.scale.linear().range([height, 0]);
-    y.domain([0, d3.max(data, function (d) { return d.value; }) * 1.25]);
-        
-    area = d3.svg.area()
-      .x(function (d) { return x(d.mes) + x.rangeBand() / 2; })
-      .y0(height)
-      .y1(function (d) { return y(d.value); });
-      
-    line = d3.svg.area()
-      .x(function (d) { return x(d.mes) + x.rangeBand() / 2; })
-      .y(function (d) { return y(d.value); });
+    x = d3.scale.ordinal().rangeRoundBands([0, width]);
+    x.domain(dataLine.map(function (d) { return d.Mes; }));
 
-    startData = data.map(function (datum) {
-        return {           
-            value: 0
+    xAxis = d3.svg.axis().scale(x).orient("bottom");
+
+    y = d3.scale.linear().range([height, 0]);
+    y.domain([0, d3.max(dataLine, function (d) { return d.Valor; }) * 1.25]);
+
+    area = d3.svg.area()
+      .x(function (d) { return x(d.Mes) + x.rangeBand() / 2; })
+      .y0(height)
+      .y1(function (d) { return y(d.Valor); });
+
+    line = d3.svg.area()
+      .x(function (d) { return x(d.Mes) + x.rangeBand() / 2; })
+      .y(function (d) { return y(d.Valor); });
+
+    startData = dataLine.map(function (datum) {
+        return {
+            Valor: 0
         };
     });
-    
+
     yAxis = d3.svg.axis()
       .scale(y)
       .orient('left');
 }
+
+var datos = [
+    {
+        Mes: 'Enero',
+        Valor: 0.02
+    },
+    {
+        Mes: 'Marzo',
+        Valor: 0.04
+    },
+    {
+        Mes: 'Abril',
+        Valor: 0.10
+    },
+    {
+        Mes: 'Mayo',
+        Valor: 0.50
+    }
+];

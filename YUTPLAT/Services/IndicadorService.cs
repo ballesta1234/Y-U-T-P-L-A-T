@@ -51,9 +51,12 @@ namespace YUTPLAT.Services.Interface
         {
             Indicador indicadorOriginal = IndicadorRepository.GetById(indicadorViewModel.Id).First();
 
+            bool modificado = false;
+
             if(HayCambios(indicadorOriginal, indicadorViewModel) && MedicionRepository.Buscar(new MedicionViewModel { IndicadorID = indicadorViewModel.Id}).Any())
             {
                 indicadorViewModel.Id = 0;
+                modificado = true;
             }
 
             // Borrar los responsables previos
@@ -63,6 +66,11 @@ namespace YUTPLAT.Services.Interface
             InteresadoIndicadorRepository.EliminarPorIndicador(indicadorViewModel.Id);
 
             Indicador indicador = AutoMapper.Mapper.Map<Indicador>(indicadorViewModel);
+
+            if(modificado)
+            {
+                indicador.FechaCreacion.Value.AddMilliseconds(1);
+            }
 
             indicador.MetaAceptableMetaID = GuardarMeta(indicadorViewModel.MetaAceptableViewModel);
             indicador.MetaAMejorarMetaID = GuardarMeta(indicadorViewModel.MetaAMejorarViewModel);
@@ -115,11 +123,29 @@ namespace YUTPLAT.Services.Interface
 
         private bool InteresadosDiferentes(ICollection<InteresadoIndicador> interesadosOriginales, IList<PersonaViewModel> interesadosCargados)
         {
+            if (interesadosOriginales.Count != interesadosCargados.Count)
+                return true;
+
+            foreach(PersonaViewModel interesadoCargado in interesadosCargados)
+            {
+                if (!interesadosOriginales.Any( i => i.Persona.UserName.Trim().Equals(interesadoCargado.NombreUsuario)))
+                    return true;
+            }
+
             return false;
         }
 
         private bool ResponsablesDiferentes(ICollection<ResponsableIndicador> responsablesOriginales, IList<PersonaViewModel> responsablesCargados)
         {
+            if (responsablesOriginales.Count != responsablesCargados.Count)
+                return true;
+
+            foreach (PersonaViewModel responsableCargado in responsablesCargados)
+            {
+                if (!responsablesOriginales.Any(i => i.Persona.UserName.Trim().Equals(responsableCargado.NombreUsuario)))
+                    return true;
+            }
+
             return false;
         }
 

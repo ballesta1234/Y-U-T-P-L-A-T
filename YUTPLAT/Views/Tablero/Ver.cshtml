@@ -171,6 +171,28 @@
         return valores;
     };
 
+    function obtenerLineViewModel(grupo) {
+
+        var serviceURL = '@Url.Action("ObtenerLineViewModel", "Tablero")';
+        var valores;
+
+        jQuery.ajax({
+            type: "POST",
+            url: serviceURL,
+            async: false,
+            data: JSON.stringify({ grupo: grupo }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function successFunc(data, status) {
+                valores = data;
+            },
+            error: function errorFunc() {
+                alert('error');
+            }
+        });
+        return valores;
+    };
+
 </script>
 
 <div class="content">
