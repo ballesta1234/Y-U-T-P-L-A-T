@@ -8,6 +8,7 @@ namespace YUTPLAT.ViewModel
 
         public IndicadorViewModel IndicadorViewModel { get; set; }
         public int IndicadorID { get; set; }
+        public long Grupo { get; set; }
 
         public Mes Mes { get; set; }
         public string Valor { get; set; }

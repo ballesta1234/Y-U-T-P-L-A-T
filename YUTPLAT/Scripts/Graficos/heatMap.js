@@ -49,7 +49,8 @@
         .attr("class", "mono1")
         .on('click',
             function (d) {
-                var gauge = obtenerGaugeViewModel(d.IdIndicador);
+                
+                var gauge = obtenerGaugeViewModel(d.Grupo);
 
                 if (d3.select(this).classed("mono1")) {
                     jQuery('.detalleGrafico').show();

@@ -13,16 +13,19 @@ namespace YUTPLAT.Services.Interface
         private IResponsableIndicadorRepository ResponsableIndicadorRepository { get; set; }
         private IInteresadoIndicadorRepository InteresadoIndicadorRepository { get; set; }
         private IMetaRepository MetaRepository { get; set; }
+        private IMedicionRepository MedicionRepository { get; set; }
 
         public IndicadorService(IIndicadorRepository indicadorRepository,
                                 IResponsableIndicadorRepository responsableIndicadorRepository,
                                 IInteresadoIndicadorRepository interesadoIndicadorRepository,
-                                IMetaRepository metaRepository)
+                                IMetaRepository metaRepository,
+                                IMedicionRepository medicionRepository)
         {
             this.IndicadorRepository = indicadorRepository;
             this.ResponsableIndicadorRepository = responsableIndicadorRepository;
             this.InteresadoIndicadorRepository = interesadoIndicadorRepository;
             this.MetaRepository = metaRepository;
+            this.MedicionRepository = medicionRepository;
         }
 
         public IndicadorViewModel GetById(int id)
@@ -37,20 +40,22 @@ namespace YUTPLAT.Services.Interface
             indicadorViewModel.Responsables = AutoMapper.Mapper.Map<IList<PersonaViewModel>>(indicador.Responsables.Select(i => i.Persona));
 
             return indicadorViewModel;
-        }
-
-        public IList<IndicadorViewModel> Todas()
-        {
-            return AutoMapper.Mapper.Map<IList<IndicadorViewModel>>(IndicadorRepository.Todas().ToList());            
-        }
+        }      
         
         public IList<IndicadorViewModel> Buscar(BuscarIndicadorViewModel filtro)
         {
-            return AutoMapper.Mapper.Map<IList<IndicadorViewModel>>(IndicadorRepository.Buscar(filtro.Busqueda).ToList());           
+            return AutoMapper.Mapper.Map<IList<IndicadorViewModel>>(IndicadorRepository.Buscar(filtro).ToList());           
         }
 
         public int Guardar(IndicadorViewModel indicadorViewModel)
         {
+            Indicador indicadorOriginal = IndicadorRepository.GetById(indicadorViewModel.Id).First();
+
+            if(HayCambios(indicadorOriginal, indicadorViewModel) && MedicionRepository.Buscar(new MedicionViewModel { IndicadorID = indicadorViewModel.Id}).Any())
+            {
+                indicadorViewModel.Id = 0;
+            }
+
             // Borrar los responsables previos
             ResponsableIndicadorRepository.EliminarPorIndicador(indicadorViewModel.Id);
 
@@ -76,6 +81,69 @@ namespace YUTPLAT.Services.Interface
 
             return indicador.IndicadorID;
         }
+
+        private bool HayCambios(Indicador indicadorOriginal, IndicadorViewModel indicadorCargado)
+        {
+            if (!indicadorOriginal.Nombre.Trim().Equals(indicadorCargado.Nombre.Trim()) ||
+                !indicadorOriginal.Descripcion.Trim().Equals(indicadorCargado.Descripcion.Trim()))
+            {
+                return true;
+            }
+            if( !indicadorOriginal.ObjetivoID.ToString().Trim().Equals(indicadorCargado.ObjetivoID.Trim()) || 
+                !indicadorOriginal.FrecuenciaMedicionIndicadorID.ToString().Trim().Equals(indicadorCargado.FrecuenciaMedicionIndicadorID.Trim()))
+            {
+                return true;
+            }
+            if( MetasDiferentes(indicadorOriginal.MetaAceptable, indicadorCargado.MetaAceptableViewModel) ||
+                MetasDiferentes(indicadorOriginal.MetaAMejorar, indicadorCargado.MetaAMejorarViewModel) ||
+                MetasDiferentes(indicadorOriginal.MetaExcelente, indicadorCargado.MetaExcelenteViewModel) ||
+                MetasDiferentes(indicadorOriginal.MetaInaceptable, indicadorCargado.MetaInaceptableViewModel) ||
+                MetasDiferentes(indicadorOriginal.MetaSatisfactoria, indicadorCargado.MetaSatisfactoriaViewModel))
+            {
+                return true;
+            }
+            if(InteresadosDiferentes(indicadorOriginal.Interesados, indicadorCargado.Interesados))
+            {
+                return true;
+            }
+            if (ResponsablesDiferentes(indicadorOriginal.Responsables, indicadorCargado.Responsables))
+            {
+                return true;
+            }
+            return false;
+        }
+
+        private bool InteresadosDiferentes(ICollection<InteresadoIndicador> interesadosOriginales, IList<PersonaViewModel> interesadosCargados)
+        {
+            return false;
+        }
+
+        private bool ResponsablesDiferentes(ICollection<ResponsableIndicador> responsablesOriginales, IList<PersonaViewModel> responsablesCargados)
+        {
+            return false;
+        }
+
+        private bool MetasDiferentes(Meta metaOriginal, MetaViewModel metaCargada)
+        {
+            if(!metaOriginal.Valor1.ToString().Trim().Equals(metaCargada.Valor1.Trim()))
+            {
+                return true;
+            }
+            if (!metaOriginal.Valor2.ToString().Trim().Equals(metaCargada.Valor2.Trim()))
+            {
+                return true;
+            }
+            if (!metaOriginal.Signo1.ToString().Trim().Equals(metaCargada.Signo1.ToString().Trim()))
+            {
+                return true;
+            }
+            if (!metaOriginal.Signo2.ToString().Trim().Equals(metaCargada.Signo2.ToString().Trim()))
+            {
+                return true;
+            }
+
+            return false;
+        } 
 
         private int GuardarMeta(MetaViewModel metaViewModel)
         {

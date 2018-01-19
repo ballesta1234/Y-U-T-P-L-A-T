@@ -39,10 +39,10 @@ namespace YUTPLAT.Services.Interface
             return AutoMapper.Mapper.Map<IList<MedicionViewModel>>(MedicionRepository.Buscar(filtro).ToList());
         }
 
-        public GaugeViewModel ObtenerGaugeViewModel(int idIndicador)
+        public GaugeViewModel ObtenerGaugeViewModel(long grupo)
         {
             MedicionViewModel filtro = new MedicionViewModel();
-            filtro.IndicadorID = idIndicador;
+            filtro.Grupo = grupo;
 
             IList<MedicionViewModel> medicionesViewModel = Buscar(filtro);
 
@@ -164,7 +164,7 @@ namespace YUTPLAT.Services.Interface
 
         public HeatMapViewModel ObtenerHeatMapViewModel()
         {
-            IList<FilaHeatMapViewModel> filasHeatMapViewModel = AutoMapper.Mapper.Map<IList<FilaHeatMapViewModel>>(IndicadorRepository.Todas().ToList());
+            IList<FilaHeatMapViewModel> filasHeatMapViewModel = AutoMapper.Mapper.Map<IList<FilaHeatMapViewModel>>(IndicadorRepository.Buscar(new BuscarIndicadorViewModel()).ToList());
                        
             IList<MedicionViewModel> mediciones = Todas();
 
@@ -190,9 +190,9 @@ namespace YUTPLAT.Services.Interface
                         celdaHeatMapViewModel.IndiceIndicador = i + 1;
                         celdaHeatMapViewModel.Mes = (int)mes;
 
-                        if (medicionesPorMes.Any(m => m.IndicadorID == filasHeatMapViewModel[i].IdIndicador && m.Mes == mes))
+                        if (medicionesPorMes.Any(m => m.IndicadorViewModel.Grupo == filasHeatMapViewModel[i].Grupo && m.Mes == mes))
                         {
-                            MedicionViewModel medicionPorMes = medicionesPorMes.First(m => m.IndicadorID == filasHeatMapViewModel[i].IdIndicador && m.Mes == mes);
+                            MedicionViewModel medicionPorMes = medicionesPorMes.First(m => m.IndicadorViewModel.Grupo == filasHeatMapViewModel[i].Grupo && m.Mes == mes);
 
                             celdaHeatMapViewModel.IdIndicador = medicionPorMes.IndicadorID;
                             celdaHeatMapViewModel.Medicion = medicionPorMes.Valor;

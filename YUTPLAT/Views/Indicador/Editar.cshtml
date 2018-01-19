@@ -43,6 +43,7 @@
                         @using (Html.BeginForm("Editar", "Indicador", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { id = "form", role = "form" }))
                         {
                             @Html.HiddenFor(m => m.Id);
+                            @Html.HiddenFor(m => m.Grupo);
 
                             @Html.ValidationSummary(true, "", new { @class = "text-danger errorGeneralSummary" })
 

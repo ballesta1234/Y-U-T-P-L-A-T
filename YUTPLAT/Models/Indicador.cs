@@ -12,6 +12,8 @@ namespace YUTPLAT.Models
         {
             this.Responsables = new HashSet<ResponsableIndicador>();
             this.Interesados = new HashSet<InteresadoIndicador>();
+
+            this.Grupo = 1; 
         }
 
         [Key]
@@ -23,7 +25,7 @@ namespace YUTPLAT.Models
         public DateTime? FechaCreacion { get; set; }
         public string UltimoUsuarioModifico { get; set; }
         public DateTime? FechaUltimaModificacion { get; set; }
-
+        public long Grupo { get; set; }
         public int ObjetivoID { get; set; }
         public virtual Objetivo Objetivo { get; set; }
 

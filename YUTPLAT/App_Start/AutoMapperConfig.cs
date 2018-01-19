@@ -38,6 +38,7 @@ namespace YUTPLAT.App_Start
                     .ForMember(x => x.FrecuenciaMedicionIndicadorID, x => x.MapFrom(y => y.FrecuenciaMedicion != null ? y.FrecuenciaMedicion.FrecuenciaMedicionIndicadorID.ToString() : ""))
                     .ForMember(x => x.AreaID, x => x.MapFrom(y => y.Objetivo != null ? y.Objetivo.Area.Id.ToString() : ""))
                     .ForMember(x => x.ObjetivoViewModel, x => x.MapFrom(y => y.Objetivo))
+                    .ForMember(x => x.Grupo, x => x.MapFrom(y => y.Grupo))
                     .ForMember(x => x.MetaAceptableViewModel, x => x.MapFrom(y => y.MetaAceptable))
                     .ForMember(x => x.MetaAMejorarViewModel, x => x.MapFrom(y => y.MetaAMejorar))
                     .ForMember(x => x.MetaExcelenteViewModel, x => x.MapFrom(y => y.MetaExcelente))
@@ -48,6 +49,7 @@ namespace YUTPLAT.App_Start
 
                     cfg.CreateMap<Indicador, FilaHeatMapViewModel>()
                     .ForMember(x => x.IdIndicador, x => x.MapFrom(y => y.IndicadorID))
+                    .ForMember(x => x.Grupo, x => x.MapFrom(y => y.Grupo))
                     .ForMember(x => x.NombreIndicador, x => x.MapFrom(y => y.Nombre));
 
                     cfg.CreateMap<IndicadorViewModel, Indicador>()

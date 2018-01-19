@@ -149,7 +149,7 @@
         return valores;
     };
 
-    function obtenerGaugeViewModel(idIndicador) {
+    function obtenerGaugeViewModel(grupo) {
 
         var serviceURL = '@Url.Action("ObtenerGaugeViewModel", "Tablero")';
         var valores;
@@ -158,7 +158,7 @@
             type: "POST",
             url: serviceURL,
             async: false,
-            data: JSON.stringify({ idIndicador: idIndicador }),
+            data: JSON.stringify({ grupo: grupo }),
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function successFunc(data, status) {

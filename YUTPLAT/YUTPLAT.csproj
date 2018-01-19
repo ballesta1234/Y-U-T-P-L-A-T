@@ -265,6 +265,10 @@
     <Compile Include="Migrations\201712262353297_Medicion.Designer.cs">
       <DependentUpon>201712262353297_Medicion.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201801172245581_Indicador Nueva columna grupo.cs" />
+    <Compile Include="Migrations\201801172245581_Indicador Nueva columna grupo.Designer.cs">
+      <DependentUpon>201801172245581_Indicador Nueva columna grupo.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\Medicion.cs" />
     <Compile Include="Models\Meta.cs" />
     <Compile Include="Models\FrecuenciaMedicionIndicador.cs" />
@@ -559,6 +563,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201712262353297_Medicion.resx">
       <DependentUpon>201712262353297_Medicion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801172245581_Indicador Nueva columna grupo.resx">
+      <DependentUpon>201801172245581_Indicador Nueva columna grupo.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

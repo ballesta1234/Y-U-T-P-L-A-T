@@ -41,43 +41,53 @@ namespace YUTPLAT.Repositories
             return this.context.Indicadores;
         }
         
-        public IQueryable<Indicador> Buscar(IndicadorViewModel filtro)
+        public IQueryable<Indicador> Buscar(BuscarIndicadorViewModel filtro)
         {
             IQueryable<Indicador> queryable = this.context.Indicadores;
 
-            if (filtro.Nombre != null && !string.IsNullOrEmpty(filtro.Nombre.Trim()))
+            if (filtro.Busqueda.Nombre != null && !string.IsNullOrEmpty(filtro.Busqueda.Nombre.Trim()))
             {
-                queryable = queryable.Where(a => a.Nombre.Contains(filtro.Nombre.Trim()));
+                queryable = queryable.Where(a => a.Nombre.Contains(filtro.Busqueda.Nombre.Trim()));
             }
-            if (!string.IsNullOrEmpty(filtro.FechaCreacion))
+            if (!string.IsNullOrEmpty(filtro.Busqueda.FechaCreacion))
             {
-                DateTime desde = DateTime.Parse(filtro.FechaCreacion);
+                DateTime desde = DateTime.Parse(filtro.Busqueda.FechaCreacion);
                 queryable = queryable.Where(a => a.FechaCreacion >= desde);
 
                 DateTime hasta = desde.AddDays(1).AddSeconds(-1);
                 queryable = queryable.Where(a => a.FechaCreacion <= hasta);
             }
-            if (filtro.UltimoUsuarioModifico != null && !string.IsNullOrEmpty(filtro.UltimoUsuarioModifico.Trim()))
+            if (filtro.Busqueda.UltimoUsuarioModifico != null && !string.IsNullOrEmpty(filtro.Busqueda.UltimoUsuarioModifico.Trim()))
             {
-                queryable = queryable.Where(a => a.UltimoUsuarioModifico.Contains(filtro.UltimoUsuarioModifico.Trim()));
+                queryable = queryable.Where(a => a.UltimoUsuarioModifico.Contains(filtro.Busqueda.UltimoUsuarioModifico.Trim()));
             }
-            if (!string.IsNullOrEmpty(filtro.FechaUltimaModificacion))
+            if (!string.IsNullOrEmpty(filtro.Busqueda.FechaUltimaModificacion))
             {
-                DateTime desde = DateTime.Parse(filtro.FechaUltimaModificacion);
+                DateTime desde = DateTime.Parse(filtro.Busqueda.FechaUltimaModificacion);
                 queryable = queryable.Where(a => a.FechaUltimaModificacion >= desde);
 
                 DateTime hasta = desde.AddDays(1).AddSeconds(-1);
                 queryable = queryable.Where(a => a.FechaUltimaModificacion <= hasta);
             }
-            if (filtro.AreaID != null && !string.IsNullOrEmpty(filtro.AreaID.Trim()))
+            if (filtro.Busqueda.AreaID != null && !string.IsNullOrEmpty(filtro.Busqueda.AreaID.Trim()))
             {
-                int areaId = Int32.Parse(filtro.AreaID.Trim());
+                int areaId = Int32.Parse(filtro.Busqueda.AreaID.Trim());
                 queryable = queryable.Where(a => a.Objetivo.AreaID == areaId);
             }
-            if (filtro.ObjetivoID != null && !string.IsNullOrEmpty(filtro.ObjetivoID.Trim()))
+            if (filtro.Busqueda.ObjetivoID != null && !string.IsNullOrEmpty(filtro.Busqueda.ObjetivoID.Trim()))
             {
-                int objetivoId = Int32.Parse(filtro.ObjetivoID.Trim());
+                int objetivoId = Int32.Parse(filtro.Busqueda.ObjetivoID.Trim());
                 queryable = queryable.Where(a => a.ObjetivoID == objetivoId);
+            }
+
+            if (filtro.UltimoDeCadaGrupo)
+            {
+                queryable = queryable.GroupBy(i => i.Grupo)
+                        .Select(grp => new
+                        {
+                            grp.Key,
+                            LastAccess = grp.OrderByDescending(x => x.FechaCreacion).FirstOrDefault()
+                        }).Select(g => g.LastAccess);
             }
 
             return queryable;

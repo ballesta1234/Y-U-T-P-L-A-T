@@ -29,27 +29,15 @@ namespace YUTPLAT.Repositories
         {
             IQueryable<Medicion> queryable = this.context.Mediciones;
                         
-            if (filtro.IndicadorID > 0)
+            if (filtro.Grupo > 0)
             {
-                queryable = queryable.Where(a => a.Indicador.IndicadorID == filtro.IndicadorID);
+                queryable = queryable.Where(a => a.Indicador.Grupo == filtro.Grupo);
             }
 
-            /*
-            if (filtro.Apellido != null && !string.IsNullOrEmpty(filtro.Apellido.Trim()))
+            if (filtro.IndicadorID > 0)
             {
-                queryable = queryable.Where(a => a.Apellido.Contains(filtro.Apellido.Trim()));
+                queryable = queryable.Where(m => m.IndicadorID == filtro.IndicadorID);
             }
-            if (filtro.NombreUsuario != null && !string.IsNullOrEmpty(filtro.NombreUsuario.Trim()))
-            {
-                queryable = queryable.Where(a => a.UserName.Contains(filtro.NombreUsuario.Trim()));
-            }
-            if (filtro.NombreOApellidoONombreUsuario != null && !string.IsNullOrEmpty(filtro.NombreOApellidoONombreUsuario.Trim()))
-            {
-                queryable = queryable.Where(a => a.UserName.Contains(filtro.NombreOApellidoONombreUsuario.Trim()) ||
-                                                 a.Nombre.Contains(filtro.NombreOApellidoONombreUsuario.Trim()) ||
-                                                 a.Apellido.Contains(filtro.NombreOApellidoONombreUsuario.Trim()));
-            }
-            */
 
             return queryable;
         }

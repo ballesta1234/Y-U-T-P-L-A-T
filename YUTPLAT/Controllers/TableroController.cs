@@ -55,9 +55,9 @@ namespace YUTPLAT.Controllers
         }
 
         [HttpPost]
-        public ActionResult ObtenerGaugeViewModel(int idIndicador)
+        public ActionResult ObtenerGaugeViewModel(long grupo)
         {
-            return Json(MedicionService.ObtenerGaugeViewModel(idIndicador), JsonRequestBehavior.AllowGet);
+            return Json(MedicionService.ObtenerGaugeViewModel(grupo), JsonRequestBehavior.AllowGet);
         }
     }
 }

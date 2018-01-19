@@ -49,6 +49,8 @@ namespace YUTPLAT.ViewModel
                 
         public IList<PersonaViewModel> Interesados { get; set; }
 
+        public long Grupo { get; set; }
+
         [Display(Name = "Interesados")]
         [ValidarLista]
         public int CantidadInteresadosElegidos { get; set; }

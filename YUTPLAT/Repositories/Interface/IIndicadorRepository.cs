@@ -9,10 +9,8 @@ namespace YUTPLAT.Repositories.Interface
     public interface IIndicadorRepository : IDisposable
     {
         IQueryable<Indicador> GetById(int id);
-
-        IQueryable<Indicador> Todas();
-
-        IQueryable<Indicador> Buscar(IndicadorViewModel filtro);
+        
+        IQueryable<Indicador> Buscar(BuscarIndicadorViewModel filtro);
 
         void Guardar(Indicador area);
     }

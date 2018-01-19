@@ -14,6 +14,6 @@ namespace YUTPLAT.Services.Interface
         
         HeatMapViewModel ObtenerHeatMapViewModel();
 
-        GaugeViewModel ObtenerGaugeViewModel(int idIndicador);
+        GaugeViewModel ObtenerGaugeViewModel(long grupo);
     }
 }
