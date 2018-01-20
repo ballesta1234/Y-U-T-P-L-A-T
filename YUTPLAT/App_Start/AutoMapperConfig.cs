@@ -66,8 +66,8 @@ namespace YUTPLAT.App_Start
                    .ForMember(x => x.NombreUsuario, x => x.MapFrom(y => y.UserName));
 
                     cfg.CreateMap<Meta, MetaViewModel>()
-                    .ForMember(x => x.Valor1, x => x.MapFrom(y => (y.Valor1 == 0) ? "" : y.Valor1.ToString().Replace(",", ".")))               
-                    .ForMember(x => x.Valor2, x => x.MapFrom(y => (y.Valor2 == 0) ? "" : y.Valor2.ToString().Replace(",", ".")));
+                    .ForMember(x => x.Valor1, x => x.MapFrom(y => (y.Valor1 == 0 && (int)y.Signo1 == 0) ? "" : y.Valor1.ToString().Replace(",", ".").TrimEnd('0').TrimEnd('.')))               
+                    .ForMember(x => x.Valor2, x => x.MapFrom(y => (y.Valor2 == 0 && (int)y.Signo2 == 0) ? "" : y.Valor2.ToString().Replace(",", ".").TrimEnd('0').TrimEnd('.')));
 
                     cfg.CreateMap<MetaViewModel, Meta>()
                     .ForMember(x => x.Valor1, x => x.MapFrom(y => Decimal.Parse(y.Valor1.Replace(".",","))))
@@ -78,6 +78,10 @@ namespace YUTPLAT.App_Start
                     .ForMember(x => x.FechaCarga, x => x.MapFrom(y => y.FechaCarga != null ? y.FechaCarga.Value.ToString("dd/MM/yyyy HH:mm tt") : ""))
                     .ForMember(x => x.IndicadorViewModel, x => x.MapFrom(y => y.Indicador));
 
+                    cfg.CreateMap<Medicion, LineViewModel>()
+                    .ForMember(x => x.Valor, x => x.MapFrom(y => y.Valor))
+                    .ForMember(x => x.Mes, x => x.MapFrom( y => y.Mes.ToString()));
+                    
                     cfg.CreateMap<MedicionViewModel, Medicion>()                    
                     .ForMember(x => x.FechaCarga, x => x.MapFrom(y => !string.IsNullOrEmpty(y.FechaCarga) ? DateTime.Parse(y.FechaCarga) : (DateTime?)null))
                     .ForMember(x => x.Indicador, x => x.MapFrom(y => y.IndicadorViewModel))

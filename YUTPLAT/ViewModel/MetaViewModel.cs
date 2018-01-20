@@ -7,10 +7,10 @@ namespace YUTPLAT.ViewModel
     {
         public int MetaId { get; set; }
 
-        [RegularExpression("^[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?(\\.[0-9][0-9]?)?$", ErrorMessage = "El valor tiene que tener hasta 12 dígitos y hasta 2 decimales")]
+        [RegularExpression("^[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?(\\.[0-9]?[0-9]?[0-9]?)?$", ErrorMessage = "El valor tiene que tener hasta 12 dígitos y hasta 3 decimales")]
         public string Valor1 { get; set; }
 
-        [RegularExpression("[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?(\\.[0-9][0-9]?)?$", ErrorMessage = "El valor tiene que tener hasta 12 dígitos y hasta 2 decimales")]
+        [RegularExpression("[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?(\\.[0-9]?[0-9]?[0-9]?)?$", ErrorMessage = "El valor tiene que tener hasta 12 dígitos y hasta 3 decimales")]
         public string Valor2 { get; set; }
 
         public Signo Signo1 { get; set; }

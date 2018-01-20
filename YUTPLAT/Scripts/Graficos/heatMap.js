@@ -63,7 +63,7 @@
                     onDocumentReadyGauge(gauge);
 
                     var line = obtenerLineViewModel(d.Grupo);
-                    showLine(line);
+                    showLine(line, gauge.NombreIndicador);                    
                 }
 
                 if (indicadorElegido !== undefined) {

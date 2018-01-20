@@ -39,6 +39,14 @@ namespace YUTPLAT.Services.Interface
             return AutoMapper.Mapper.Map<IList<MedicionViewModel>>(MedicionRepository.Buscar(filtro).ToList());
         }
 
+        public IList<LineViewModel> ObtenerLineViewModel(long grupo)
+        {
+            MedicionViewModel filtro = new MedicionViewModel();
+            filtro.Grupo = grupo;
+
+            return AutoMapper.Mapper.Map<IList<LineViewModel>>(MedicionRepository.Buscar(filtro).ToList().OrderBy(m => m.Mes));
+        }
+
         public GaugeViewModel ObtenerGaugeViewModel(long grupo)
         {
             MedicionViewModel filtro = new MedicionViewModel();

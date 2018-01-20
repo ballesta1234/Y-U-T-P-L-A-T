@@ -12,8 +12,8 @@ namespace YUTPLAT.Migrations
                 c => new
                     {
                         MetaId = c.Int(nullable: false, identity: true),
-                        Valor1 = c.Decimal(nullable: false, precision: 18, scale: 2),
-                        Valor2 = c.Decimal(nullable: false, precision: 18, scale: 2),
+                        Valor1 = c.Decimal(nullable: false, precision: 18, scale: 3),
+                        Valor2 = c.Decimal(nullable: false, precision: 18, scale: 3),
                         Signo1 = c.Int(nullable: false),
                         Signo2 = c.Int(nullable: false),
                     })

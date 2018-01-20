@@ -1,67 +1,69 @@
 ﻿$(function () {    
 });
 
-function showLine(dataLine) {
+function showLine(dataLine, nombreIndicador) {
     
-    alert("in line");
-
     initLine();
 
-    cargarGraficoLinea(dataLine);
+    if (dataLine == "") {        
+        jQuery(".lineSubtitulo").text("No hay información disponible.");
+    }
+    else {
+        jQuery(".lineSubtitulo").text(nombreIndicador);
 
-    marginContainer.append('g')
-      .attr('class', 'x axis')
-      .attr('transform', 'translate(0,' + height + ')')
-      .call(xAxis);
+        cargarGraficoLinea(dataLine);
 
-    marginContainer.append('g')
-      .attr('class', 'y axis')
-      .call(yAxis)
-      .append('text')
-      .attr('transform', 'rotate(-90)')
-      .attr('y', '1.5em')
-      .style('text-anchor', 'end')
-      .text('Valor');
+        marginContainer.append('g')
+          .attr('class', 'x axis')
+          .attr('transform', 'translate(0,' + height + ')')
+          .call(xAxis);
 
-    marginContainer.append('path')
-      .datum(startData)
-      .attr('class', 'line')
-      .attr('d', line)
-      .transition()
-      .duration(500)
-      .ease('quad')
-      .attrTween('d', function () {
-          var interpolator = d3.interpolateArray(startData, dataLine);
+        marginContainer.append('g')
+          .attr('class', 'y axis')
+          .call(yAxis)
+          .append('text')
+          .attr('transform', 'rotate(-90)')
+          .attr('y', '1.5em')
+          .style('text-anchor', 'end')
+          .text('Valor');
 
-          return function (t) {
-              return line(interpolator(t));
-          }
-      })
-      .each('end', function () {
-          drawCircles(dataLine, marginContainer);
-      });
+        marginContainer.append('path')
+          .datum(startData)
+          .attr('class', 'line')
+          .attr('d', line)
+          .transition()
+          .duration(500)
+          .ease('quad')
+          .attrTween('d', function () {
+              var interpolator = d3.interpolateArray(startData, dataLine);
 
-    marginContainer.append('path')
-      .datum(startData)
-      .attr('class', 'area')
-      .attr('d', area)
-      .transition()
-      .duration(500)
-      .ease('quad')
-      .attrTween('d', function () {
-          var interpolator = d3.interpolateArray(startData, dataLine);
+              return function (t) {
+                  return line(interpolator(t));
+              }
+          })
+          .each('end', function () {
+              drawCircles(dataLine, marginContainer);
+          });
 
-          return function (t) {
-              return area(interpolator(t));
-          }
-      });
+        marginContainer.append('path')
+          .datum(startData)
+          .attr('class', 'area')
+          .attr('d', area)
+          .transition()
+          .duration(500)
+          .ease('quad')
+          .attrTween('d', function () {
+              var interpolator = d3.interpolateArray(startData, dataLine);
 
-    d3.select(window).on('resize', function () {
-        resize(dataLine);
-    });
+              return function (t) {
+                  return area(interpolator(t));
+              }
+          });
 
-
-    updateData(line);
+        d3.select(window).on('resize', function () {
+            resize(dataLine);
+        });
+    }
 }
 
 var chartContainer;
@@ -85,8 +87,9 @@ var detailHeight = 75;
 var detailMargin = 15;
 
 function initLine() {
+    d3.select(".lineChart").remove();
     chartContainer = d3.select('.chart-container');
-    svg = chartContainer.append('svg');
+    svg = chartContainer.append('svg').attr('class', 'lineChart');
     marginContainer = svg.append('g').attr('class', 'margin-container');
 }
 
@@ -209,8 +212,21 @@ function showCircleDetail(datos) {
       .text('Mes: ' + datos.Mes);
 }
 
-function updateData(dataLine) {
+function getDimensions() {
+    var containerWidth = parseInt(d3.select('.chart-container').style('width'));
+    margin.top = 20;
+    margin.right = 30;
+    margin.left = 60;
+    margin.bottom = 30;
 
+    width = containerWidth - margin.left - margin.right;
+    if (width > maxWidth) {
+        width = maxWidth;
+    }
+    height = .75 * width;
+}
+
+function resize(dataLine) {
     cargarGraficoLinea(dataLine);
 
     marginContainer.select('.x.axis')
@@ -253,24 +269,6 @@ function updateData(dataLine) {
       });
 }
 
-function getDimensions() {
-    var containerWidth = parseInt(d3.select('.chart-container').style('width'));
-    margin.top = 20;
-    margin.right = 30;
-    margin.left = 60;
-    margin.bottom = 30;
-
-    width = containerWidth - margin.left - margin.right;
-    if (width > maxWidth) {
-        width = maxWidth;
-    }
-    height = .75 * width;
-}
-
-function resize(dataLine) {
-    updateData(dataLine);
-}
-
 function cargarGraficoLinea(dataLine) {
 
     getDimensions();
@@ -308,22 +306,3 @@ function cargarGraficoLinea(dataLine) {
       .scale(y)
       .orient('left');
 }
-
-var datos = [
-    {
-        Mes: 'Enero',
-        Valor: 0.02
-    },
-    {
-        Mes: 'Marzo',
-        Valor: 0.04
-    },
-    {
-        Mes: 'Abril',
-        Valor: 0.10
-    },
-    {
-        Mes: 'Mayo',
-        Valor: 0.50
-    }
-];

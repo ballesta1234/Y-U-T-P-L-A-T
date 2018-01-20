@@ -312,6 +312,7 @@
     <Compile Include="Validadores\ValidarMeta.cs" />
     <Compile Include="Validadores\ValidarLista.cs" />
     <Compile Include="ViewModel\CeldaHeatMapViewModel.cs" />
+    <Compile Include="ViewModel\LineViewModel.cs" />
     <Compile Include="ViewModel\GaugeViewModel.cs" />
     <Compile Include="ViewModel\FilaHeatMapViewModel.cs" />
     <Compile Include="ViewModel\HeatMapViewModel.cs" />

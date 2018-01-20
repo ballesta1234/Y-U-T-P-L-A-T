@@ -49,14 +49,17 @@ namespace YUTPLAT.Services.Interface
 
         public int Guardar(IndicadorViewModel indicadorViewModel)
         {
-            Indicador indicadorOriginal = IndicadorRepository.GetById(indicadorViewModel.Id).First();
-
             bool modificado = false;
 
-            if(HayCambios(indicadorOriginal, indicadorViewModel) && MedicionRepository.Buscar(new MedicionViewModel { IndicadorID = indicadorViewModel.Id}).Any())
+            if (indicadorViewModel.Id > 0)
             {
-                indicadorViewModel.Id = 0;
-                modificado = true;
+                Indicador indicadorOriginal = IndicadorRepository.GetById(indicadorViewModel.Id).First();
+
+                if (HayCambios(indicadorOriginal, indicadorViewModel) && MedicionRepository.Buscar(new MedicionViewModel { IndicadorID = indicadorViewModel.Id }).Any())
+                {
+                    indicadorViewModel.Id = 0;
+                    modificado = true;
+                }
             }
 
             // Borrar los responsables previos
@@ -69,7 +72,7 @@ namespace YUTPLAT.Services.Interface
 
             if(modificado)
             {
-                indicador.FechaCreacion.Value.AddMilliseconds(1);
+                indicador.FechaCreacion = indicador.FechaCreacion.Value.AddSeconds(1);
             }
 
             indicador.MetaAceptableMetaID = GuardarMeta(indicadorViewModel.MetaAceptableViewModel);
@@ -80,7 +83,9 @@ namespace YUTPLAT.Services.Interface
             
             // Guardar el indicador
             IndicadorRepository.Guardar(indicador);
-            
+            indicador.Grupo = indicador.IndicadorID;
+            IndicadorRepository.Guardar(indicador);
+
             // Guardar los responsables
             GuardarResponsables(indicadorViewModel.Responsables, indicador.IndicadorID);
             

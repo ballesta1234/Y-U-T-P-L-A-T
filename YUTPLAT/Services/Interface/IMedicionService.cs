@@ -15,5 +15,7 @@ namespace YUTPLAT.Services.Interface
         HeatMapViewModel ObtenerHeatMapViewModel();
 
         GaugeViewModel ObtenerGaugeViewModel(long grupo);
+
+        IList<LineViewModel> ObtenerLineViewModel(long grupo);
     }
 }
