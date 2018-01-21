@@ -1,6 +1,6 @@
 ﻿$(function () {
 
-    jQuery('.detalleGrafico').hide();
+    jQuery('.detalleGrafico').css("visibility", "hidden");
 
     jQuery.noConflict();
 
@@ -51,6 +51,7 @@
             function (d) {                
                 if (d3.select(this).classed("mono1")) {
                     jQuery('.detalleGrafico').show();
+                    jQuery('.detalleGrafico').css("visibility","visible");
                     //scrollToAnchor('gaugeAncla');
                 }
                 else {
@@ -105,7 +106,7 @@
             })
             .on('mouseout', tip.hide)
             .on('click', function (d) {                
-                abrirModalCargaMedicion(d.IdIndicador, d.Mes);
+                abrirModalCargaMedicion(d.IdIndicador, d.Mes, d.IdMedicion);
             });
 
     heatMapGrafico.transition().style("fill", function (d) { return d.ColorMeta; });

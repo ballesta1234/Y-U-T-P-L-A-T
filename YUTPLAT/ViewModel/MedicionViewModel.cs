@@ -14,6 +14,8 @@ namespace YUTPLAT.ViewModel
         public string Valor { get; set; }
         public string FechaCarga { get; set; }
         public string UsuarioCargo { get; set; }
+
+        public string Comentario { get; set; }
     }
 }
 

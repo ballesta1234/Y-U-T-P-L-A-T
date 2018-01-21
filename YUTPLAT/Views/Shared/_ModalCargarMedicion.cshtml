@@ -1,12 +1,12 @@
 ﻿@using YUTPLAT.ViewModel
-@model CargarMedicionViewModel
+@model MedicionViewModel
 
 @using (Html.BeginForm("CargarMedicion", "Tablero", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form" }))
             {
     <div class="modal-body">
         <label id="hola">Holaaaa</label>
 
-        @Html.TextBoxFor(m => m.Titulo, new { @class = "form-control", placeholder = "Enter Email", id = "email" })
+        @Html.TextBoxFor(m => m.Comentario, new { @class = "form-control", placeholder = "Enter Email", id = "email" })
 
     </div>
     <div class="modal-footer">

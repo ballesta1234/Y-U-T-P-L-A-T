@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using YUTPLAT.Helpers;
+using YUTPLAT.Helpers.Filters;
 using YUTPLAT.Services.Interface;
 using YUTPLAT.ViewModel;
 using static YUTPLAT.Enums.Enum;
@@ -18,12 +20,15 @@ namespace YUTPLAT.Controllers
             this.MedicionService = medicionService;
         }
 
-        public ActionResult Ver()
+        [HttpGet]
+        [EncryptedActionParameter]
+        public ActionResult Ver(string msgExito)
         {
             TableroViewModel model = new TableroViewModel();
             model.Titulo = "Tablero";
 
             ViewBag.Titulo = model.Titulo;
+            ViewBag.MensageExito = msgExito;
 
             return View(model);
         }
@@ -68,17 +73,16 @@ namespace YUTPLAT.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public ActionResult CargarMedicion(TableroViewModel model, string returnUrl)
+        public ActionResult CargarMedicion(MedicionViewModel model, string returnUrl)
         {
-            return RedirectToAction("Ver", "Tablero", new { q = new { id = 12, msgExito = "El indicador se ha guardado exitosamente." } });
-                        
+            return RedirectToAction("Ver", "Tablero", new { q = MyExtensions.Encrypt(new { msgExito = "La medición se ha guardado exitosamente." }) });
+
         }
 
         [HttpPost]
-        public ActionResult AbrirModalCargaMedicion(int idIndicador, int mes)
-        {
-            CargarMedicionViewModel entities = new CargarMedicionViewModel { Titulo = "matiasssssssssssss" };
-            return PartialView("_ModalCargarMedicion", entities);
+        public ActionResult AbrirModalCargaMedicion(int idIndicador, int mes, int? idMedicion)
+        {         
+            return PartialView("_ModalCargarMedicion", MedicionService.ObtenerMedicionViewModel(idIndicador, mes, idMedicion));
         }
 
         

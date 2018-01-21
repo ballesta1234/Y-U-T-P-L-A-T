@@ -24,7 +24,7 @@ namespace YUTPLAT.Services.Interface
             this.IndicadorRepository = indicadorRepository;
         }
 
-        public MedicionViewModel GetById(string id)
+        public MedicionViewModel GetById(int id)
         {
             return AutoMapper.Mapper.Map<MedicionViewModel>(MedicionRepository.GetById(id).First());
         }
@@ -204,6 +204,7 @@ namespace YUTPLAT.Services.Interface
                             MedicionViewModel medicionPorMes = medicionesPorMes.First(m => m.IndicadorViewModel.Grupo == filasHeatMapViewModel[i].Grupo && m.Mes == mes);
                             
                             celdaHeatMapViewModel.Medicion = medicionPorMes.Valor;
+                            celdaHeatMapViewModel.IdMedicion = medicionPorMes.MedicionId;
                             celdaHeatMapViewModel.ColorMeta = ObtenerColorCeldaHeatMap(medicionPorMes);
                             celdaHeatMapViewModel.MedicionCargada = true;
                         }
@@ -215,6 +216,18 @@ namespace YUTPLAT.Services.Interface
             }                       
             heatMapViewModel.Celdas = celdasHeatMapViewModel;
             return heatMapViewModel;
-        }       
+        }
+
+        public MedicionViewModel ObtenerMedicionViewModel(int idIndicador, int mes, int? idMedicion)
+        {
+            MedicionViewModel medicionViewModel = new MedicionViewModel();
+
+            if(idMedicion != null)
+            {
+                medicionViewModel = this.GetById(idMedicion.Value);
+            }
+
+            return medicionViewModel;
+        }
     }
 }

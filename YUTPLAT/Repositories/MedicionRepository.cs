@@ -15,9 +15,9 @@ namespace YUTPLAT.Repositories
             this.context = context;
         }
 
-        public IQueryable<Medicion> GetById(string id)
+        public IQueryable<Medicion> GetById(int id)
         {
-            return this.context.Mediciones.Where(m => m.MedicionId.Equals(id));
+            return this.context.Mediciones.Where(m => m.MedicionId == id);
         }
          
         public IQueryable<Medicion> Todas()

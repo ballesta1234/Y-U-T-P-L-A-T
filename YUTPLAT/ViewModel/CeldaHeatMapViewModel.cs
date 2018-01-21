@@ -4,6 +4,7 @@
     {
         public int IndiceIndicador { get; set; }
         public int IdIndicador { get; set; }
+        public int? IdMedicion { get; set; }
         public int Mes { get; set; }
         public string Medicion { get; set; }
         public string ColorMeta { get; set; } 

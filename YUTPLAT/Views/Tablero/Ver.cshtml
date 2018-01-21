@@ -192,7 +192,7 @@
         return valores;
     };
 
-    function abrirModalCargaMedicion(idIndicador, mes) {
+    function abrirModalCargaMedicion(idIndicador, mes, idMedicion) {
 
         var serviceURL = '@Url.Action("AbrirModalCargaMedicion", "Tablero")';
 
@@ -200,7 +200,7 @@
             type: "POST",
             url: serviceURL,
             async: false,
-            data: JSON.stringify({ idIndicador: idIndicador, mes: mes }),
+            data: JSON.stringify({ idIndicador: idIndicador, mes: mes, idMedicion: idMedicion }),
             contentType: "application/json; charset=utf-8",
             dataType: "html",
             success: function successFunc(response) {
@@ -228,7 +228,7 @@
                     <div class="content">
                         <div id="chart"></div>
 
-                        <div class="row detalleGrafico">
+                        <div class="row detalleGrafico" style="visibility:hidden">
                             <div class="col-md-6">
                                 <div class="header">
                                     <h4 class="title">Detalle de la última carga</h4>
@@ -267,3 +267,11 @@
         </div>
     </div>
 </div>
+
+<script type="text/javascript">
+    var mensageExito = '@Html.Raw(@ViewBag.MensageExito)';
+
+    if (mensageExito != '') {
+        demo.showNotificationInfo('top', 'center', mensageExito, 'pe-7s-check');
+    }
+</script>

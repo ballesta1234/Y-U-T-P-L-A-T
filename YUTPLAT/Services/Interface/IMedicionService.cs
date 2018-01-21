@@ -6,7 +6,7 @@ namespace YUTPLAT.Services.Interface
 {
     public interface IMedicionService
     {
-        MedicionViewModel GetById(string id);
+        MedicionViewModel GetById(int id);
 
         IList<MedicionViewModel> Todas();
 
@@ -17,5 +17,7 @@ namespace YUTPLAT.Services.Interface
         GaugeViewModel ObtenerGaugeViewModel(long grupo);
 
         IList<LineViewModel> ObtenerLineViewModel(long grupo);
+
+        MedicionViewModel ObtenerMedicionViewModel(int idIndicador, int mes, int? idMedicion);
     }
 }
