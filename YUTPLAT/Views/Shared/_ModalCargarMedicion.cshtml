@@ -1,0 +1,16 @@
+﻿@using YUTPLAT.ViewModel
+@model CargarMedicionViewModel
+
+@using (Html.BeginForm("CargarMedicion", "Tablero", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form" }))
+            {
+    <div class="modal-body">
+        <label id="hola">Holaaaa</label>
+
+        @Html.TextBoxFor(m => m.Titulo, new { @class = "form-control", placeholder = "Enter Email", id = "email" })
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button type="submit" class="btn btn-primary">Guardar</button>
+    </div>
+}

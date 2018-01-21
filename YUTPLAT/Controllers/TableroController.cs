@@ -65,5 +65,22 @@ namespace YUTPLAT.Controllers
         {
             return Json(MedicionService.ObtenerLineViewModel(grupo), JsonRequestBehavior.AllowGet);
         }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public ActionResult CargarMedicion(TableroViewModel model, string returnUrl)
+        {
+            return RedirectToAction("Ver", "Tablero", new { q = new { id = 12, msgExito = "El indicador se ha guardado exitosamente." } });
+                        
+        }
+
+        [HttpPost]
+        public ActionResult AbrirModalCargaMedicion(int idIndicador, int mes)
+        {
+            CargarMedicionViewModel entities = new CargarMedicionViewModel { Titulo = "matiasssssssssssss" };
+            return PartialView("_ModalCargarMedicion", entities);
+        }
+
+        
     }
 }

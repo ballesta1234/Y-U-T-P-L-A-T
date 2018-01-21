@@ -9,7 +9,6 @@
 <script src="~/Scripts/Graficos/line.js"></script>
 
 <style>
-
     /*HEATMAP*/
     .square:hover {
         stroke: DarkBlue;
@@ -22,11 +21,11 @@
         fill: #aaa;
     }
 
-    text.mono:hover {
-        font-size: 9pt;
-        font-family: verdana;
-        fill: #aaa;
-    }
+        text.mono:hover {
+            font-size: 9pt;
+            font-family: verdana;
+            fill: #aaa;
+        }
 
     text.mono1 {
         font-size: 9pt;
@@ -34,11 +33,11 @@
         fill: #aaa;
     }
 
-    text.mono1:hover {
-        font-size: 9pt;
-        font-family: verdana;
-        fill: black;
-    }
+        text.mono1:hover {
+            font-size: 9pt;
+            font-family: verdana;
+            fill: black;
+        }
 
     .text-mono1-hover {
         font-size: 9pt;
@@ -50,9 +49,9 @@
         opacity: 1.0;
     }
 
-    .square:hover {
-        opacity: 1.0;
-    }
+        .square:hover {
+            opacity: 1.0;
+        }
 
     .d3-tip {
         font-family: Verdana;
@@ -104,9 +103,9 @@
         stroke-width: 2px;
     }
 
-    .circle.active {
-        stroke-width: 3px;
-    }
+        .circle.active {
+            stroke-width: 3px;
+        }
 
     .bubble rect {
         stroke: #3498db;
@@ -143,7 +142,7 @@
                 valores = data;
             },
             error: function errorFunc() {
-                alert('error');
+                window.location.href = "/Account/Login";
             }
         });
         return valores;
@@ -164,8 +163,8 @@
             success: function successFunc(data, status) {
                 valores = data;
             },
-            error: function errorFunc() {
-                alert('error');
+            error: function errorFunc(xhr, status, text) {
+                window.location.href = "/Account/Login";
             }
         });
         return valores;
@@ -187,12 +186,32 @@
                 valores = data;
             },
             error: function errorFunc() {
-                alert('error');
+                window.location.href = "/Account/Login";
             }
         });
         return valores;
     };
 
+    function abrirModalCargaMedicion(idIndicador, mes) {
+
+        var serviceURL = '@Url.Action("AbrirModalCargaMedicion", "Tablero")';
+
+        jQuery.ajax({
+            type: "POST",
+            url: serviceURL,
+            async: false,
+            data: JSON.stringify({ idIndicador: idIndicador, mes: mes }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "html",
+            success: function successFunc(response) {
+                jQuery('#contenidoModal').html(response);
+                jQuery('#cargaMedicionModal').modal('show');
+            },
+            error: function errorFunc() {
+                window.location.href = "/Account/Login";
+            }
+        });
+    };
 </script>
 
 <div class="content">
@@ -208,26 +227,6 @@
                     </div>
                     <div class="content">
                         <div id="chart"></div>
-                        <!-- Modal -->
-                        <div class="modal fade" id="exampleModal" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel">Cargar indicador</h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <label id="hola">Holaaaa</label>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                                        <button type="button" class="btn btn-primary">Guardar</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
 
                         <div class="row detalleGrafico">
                             <div class="col-md-6">
@@ -245,11 +244,23 @@
                                     <h4 class="title">Evolución últimos meses</h4>
                                     <p class="category lineSubtitulo"></p>
                                 </div>
-                                <div class="chart-container"></div>                                
+                                <div class="chart-container"></div>
                             </div>
                         </div>
 
-
+                        <div class="modal fade" id="cargaMedicionModal" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Cargar indicador</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div id="contenidoModal" />
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

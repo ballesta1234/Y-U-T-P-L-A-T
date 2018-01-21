@@ -83,8 +83,12 @@ namespace YUTPLAT.Services.Interface
             
             // Guardar el indicador
             IndicadorRepository.Guardar(indicador);
-            indicador.Grupo = indicador.IndicadorID;
-            IndicadorRepository.Guardar(indicador);
+
+            if (indicador.Grupo == 0)
+            {
+                indicador.Grupo = indicador.IndicadorID;
+                IndicadorRepository.Guardar(indicador);
+            }
 
             // Guardar los responsables
             GuardarResponsables(indicadorViewModel.Responsables, indicador.IndicadorID);

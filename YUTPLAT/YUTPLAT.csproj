@@ -318,6 +318,7 @@
     <Compile Include="ViewModel\HeatMapViewModel.cs" />
     <Compile Include="ViewModel\EscalaGraficosViewModel.cs" />
     <Compile Include="ViewModel\MedicionViewModel.cs" />
+    <Compile Include="ViewModel\CargarMedicionViewModel.cs" />
     <Compile Include="ViewModel\TableroViewModel.cs" />
     <Compile Include="ViewModel\ErrorViewModel.cs" />
     <Compile Include="ViewModel\MetaViewModel.cs" />
@@ -542,6 +543,7 @@
     <Content Include="Views\Indicador\Ver.cshtml" />
     <Content Include="Views\Error\HttpError.cshtml" />
     <Content Include="Views\Error\HttpErrorGeneral.cshtml" />
+    <Content Include="Views\Shared\_ModalCargarMedicion.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

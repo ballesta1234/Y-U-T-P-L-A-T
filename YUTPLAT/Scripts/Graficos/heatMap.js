@@ -48,8 +48,7 @@
         .attr("transform", "translate(-6," + gridSize / 1.5 + ")")
         .attr("class", "mono1")
         .on('click',
-            function (d) {
-                
+            function (d) {                
                 if (d3.select(this).classed("mono1")) {
                     jQuery('.detalleGrafico').show();
                     //scrollToAnchor('gaugeAncla');
@@ -105,9 +104,8 @@
                     tip.show(d, i);
             })
             .on('mouseout', tip.hide)
-            .on('click', function (d) {
-                jQuery(".modal-body #hola").text('Valor: ' + d.Medicion);
-                jQuery('#exampleModal').modal('show');
+            .on('click', function (d) {                
+                abrirModalCargaMedicion(d.IdIndicador, d.Mes);
             });
 
     heatMapGrafico.transition().style("fill", function (d) { return d.ColorMeta; });

@@ -197,12 +197,12 @@ namespace YUTPLAT.Services.Interface
                         CeldaHeatMapViewModel celdaHeatMapViewModel = new CeldaHeatMapViewModel();
                         celdaHeatMapViewModel.IndiceIndicador = i + 1;
                         celdaHeatMapViewModel.Mes = (int)mes;
+                        celdaHeatMapViewModel.IdIndicador = filasHeatMapViewModel[i].IdIndicador;
 
                         if (medicionesPorMes.Any(m => m.IndicadorViewModel.Grupo == filasHeatMapViewModel[i].Grupo && m.Mes == mes))
                         {
                             MedicionViewModel medicionPorMes = medicionesPorMes.First(m => m.IndicadorViewModel.Grupo == filasHeatMapViewModel[i].Grupo && m.Mes == mes);
-
-                            celdaHeatMapViewModel.IdIndicador = medicionPorMes.IndicadorID;
+                            
                             celdaHeatMapViewModel.Medicion = medicionPorMes.Valor;
                             celdaHeatMapViewModel.ColorMeta = ObtenerColorCeldaHeatMap(medicionPorMes);
                             celdaHeatMapViewModel.MedicionCargada = true;

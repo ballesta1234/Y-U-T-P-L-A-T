@@ -12,8 +12,6 @@ namespace YUTPLAT.Models
         {
             this.Responsables = new HashSet<ResponsableIndicador>();
             this.Interesados = new HashSet<InteresadoIndicador>();
-
-            this.Grupo = 1; 
         }
 
         [Key]
