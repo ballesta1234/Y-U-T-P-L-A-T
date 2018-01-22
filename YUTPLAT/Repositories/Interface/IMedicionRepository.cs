@@ -12,6 +12,8 @@ namespace YUTPLAT.Repositories.Interface
 
         IQueryable<Medicion> Todas();
 
-        IQueryable<Medicion> Buscar(MedicionViewModel filtro);        
+        IQueryable<Medicion> Buscar(MedicionViewModel filtro);
+
+        void Guardar(Medicion medicion);
     }
 }

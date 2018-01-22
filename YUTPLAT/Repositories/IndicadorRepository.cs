@@ -79,6 +79,10 @@ namespace YUTPLAT.Repositories
                 int objetivoId = Int32.Parse(filtro.Busqueda.ObjetivoID.Trim());
                 queryable = queryable.Where(a => a.ObjetivoID == objetivoId);
             }
+            if (filtro.Busqueda.Grupo != 0)
+            {                
+                queryable = queryable.Where(a => a.Grupo == filtro.Busqueda.Grupo);
+            }
 
             if (filtro.UltimoDeCadaGrupo)
             {

@@ -73,10 +73,19 @@ namespace YUTPLAT.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public ActionResult CargarMedicion(MedicionViewModel model, string returnUrl)
+        public ActionResult CargarMedicion(MedicionViewModel model)
         {
-            return RedirectToAction("Ver", "Tablero", new { q = MyExtensions.Encrypt(new { msgExito = "La medición se ha guardado exitosamente." }) });
+            if (!ModelState.IsValid)
+            {
+                ModelState.AddModelError(string.Empty, "Verifique que todos los campos estén cargados y sean correctos.");
 
+                return PartialView("_ModalCargarMedicion", model);
+            }
+
+            MedicionService.GuardarMedicion(model);
+
+            //return RedirectToAction("Ver", "Tablero", new { q = MyExtensions.Encrypt(new { msgExito = "La medición se ha guardado exitosamente." }) });
+            return Json(new { success = true });
         }
 
         [HttpPost]

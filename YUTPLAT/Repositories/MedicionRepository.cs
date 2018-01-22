@@ -3,6 +3,7 @@ using YUTPLAT.Models;
 using YUTPLAT.ViewModel;
 using YUTPLAT.Context;
 using YUTPLAT.Repositories.Interface;
+using System.Data.Entity.Migrations;
 
 namespace YUTPLAT.Repositories
 {
@@ -13,6 +14,12 @@ namespace YUTPLAT.Repositories
         public MedicionRepository(YutplatDbContext context)
         {
             this.context = context;
+        }
+
+        public void Guardar(Medicion medicion)
+        {
+            this.context.Mediciones.AddOrUpdate(medicion);
+            this.context.SaveChanges();
         }
 
         public IQueryable<Medicion> GetById(int id)

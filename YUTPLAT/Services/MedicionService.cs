@@ -53,16 +53,18 @@ namespace YUTPLAT.Services.Interface
             filtro.Grupo = grupo;
 
             IList<MedicionViewModel> medicionesViewModel = Buscar(filtro);
-
+            
             GaugeViewModel gaugeViewModel = new GaugeViewModel();
-
-
+            
             if (medicionesViewModel != null && medicionesViewModel.Count > 0)
             {
                 MedicionViewModel ultimaMedicionCargada = medicionesViewModel.OrderBy(m => m.Mes).Reverse().First();
 
+                // Obtener el último indicador
+                Indicador ultimoIndicador = IndicadorRepository.Buscar(new BuscarIndicadorViewModel { Busqueda = new IndicadorViewModel { Grupo = grupo } }).First();
+
                 gaugeViewModel.NombreMes = ultimaMedicionCargada.Mes.ToString();
-                gaugeViewModel.NombreIndicador = ultimaMedicionCargada.IndicadorViewModel.Nombre;
+                gaugeViewModel.NombreIndicador = ultimoIndicador.Nombre;
                 gaugeViewModel.Valor = ultimaMedicionCargada.Valor;
 
                 CompletarEscalasGauge(gaugeViewModel, ultimaMedicionCargada);
@@ -87,25 +89,60 @@ namespace YUTPLAT.Services.Interface
             decimal valorAMejorar =
                 ObtenerValorEscala(medicion.IndicadorViewModel.MetaAMejorarViewModel, medicion.IndicadorViewModel.MetaInaceptableViewModel);
 
-            if (valorExcelente > valorSatisfactorio)
+            if (valorExcelente >= valorSatisfactorio)
             {
-                decimal maximoEscala = (!string.IsNullOrEmpty(medicion.IndicadorViewModel.MetaExcelenteViewModel.Valor1) && decimal.Parse(medicion.IndicadorViewModel.MetaExcelenteViewModel.Valor1.Replace(".", ",")) > valorExcelente ? decimal.Parse(medicion.IndicadorViewModel.MetaExcelenteViewModel.Valor1.Replace(".", ",")) : decimal.Parse(medicion.IndicadorViewModel.MetaExcelenteViewModel.Valor2.Replace(".", ",")));
-                decimal minimoEscala = (!string.IsNullOrEmpty(medicion.IndicadorViewModel.MetaInaceptableViewModel.Valor1) && decimal.Parse(medicion.IndicadorViewModel.MetaInaceptableViewModel.Valor1.Replace(".", ",")) < valorAMejorar ? decimal.Parse(medicion.IndicadorViewModel.MetaInaceptableViewModel.Valor1.Replace(".", ",")) : decimal.Parse(medicion.IndicadorViewModel.MetaInaceptableViewModel.Valor2.Replace(".", ",")));
+                decimal minimoEscala = 0;
 
-                if (minimoEscala > 0)
-                    minimoEscala = 0;
+                if(!string.IsNullOrEmpty(medicion.IndicadorViewModel.MetaInaceptableViewModel.Valor1) && 
+                   !string.IsNullOrEmpty(medicion.IndicadorViewModel.MetaInaceptableViewModel.Valor2))
+                {
+                    minimoEscala = decimal.Parse(medicion.IndicadorViewModel.MetaInaceptableViewModel.Valor1.Replace(".", ",")) < decimal.Parse(medicion.IndicadorViewModel.MetaInaceptableViewModel.Valor2.Replace(".", ",")) ? decimal.Parse(medicion.IndicadorViewModel.MetaInaceptableViewModel.Valor1.Replace(".", ",")) : decimal.Parse(medicion.IndicadorViewModel.MetaInaceptableViewModel.Valor2.Replace(".", ","));
+                }
+                else
+                {
+                    minimoEscala = string.IsNullOrEmpty(medicion.IndicadorViewModel.MetaInaceptableViewModel.Valor1) ? decimal.Parse(medicion.IndicadorViewModel.MetaInaceptableViewModel.Valor2.Replace(".", ",")) : decimal.Parse(medicion.IndicadorViewModel.MetaInaceptableViewModel.Valor1.Replace(".", ","));
+                }
+                
+                decimal maximoEscala = 0;
+
+                if (!string.IsNullOrEmpty(medicion.IndicadorViewModel.MetaExcelenteViewModel.Valor1) &&
+                   !string.IsNullOrEmpty(medicion.IndicadorViewModel.MetaExcelenteViewModel.Valor2))
+                {
+                    maximoEscala = decimal.Parse(medicion.IndicadorViewModel.MetaExcelenteViewModel.Valor1.Replace(".", ",")) > decimal.Parse(medicion.IndicadorViewModel.MetaExcelenteViewModel.Valor2.Replace(".", ",")) ? decimal.Parse(medicion.IndicadorViewModel.MetaExcelenteViewModel.Valor1.Replace(".", ",")) : decimal.Parse(medicion.IndicadorViewModel.MetaExcelenteViewModel.Valor2.Replace(".", ","));
+                }
+                else
+                {
+                    maximoEscala = string.IsNullOrEmpty(medicion.IndicadorViewModel.MetaExcelenteViewModel.Valor1) ? decimal.Parse(medicion.IndicadorViewModel.MetaExcelenteViewModel.Valor2.Replace(".", ",")) : decimal.Parse(medicion.IndicadorViewModel.MetaExcelenteViewModel.Valor1.Replace(".", ","));
+                }
 
                 escalas.EscalaValores = new decimal[6] { minimoEscala, valorAMejorar, valorAceptable, valorSatisfactorio, valorExcelente, maximoEscala };
                 escalas.EscalaColores = ColorMetaInaceptableExcelente;
             }
             else
             {
-                decimal maximoEscala = (!string.IsNullOrEmpty(medicion.IndicadorViewModel.MetaInaceptableViewModel.Valor1) && decimal.Parse(medicion.IndicadorViewModel.MetaInaceptableViewModel.Valor1.Replace(".", ",")) > valorAMejorar ? decimal.Parse(medicion.IndicadorViewModel.MetaInaceptableViewModel.Valor1.Replace(".", ",")) : decimal.Parse(medicion.IndicadorViewModel.MetaInaceptableViewModel.Valor2.Replace(".", ",")));
-                decimal minimoEscala = (!string.IsNullOrEmpty(medicion.IndicadorViewModel.MetaExcelenteViewModel.Valor1) && decimal.Parse(medicion.IndicadorViewModel.MetaExcelenteViewModel.Valor1.Replace(".", ",")) < valorExcelente ? decimal.Parse(medicion.IndicadorViewModel.MetaExcelenteViewModel.Valor1.Replace(".", ",")) : decimal.Parse(medicion.IndicadorViewModel.MetaExcelenteViewModel.Valor2.Replace(".", ",")));
+                decimal maximoEscala = 0;
 
+                if (!string.IsNullOrEmpty(medicion.IndicadorViewModel.MetaInaceptableViewModel.Valor1) &&
+                   !string.IsNullOrEmpty(medicion.IndicadorViewModel.MetaInaceptableViewModel.Valor2))
+                {
+                    maximoEscala = decimal.Parse(medicion.IndicadorViewModel.MetaInaceptableViewModel.Valor1.Replace(".", ",")) > decimal.Parse(medicion.IndicadorViewModel.MetaInaceptableViewModel.Valor2.Replace(".", ",")) ? decimal.Parse(medicion.IndicadorViewModel.MetaInaceptableViewModel.Valor1.Replace(".", ",")) : decimal.Parse(medicion.IndicadorViewModel.MetaInaceptableViewModel.Valor2.Replace(".", ","));
+                }
+                else
+                {
+                    maximoEscala = string.IsNullOrEmpty(medicion.IndicadorViewModel.MetaInaceptableViewModel.Valor1) ? decimal.Parse(medicion.IndicadorViewModel.MetaInaceptableViewModel.Valor2.Replace(".", ",")) : decimal.Parse(medicion.IndicadorViewModel.MetaInaceptableViewModel.Valor1.Replace(".", ","));
+                }
 
-                if (minimoEscala > 0)
-                    minimoEscala = 0;
+                decimal minimoEscala = 0;
+
+                if (!string.IsNullOrEmpty(medicion.IndicadorViewModel.MetaExcelenteViewModel.Valor1) &&
+                   !string.IsNullOrEmpty(medicion.IndicadorViewModel.MetaExcelenteViewModel.Valor2))
+                {
+                    minimoEscala = decimal.Parse(medicion.IndicadorViewModel.MetaExcelenteViewModel.Valor1.Replace(".", ",")) < decimal.Parse(medicion.IndicadorViewModel.MetaExcelenteViewModel.Valor2.Replace(".", ",")) ? decimal.Parse(medicion.IndicadorViewModel.MetaExcelenteViewModel.Valor1.Replace(".", ",")) : decimal.Parse(medicion.IndicadorViewModel.MetaExcelenteViewModel.Valor2.Replace(".", ","));
+                }
+                else
+                {
+                    minimoEscala = string.IsNullOrEmpty(medicion.IndicadorViewModel.MetaExcelenteViewModel.Valor1) ? decimal.Parse(medicion.IndicadorViewModel.MetaExcelenteViewModel.Valor2.Replace(".", ",")) : decimal.Parse(medicion.IndicadorViewModel.MetaExcelenteViewModel.Valor1.Replace(".", ","));
+                }
 
                 escalas.EscalaValores = new decimal[6] { minimoEscala, valorExcelente, valorSatisfactorio, valorAceptable, valorAMejorar, maximoEscala };
                 escalas.EscalaColores = ColorMetaExcelenteInaceptable;
@@ -161,7 +198,7 @@ namespace YUTPLAT.Services.Interface
 
             decimal valorMedicion = decimal.Parse(medicion.Valor.Replace(".", ","));
 
-            while(valorMedicion >= valor)
+            while(valorMedicion >= valor && i < 5)
             {
                 i++;
                 valor = escalas.EscalaValores[i];                
@@ -221,13 +258,24 @@ namespace YUTPLAT.Services.Interface
         public MedicionViewModel ObtenerMedicionViewModel(int idIndicador, int mes, int? idMedicion)
         {
             MedicionViewModel medicionViewModel = new MedicionViewModel();
+            medicionViewModel.Mes = Helpers.EnumHelper<Enums.Enum.Mes>.Parse(mes.ToString());
+            medicionViewModel.IndicadorID = idIndicador;
 
-            if(idMedicion != null)
+            if (idMedicion != null)
             {
                 medicionViewModel = this.GetById(idMedicion.Value);
             }
 
             return medicionViewModel;
+        }
+
+        public void GuardarMedicion(MedicionViewModel medicionViewModel)
+        {
+            if (medicionViewModel.MedicionId == 0)
+            {
+                Medicion medicion = AutoMapper.Mapper.Map<Medicion>(medicionViewModel);
+                MedicionRepository.Guardar(medicion);
+            }
         }
     }
 }
