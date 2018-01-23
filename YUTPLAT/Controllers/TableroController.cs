@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
 using YUTPLAT.Helpers;
@@ -24,6 +25,14 @@ namespace YUTPLAT.Controllers
         [EncryptedActionParameter]
         public ActionResult Ver(string msgExito)
         {
+
+           // var clone = (CultureInfo)CultureInfo.InvariantCulture.Clone();
+          //  clone.NumberFormat.NumberDecimalSeparator = ",";
+          //  clone.NumberFormat.NumberGroupSeparator = ".";
+
+            string s = "1,14535765";
+            decimal d = decimal.Parse(s);
+
             TableroViewModel model = new TableroViewModel();
             model.Titulo = "Tablero";
 

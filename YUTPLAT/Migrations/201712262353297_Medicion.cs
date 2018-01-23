@@ -14,7 +14,7 @@ namespace YUTPLAT.Migrations
                         MedicionId = c.Int(nullable: false, identity: true),
                         IndicadorID = c.Int(nullable: false),
                         Mes = c.Int(nullable: false),
-                        Valor = c.Decimal(nullable: false, precision: 18, scale: 2),
+                        Valor = c.Decimal(nullable: false, precision: 18, scale: 3),
                         FechaCarga = c.DateTime(),
                         UsuarioCargo = c.String(),
                     })

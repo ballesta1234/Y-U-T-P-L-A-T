@@ -271,7 +271,7 @@ namespace YUTPLAT.Services.Interface
 
         public void GuardarMedicion(MedicionViewModel medicionViewModel)
         {
-            if (medicionViewModel.MedicionId == 0)
+            if (medicionViewModel.MedicionId == 0 || (int)medicionViewModel.Mes == DateTimeHelper.OntenerFechaActual().Month)
             {
                 Medicion medicion = AutoMapper.Mapper.Map<Medicion>(medicionViewModel);
                 MedicionRepository.Guardar(medicion);

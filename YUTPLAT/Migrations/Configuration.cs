@@ -5,6 +5,8 @@ namespace YUTPLAT.Migrations
     using Microsoft.AspNet.Identity.EntityFramework;
     using System.Linq;
     using Models;
+    using System.IO;
+    using System;
 
     internal sealed class Configuration : DbMigrationsConfiguration<YUTPLAT.Context.YutplatDbContext>
     {
@@ -16,9 +18,25 @@ namespace YUTPLAT.Migrations
 
         protected override void Seed(YUTPLAT.Context.YutplatDbContext context)
         {
+            //if (!System.Diagnostics.Debugger.IsAttached) System.Diagnostics.Debugger.Launch();
+
             CargarRoles(context);
             CargarUsuarios(context);
             CargarFrecuenciasMedicionIndicadores(context);
+
+            string dirName = AppDomain.CurrentDomain.BaseDirectory; // Starting Dir
+            FileInfo fileInfo = new FileInfo(dirName);
+            DirectoryInfo parentDir = fileInfo.Directory.Parent;
+            string parentDirName = parentDir.FullName; // Parent of Starting Dir
+
+            var archivosSql = Directory.GetFiles(parentDirName + "\\SQL", "*.sql").OrderBy(x => x);
+             
+            foreach(string archivo in archivosSql)
+            {
+                context.Database.ExecuteSqlCommand(File.ReadAllText(archivo));
+            }
+
+            base.Seed(context);
         }
 
         private void CargarRoles(YUTPLAT.Context.YutplatDbContext context)
