@@ -30,6 +30,10 @@ namespace YUTPLAT.Context
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
+
+            modelBuilder.Entity<Medicion>().Property(x => x.Valor).HasPrecision(18, 3);
+            modelBuilder.Entity<Meta>().Property(x => x.Valor1).HasPrecision(18, 3);
+            modelBuilder.Entity<Meta>().Property(x => x.Valor2).HasPrecision(18, 3);
         }
     }    
 }

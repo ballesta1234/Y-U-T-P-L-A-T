@@ -273,6 +273,10 @@
     <Compile Include="Migrations\201801220040384_Agregar Comentario en Medicion.Designer.cs">
       <DependentUpon>201801220040384_Agregar Comentario en Medicion.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201801230323545_Presion a tres decimales.cs" />
+    <Compile Include="Migrations\201801230323545_Presion a tres decimales.Designer.cs">
+      <DependentUpon>201801230323545_Presion a tres decimales.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\Medicion.cs" />
     <Compile Include="Models\Meta.cs" />
     <Compile Include="Models\FrecuenciaMedicionIndicador.cs" />
@@ -575,6 +579,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201801220040384_Agregar Comentario en Medicion.resx">
       <DependentUpon>201801220040384_Agregar Comentario en Medicion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801230323545_Presion a tres decimales.resx">
+      <DependentUpon>201801230323545_Presion a tres decimales.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
