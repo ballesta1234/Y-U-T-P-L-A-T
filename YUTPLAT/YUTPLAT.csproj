@@ -277,6 +277,11 @@
     <Compile Include="Migrations\201801230323545_Presion a tres decimales.Designer.cs">
       <DependentUpon>201801230323545_Presion a tres decimales.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201801250237316_Archivo SQL.cs" />
+    <Compile Include="Migrations\201801250237316_Archivo SQL.Designer.cs">
+      <DependentUpon>201801250237316_Archivo SQL.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ArchivoSQL.cs" />
     <Compile Include="Models\Medicion.cs" />
     <Compile Include="Models\Meta.cs" />
     <Compile Include="Models\FrecuenciaMedicionIndicador.cs" />
@@ -582,6 +587,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201801230323545_Presion a tres decimales.resx">
       <DependentUpon>201801230323545_Presion a tres decimales.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801250237316_Archivo SQL.resx">
+      <DependentUpon>201801250237316_Archivo SQL.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

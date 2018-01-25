@@ -25,8 +25,8 @@ INSERT INTO [dbo].[Indicador] ([Nombre], [Descripcion], [FechaCreacion], [Ultimo
 								[MetaInaceptableMetaID], 
 								[MetaAMejorarMetaID], [MetaAceptableMetaID], [MetaSatisfactoriaMetaID], [MetaExcelenteMetaID], [Grupo])
 SELECT 
-	N'2 modificado', 
-	N'SPI o Schedule Performance Index: Earned Value  / Planned Value de los proyectos activos llave en mano, incluyendo en garantía. 65777', 
+	N'SPI o Schedule Performance Index: Earned Value  / Planned Value de los proyectos activos llave en mano, incluyendo en garantía', 
+	N'SPI o Schedule Performance Index: Earned Value  / Planned Value de los proyectos activos llave en mano, incluyendo en garantía', 
 	N'2018-01-19 22:20:00', 
 	N'mballestero', 
 	N'2018-01-20 21:28:00', 
@@ -40,6 +40,6 @@ SELECT
 	1
 FROM 
 	[dbo].[Objetivo]
-WHERE [Nombre] = N'Medir el progreso de los proyectos en curso en comparación con el progreso planeado para corregir posibles desvíos.'
+WHERE [Nombre] = N'Medir el progreso de los proyectos en curso en comparación con el progreso planeado para corregir posibles desvíos'
 
 UPDATE [dbo].[Indicador] SET [Grupo] = @@IDENTITY

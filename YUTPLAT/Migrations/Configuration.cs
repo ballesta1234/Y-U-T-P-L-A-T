@@ -23,20 +23,29 @@ namespace YUTPLAT.Migrations
             CargarRoles(context);
             CargarUsuarios(context);
             CargarFrecuenciasMedicionIndicadores(context);
+            EjecutarArchivosSQL(context);
 
+            base.Seed(context);
+        }
+
+        private void EjecutarArchivosSQL(YUTPLAT.Context.YutplatDbContext context)
+        {
             string dirName = AppDomain.CurrentDomain.BaseDirectory; // Starting Dir
             FileInfo fileInfo = new FileInfo(dirName);
             DirectoryInfo parentDir = fileInfo.Directory.Parent;
             string parentDirName = parentDir.FullName; // Parent of Starting Dir
 
             var archivosSql = Directory.GetFiles(parentDirName + "\\SQL", "*.sql").OrderBy(x => x);
-             
-            foreach(string archivo in archivosSql)
-            {
-                context.Database.ExecuteSqlCommand(File.ReadAllText(archivo));
-            }
 
-            base.Seed(context);
+            foreach (string archivo in archivosSql)
+            {
+                if (!context.ArchivosSQL.Any(r => r.NombreArchivo == archivo.Replace(parentDirName + "\\SQL\\", "")))
+                {
+                    context.Database.ExecuteSqlCommand(File.ReadAllText(archivo));
+                    context.ArchivosSQL.AddOrUpdate(new YUTPLAT.Models.ArchivoSQL { NombreArchivo = archivo.Replace(parentDirName + "\\SQL\\", "") });
+                }
+            }
+            context.SaveChanges();
         }
 
         private void CargarRoles(YUTPLAT.Context.YutplatDbContext context)

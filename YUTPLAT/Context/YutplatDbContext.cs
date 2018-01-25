@@ -16,7 +16,8 @@ namespace YUTPLAT.Context
         public virtual IDbSet<InteresadoIndicador> InteresadosIndicador { get; set; }
         public virtual IDbSet<ResponsableIndicador> ResponsablesIndicador { get; set; }
         public virtual IDbSet<Medicion> Mediciones { get; set; }
-
+        public virtual IDbSet<ArchivoSQL> ArchivosSQL { get; set; }
+        
         public YutplatDbContext() : base("DefaultConnection", throwIfV1Schema: false)
         {
         }

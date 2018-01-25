@@ -4,6 +4,7 @@ using YUTPLAT.Models;
 using YUTPLAT.Repositories.Interface;
 using System.Linq;
 using YUTPLAT.ViewModel;
+using YUTPLAT.Helpers;
 
 namespace YUTPLAT.Services.Interface
 {
@@ -55,7 +56,9 @@ namespace YUTPLAT.Services.Interface
             {
                 Indicador indicadorOriginal = IndicadorRepository.GetById(indicadorViewModel.Id).First();
 
-                if (HayCambios(indicadorOriginal, indicadorViewModel) && MedicionRepository.Buscar(new MedicionViewModel { IndicadorID = indicadorViewModel.Id }).Any())
+                int mesActual = DateTimeHelper.OntenerFechaActual().Month;
+
+                if (HayCambios(indicadorOriginal, indicadorViewModel) && MedicionRepository.Buscar(new MedicionViewModel { IndicadorID = indicadorViewModel.Id }).Any( m => (int)m.Mes != mesActual))
                 {
                     indicadorViewModel.Id = 0;
                     modificado = true;
