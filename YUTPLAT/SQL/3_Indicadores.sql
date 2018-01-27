@@ -11,7 +11,7 @@ SET @META_ACEPTABLE = @@IDENTITY
 INSERT INTO [dbo].[Meta] ([Valor1], [Valor2], [Signo1], [Signo2]) VALUES (CAST(0.490 AS Decimal(18, 3)), CAST(0.700 AS Decimal(18, 3)), 4, 1)
 SET @META_A_MEJORAR = @@IDENTITY
 
-INSERT INTO [dbo].[Meta] ([Valor1], [Valor2], [Signo1], [Signo2]) VALUES (CAST(0.990 AS Decimal(18, 3)), CAST(0.000 AS Decimal(18, 3)), 4, 0)
+INSERT INTO [dbo].[Meta] ([Valor1], [Valor2], [Signo1], [Signo2]) VALUES (CAST(0.990 AS Decimal(18, 3)), NULL, 4, 0)
 SET @META_EXCELENTE = @@IDENTITY
 
 INSERT INTO [dbo].[Meta] ([Valor1], [Valor2], [Signo1], [Signo2]) VALUES (CAST(0.000 AS Decimal(18, 3)), CAST(0.490 AS Decimal(18, 3)), 4, 1)

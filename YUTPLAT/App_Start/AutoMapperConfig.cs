@@ -66,15 +66,15 @@ namespace YUTPLAT.App_Start
                    .ForMember(x => x.NombreUsuario, x => x.MapFrom(y => y.UserName));
 
                     cfg.CreateMap<Meta, MetaViewModel>()
-                    .ForMember(x => x.Valor1, x => x.MapFrom(y => (y.Valor1 == 0 && (int)y.Signo1 == 0) ? "" : y.Valor1.ToString().Replace(",", ".").TrimEnd('0').TrimEnd('.')))               
-                    .ForMember(x => x.Valor2, x => x.MapFrom(y => (y.Valor2 == 0 && (int)y.Signo2 == 0) ? "" : y.Valor2.ToString().Replace(",", ".").TrimEnd('0').TrimEnd('.')));
+                    .ForMember(x => x.Valor1, x => x.MapFrom(y => (y.Valor1 == null && (int)y.Signo1 == 0) ? "" : y.Valor1.Value.ToString().Replace(",", ".").TrimEnd('0').TrimEnd('.')))               
+                    .ForMember(x => x.Valor2, x => x.MapFrom(y => (y.Valor2 == null && (int)y.Signo2 == 0) ? "" : y.Valor2.Value.ToString().Replace(",", ".").TrimEnd('0').TrimEnd('.')));
 
                     cfg.CreateMap<MetaViewModel, Meta>()
-                    .ForMember(x => x.Valor1, x => x.MapFrom(y => Decimal.Parse(y.Valor1.Replace(".",","))))
-                    .ForMember(x => x.Valor2, x => x.MapFrom(y => Decimal.Parse(y.Valor2.Replace(".", ","))));
+                    .ForMember(x => x.Valor1, x => x.MapFrom(y => string.IsNullOrEmpty(y.Valor1) ? (decimal?)null : Decimal.Parse(y.Valor1.Replace(".",","))))
+                    .ForMember(x => x.Valor2, x => x.MapFrom(y => string.IsNullOrEmpty(y.Valor2) ? (decimal?)null : Decimal.Parse(y.Valor2.Replace(".", ","))));
 
                     cfg.CreateMap<Medicion, MedicionViewModel>()
-                    .ForMember(x => x.Valor, x => x.MapFrom(y => (y.Valor == 0) ? "" : y.Valor.ToString().Replace(",", ".")))
+                    .ForMember(x => x.Valor, x => x.MapFrom(y => (y.Valor == 0) ? "" : y.Valor.ToString().Replace(",", ".").TrimEnd('0').TrimEnd('.')))
                     .ForMember(x => x.FechaCarga, x => x.MapFrom(y => y.FechaCarga != null ? y.FechaCarga.Value.ToString("dd/MM/yyyy HH:mm tt") : ""))
                     .ForMember(x => x.IndicadorViewModel, x => x.MapFrom(y => y.Indicador));
 

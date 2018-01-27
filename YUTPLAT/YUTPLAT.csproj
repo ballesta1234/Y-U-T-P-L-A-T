@@ -281,6 +281,10 @@
     <Compile Include="Migrations\201801250237316_Archivo SQL.Designer.cs">
       <DependentUpon>201801250237316_Archivo SQL.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201801271608444_Null valor meta.cs" />
+    <Compile Include="Migrations\201801271608444_Null valor meta.Designer.cs">
+      <DependentUpon>201801271608444_Null valor meta.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\ArchivoSQL.cs" />
     <Compile Include="Models\Medicion.cs" />
     <Compile Include="Models\Meta.cs" />
@@ -590,6 +594,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201801250237316_Archivo SQL.resx">
       <DependentUpon>201801250237316_Archivo SQL.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801271608444_Null valor meta.resx">
+      <DependentUpon>201801271608444_Null valor meta.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

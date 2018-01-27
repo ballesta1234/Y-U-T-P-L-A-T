@@ -46,6 +46,11 @@ namespace YUTPLAT.Repositories
                 queryable = queryable.Where(m => m.IndicadorID == filtro.IndicadorID);
             }
 
+            if (filtro.Mes > 0)
+            {
+                queryable = queryable.Where(m => m.Mes == filtro.Mes);
+            }
+
             return queryable;
         }
 

@@ -52,11 +52,11 @@ namespace YUTPLAT.Services.Interface
         {
             bool modificado = false;
 
+            int mesActual = DateTimeHelper.OntenerFechaActual().Month;
+            
             if (indicadorViewModel.Id > 0)
             {
                 Indicador indicadorOriginal = IndicadorRepository.GetById(indicadorViewModel.Id).First();
-
-                int mesActual = DateTimeHelper.OntenerFechaActual().Month;
 
                 if (HayCambios(indicadorOriginal, indicadorViewModel) && MedicionRepository.Buscar(new MedicionViewModel { IndicadorID = indicadorViewModel.Id }).Any( m => (int)m.Mes != mesActual))
                 {
@@ -75,7 +75,7 @@ namespace YUTPLAT.Services.Interface
 
             if(modificado)
             {
-                indicador.FechaCreacion = indicador.FechaCreacion.Value.AddSeconds(1);
+                indicador.FechaCreacion = indicador.FechaCreacion.Value.AddMinutes(1);
             }
 
             indicador.MetaAceptableMetaID = GuardarMeta(indicadorViewModel.MetaAceptableViewModel);
@@ -98,7 +98,22 @@ namespace YUTPLAT.Services.Interface
             
             // Guardar los interesados
             GuardarInteresados(indicadorViewModel.Interesados, indicador.IndicadorID);
+                        
+            if (modificado)
+            {
+                // Si hay mediciones cargadas para el indicador que se esta modificando, actualizar la referencia al nuevo indicador
+                IList<Medicion> mediciones = MedicionRepository.Buscar(new MedicionViewModel { IndicadorID = indicadorViewModel.Id, Mes = (Enums.Enum.Mes)mesActual }).ToList();
 
+                if (mediciones != null && mediciones.Count > 0)
+                {
+                    foreach (Medicion medicion in mediciones)
+                    {
+                        medicion.IndicadorID = indicador.IndicadorID;
+                        MedicionRepository.Guardar(medicion);
+                    }
+                }
+            }
+            
             return indicador.IndicadorID;
         }
 
@@ -163,11 +178,15 @@ namespace YUTPLAT.Services.Interface
 
         private bool MetasDiferentes(Meta metaOriginal, MetaViewModel metaCargada)
         {
-            if(!metaOriginal.Valor1.ToString().Trim().Equals(metaCargada.Valor1.Trim()))
+            if( (metaOriginal.Valor1 == null && !string.IsNullOrEmpty(metaCargada.Valor1)) || 
+                (metaOriginal.Valor1 != null && string.IsNullOrEmpty(metaCargada.Valor1)) || 
+                (metaOriginal.Valor1 != null && !metaOriginal.Valor1.Value.ToString().Replace(",", ".").TrimEnd('0').TrimEnd('.').Equals(metaCargada.Valor1)))
             {
                 return true;
             }
-            if (!metaOriginal.Valor2.ToString().Trim().Equals(metaCargada.Valor2.Trim()))
+            if ( (metaOriginal.Valor2 == null && !string.IsNullOrEmpty(metaCargada.Valor2)) ||
+                 (metaOriginal.Valor2 != null && string.IsNullOrEmpty(metaCargada.Valor2)) ||
+                 (metaOriginal.Valor2 != null && !metaOriginal.Valor2.Value.ToString().Replace(",", ".").TrimEnd('0').TrimEnd('.').Equals(metaCargada.Valor2)))
             {
                 return true;
             }
