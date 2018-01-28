@@ -74,7 +74,7 @@ namespace YUTPLAT.App_Start
                     .ForMember(x => x.Valor2, x => x.MapFrom(y => string.IsNullOrEmpty(y.Valor2) ? (decimal?)null : Decimal.Parse(y.Valor2.Replace(".", ","))));
 
                     cfg.CreateMap<Medicion, MedicionViewModel>()
-                    .ForMember(x => x.Valor, x => x.MapFrom(y => (y.Valor == 0) ? "" : y.Valor.ToString().Replace(",", ".").TrimEnd('0').TrimEnd('.')))
+                    .ForMember(x => x.Valor, x => x.MapFrom(y => y.Valor.ToString().Replace(",", ".").TrimEnd('0').TrimEnd('.')))
                     .ForMember(x => x.FechaCarga, x => x.MapFrom(y => y.FechaCarga != null ? y.FechaCarga.Value.ToString("dd/MM/yyyy HH:mm tt") : ""))
                     .ForMember(x => x.IndicadorViewModel, x => x.MapFrom(y => y.Indicador));
 

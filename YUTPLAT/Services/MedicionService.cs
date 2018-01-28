@@ -193,7 +193,7 @@ namespace YUTPLAT.Services.Interface
         {
             EscalaGraficosViewModel escalas = ObtenerEscalasGrafico(medicion);
 
-            decimal valor = 0;
+            decimal valor = escalas.EscalaValores[0];
             int i = 0;
 
             decimal valorMedicion = decimal.Parse(medicion.Valor.Replace(".", ","));
@@ -203,6 +203,9 @@ namespace YUTPLAT.Services.Interface
                 i++;
                 valor = escalas.EscalaValores[i];                
             }
+
+            if (i == 0)
+                i++;
 
             return escalas.EscalaColores[i-1];
         }

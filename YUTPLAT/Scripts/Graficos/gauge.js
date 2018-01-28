@@ -28,7 +28,7 @@
 
     var donut = d3.layout.pie();
 
-    function deg2rad(deg) {        
+    function deg2rad(deg) {
         return deg * Math.PI / 180;
     }
 
@@ -49,10 +49,10 @@
             .innerRadius(r - config.ringWidth - config.ringInset)
             .outerRadius(r - config.ringInset)
             .startAngle(function (d, i) {                
-                return deg2rad(-90 + (180 * (config.ticks[i] / config.ticks[5])));
+                return deg2rad(-90 + (180 * ((config.ticks[i] - config.ticks[0]) / (config.ticks[5] - config.ticks[0]))));                
             })
             .endAngle(function (d, i) {                
-                return deg2rad(-90 + (180 * (config.ticks[i + 1] / config.ticks[5])));
+                return deg2rad(-90 + (180 * ((config.ticks[i+1] - config.ticks[0]) / (config.ticks[5] - config.ticks[0]))));
             });
     }
     that.configure = configure;
