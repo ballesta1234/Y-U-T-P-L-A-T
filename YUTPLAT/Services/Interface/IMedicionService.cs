@@ -18,7 +18,7 @@ namespace YUTPLAT.Services.Interface
 
         IList<LineViewModel> ObtenerLineViewModel(long grupo);
 
-        MedicionViewModel ObtenerMedicionViewModel(int idIndicador, int mes, int? idMedicion);
+        MedicionViewModel ObtenerMedicionViewModel(int idIndicador, int mes, int? idMedicion, long grupo);
 
         void GuardarMedicion(MedicionViewModel medicionViewModel);
     }

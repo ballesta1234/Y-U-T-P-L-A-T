@@ -38,7 +38,6 @@ namespace YUTPLAT.Controllers
         {
             DemoViewModel model = new DemoViewModel();
             model.Titulo = "Dashboard";
-
             ViewBag.Titulo = model.Titulo;
 
             return View(model);
@@ -48,7 +47,6 @@ namespace YUTPLAT.Controllers
         {
             TableroViewModel model = new TableroViewModel();
             model.Titulo = "Tablero";
-
             ViewBag.Titulo = model.Titulo;
 
             return View(model);
@@ -76,23 +74,30 @@ namespace YUTPLAT.Controllers
         [AllowAnonymous]
         public ActionResult CargarMedicion(MedicionViewModel model)
         {
-            if (!ModelState.IsValid)
+            if (!ModelState.IsValidField("Valor") || !ModelState.IsValidField("Comentario"))
             {
                 ModelState.AddModelError(string.Empty, "Verifique que todos los campos estén cargados y sean correctos.");
-
-                return PartialView("_ModalCargarMedicion", model);
+                return PartialView("Medicion/_Crear", model);
             }
 
-            MedicionService.GuardarMedicion(model);
+            model.FechaCarga = DateTimeHelper.OntenerFechaActual().ToString("dd/MM/yyyy HH:mm tt");
+            model.UsuarioCargo = User.Identity.Name;
 
-            //return RedirectToAction("Ver", "Tablero", new { q = MyExtensions.Encrypt(new { msgExito = "La medición se ha guardado exitosamente." }) });
+            MedicionService.GuardarMedicion(model);
             return Json(new { success = true });
         }
 
         [HttpPost]
-        public ActionResult AbrirModalCargaMedicion(int idIndicador, int mes, int? idMedicion)
-        {         
-            return PartialView("_ModalCargarMedicion", MedicionService.ObtenerMedicionViewModel(idIndicador, mes, idMedicion));
+        public ActionResult AbrirModalCargaMedicion(int idIndicador, int mes, int? idMedicion, long grupo)
+        {
+            string view = "Medicion/_Crear";
+
+            if (idMedicion != null && mes != DateTimeHelper.OntenerFechaActual().Month)
+            {
+                view = "Medicion/_Ver";
+            }
+
+            return PartialView(view, MedicionService.ObtenerMedicionViewModel(idIndicador, mes, idMedicion, grupo));
         }
 
         

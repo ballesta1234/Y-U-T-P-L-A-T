@@ -123,8 +123,6 @@
     function scrollToAnchor(aid) {
         var aTag = jQuery("a[name='" + aid + "']");
         jQuery('html,body').animate({ scrollTop: aTag.offset().top }, 'slow');
-
-        alert(aTag.offset().top);
     }
 
     function obtenerHeatMapViewModel() {
@@ -192,7 +190,9 @@
         return valores;
     };
 
-    function abrirModalCargaMedicion(idIndicador, mes, idMedicion) {
+    function abrirModalCargaMedicion(idIndicador, mes, idMedicion, nombreMes, grupo) {
+        
+        jQuery("#tituloModal").text("Medición del indicador - " + nombreMes);
 
         var serviceURL = '@Url.Action("AbrirModalCargaMedicion", "Tablero")';
 
@@ -200,7 +200,7 @@
             type: "POST",
             url: serviceURL,
             async: false,
-            data: JSON.stringify({ idIndicador: idIndicador, mes: mes, idMedicion: idMedicion }),
+            data: JSON.stringify({ idIndicador: idIndicador, mes: mes, idMedicion: idMedicion, grupo: grupo }),
             contentType: "application/json; charset=utf-8",
             dataType: "html",
             success: function successFunc(response) {
@@ -248,11 +248,11 @@
                             </div>
                         </div>
 
-                        <div class="modal fade" id="cargaMedicionModal" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal fade" id="cargaMedicionModal" role="dialog" aria-labelledby="tituloModal" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel">Ingreso de la medición del indicador</h5>                                        
+                                        <h5 class="modal-title" id="tituloModal">Ingreso de la medición del indicador - </h5>                                        
                                     </div>
                                     <div id="contenidoModal" />
                                 </div>

@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using YUTPLAT.Helpers;
 using static YUTPLAT.Enums.Enum;
 
 namespace YUTPLAT.ViewModel
@@ -15,6 +16,25 @@ namespace YUTPLAT.ViewModel
 
         public Signo Signo1 { get; set; }
         public Signo Signo2 { get; set; }
+
+        public override string ToString()
+        {
+            string meta = "";
+            
+            if (!string.IsNullOrEmpty(Valor1))
+                meta = Valor1;
+            if ((int)Signo1 > 0)
+                meta += EnumHelper<Enums.Enum.Signo>.GetDisplayValue(Signo1);
+
+            meta += "nº";
+
+            if ((int)Signo2 >0)
+                meta += EnumHelper<Enums.Enum.Signo>.GetDisplayValue(Signo2);
+            if (!string.IsNullOrEmpty(Valor2))
+                meta += Valor2;           
+
+            return meta;
+        }
     }
 }
 

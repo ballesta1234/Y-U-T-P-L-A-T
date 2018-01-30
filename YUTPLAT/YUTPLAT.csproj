@@ -559,7 +559,8 @@
     <Content Include="Views\Indicador\Ver.cshtml" />
     <Content Include="Views\Error\HttpError.cshtml" />
     <Content Include="Views\Error\HttpErrorGeneral.cshtml" />
-    <Content Include="Views\Shared\_ModalCargarMedicion.cshtml" />
+    <Content Include="Views\Shared\Medicion\_Crear.cshtml" />
+    <Content Include="Views\Shared\Medicion\_Ver.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

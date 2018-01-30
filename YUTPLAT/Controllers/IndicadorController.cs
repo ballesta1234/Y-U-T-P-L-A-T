@@ -147,7 +147,7 @@ namespace YUTPLAT.Controllers
             model.Titulo = "Indicadores";
             ViewBag.Titulo = model.Titulo;
 
-            model.FechaUltimaModificacion = DateTime.Now.ToString("dd/MM/yyyy HH:mm tt");
+            model.FechaUltimaModificacion = DateTimeHelper.OntenerFechaActual().ToString("dd/MM/yyyy HH:mm tt");
             model.UltimoUsuarioModifico = User.Identity.Name;
             
             int idIndicador = IndicadorService.Guardar(model);

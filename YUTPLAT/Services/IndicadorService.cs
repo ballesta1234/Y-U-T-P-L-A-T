@@ -28,6 +28,21 @@ namespace YUTPLAT.Services.Interface
             this.MetaRepository = metaRepository;
             this.MedicionRepository = medicionRepository;
         }
+        
+        public IndicadorViewModel GetUltimoByGrupo(long grupo)
+        {
+            // Obtener el nombre del último indicador del grupo.
+            Indicador indicador = IndicadorRepository.Buscar(new BuscarIndicadorViewModel { Busqueda = new IndicadorViewModel { Grupo = grupo } }).First();
+
+            IndicadorViewModel indicadorViewModel = AutoMapper.Mapper.Map<IndicadorViewModel>(indicador);
+            indicadorViewModel.ObjetivoViewModel = AutoMapper.Mapper.Map<ObjetivoViewModel>(indicador.Objetivo);
+            indicadorViewModel.ObjetivoViewModel.AreaViewModel = AutoMapper.Mapper.Map<AreaViewModel>(indicador.Objetivo.Area);
+            indicadorViewModel.FrecuenciaMedicionIndicadorViewModel = AutoMapper.Mapper.Map<FrecuenciaMedicionIndicadorViewModel>(indicador.FrecuenciaMedicion);
+            indicadorViewModel.Interesados = AutoMapper.Mapper.Map<IList<PersonaViewModel>>(indicador.Interesados.Select(i => i.Persona));
+            indicadorViewModel.Responsables = AutoMapper.Mapper.Map<IList<PersonaViewModel>>(indicador.Responsables.Select(i => i.Persona));
+
+            return indicadorViewModel;
+        }
 
         public IndicadorViewModel GetById(int id)
         {

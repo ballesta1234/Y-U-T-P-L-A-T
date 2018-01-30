@@ -105,8 +105,8 @@
                     tip.show(d, i);
             })
             .on('mouseout', tip.hide)
-            .on('click', function (d) {                
-                abrirModalCargaMedicion(d.IdIndicador, d.Mes, d.IdMedicion);
+            .on('click', function (d) {
+                abrirModalCargaMedicion(d.IdIndicador, d.Mes, d.IdMedicion, d.NombreMes, d.GrupoIndicador);
             });
 
     heatMapGrafico.transition().style("fill", function (d) { return d.ColorMeta; });

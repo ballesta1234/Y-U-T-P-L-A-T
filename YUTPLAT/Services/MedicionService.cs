@@ -17,11 +17,13 @@ namespace YUTPLAT.Services.Interface
 
         private IMedicionRepository MedicionRepository { get; set; }
         private IIndicadorRepository IndicadorRepository { get; set; }
+        private IIndicadorService IndicadorService { get; set; }
 
-        public MedicionService(IMedicionRepository medicionRepository, IIndicadorRepository indicadorRepository)
+        public MedicionService(IMedicionRepository medicionRepository, IIndicadorRepository indicadorRepository, IIndicadorService indicadorService)
         {
             this.MedicionRepository = medicionRepository;
             this.IndicadorRepository = indicadorRepository;
+            this.IndicadorService = indicadorService;
         }
 
         public MedicionViewModel GetById(int id)
@@ -238,6 +240,8 @@ namespace YUTPLAT.Services.Interface
                         celdaHeatMapViewModel.IndiceIndicador = i + 1;
                         celdaHeatMapViewModel.Mes = (int)mes;
                         celdaHeatMapViewModel.IdIndicador = filasHeatMapViewModel[i].IdIndicador;
+                        celdaHeatMapViewModel.GrupoIndicador = filasHeatMapViewModel[i].Grupo;
+                        celdaHeatMapViewModel.NombreMes = mes.ToString();
 
                         if (medicionesPorMes.Any(m => m.IndicadorViewModel.Grupo == filasHeatMapViewModel[i].Grupo && m.Mes == mes))
                         {
@@ -258,16 +262,25 @@ namespace YUTPLAT.Services.Interface
             return heatMapViewModel;
         }
 
-        public MedicionViewModel ObtenerMedicionViewModel(int idIndicador, int mes, int? idMedicion)
+        public MedicionViewModel ObtenerMedicionViewModel(int idIndicador, int mes, int? idMedicion, long grupo)
         {
             MedicionViewModel medicionViewModel = new MedicionViewModel();
             medicionViewModel.Mes = Helpers.EnumHelper<Enums.Enum.Mes>.Parse(mes.ToString());
             medicionViewModel.IndicadorID = idIndicador;
 
+            // Obtener el nombre del último indicador del grupo.
+            IndicadorViewModel indicadorViewModel = IndicadorService.GetUltimoByGrupo(grupo);
+                        
             if (idMedicion != null)
             {
                 medicionViewModel = this.GetById(idMedicion.Value);
             }
+            else
+            {
+                medicionViewModel.IndicadorViewModel = indicadorViewModel;
+            }
+
+            medicionViewModel.IndicadorViewModel.Nombre = indicadorViewModel.Nombre;
 
             return medicionViewModel;
         }
@@ -277,6 +290,8 @@ namespace YUTPLAT.Services.Interface
             if (medicionViewModel.MedicionId == 0 || (int)medicionViewModel.Mes == DateTimeHelper.OntenerFechaActual().Month)
             {
                 Medicion medicion = AutoMapper.Mapper.Map<Medicion>(medicionViewModel);
+                medicion.Indicador = null;
+
                 MedicionRepository.Guardar(medicion);
             }
         }

@@ -23,7 +23,7 @@ namespace YUTPLAT.ViewModel
 
         [StringLength(2000)]
         [Display(Name = "Comentario")]
-        public string Comentario { get; set; }
+        public string Comentario { get; set; }        
     }
 }
 
