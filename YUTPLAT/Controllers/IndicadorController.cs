@@ -42,9 +42,15 @@ namespace YUTPLAT.Controllers
         [HttpPost]
         public ActionResult Buscar(BuscarIndicadorViewModel model)
         {
+            string rolAdmin = EnumHelper<Enums.Enum.Rol>.GetDisplayValue(Enums.Enum.Rol.Admin);
+            string rolUsuario = EnumHelper<Enums.Enum.Rol>.GetDisplayValue(Enums.Enum.Rol.Usuario);
+
             ViewBag.SinResultados = null;
 
-            IList<IndicadorViewModel> indicadores = IndicadorService.Buscar(model);
+            model.NombreUsuario = User.Identity.Name;
+            model.RolUsuario = User.IsInRole(rolAdmin) ? rolAdmin : rolUsuario;
+
+            IList <IndicadorViewModel> indicadores = IndicadorService.Buscar(model);
 
             model.Resultados = indicadores;
             model.Busqueda.Titulo = "Indicadores";
@@ -148,8 +154,7 @@ namespace YUTPLAT.Controllers
             ViewBag.Titulo = model.Titulo;
 
             model.FechaUltimaModificacion = DateTimeHelper.OntenerFechaActual().ToString("dd/MM/yyyy HH:mm tt");
-            model.UltimoUsuarioModifico = User.Identity.Name;
-            
+            model.UltimoUsuarioModifico = User.Identity.Name;            
             int idIndicador = IndicadorService.Guardar(model);
 
             return RedirectToAction("Editar", "Indicador", new { q = MyExtensions.Encrypt(new { id = idIndicador, msgExito = "El indicador se ha guardado exitosamente." }) });

@@ -7,6 +7,7 @@ using YUTPLAT.ViewModel;
 using System.Data.Entity.Migrations;
 using YUTPLAT.Context;
 using System.Data.Entity;
+using YUTPLAT.Helpers;
 
 namespace YUTPLAT.Repositories
 {
@@ -43,6 +44,8 @@ namespace YUTPLAT.Repositories
         
         public IQueryable<Indicador> Buscar(BuscarIndicadorViewModel filtro)
         {
+            string rolAdmin = EnumHelper<Enums.Enum.Rol>.GetDisplayValue(Enums.Enum.Rol.Admin);
+
             IQueryable<Indicador> queryable = this.context.Indicadores;
 
             if (filtro.Busqueda.Nombre != null && !string.IsNullOrEmpty(filtro.Busqueda.Nombre.Trim()))
@@ -83,7 +86,11 @@ namespace YUTPLAT.Repositories
             {                
                 queryable = queryable.Where(a => a.Grupo == filtro.Busqueda.Grupo);
             }
-
+            if(filtro.RolUsuario != null && !filtro.RolUsuario.Equals(rolAdmin))
+            {
+                queryable = queryable.Where( a => a.Responsables.Any( r => r.Persona.UserName.Equals(filtro.NombreUsuario)) ||
+                                                  a.Interesados.Any(i => i.Persona.UserName.Equals(filtro.NombreUsuario)));
+            }
             if (filtro.UltimoDeCadaGrupo)
             {
                 queryable = queryable.GroupBy(i => i.Grupo)

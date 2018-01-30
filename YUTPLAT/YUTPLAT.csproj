@@ -285,8 +285,13 @@
     <Compile Include="Migrations\201801271608444_Null valor meta.Designer.cs">
       <DependentUpon>201801271608444_Null valor meta.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201801301506464_Permisos indicador.cs" />
+    <Compile Include="Migrations\201801301506464_Permisos indicador.Designer.cs">
+      <DependentUpon>201801301506464_Permisos indicador.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\ArchivoSQL.cs" />
     <Compile Include="Models\Medicion.cs" />
+    <Compile Include="Models\AccesoIndicador.cs" />
     <Compile Include="Models\Meta.cs" />
     <Compile Include="Models\FrecuenciaMedicionIndicador.cs" />
     <Compile Include="Models\InteresadoIndicador.cs" />
@@ -598,6 +603,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201801271608444_Null valor meta.resx">
       <DependentUpon>201801271608444_Null valor meta.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801301506464_Permisos indicador.resx">
+      <DependentUpon>201801301506464_Permisos indicador.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

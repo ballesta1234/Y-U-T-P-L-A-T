@@ -19,7 +19,12 @@ namespace YUTPLAT.Repositories
         {
             return this.context.Users.Where(a => a.Id.Equals(id));
         }
-         
+
+        public Persona GetByUserName(string userName)
+        {
+            return this.context.Users.First(a => a.UserName.Equals(userName));
+        }
+
         public IQueryable<Persona> Todas()
         {
             return this.context.Users;

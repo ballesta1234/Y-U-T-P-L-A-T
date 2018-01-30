@@ -4,6 +4,14 @@ namespace YUTPLAT.Enums
 {
     public static class Enum
     {
+        public enum Rol
+        {
+            [Display(Name = "admin")]
+            Admin = 1,
+            [Display(Name = "usuario")]
+            Usuario = 2
+        }
+
         public enum Signo
         {
             [Display(Name = " ")]
@@ -43,6 +51,12 @@ namespace YUTPLAT.Enums
             MetaAceptable = 2,
             MetaAMejorar = 3,
             MetaInaceptable = 4
+        }
+
+        public enum PermisoIndicador
+        {
+            SoloLectura = 1,
+            LecturaEscritura = 2
         }
     }
 }
