@@ -106,7 +106,7 @@
             })
             .on('mouseout', tip.hide)
             .on('click', function (d) {
-                abrirModalCargaMedicion(d.IdIndicador, d.Mes, d.IdMedicion, d.NombreMes, d.GrupoIndicador);
+                abrirModalCargaMedicion(d.IdIndicador, d.Mes, d.IdMedicion, d.NombreMes, d.GrupoIndicador, d.TieneAccesoLecturaEscritura);
             });
 
     heatMapGrafico.transition().style("fill", function (d) { return d.ColorMeta; });

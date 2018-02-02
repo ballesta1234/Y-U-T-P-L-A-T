@@ -4,8 +4,6 @@ using YUTPLAT.Repositories.Interface;
 using System.Data.Entity.Migrations;
 using YUTPLAT.Context;
 using System.Collections.Generic;
-using System.Data.Entity.Core.Objects;
-using System.Data.Entity.Infrastructure;
 
 namespace YUTPLAT.Repositories
 {

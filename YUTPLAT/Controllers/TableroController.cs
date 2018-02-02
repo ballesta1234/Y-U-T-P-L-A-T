@@ -55,7 +55,15 @@ namespace YUTPLAT.Controllers
         [HttpPost]
         public ActionResult ObtenerHeatMapViewModel(string nombre)
         {
-            return Json(MedicionService.ObtenerHeatMapViewModel(), JsonRequestBehavior.AllowGet);
+            string rolAdmin = EnumHelper<Enums.Enum.Rol>.GetDisplayValue(Enums.Enum.Rol.Admin);
+            string rolUsuario = EnumHelper<Enums.Enum.Rol>.GetDisplayValue(Enums.Enum.Rol.Usuario);
+
+            BuscarIndicadorViewModel model = new BuscarIndicadorViewModel();
+
+            model.NombreUsuario = User.Identity.Name;
+            model.RolUsuario = User.IsInRole(rolAdmin) ? rolAdmin : rolUsuario;
+
+            return Json(MedicionService.ObtenerHeatMapViewModel(model), JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
@@ -88,11 +96,11 @@ namespace YUTPLAT.Controllers
         }
 
         [HttpPost]
-        public ActionResult AbrirModalCargaMedicion(int idIndicador, int mes, int? idMedicion, long grupo)
+        public ActionResult AbrirModalCargaMedicion(int idIndicador, int mes, int? idMedicion, long grupo, bool tieneAccesoEscritura)
         {
             string view = "Medicion/_Crear";
 
-            if (idMedicion != null && mes != DateTimeHelper.OntenerFechaActual().Month)
+            if ( (idMedicion != null && mes != DateTimeHelper.OntenerFechaActual().Month) || !tieneAccesoEscritura)
             {
                 view = "Medicion/_Ver";
             }

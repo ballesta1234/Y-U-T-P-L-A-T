@@ -15,18 +15,24 @@ namespace YUTPLAT.Services.Interface
         private IInteresadoIndicadorRepository InteresadoIndicadorRepository { get; set; }
         private IMetaRepository MetaRepository { get; set; }
         private IMedicionRepository MedicionRepository { get; set; }
+        private IPersonaRepository PersonaRepository { get; set; }
+        private IAccesoIndicadorRepository AccesoIndicadorRepository { get; set; }
 
         public IndicadorService(IIndicadorRepository indicadorRepository,
                                 IResponsableIndicadorRepository responsableIndicadorRepository,
                                 IInteresadoIndicadorRepository interesadoIndicadorRepository,
                                 IMetaRepository metaRepository,
-                                IMedicionRepository medicionRepository)
+                                IMedicionRepository medicionRepository,
+                                IPersonaRepository personaRepository,
+                                IAccesoIndicadorRepository accesoIndicadorRepository)
         {
             this.IndicadorRepository = indicadorRepository;
             this.ResponsableIndicadorRepository = responsableIndicadorRepository;
             this.InteresadoIndicadorRepository = interesadoIndicadorRepository;
             this.MetaRepository = metaRepository;
             this.MedicionRepository = medicionRepository;
+            this.PersonaRepository = personaRepository;
+            this.AccesoIndicadorRepository = accesoIndicadorRepository;
         }
         
         public IndicadorViewModel GetUltimoByGrupo(long grupo)
@@ -60,7 +66,24 @@ namespace YUTPLAT.Services.Interface
         
         public IList<IndicadorViewModel> Buscar(BuscarIndicadorViewModel filtro)
         {
-            return AutoMapper.Mapper.Map<IList<IndicadorViewModel>>(IndicadorRepository.Buscar(filtro).ToList());           
+            Persona persona = PersonaRepository.GetByUserName(filtro.NombreUsuario);
+            IList<IndicadorViewModel> indicadores = AutoMapper.Mapper.Map<IList<IndicadorViewModel>>(IndicadorRepository.Buscar(filtro).ToList());
+
+            CargarPermisosAIndicadores(indicadores, persona);
+
+            return indicadores; 
+        }
+
+        private void CargarPermisosAIndicadores(IList<IndicadorViewModel> indicadores, Persona persona)
+        {
+            if(indicadores != null && indicadores.Count > 0)
+            {
+                foreach(IndicadorViewModel indicador in indicadores)
+                {
+                    indicador.TieneAccesoLectura = persona.TieneAccesoLectura(indicador.Id);
+                    indicador.TieneAccesoLecturaEscritura = persona.TieneAccesoLecturaEscritura(indicador.Id);
+                }
+            }
         }
 
         public int Guardar(IndicadorViewModel indicadorViewModel)
@@ -68,13 +91,16 @@ namespace YUTPLAT.Services.Interface
             bool modificado = false;
 
             int mesActual = DateTimeHelper.OntenerFechaActual().Month;
-            
+
+            int idIndicadorOriginal = 0;
+
             if (indicadorViewModel.Id > 0)
             {
                 Indicador indicadorOriginal = IndicadorRepository.GetById(indicadorViewModel.Id).First();
 
                 if (HayCambios(indicadorOriginal, indicadorViewModel) && MedicionRepository.Buscar(new MedicionViewModel { IndicadorID = indicadorViewModel.Id }).Any( m => (int)m.Mes != mesActual))
                 {
+                    idIndicadorOriginal = indicadorViewModel.Id;
                     indicadorViewModel.Id = 0;
                     modificado = true;
                 }
@@ -85,6 +111,9 @@ namespace YUTPLAT.Services.Interface
 
             // Borrar los interesados previos
             InteresadoIndicadorRepository.EliminarPorIndicador(indicadorViewModel.Id);
+
+            // Borrar los permisos previos
+            AccesoIndicadorRepository.EliminarPorIndicador(indicadorViewModel.Id);
 
             Indicador indicador = AutoMapper.Mapper.Map<Indicador>(indicadorViewModel);
 
@@ -117,7 +146,7 @@ namespace YUTPLAT.Services.Interface
             if (modificado)
             {
                 // Si hay mediciones cargadas para el indicador que se esta modificando, actualizar la referencia al nuevo indicador
-                IList<Medicion> mediciones = MedicionRepository.Buscar(new MedicionViewModel { IndicadorID = indicadorViewModel.Id, Mes = (Enums.Enum.Mes)mesActual }).ToList();
+                IList<Medicion> mediciones = MedicionRepository.Buscar(new MedicionViewModel { IndicadorID = idIndicadorOriginal, Mes = (Enums.Enum.Mes)mesActual }).ToList();
 
                 if (mediciones != null && mediciones.Count > 0)
                 {
@@ -229,12 +258,18 @@ namespace YUTPLAT.Services.Interface
             {                
                 foreach (PersonaViewModel responsable in responsables)
                 {
+                    // Guardar a la persona
                     ResponsableIndicador responsableIndicador = new ResponsableIndicador();
-
                     responsableIndicador.IndicadorID = indicadorID;
                     responsableIndicador.PersonaID = responsable.Id;
-
                     ResponsableIndicadorRepository.Guardar(responsableIndicador);
+
+                    // Guardar los permisos
+                    AccesoIndicador acceso = new AccesoIndicador();
+                    acceso.IndicadorID = indicadorID;
+                    acceso.PersonaID = responsable.Id;
+                    acceso.PermisoIndicador = Enums.Enum.PermisoIndicador.LecturaEscritura;
+                    AccesoIndicadorRepository.Guardar(acceso);
                 }
             }
         }
@@ -245,12 +280,18 @@ namespace YUTPLAT.Services.Interface
             {
                 foreach (PersonaViewModel interesado in interesados)
                 {
+                    // Guardar a la persona
                     InteresadoIndicador interesadoIndicador = new InteresadoIndicador();
-
                     interesadoIndicador.IndicadorID = indicadorID;
-                    interesadoIndicador.PersonaID = interesado.Id;
-                    
+                    interesadoIndicador.PersonaID = interesado.Id;                    
                     InteresadoIndicadorRepository.Guardar(interesadoIndicador);
+
+                    // Guardar los permisos
+                    AccesoIndicador acceso = new AccesoIndicador();
+                    acceso.IndicadorID = indicadorID;
+                    acceso.PersonaID = interesado.Id;
+                    acceso.PermisoIndicador = Enums.Enum.PermisoIndicador.SoloLectura;
+                    AccesoIndicadorRepository.Guardar(acceso);
                 }
             }
         }

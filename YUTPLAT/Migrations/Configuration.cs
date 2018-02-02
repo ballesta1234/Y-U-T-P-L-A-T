@@ -78,11 +78,14 @@ namespace YUTPLAT.Migrations
             string rolAdmin = EnumHelper<Enums.Enum.Rol>.GetDisplayValue(Enums.Enum.Rol.Admin);
             string rolUsuario = EnumHelper<Enums.Enum.Rol>.GetDisplayValue(Enums.Enum.Rol.Usuario);
 
+            string email = "@cys.com.ar";
+            email += "TEST";
+
             if (!context.Users.Any(u => u.UserName == "mballestero"))
             {
                 var store = new UserStore<Persona>(context);
                 var manager = new UserManager<Persona>(store);
-                var user = new Persona { UserName = "mballestero", Nombre = "Matias", Apellido = "Ballestero" };
+                var user = new Persona { UserName = "mballestero", Email = "mballestero" + email, EmailConfirmed = true, Nombre = "Matias", Apellido = "Ballestero", Rol = rolAdmin };
 
                 manager.Create(user, "123qwe");
                 manager.AddToRole(user.Id, rolAdmin);                
@@ -92,7 +95,7 @@ namespace YUTPLAT.Migrations
             {
                 var store = new UserStore<Persona>(context);
                 var manager = new UserManager<Persona>(store);
-                var user = new Persona { UserName = "amolinari", Nombre = "Alejandro", Apellido = "Molinari" };
+                var user = new Persona { UserName = "amolinari", Email = "amolinari" + email, EmailConfirmed = true, Nombre = "Alejandro", Apellido = "Molinari", Rol = rolUsuario };
 
                 manager.Create(user, "123qwe");
                 manager.AddToRole(user.Id, rolUsuario);
@@ -102,7 +105,7 @@ namespace YUTPLAT.Migrations
             {
                 var store = new UserStore<Persona>(context);
                 var manager = new UserManager<Persona>(store);
-                var user = new Persona { UserName = "jbarbosa", Nombre = "Jorge", Apellido = "Barbosa" };
+                var user = new Persona { UserName = "jbarbosa", Email= "jbarbosa" + email, EmailConfirmed = true, Nombre = "Jorge", Apellido = "Barbosa", Rol = rolUsuario };
 
                 manager.Create(user, "123qwe");
                 manager.AddToRole(user.Id, rolUsuario);
@@ -112,7 +115,7 @@ namespace YUTPLAT.Migrations
             {
                 var store = new UserStore<Persona>(context);
                 var manager = new UserManager<Persona>(store);
-                var user = new Persona { UserName = "cfontela", Nombre = "Carlos", Apellido = "Fontela" };
+                var user = new Persona { UserName = "cfontela", Email = "cfontela" + email, EmailConfirmed = true, Nombre = "Carlos", Apellido = "Fontela", Rol = rolUsuario };
 
                 manager.Create(user, "123qwe");
                 manager.AddToRole(user.Id, rolUsuario);
@@ -122,7 +125,7 @@ namespace YUTPLAT.Migrations
             {
                 var store = new UserStore<Persona>(context);
                 var manager = new UserManager<Persona>(store);
-                var user = new Persona { UserName = "elara", Nombre = "Enrique", Apellido = "Lara" };
+                var user = new Persona { UserName = "elara", Email = "elara" + email, EmailConfirmed = true, Nombre = "Enrique", Apellido = "Lara", Rol = rolUsuario };
 
                 manager.Create(user, "123qwe");
                 manager.AddToRole(user.Id, rolUsuario);
@@ -132,7 +135,7 @@ namespace YUTPLAT.Migrations
             {
                 var store = new UserStore<Persona>(context);
                 var manager = new UserManager<Persona>(store);
-                var user = new Persona { UserName = "ncaniggia", Nombre = "Norberto", Apellido = "Caniggia" };
+                var user = new Persona { UserName = "ncaniggia", Email = "ncaniggia" + email, EmailConfirmed = true, Nombre = "Norberto", Apellido = "Caniggia", Rol = rolUsuario };
 
                 manager.Create(user, "123qwe");
                 manager.AddToRole(user.Id, rolUsuario);
@@ -142,7 +145,37 @@ namespace YUTPLAT.Migrations
             {
                 var store = new UserStore<Persona>(context);
                 var manager = new UserManager<Persona>(store);
-                var user = new Persona { UserName = "lbertuzzi", Nombre = "Liliana", Apellido = "Bertuzzi" };
+                var user = new Persona { UserName = "lbertuzzi", Email = "lbertuzzi" + email, EmailConfirmed = true, Nombre = "Liliana", Apellido = "Bertuzzi", Rol = rolUsuario };
+
+                manager.Create(user, "123qwe");
+                manager.AddToRole(user.Id, rolUsuario);
+            }
+
+            if (!context.Users.Any(u => u.UserName == "econtreras"))
+            {
+                var store = new UserStore<Persona>(context);
+                var manager = new UserManager<Persona>(store);
+                var user = new Persona { UserName = "econtreras", Email = "econtreras" + email, EmailConfirmed = true, Nombre = "Eduardo", Apellido = "Contreras", Rol = rolUsuario };
+
+                manager.Create(user, "123qwe");
+                manager.AddToRole(user.Id, rolUsuario);
+            }
+
+            if (!context.Users.Any(u => u.UserName == "mlrosas"))
+            {
+                var store = new UserStore<Persona>(context);
+                var manager = new UserManager<Persona>(store);
+                var user = new Persona { UserName = "mlrosas", Email = "mlrosas" + email, EmailConfirmed = true, Nombre = "Maria Laura", Apellido = "Rosas", Rol = rolUsuario };
+
+                manager.Create(user, "123qwe");
+                manager.AddToRole(user.Id, rolUsuario);
+            }
+
+            if (!context.Users.Any(u => u.UserName == "jdelvalle"))
+            {
+                var store = new UserStore<Persona>(context);
+                var manager = new UserManager<Persona>(store);
+                var user = new Persona { UserName = "jdelvalle", Email = "jdelvalle" + email, EmailConfirmed = true, Nombre = "Javier", Apellido = "del Valle", Rol = rolUsuario };
 
                 manager.Create(user, "123qwe");
                 manager.AddToRole(user.Id, rolUsuario);

@@ -7,6 +7,7 @@ namespace YUTPLAT.ViewModel
         public int IdIndicador { get; set; }
         public long Grupo { get; set; }
         public string NombreIndicador { get; set; }
+        public bool TieneAccesoLecturaEscritura { get; set; }
     }
 }
 

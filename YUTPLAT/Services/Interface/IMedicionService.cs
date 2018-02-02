@@ -12,7 +12,7 @@ namespace YUTPLAT.Services.Interface
 
         IList<MedicionViewModel> Buscar(MedicionViewModel filtro);
         
-        HeatMapViewModel ObtenerHeatMapViewModel();
+        HeatMapViewModel ObtenerHeatMapViewModel(BuscarIndicadorViewModel buscarIndicadorViewModel);
 
         GaugeViewModel ObtenerGaugeViewModel(long grupo);
 

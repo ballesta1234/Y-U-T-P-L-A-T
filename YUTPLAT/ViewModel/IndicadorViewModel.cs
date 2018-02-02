@@ -14,6 +14,10 @@ namespace YUTPLAT.ViewModel
             this.Responsables = new List<PersonaViewModel>();
         }
 
+        public bool TieneAccesoLectura { get; set; }
+
+        public bool TieneAccesoLecturaEscritura { get; set; }
+
         public int Id { get; set; }
 
         public string Titulo { get; set; }

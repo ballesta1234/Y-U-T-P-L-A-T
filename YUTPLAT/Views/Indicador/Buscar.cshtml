@@ -84,11 +84,11 @@
                                 </div>
 
                             </div>
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <button type="submit" class="btn btn-info btn-fill pull-left">Buscar</button>
-                                    </div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <button type="submit" class="btn btn-info btn-fill pull-left">Buscar</button>
                                 </div>
+                            </div>
 
                             if (Model != null && Model.Resultados != null && Model.Resultados.Count > 0)
                             {
@@ -106,7 +106,7 @@
                                                     <th class="col-md-2">@Html.LabelFor(m => m.Busqueda.Nombre)</th>
                                                     <th class="col-md-3">Objetivo</th>
                                                     <th class="col-md-3">Área</th>
-                                                    <th class="col-md-2">@Html.LabelFor(m => m.Busqueda.FechaCreacion)</th>                                                    
+                                                    <th class="col-md-2">@Html.LabelFor(m => m.Busqueda.FechaCreacion)</th>
                                                     <th class="col-md-1">Acciones</th>
                                                     </thead>
                                                     <tbody>
@@ -116,17 +116,20 @@
                                                                 <td>@indicador.Nombre</td>
                                                                 <td>@indicador.ObjetivoViewModel.Nombre</td>
                                                                 <td>@indicador.ObjetivoViewModel.AreaViewModel.Nombre</td>
-                                                                <td>@indicador.FechaCreacion</td>                                                                
+                                                                <td>@indicador.FechaCreacion</td>
                                                                 <td>
-                                                                    <a href='@Url.Action("Editar", "Indicador", new { q = MyExtensions.Encrypt(new { id = indicador.Id }) })'>
-                                                                        <i data-toggle="tooltip" data-placement="bottom" title="Editar" class="glyphicon glyphicon-pencil"></i>
-                                                                    </a>
-                                                                    <a href='@Url.Action("Ver", "Indicador", new { q = MyExtensions.Encrypt(new { id = indicador.Id }) })'>
-                                                                        <i data-toggle="tooltip" data-placement="bottom" title="Ver" class="glyphicon glyphicon-search"></i>
-                                                                    </a>
-                                                                    <a href='@Url.Action("Cargar", "Indicador", new { q = MyExtensions.Encrypt(new { id = indicador.Id }) })'>
-                                                                        <i data-toggle="tooltip" data-placement="bottom" title="Cargar indicador" class="glyphicon glyphicon glyphicon-stats"></i>
-                                                                    </a>
+                                                                    @if (indicador.TieneAccesoLecturaEscritura)
+                                                                    {
+                                                                        <a href='@Url.Action("Editar", "Indicador", new { q = MyExtensions.Encrypt(new { id = indicador.Id }) })'>
+                                                                            <i data-toggle="tooltip" data-placement="bottom" title="Editar" class="glyphicon glyphicon-pencil"></i>
+                                                                        </a>                                                                       
+                                                                    }
+                                                                    @if (indicador.TieneAccesoLectura)
+                                                                    {
+                                                                        <a href='@Url.Action("Ver", "Indicador", new { q = MyExtensions.Encrypt(new { id = indicador.Id }) })'>
+                                                                            <i data-toggle="tooltip" data-placement="bottom" title="Ver" class="glyphicon glyphicon-search"></i>
+                                                                        </a>
+                                                                    }
                                                                 </td>
                                                             </tr>
                                                         }

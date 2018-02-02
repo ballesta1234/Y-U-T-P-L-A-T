@@ -18,12 +18,17 @@ namespace YUTPLAT.Services.Interface
         private IMedicionRepository MedicionRepository { get; set; }
         private IIndicadorRepository IndicadorRepository { get; set; }
         private IIndicadorService IndicadorService { get; set; }
+        private IPersonaRepository PersonaRepository { get; set; }
 
-        public MedicionService(IMedicionRepository medicionRepository, IIndicadorRepository indicadorRepository, IIndicadorService indicadorService)
+        public MedicionService(IMedicionRepository medicionRepository, 
+                               IIndicadorRepository indicadorRepository, 
+                               IIndicadorService indicadorService,
+                               IPersonaRepository personaRepository)
         {
             this.MedicionRepository = medicionRepository;
             this.IndicadorRepository = indicadorRepository;
             this.IndicadorService = indicadorService;
+            this.PersonaRepository = personaRepository;
         }
 
         public MedicionViewModel GetById(int id)
@@ -212,10 +217,14 @@ namespace YUTPLAT.Services.Interface
             return escalas.EscalaColores[i-1];
         }
 
-        public HeatMapViewModel ObtenerHeatMapViewModel()
+        public HeatMapViewModel ObtenerHeatMapViewModel(BuscarIndicadorViewModel buscarIndicadorViewModel)
         {
-            IList<FilaHeatMapViewModel> filasHeatMapViewModel = AutoMapper.Mapper.Map<IList<FilaHeatMapViewModel>>(IndicadorRepository.Buscar(new BuscarIndicadorViewModel()).ToList());
-                       
+            Persona persona = PersonaRepository.GetByUserName(buscarIndicadorViewModel.NombreUsuario);
+            
+            IList<FilaHeatMapViewModel> filasHeatMapViewModel = AutoMapper.Mapper.Map<IList<FilaHeatMapViewModel>>(IndicadorRepository.Buscar(buscarIndicadorViewModel).ToList());
+
+            CargarPermisosAIndicadores(filasHeatMapViewModel, persona);
+
             IList<MedicionViewModel> mediciones = Todas();
 
             IList<CeldaHeatMapViewModel> celdasHeatMapViewModel = new List<CeldaHeatMapViewModel>();
@@ -242,7 +251,8 @@ namespace YUTPLAT.Services.Interface
                         celdaHeatMapViewModel.IdIndicador = filasHeatMapViewModel[i].IdIndicador;
                         celdaHeatMapViewModel.GrupoIndicador = filasHeatMapViewModel[i].Grupo;
                         celdaHeatMapViewModel.NombreMes = mes.ToString();
-
+                        celdaHeatMapViewModel.TieneAccesoLecturaEscritura = filasHeatMapViewModel[i].TieneAccesoLecturaEscritura;
+                        
                         if (medicionesPorMes.Any(m => m.IndicadorViewModel.Grupo == filasHeatMapViewModel[i].Grupo && m.Mes == mes))
                         {
                             MedicionViewModel medicionPorMes = medicionesPorMes.First(m => m.IndicadorViewModel.Grupo == filasHeatMapViewModel[i].Grupo && m.Mes == mes);
@@ -260,6 +270,17 @@ namespace YUTPLAT.Services.Interface
             }                       
             heatMapViewModel.Celdas = celdasHeatMapViewModel;
             return heatMapViewModel;
+        }
+
+        private void CargarPermisosAIndicadores(IList<FilaHeatMapViewModel> filas, Persona persona)
+        {
+            if (filas != null && filas.Count > 0)
+            {
+                foreach (FilaHeatMapViewModel fila in filas)
+                {
+                    fila.TieneAccesoLecturaEscritura = persona.TieneAccesoLecturaEscritura(fila.IdIndicador);
+                }
+            }
         }
 
         public MedicionViewModel ObtenerMedicionViewModel(int idIndicador, int mes, int? idMedicion, long grupo)

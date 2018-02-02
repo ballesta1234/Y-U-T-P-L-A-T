@@ -289,6 +289,10 @@
     <Compile Include="Migrations\201801301506464_Permisos indicador.Designer.cs">
       <DependentUpon>201801301506464_Permisos indicador.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201801310214477_Agregar rol a persona.cs" />
+    <Compile Include="Migrations\201801310214477_Agregar rol a persona.Designer.cs">
+      <DependentUpon>201801310214477_Agregar rol a persona.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\ArchivoSQL.cs" />
     <Compile Include="Models\Medicion.cs" />
     <Compile Include="Models\AccesoIndicador.cs" />
@@ -299,8 +303,10 @@
     <Compile Include="Models\Indicador.cs" />
     <Compile Include="Models\Objetivo.cs" />
     <Compile Include="Models\Area.cs" />
+    <Compile Include="Repositories\AccesoIndicadorRepository.cs" />
     <Compile Include="Repositories\Interface\IMetaRepository.cs" />
     <Compile Include="Repositories\Interface\IMedicionRepository.cs" />
+    <Compile Include="Repositories\Interface\IAccesoIndicadorRepository.cs" />
     <Compile Include="Repositories\MetaRepository.cs" />
     <Compile Include="Repositories\MedicionRepository.cs" />
     <Compile Include="Repositories\ResponsableIndicadorRepository.cs" />
@@ -606,6 +612,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201801301506464_Permisos indicador.resx">
       <DependentUpon>201801301506464_Permisos indicador.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801310214477_Agregar rol a persona.resx">
+      <DependentUpon>201801310214477_Agregar rol a persona.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
