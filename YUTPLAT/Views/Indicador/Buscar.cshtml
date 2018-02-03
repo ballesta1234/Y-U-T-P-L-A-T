@@ -122,7 +122,7 @@
                                                                     {
                                                                         <a href='@Url.Action("Editar", "Indicador", new { q = MyExtensions.Encrypt(new { id = indicador.Id }) })'>
                                                                             <i data-toggle="tooltip" data-placement="bottom" title="Editar" class="glyphicon glyphicon-pencil"></i>
-                                                                        </a>                                                                       
+                                                                        </a>
                                                                     }
                                                                     @if (indicador.TieneAccesoLectura)
                                                                     {
@@ -302,4 +302,11 @@
     if (sinResultados != '') {
         demo.showNotificationWarning('top', 'center', sinResultados, 'pe-7s-attention');
     }
+
+    var mensageExito = '@Html.Raw(@ViewBag.MensageExito)';
+
+    if (mensageExito != '') {
+        demo.showNotificationInfo('top', 'center', mensageExito, 'pe-7s-check');
+    }
+
 </script>

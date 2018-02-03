@@ -48,6 +48,16 @@ namespace YUTPLAT.Repositories
 
             IQueryable<Indicador> queryable = this.context.Indicadores;
 
+            if (filtro.UltimoDeCadaGrupo)
+            {
+                queryable = queryable.GroupBy(i => i.Grupo)
+                        .Select(grp => new
+                        {
+                            grp.Key,
+                            LastAccess = grp.OrderByDescending(x => x.FechaCreacion).FirstOrDefault()
+                        }).Select(g => g.LastAccess);
+            }
+
             if (filtro.Busqueda.Nombre != null && !string.IsNullOrEmpty(filtro.Busqueda.Nombre.Trim()))
             {
                 queryable = queryable.Where(a => a.Nombre.Contains(filtro.Busqueda.Nombre.Trim()));
@@ -91,16 +101,7 @@ namespace YUTPLAT.Repositories
                 queryable = queryable.Where( a => a.Responsables.Any( r => r.Persona.UserName.Equals(filtro.NombreUsuario)) ||
                                                   a.Interesados.Any(i => i.Persona.UserName.Equals(filtro.NombreUsuario)));
             }
-            if (filtro.UltimoDeCadaGrupo)
-            {
-                queryable = queryable.GroupBy(i => i.Grupo)
-                        .Select(grp => new
-                        {
-                            grp.Key,
-                            LastAccess = grp.OrderByDescending(x => x.FechaCreacion).FirstOrDefault()
-                        }).Select(g => g.LastAccess);
-            }
-
+            
             return queryable;
         }
 

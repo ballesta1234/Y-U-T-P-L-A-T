@@ -27,14 +27,16 @@ namespace YUTPLAT.Controllers
             this.ObjetivoService = objetivoService;
             this.FrecuenciaMedicionIndicadorService = frecuenciaMedicionIndicadorService;
         }
-
+        
         [HttpGet]
-        public ActionResult Buscar()
+        [EncryptedActionParameter]
+        public ActionResult Buscar(string msgExito)
         {
             BuscarIndicadorViewModel model = new BuscarIndicadorViewModel();
             model.Busqueda.Titulo = "Indicadores";
 
             ViewBag.Titulo = model.Busqueda.Titulo;
+            ViewBag.MensageExito = msgExito;
 
             return View(model);
         }
@@ -82,7 +84,7 @@ namespace YUTPLAT.Controllers
             return View(model);
         }
 
-        [HttpPost]        
+        [HttpPost]
         public ActionResult Crear(IndicadorViewModel model)
         {
             model.FrecuenciaMedicionIndicadorViewModel = FrecuenciaMedicionIndicadorService.GetById(Int32.Parse(model.FrecuenciaMedicionIndicadorID));
@@ -101,14 +103,27 @@ namespace YUTPLAT.Controllers
                 ModelState.AddModelError(string.Empty, "Verifique que todos los campos estén cargados y sean correctos.");
                 return View(model);
             }
-            
+
             model.Titulo = "Indicadores";
 
             ViewBag.Titulo = model.Titulo;
-            
+
             int idIndicador = IndicadorService.Guardar(model);
-            
-            return RedirectToAction("Editar", "Indicador", new { q = MyExtensions.Encrypt(new { id = idIndicador, msgExito = "El indicador se ha guardado exitosamente." }) });
+
+            string nombreUsuario = User.Identity.Name;
+
+            object parametros = new { q = MyExtensions.Encrypt(new { id = idIndicador, msgExito = "El indicador se ha guardado exitosamente." }) };
+
+            if (model.Responsables.Any(r => r.NombreUsuario.Equals(nombreUsuario)))
+            {
+                return RedirectToAction("Editar", "Indicador", parametros);
+            }
+            else if(model.Interesados.Any(i => i.NombreUsuario.Equals(nombreUsuario)))
+            {
+                return RedirectToAction("Ver", "Indicador", parametros);
+            }
+
+            return RedirectToAction("Buscar", "Indicador", parametros);
         }
 
         [HttpGet]
@@ -156,17 +171,32 @@ namespace YUTPLAT.Controllers
             model.FechaUltimaModificacion = DateTimeHelper.OntenerFechaActual().ToString("dd/MM/yyyy HH:mm tt");
             model.UltimoUsuarioModifico = User.Identity.Name;            
             int idIndicador = IndicadorService.Guardar(model);
+            
+            string nombreUsuario = User.Identity.Name;
 
-            return RedirectToAction("Editar", "Indicador", new { q = MyExtensions.Encrypt(new { id = idIndicador, msgExito = "El indicador se ha guardado exitosamente." }) });
+            object parametros = new { q = MyExtensions.Encrypt(new { id = idIndicador, msgExito = "El indicador se ha guardado exitosamente." }) };
+
+            if (model.Responsables.Any(r => r.NombreUsuario != null && r.NombreUsuario.Equals(nombreUsuario)))
+            {
+                return RedirectToAction("Editar", "Indicador", parametros);
+            }
+            else if (model.Interesados.Any(i => i.NombreUsuario != null && i.NombreUsuario.Equals(nombreUsuario)))
+            {
+                return RedirectToAction("Ver", "Indicador", parametros);
+            }
+
+            return RedirectToAction("Buscar", "Indicador", parametros);
         }
 
         [HttpGet]
         [EncryptedActionParameter]
-        public ActionResult Ver(string id)
+        public ActionResult Ver(string id, string msgExito)
         {
             IndicadorViewModel model = IndicadorService.GetById(Int32.Parse(id));
             model.Titulo = "Indicadores";
+
             ViewBag.Titulo = model.Titulo;
+            ViewBag.MensageExito = msgExito;
 
             return View(model);
         }
