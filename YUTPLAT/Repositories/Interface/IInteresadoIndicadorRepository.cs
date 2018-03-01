@@ -1,7 +1,7 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using YUTPLAT.Models;
 
 namespace YUTPLAT.Repositories.Interface
@@ -10,8 +10,8 @@ namespace YUTPLAT.Repositories.Interface
     {
         IQueryable<InteresadoIndicador> GetById(int id);
         
-        void Guardar(InteresadoIndicador interesadoIndicador);
+        Task<int> Guardar(InteresadoIndicador interesadoIndicador);
 
-        void EliminarPorIndicador(int idIndicador);
+        Task<int> EliminarPorIndicador(int idIndicador);
     }
 }

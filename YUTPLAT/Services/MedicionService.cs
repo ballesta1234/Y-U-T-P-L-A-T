@@ -1,12 +1,12 @@
-﻿
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using YUTPLAT.Models;
 using YUTPLAT.Repositories.Interface;
 using System.Linq;
 using YUTPLAT.ViewModel;
-using static YUTPLAT.Enums.Enum;
 using System;
 using YUTPLAT.Helpers;
+using System.Threading.Tasks;
+using System.Data.Entity;
 
 namespace YUTPLAT.Services.Interface
 {
@@ -31,35 +31,35 @@ namespace YUTPLAT.Services.Interface
             this.PersonaRepository = personaRepository;
         }
 
-        public MedicionViewModel GetById(int id)
+        public async Task<MedicionViewModel> GetById(int id)
         {
-            return AutoMapper.Mapper.Map<MedicionViewModel>(MedicionRepository.GetById(id).First());
+            return AutoMapper.Mapper.Map<MedicionViewModel>(await MedicionRepository.GetById(id).FirstAsync());
         }
 
-        public IList<MedicionViewModel> Todas()
+        public async Task<IList<MedicionViewModel>> Todas()
         {
-            return AutoMapper.Mapper.Map<IList<MedicionViewModel>>(MedicionRepository.Todas().ToList());
+            return AutoMapper.Mapper.Map<IList<MedicionViewModel>>(await MedicionRepository.Todas().ToListAsync());
         }
 
-        public IList<MedicionViewModel> Buscar(MedicionViewModel filtro)
+        public async Task<IList<MedicionViewModel>> Buscar(MedicionViewModel filtro)
         {
-            return AutoMapper.Mapper.Map<IList<MedicionViewModel>>(MedicionRepository.Buscar(filtro).ToList());
+            return AutoMapper.Mapper.Map<IList<MedicionViewModel>>(await MedicionRepository.Buscar(filtro).ToListAsync());
         }
 
-        public IList<LineViewModel> ObtenerLineViewModel(long grupo)
+        public async Task<IList<LineViewModel>> ObtenerLineViewModel(long grupo)
         {
             MedicionViewModel filtro = new MedicionViewModel();
             filtro.Grupo = grupo;
 
-            return AutoMapper.Mapper.Map<IList<LineViewModel>>(MedicionRepository.Buscar(filtro).ToList().OrderBy(m => m.Mes));
+            return AutoMapper.Mapper.Map<IList<LineViewModel>>((await MedicionRepository.Buscar(filtro).ToListAsync()).OrderBy(m => m.Mes));
         }
 
-        public GaugeViewModel ObtenerGaugeViewModel(long grupo)
+        public async Task<GaugeViewModel> ObtenerGaugeViewModel(long grupo)
         {
             MedicionViewModel filtro = new MedicionViewModel();
             filtro.Grupo = grupo;
 
-            IList<MedicionViewModel> medicionesViewModel = Buscar(filtro);
+            IList<MedicionViewModel> medicionesViewModel = await Buscar(filtro);
             
             GaugeViewModel gaugeViewModel = new GaugeViewModel();
             
@@ -217,15 +217,15 @@ namespace YUTPLAT.Services.Interface
             return escalas.EscalaColores[i-1];
         }
 
-        public HeatMapViewModel ObtenerHeatMapViewModel(BuscarIndicadorViewModel buscarIndicadorViewModel)
+        public async Task<HeatMapViewModel> ObtenerHeatMapViewModel(BuscarIndicadorViewModel buscarIndicadorViewModel)
         {
-            Persona persona = PersonaRepository.GetByUserName(buscarIndicadorViewModel.NombreUsuario);
+            Persona persona = await PersonaRepository.GetByUserName(buscarIndicadorViewModel.NombreUsuario);
             
             IList<FilaHeatMapViewModel> filasHeatMapViewModel = AutoMapper.Mapper.Map<IList<FilaHeatMapViewModel>>(IndicadorRepository.Buscar(buscarIndicadorViewModel).ToList());
 
             CargarPermisosAIndicadores(filasHeatMapViewModel, persona);
 
-            IList<MedicionViewModel> mediciones = Todas();
+            IList<MedicionViewModel> mediciones = await Todas();
 
             IList<CeldaHeatMapViewModel> celdasHeatMapViewModel = new List<CeldaHeatMapViewModel>();
 
@@ -283,18 +283,18 @@ namespace YUTPLAT.Services.Interface
             }
         }
 
-        public MedicionViewModel ObtenerMedicionViewModel(int idIndicador, int mes, int? idMedicion, long grupo)
+        public async Task<MedicionViewModel> ObtenerMedicionViewModel(int idIndicador, int mes, int? idMedicion, long grupo)
         {
             MedicionViewModel medicionViewModel = new MedicionViewModel();
             medicionViewModel.Mes = Helpers.EnumHelper<Enums.Enum.Mes>.Parse(mes.ToString());
             medicionViewModel.IndicadorID = idIndicador;
 
             // Obtener el nombre del último indicador del grupo.
-            IndicadorViewModel indicadorViewModel = IndicadorService.GetUltimoByGrupo(grupo);
+            IndicadorViewModel indicadorViewModel = await IndicadorService.GetUltimoByGrupo(grupo);
                         
             if (idMedicion != null)
             {
-                medicionViewModel = this.GetById(idMedicion.Value);
+                medicionViewModel = await this.GetById(idMedicion.Value);
             }
             else
             {
@@ -306,15 +306,19 @@ namespace YUTPLAT.Services.Interface
             return medicionViewModel;
         }
 
-        public void GuardarMedicion(MedicionViewModel medicionViewModel)
+        public async Task<int> GuardarMedicion(MedicionViewModel medicionViewModel)
         {
+            int medicionId = 0;
+
             if (medicionViewModel.MedicionId == 0 || (int)medicionViewModel.Mes == DateTimeHelper.OntenerFechaActual().Month)
             {
                 Medicion medicion = AutoMapper.Mapper.Map<Medicion>(medicionViewModel);
                 medicion.Indicador = null;
 
-                MedicionRepository.Guardar(medicion);
+                medicionId = await MedicionRepository.Guardar(medicion);
             }
+
+            return medicionId;
         }
     }
 }

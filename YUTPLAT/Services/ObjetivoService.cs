@@ -1,10 +1,10 @@
-﻿
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using YUTPLAT.Models;
 using YUTPLAT.Repositories.Interface;
 using System.Linq;
 using YUTPLAT.ViewModel;
-using System;
+using System.Data.Entity;
+using System.Threading.Tasks;
 
 namespace YUTPLAT.Services.Interface
 {
@@ -19,14 +19,14 @@ namespace YUTPLAT.Services.Interface
             this.AreaRepository = areaRepository;
         }
 
-        public ObjetivoViewModel GetById(int id)
+        public async Task<ObjetivoViewModel> GetById(int id)
         {
-            return ToObjetivoViewModel(ObjetivoRepository.GetById(id).First());
+            return ToObjetivoViewModel(await ObjetivoRepository.GetById(id).FirstAsync());
         }
-
-        public IList<ObjetivoViewModel> Todas()
+        
+        public async Task<IList<ObjetivoViewModel>> Buscar(BuscarObjetivoViewModel filtro)
         {
-            IList<Objetivo> objetivos = ObjetivoRepository.Todas().ToList();
+            IList<Objetivo> objetivos = await ObjetivoRepository.Buscar(filtro.Busqueda).ToListAsync();
 
             IList<ObjetivoViewModel> dtos = new List<ObjetivoViewModel>();
 
@@ -38,25 +38,11 @@ namespace YUTPLAT.Services.Interface
             return dtos;
         }
 
-        public IList<ObjetivoViewModel> Buscar(BuscarObjetivoViewModel filtro)
-        {
-            IList<Objetivo> objetivos = ObjetivoRepository.Buscar(filtro.Busqueda).ToList();
-
-            IList<ObjetivoViewModel> dtos = new List<ObjetivoViewModel>();
-
-            foreach (Objetivo objetivo in objetivos)
-            {
-                dtos.Add(ToObjetivoViewModel(objetivo));
-            }
-
-            return dtos;
-        }
-
-        public int Guardar(ObjetivoViewModel objetivoViewModel)
+        public async Task<int> Guardar(ObjetivoViewModel objetivoViewModel)
         {
             Objetivo objetivo = AutoMapper.Mapper.Map<Objetivo>(objetivoViewModel);
 
-            ObjetivoRepository.Guardar(objetivo);
+            await ObjetivoRepository.Guardar(objetivo);
 
             return objetivo.Id;
         }

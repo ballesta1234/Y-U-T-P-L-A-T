@@ -3,6 +3,8 @@ using YUTPLAT.Models;
 using YUTPLAT.ViewModel;
 using YUTPLAT.Context;
 using YUTPLAT.Repositories.Interface;
+using System.Threading.Tasks;
+using System.Data.Entity;
 
 namespace YUTPLAT.Repositories
 {
@@ -20,9 +22,9 @@ namespace YUTPLAT.Repositories
             return this.context.Users.Where(a => a.Id.Equals(id));
         }
 
-        public Persona GetByUserName(string userName)
+        public async Task<Persona> GetByUserName(string userName)
         {
-            return this.context.Users.First(a => a.UserName.Equals(userName));
+            return await this.context.Users.FirstAsync(a => a.UserName.Equals(userName));
         }
 
         public IQueryable<Persona> Todas()

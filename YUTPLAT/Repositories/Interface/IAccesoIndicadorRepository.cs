@@ -1,6 +1,6 @@
-﻿
-using System;
+﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using YUTPLAT.Models;
 
 namespace YUTPLAT.Repositories.Interface
@@ -9,8 +9,8 @@ namespace YUTPLAT.Repositories.Interface
     {
         IQueryable<AccesoIndicador> GetById(int id);
 
-        void Guardar(AccesoIndicador  accesoIndicador);
+        Task<int> Guardar(AccesoIndicador  accesoIndicador);
 
-        void EliminarPorIndicador(int idIndicador);
+        Task<int> EliminarPorIndicador(int idIndicador);
     }
 }

@@ -4,7 +4,9 @@ using YUTPLAT.Models;
 using YUTPLAT.Repositories.Interface;
 using System.Linq;
 using YUTPLAT.ViewModel;
-
+using System.Threading.Tasks;
+using System.Data.Entity;
+    
 namespace YUTPLAT.Services.Interface
 {
     public class AreaService : IAreaService
@@ -16,31 +18,31 @@ namespace YUTPLAT.Services.Interface
             this.AreaRepository = areaRepository;
         }
 
-        public AreaViewModel GetById(int id)
+        public async Task<AreaViewModel> GetById(int id)
         {
-            return AutoMapper.Mapper.Map<AreaViewModel>(AreaRepository.GetById(id).First());
+            return AutoMapper.Mapper.Map<AreaViewModel>(await AreaRepository.GetById(id).FirstAsync());
         }
 
-        public AreaViewModel GetByIdObjetivo(int idObjetivo)
+        public async Task<AreaViewModel> GetByIdObjetivo(int idObjetivo)
         {
-            return AutoMapper.Mapper.Map<AreaViewModel>(AreaRepository.GetByIdObjetivo(idObjetivo).First());
+            return AutoMapper.Mapper.Map<AreaViewModel>(await AreaRepository.GetByIdObjetivo(idObjetivo).FirstAsync());
         }
 
-        public IList<AreaViewModel> Todas()
+        public async Task<IList<AreaViewModel>> Todas()
         {
-            return AutoMapper.Mapper.Map<IList<AreaViewModel>>(AreaRepository.Todas().ToList());            
+            return AutoMapper.Mapper.Map<IList<AreaViewModel>>(await AreaRepository.Todas().ToListAsync());            
         }
 
-        public IList<AreaViewModel> Buscar(BuscarAreaViewModel filtro)
+        public async Task<IList<AreaViewModel>> Buscar(BuscarAreaViewModel filtro)
         {
-            return AutoMapper.Mapper.Map<IList<AreaViewModel>>(AreaRepository.Buscar(filtro.Busqueda).ToList());           
+            return AutoMapper.Mapper.Map<IList<AreaViewModel>>(await AreaRepository.Buscar(filtro.Busqueda).ToListAsync());           
         }
 
-        public int Guardar(AreaViewModel areaViewModel)
+        public async Task<int> Guardar(AreaViewModel areaViewModel)
         {
             Area area = AutoMapper.Mapper.Map<Area>(areaViewModel);
 
-            AreaRepository.Guardar(area);
+            await AreaRepository.Guardar(area);
 
             return area.Id;
         }

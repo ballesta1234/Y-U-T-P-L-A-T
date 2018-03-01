@@ -5,6 +5,8 @@ using YUTPLAT.Repositories.Interface;
 using System.Linq;
 using YUTPLAT.ViewModel;
 using YUTPLAT.Helpers;
+using System.Threading.Tasks;
+using System.Data.Entity;
 
 namespace YUTPLAT.Services.Interface
 {
@@ -35,10 +37,10 @@ namespace YUTPLAT.Services.Interface
             this.AccesoIndicadorRepository = accesoIndicadorRepository;
         }
         
-        public IndicadorViewModel GetUltimoByGrupo(long grupo)
+        public async Task<IndicadorViewModel> GetUltimoByGrupo(long grupo)
         {
             // Obtener el nombre del último indicador del grupo.
-            Indicador indicador = IndicadorRepository.Buscar(new BuscarIndicadorViewModel { Busqueda = new IndicadorViewModel { Grupo = grupo } }).First();
+            Indicador indicador = await IndicadorRepository.Buscar(new BuscarIndicadorViewModel { Busqueda = new IndicadorViewModel { Grupo = grupo } }).FirstAsync();
 
             IndicadorViewModel indicadorViewModel = AutoMapper.Mapper.Map<IndicadorViewModel>(indicador);
             indicadorViewModel.ObjetivoViewModel = AutoMapper.Mapper.Map<ObjetivoViewModel>(indicador.Objetivo);
@@ -50,9 +52,9 @@ namespace YUTPLAT.Services.Interface
             return indicadorViewModel;
         }
 
-        public IndicadorViewModel GetById(int id)
+        public async Task<IndicadorViewModel> GetById(int id)
         {
-            Indicador indicador = IndicadorRepository.GetById(id).First();
+            Indicador indicador = await IndicadorRepository.GetById(id).FirstAsync();
 
             IndicadorViewModel indicadorViewModel = AutoMapper.Mapper.Map<IndicadorViewModel>(indicador);
             indicadorViewModel.ObjetivoViewModel = AutoMapper.Mapper.Map<ObjetivoViewModel>(indicador.Objetivo);
@@ -64,9 +66,9 @@ namespace YUTPLAT.Services.Interface
             return indicadorViewModel;
         }      
         
-        public IList<IndicadorViewModel> Buscar(BuscarIndicadorViewModel filtro)
+        public async Task<IList<IndicadorViewModel>> Buscar(BuscarIndicadorViewModel filtro)
         {
-            Persona persona = PersonaRepository.GetByUserName(filtro.NombreUsuario);
+            Persona persona = await PersonaRepository.GetByUserName(filtro.NombreUsuario);
             IList<IndicadorViewModel> indicadores = AutoMapper.Mapper.Map<IList<IndicadorViewModel>>(IndicadorRepository.Buscar(filtro).ToList());
 
             CargarPermisosAIndicadores(indicadores, persona);
@@ -86,7 +88,7 @@ namespace YUTPLAT.Services.Interface
             }
         }
 
-        public int Guardar(IndicadorViewModel indicadorViewModel)
+        public async Task<int> Guardar(IndicadorViewModel indicadorViewModel)
         {
             bool modificado = false;
 
@@ -98,7 +100,7 @@ namespace YUTPLAT.Services.Interface
             {
                 Indicador indicadorOriginal = IndicadorRepository.GetById(indicadorViewModel.Id).First();
 
-                if (HayCambios(indicadorOriginal, indicadorViewModel) && MedicionRepository.Buscar(new MedicionViewModel { IndicadorID = indicadorViewModel.Id }).Any( m => (int)m.Mes != mesActual))
+                if (HayCambios(indicadorOriginal, indicadorViewModel) && await MedicionRepository.Buscar(new MedicionViewModel { IndicadorID = indicadorViewModel.Id }).AnyAsync( m => (int)m.Mes != mesActual))
                 {
                     idIndicadorOriginal = indicadorViewModel.Id;
                     indicadorViewModel.Id = 0;
@@ -107,13 +109,13 @@ namespace YUTPLAT.Services.Interface
             }
 
             // Borrar los responsables previos
-            ResponsableIndicadorRepository.EliminarPorIndicador(indicadorViewModel.Id);
+            await ResponsableIndicadorRepository.EliminarPorIndicador(indicadorViewModel.Id);
 
             // Borrar los interesados previos
-            InteresadoIndicadorRepository.EliminarPorIndicador(indicadorViewModel.Id);
+            await InteresadoIndicadorRepository.EliminarPorIndicador(indicadorViewModel.Id);
 
             // Borrar los permisos previos
-            AccesoIndicadorRepository.EliminarPorIndicador(indicadorViewModel.Id);
+            await AccesoIndicadorRepository.EliminarPorIndicador(indicadorViewModel.Id);
 
             Indicador indicador = AutoMapper.Mapper.Map<Indicador>(indicadorViewModel);
 
@@ -122,19 +124,19 @@ namespace YUTPLAT.Services.Interface
                 indicador.FechaCreacion = indicador.FechaCreacion.Value.AddMinutes(1);
             }
 
-            indicador.MetaAceptableMetaID = GuardarMeta(indicadorViewModel.MetaAceptableViewModel);
-            indicador.MetaAMejorarMetaID = GuardarMeta(indicadorViewModel.MetaAMejorarViewModel);
-            indicador.MetaExcelenteMetaID = GuardarMeta(indicadorViewModel.MetaExcelenteViewModel);
-            indicador.MetaInaceptableMetaID = GuardarMeta(indicadorViewModel.MetaInaceptableViewModel);
-            indicador.MetaSatisfactoriaMetaID = GuardarMeta(indicadorViewModel.MetaSatisfactoriaViewModel);
-            
+            indicador.MetaAceptableMetaID = await GuardarMeta(indicadorViewModel.MetaAceptableViewModel);
+            indicador.MetaAMejorarMetaID = await GuardarMeta(indicadorViewModel.MetaAMejorarViewModel);
+            indicador.MetaExcelenteMetaID = await GuardarMeta(indicadorViewModel.MetaExcelenteViewModel);
+            indicador.MetaInaceptableMetaID = await GuardarMeta(indicadorViewModel.MetaInaceptableViewModel);
+            indicador.MetaSatisfactoriaMetaID = await GuardarMeta(indicadorViewModel.MetaSatisfactoriaViewModel);
+
             // Guardar el indicador
-            IndicadorRepository.Guardar(indicador);
+            await IndicadorRepository.Guardar(indicador);
 
             if (indicador.Grupo == 0)
             {
                 indicador.Grupo = indicador.IndicadorID;
-                IndicadorRepository.Guardar(indicador);
+                await IndicadorRepository.Guardar(indicador);
             }
 
             // Guardar los responsables
@@ -153,7 +155,7 @@ namespace YUTPLAT.Services.Interface
                     foreach (Medicion medicion in mediciones)
                     {
                         medicion.IndicadorID = indicador.IndicadorID;
-                        MedicionRepository.Guardar(medicion);
+                        await MedicionRepository.Guardar(medicion);
                     }
                 }
             }
@@ -246,10 +248,10 @@ namespace YUTPLAT.Services.Interface
             return false;
         } 
 
-        private int GuardarMeta(MetaViewModel metaViewModel)
+        private async Task<int> GuardarMeta(MetaViewModel metaViewModel)
         {
             Meta meta = AutoMapper.Mapper.Map<Meta>(metaViewModel);
-            return MetaRepository.Guardar(meta);
+            return await MetaRepository.Guardar(meta);
         }
 
         private void GuardarResponsables(IList<PersonaViewModel> responsables, int indicadorID)

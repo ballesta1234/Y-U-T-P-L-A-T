@@ -6,6 +6,7 @@ using YUTPLAT.Repositories.Interface;
 using YUTPLAT.ViewModel;
 using System.Data.Entity.Migrations;
 using YUTPLAT.Context;
+using System.Threading.Tasks;
 
 namespace YUTPLAT.Repositories
 {
@@ -23,10 +24,11 @@ namespace YUTPLAT.Repositories
             return this.context.Objetivos.Where(a => a.Id == id);
         }
 
-        public void Guardar(Objetivo objetivo)
+        public async Task<int> Guardar(Objetivo objetivo)
         {
             this.context.Objetivos.AddOrUpdate(objetivo);
-            this.context.SaveChanges();
+            await this.context.SaveChangesAsync();
+            return objetivo.Id;
         }
 
         public IQueryable<Objetivo> Todas()

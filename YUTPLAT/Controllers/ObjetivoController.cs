@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using YUTPLAT.Helpers;
 using YUTPLAT.Helpers.Filters;
@@ -32,11 +33,11 @@ namespace YUTPLAT.Controllers
         }
 
         [HttpPost]
-        public ActionResult Buscar(BuscarObjetivoViewModel model)
+        public async Task<ActionResult> Buscar(BuscarObjetivoViewModel model)
         {
             ViewBag.SinResultados = null;
 
-            IList <ObjetivoViewModel> objetivos = ObjetivoService.Buscar(model);
+            IList <ObjetivoViewModel> objetivos = await ObjetivoService.Buscar(model);
 
             model.Resultados = objetivos;
             model.Busqueda.Titulo = "Objetivos";
@@ -51,14 +52,14 @@ namespace YUTPLAT.Controllers
 
         [HttpGet]
         [EncryptedActionParameter]
-        public ActionResult Crear(string idArea)
+        public async Task<ActionResult> Crear(string idArea)
         {
             ObjetivoViewModel model = new ObjetivoViewModel();
             model.Titulo = "Objetivos";
             model.FechaCreacion = DateTime.Now.ToString("dd/MM/yyyy HH:mm tt");
 
             if(idArea != null)
-                model.AreaViewModel = AreaService.GetById(Int32.Parse(idArea));
+                model.AreaViewModel = await AreaService.GetById(Int32.Parse(idArea));
 
             ViewBag.Titulo = model.Titulo;
 
@@ -66,7 +67,7 @@ namespace YUTPLAT.Controllers
         }       
 
         [HttpPost]
-        public ActionResult Crear(ObjetivoViewModel model)
+        public async Task<ActionResult> Crear(ObjetivoViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -77,16 +78,16 @@ namespace YUTPLAT.Controllers
 
             ViewBag.Titulo = model.Titulo;
 
-            int idObjetivo = ObjetivoService.Guardar(model);
+            int idObjetivo = await ObjetivoService.Guardar(model);
 
             return RedirectToAction("Editar", "Objetivo", new { id = idObjetivo, msgExito = "El objetivo se ha guardado exitosamente." });
         }
 
         [HttpGet]
         [EncryptedActionParameter]
-        public ActionResult Editar(string id, string msgExito)
+        public async Task<ActionResult> Editar(string id, string msgExito)
         {
-            ObjetivoViewModel model = ObjetivoService.GetById(Int32.Parse(id));
+            ObjetivoViewModel model = await ObjetivoService.GetById(Int32.Parse(id));
 
             model.Titulo = "Objetivos";
 
@@ -97,7 +98,7 @@ namespace YUTPLAT.Controllers
         }
 
         [HttpPost]
-        public ActionResult Editar(ObjetivoViewModel model)
+        public async Task<ActionResult> Editar(ObjetivoViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -110,34 +111,34 @@ namespace YUTPLAT.Controllers
             model.FechaUltimaModificacion = DateTime.Now.ToString("dd/MM/yyyy HH:mm tt");
             model.UltimoUsuarioModifico = User.Identity.Name;
 
-            int idObjetivo = ObjetivoService.Guardar(model);
+            int idObjetivo = await ObjetivoService.Guardar(model);
 
             return RedirectToAction("Editar", "Objetivo", new { q = MyExtensions.Encrypt(new { id = idObjetivo, msgExito = "El objetivo se ha guardado exitosamente." }) });
         }
 
         [HttpGet]
         [EncryptedActionParameter]
-        public ActionResult Ver(string id)
+        public async Task<ActionResult> Ver(string id)
         {
-            ObjetivoViewModel model = ObjetivoService.GetById(Int32.Parse(id));
+            ObjetivoViewModel model = await ObjetivoService.GetById(Int32.Parse(id));
             model.Titulo = "Objetivos";
             ViewBag.Titulo = model.Titulo;
 
             return View(model);
         }
 
-        public JsonResult BuscarObjetivos(string nombreObjetivo, string idArea)
+        public async Task<JsonResult> BuscarObjetivos(string nombreObjetivo, string idArea)
         {
             BuscarObjetivoViewModel filtro = new BuscarObjetivoViewModel();
             filtro.Busqueda.Nombre = nombreObjetivo;
             filtro.Busqueda.IdArea = idArea;
 
-            return Json(ObjetivoService.Buscar(filtro), JsonRequestBehavior.AllowGet);
+            return Json(await ObjetivoService.Buscar(filtro), JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult BuscarArea(string idObjetivo)
+        public async Task<JsonResult> BuscarArea(string idObjetivo)
         {
-            return Json(AreaService.GetByIdObjetivo(Int32.Parse(idObjetivo)), JsonRequestBehavior.AllowGet);
+            return Json(await AreaService.GetByIdObjetivo(Int32.Parse(idObjetivo)), JsonRequestBehavior.AllowGet);
         }
     }
 }

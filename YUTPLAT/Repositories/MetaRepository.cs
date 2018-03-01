@@ -2,6 +2,7 @@
 using System.Data.Entity.Migrations;
 using YUTPLAT.Context;
 using YUTPLAT.Repositories.Interface;
+using System.Threading.Tasks;
 
 namespace YUTPLAT.Repositories
 {
@@ -14,10 +15,10 @@ namespace YUTPLAT.Repositories
             this.context = context;
         }
         
-        public int Guardar(Meta meta)
+        public async Task<int> Guardar(Meta meta)
         {
             this.context.Metas.AddOrUpdate(meta);
-            this.context.SaveChanges();
+            await this.context.SaveChangesAsync();
 
             return meta.MetaId;
         }

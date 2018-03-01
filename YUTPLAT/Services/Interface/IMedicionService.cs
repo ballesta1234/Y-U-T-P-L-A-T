@@ -1,25 +1,25 @@
-﻿
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using YUTPLAT.ViewModel;
 
 namespace YUTPLAT.Services.Interface
 {
     public interface IMedicionService
     {
-        MedicionViewModel GetById(int id);
+        Task<MedicionViewModel> GetById(int id);
 
-        IList<MedicionViewModel> Todas();
+        Task<IList<MedicionViewModel>> Todas();
 
-        IList<MedicionViewModel> Buscar(MedicionViewModel filtro);
-        
-        HeatMapViewModel ObtenerHeatMapViewModel(BuscarIndicadorViewModel buscarIndicadorViewModel);
+        Task<IList<MedicionViewModel>> Buscar(MedicionViewModel filtro);
 
-        GaugeViewModel ObtenerGaugeViewModel(long grupo);
+        Task<HeatMapViewModel> ObtenerHeatMapViewModel(BuscarIndicadorViewModel buscarIndicadorViewModel);
 
-        IList<LineViewModel> ObtenerLineViewModel(long grupo);
+        Task<GaugeViewModel> ObtenerGaugeViewModel(long grupo);
 
-        MedicionViewModel ObtenerMedicionViewModel(int idIndicador, int mes, int? idMedicion, long grupo);
+        Task<IList<LineViewModel>> ObtenerLineViewModel(long grupo);
 
-        void GuardarMedicion(MedicionViewModel medicionViewModel);
+        Task<MedicionViewModel> ObtenerMedicionViewModel(int idIndicador, int mes, int? idMedicion, long grupo);
+
+        Task<int> GuardarMedicion(MedicionViewModel medicionViewModel);
     }
 }

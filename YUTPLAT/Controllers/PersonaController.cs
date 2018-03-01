@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System.Threading.Tasks;
+using System.Web.Mvc;
 using YUTPLAT.Services.Interface;
 using YUTPLAT.ViewModel;
 
@@ -14,12 +15,12 @@ namespace YUTPLAT.Controllers
             this.PersonaService = personaService;            
         }
 
-        public JsonResult BuscarPersonas(string nombreOApellidoONombreUsuario)
+        public async Task<JsonResult> BuscarPersonas(string nombreOApellidoONombreUsuario)
         {
             PersonaViewModel filtro = new PersonaViewModel();
             filtro.NombreOApellidoONombreUsuario = nombreOApellidoONombreUsuario;
 
-            return Json(PersonaService.Buscar(filtro), JsonRequestBehavior.AllowGet);
+            return Json(await PersonaService.Buscar(filtro), JsonRequestBehavior.AllowGet);
         }
     }
 }

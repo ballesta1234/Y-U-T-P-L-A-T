@@ -6,6 +6,7 @@ using YUTPLAT.ViewModel;
 using System.Linq;
 using YUTPLAT.Helpers.Filters;
 using YUTPLAT.Helpers;
+using System.Threading.Tasks;
 
 namespace YUTPLAT.Controllers
 {
@@ -42,7 +43,7 @@ namespace YUTPLAT.Controllers
         }
 
         [HttpPost]
-        public ActionResult Buscar(BuscarIndicadorViewModel model)
+        public async Task<ActionResult> Buscar(BuscarIndicadorViewModel model)
         {
             string rolAdmin = EnumHelper<Enums.Enum.Rol>.GetDisplayValue(Enums.Enum.Rol.Admin);
             string rolUsuario = EnumHelper<Enums.Enum.Rol>.GetDisplayValue(Enums.Enum.Rol.Usuario);
@@ -52,7 +53,7 @@ namespace YUTPLAT.Controllers
             model.NombreUsuario = User.Identity.Name;
             model.RolUsuario = User.IsInRole(rolAdmin) ? rolAdmin : rolUsuario;
 
-            IList <IndicadorViewModel> indicadores = IndicadorService.Buscar(model);
+            IList <IndicadorViewModel> indicadores = await IndicadorService.Buscar(model);
 
             model.Resultados = indicadores;
             model.Busqueda.Titulo = "Indicadores";
@@ -67,7 +68,7 @@ namespace YUTPLAT.Controllers
 
         [HttpGet]
         [EncryptedActionParameter]
-        public ActionResult Crear(string idObjetivo)
+        public async Task<ActionResult> Crear(string idObjetivo)
         {
             IndicadorViewModel model = new IndicadorViewModel();
             model.Titulo = "Indicadores";
@@ -77,7 +78,7 @@ namespace YUTPLAT.Controllers
             Session["ResponsablesSeleccionados"] = model.Responsables;
 
             if (idObjetivo != null)
-                model.ObjetivoViewModel = ObjetivoService.GetById(Int32.Parse(idObjetivo));
+                model.ObjetivoViewModel = await ObjetivoService.GetById(Int32.Parse(idObjetivo));
 
             ViewBag.Titulo = model.Titulo;
 
@@ -85,12 +86,12 @@ namespace YUTPLAT.Controllers
         }
 
         [HttpPost]
-        public ActionResult Crear(IndicadorViewModel model)
+        public async Task<ActionResult> Crear(IndicadorViewModel model)
         {
-            model.FrecuenciaMedicionIndicadorViewModel = FrecuenciaMedicionIndicadorService.GetById(Int32.Parse(model.FrecuenciaMedicionIndicadorID));
+            model.FrecuenciaMedicionIndicadorViewModel = await FrecuenciaMedicionIndicadorService.GetById(Int32.Parse(model.FrecuenciaMedicionIndicadorID));
 
             if (!String.IsNullOrEmpty(model.ObjetivoID) && !model.ObjetivoID.Equals("0"))
-                model.ObjetivoViewModel = ObjetivoService.GetById(Int32.Parse(model.ObjetivoID));
+                model.ObjetivoViewModel = await ObjetivoService.GetById(Int32.Parse(model.ObjetivoID));
 
             model.Interesados = (IList<PersonaViewModel>)Session["InteresadosSeleccionados"];
             model.Responsables = (IList<PersonaViewModel>)Session["ResponsablesSeleccionados"];
@@ -108,7 +109,7 @@ namespace YUTPLAT.Controllers
 
             ViewBag.Titulo = model.Titulo;
 
-            int idIndicador = IndicadorService.Guardar(model);
+            int idIndicador = await IndicadorService.Guardar(model);
 
             string nombreUsuario = User.Identity.Name;
 
@@ -128,9 +129,9 @@ namespace YUTPLAT.Controllers
 
         [HttpGet]
         [EncryptedActionParameter]
-        public ActionResult Editar(string id, string msgExito)
+        public async Task<ActionResult> Editar(string id, string msgExito)
         {
-            IndicadorViewModel model = IndicadorService.GetById(Int32.Parse(id));
+            IndicadorViewModel model = await IndicadorService.GetById(Int32.Parse(id));
             model.CantidadInteresadosElegidos = model.Interesados.Count;
             model.CantidadResponsablesElegidos = model.Responsables.Count;
 
@@ -146,12 +147,12 @@ namespace YUTPLAT.Controllers
         }
 
         [HttpPost]
-        public ActionResult Editar(IndicadorViewModel model)
+        public async Task<ActionResult> Editar(IndicadorViewModel model)
         {
-            model.FrecuenciaMedicionIndicadorViewModel = FrecuenciaMedicionIndicadorService.GetById(Int32.Parse(model.FrecuenciaMedicionIndicadorID));
+            model.FrecuenciaMedicionIndicadorViewModel = await FrecuenciaMedicionIndicadorService.GetById(Int32.Parse(model.FrecuenciaMedicionIndicadorID));
 
             if(!String.IsNullOrEmpty(model.ObjetivoID) && !model.ObjetivoID.Equals("0"))
-                model.ObjetivoViewModel = ObjetivoService.GetById(Int32.Parse(model.ObjetivoID));
+                model.ObjetivoViewModel = await ObjetivoService.GetById(Int32.Parse(model.ObjetivoID));
 
             model.Interesados = (IList<PersonaViewModel>)Session["InteresadosSeleccionados"];
             model.Responsables = (IList<PersonaViewModel>)Session["ResponsablesSeleccionados"];
@@ -170,7 +171,7 @@ namespace YUTPLAT.Controllers
 
             model.FechaUltimaModificacion = DateTimeHelper.OntenerFechaActual().ToString("dd/MM/yyyy HH:mm tt");
             model.UltimoUsuarioModifico = User.Identity.Name;            
-            int idIndicador = IndicadorService.Guardar(model);
+            int idIndicador = await IndicadorService.Guardar(model);
             
             string nombreUsuario = User.Identity.Name;
 
@@ -190,9 +191,9 @@ namespace YUTPLAT.Controllers
 
         [HttpGet]
         [EncryptedActionParameter]
-        public ActionResult Ver(string id, string msgExito)
+        public async Task<ActionResult> Ver(string id, string msgExito)
         {
-            IndicadorViewModel model = IndicadorService.GetById(Int32.Parse(id));
+            IndicadorViewModel model = await IndicadorService.GetById(Int32.Parse(id));
             model.Titulo = "Indicadores";
 
             ViewBag.Titulo = model.Titulo;
@@ -201,12 +202,12 @@ namespace YUTPLAT.Controllers
             return View(model);
         }
 
-        public JsonResult BuscarFrecuencias(string nombreFrecuencia)
+        public async Task<JsonResult> BuscarFrecuencias(string nombreFrecuencia)
         {
             FrecuenciaMedicionIndicadorViewModel filtro = new FrecuenciaMedicionIndicadorViewModel();
             filtro.Descripcion = nombreFrecuencia;
 
-            return Json(FrecuenciaMedicionIndicadorService.Buscar(filtro), JsonRequestBehavior.AllowGet);
+            return Json(await FrecuenciaMedicionIndicadorService.Buscar(filtro), JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult AgregarInteresado(string idPersona, string nombre)
@@ -255,7 +256,7 @@ namespace YUTPLAT.Controllers
             return Json(responsables, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult BuscarInteresado(string nombreOApellidoONombreUsuario)
+        public async Task<JsonResult> BuscarInteresado(string nombreOApellidoONombreUsuario)
         {
             PersonaViewModel filtro = new PersonaViewModel();
             filtro.NombreOApellidoONombreUsuario = nombreOApellidoONombreUsuario;
@@ -264,12 +265,12 @@ namespace YUTPLAT.Controllers
                 (IList<PersonaViewModel>)Session["InteresadosSeleccionados"];
 
             IList<PersonaViewModel> busqueda =
-                PersonaService.Buscar(filtro).Except(interesadosSeleccionados, new PersonaViewModelComparer()).ToList();
+                (await PersonaService.Buscar(filtro)).Except(interesadosSeleccionados, new PersonaViewModelComparer()).ToList();
 
             return Json(busqueda, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult BuscarResponsable(string nombreOApellidoONombreUsuario)
+        public async Task<JsonResult> BuscarResponsable(string nombreOApellidoONombreUsuario)
         {
             PersonaViewModel filtro = new PersonaViewModel();
             filtro.NombreOApellidoONombreUsuario = nombreOApellidoONombreUsuario;
@@ -278,7 +279,7 @@ namespace YUTPLAT.Controllers
                 (IList<PersonaViewModel>)Session["ResponsablesSeleccionados"];
 
             IList<PersonaViewModel> busqueda =
-                PersonaService.Buscar(filtro).Except(responsablesSeleccionados, new PersonaViewModelComparer()).ToList();
+                (await PersonaService.Buscar(filtro)).Except(responsablesSeleccionados, new PersonaViewModelComparer()).ToList();
 
             return Json(busqueda, JsonRequestBehavior.AllowGet);
         }

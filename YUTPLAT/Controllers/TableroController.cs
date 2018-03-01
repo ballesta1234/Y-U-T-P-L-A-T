@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using YUTPLAT.Helpers;
 using YUTPLAT.Helpers.Filters;
@@ -53,7 +54,7 @@ namespace YUTPLAT.Controllers
         }
 
         [HttpPost]
-        public ActionResult ObtenerHeatMapViewModel(string nombre)
+        public async Task<ActionResult> ObtenerHeatMapViewModel(string nombre)
         {
             string rolAdmin = EnumHelper<Enums.Enum.Rol>.GetDisplayValue(Enums.Enum.Rol.Admin);
             string rolUsuario = EnumHelper<Enums.Enum.Rol>.GetDisplayValue(Enums.Enum.Rol.Usuario);
@@ -63,24 +64,24 @@ namespace YUTPLAT.Controllers
             model.NombreUsuario = User.Identity.Name;
             model.RolUsuario = User.IsInRole(rolAdmin) ? rolAdmin : rolUsuario;
 
-            return Json(MedicionService.ObtenerHeatMapViewModel(model), JsonRequestBehavior.AllowGet);
+            return Json(await MedicionService.ObtenerHeatMapViewModel(model), JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
-        public ActionResult ObtenerGaugeViewModel(long grupo)
+        public async Task<ActionResult> ObtenerGaugeViewModel(long grupo)
         {
-            return Json(MedicionService.ObtenerGaugeViewModel(grupo), JsonRequestBehavior.AllowGet);
+            return Json(await MedicionService.ObtenerGaugeViewModel(grupo), JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
-        public ActionResult ObtenerLineViewModel(long grupo)
+        public async Task<ActionResult> ObtenerLineViewModel(long grupo)
         {
-            return Json(MedicionService.ObtenerLineViewModel(grupo), JsonRequestBehavior.AllowGet);
+            return Json(await MedicionService.ObtenerLineViewModel(grupo), JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
         [AllowAnonymous]
-        public ActionResult CargarMedicion(MedicionViewModel model)
+        public async Task<ActionResult> CargarMedicion(MedicionViewModel model)
         {
             if (!ModelState.IsValidField("Valor") || !ModelState.IsValidField("Comentario"))
             {
@@ -91,12 +92,12 @@ namespace YUTPLAT.Controllers
             model.FechaCarga = DateTimeHelper.OntenerFechaActual().ToString("dd/MM/yyyy HH:mm tt");
             model.UsuarioCargo = User.Identity.Name;
 
-            MedicionService.GuardarMedicion(model);
+            await MedicionService.GuardarMedicion(model);
             return Json(new { success = true });
         }
 
         [HttpPost]
-        public ActionResult AbrirModalCargaMedicion(int idIndicador, int mes, int? idMedicion, long grupo, bool tieneAccesoEscritura)
+        public async Task<ActionResult> AbrirModalCargaMedicion(int idIndicador, int mes, int? idMedicion, long grupo, bool tieneAccesoEscritura)
         {
             string view = "Medicion/_Crear";
 
@@ -105,9 +106,7 @@ namespace YUTPLAT.Controllers
                 view = "Medicion/_Ver";
             }
 
-            return PartialView(view, MedicionService.ObtenerMedicionViewModel(idIndicador, mes, idMedicion, grupo));
-        }
-
-        
+            return PartialView(view, await MedicionService.ObtenerMedicionViewModel(idIndicador, mes, idMedicion, grupo));
+        }        
     }
 }

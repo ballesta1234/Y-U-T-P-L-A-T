@@ -1,17 +1,17 @@
-﻿
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using YUTPLAT.ViewModel;
 
 namespace YUTPLAT.Services.Interface
 {
     public interface IIndicadorService
     {
-        IndicadorViewModel GetById(int id);
+        Task<IndicadorViewModel> GetById(int id);
 
-        IndicadorViewModel GetUltimoByGrupo(long grupo);
+        Task<IndicadorViewModel> GetUltimoByGrupo(long grupo);
 
-        IList<IndicadorViewModel> Buscar(BuscarIndicadorViewModel filtro);
+        Task<IList<IndicadorViewModel>> Buscar(BuscarIndicadorViewModel filtro);
 
-        int Guardar(IndicadorViewModel indicadorViewModel);        
+        Task<int> Guardar(IndicadorViewModel indicadorViewModel);        
     }
 }

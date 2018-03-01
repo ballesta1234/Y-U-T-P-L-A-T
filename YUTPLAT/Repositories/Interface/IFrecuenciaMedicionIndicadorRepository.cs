@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Linq;
 using YUTPLAT.Models;
 using YUTPLAT.ViewModel;

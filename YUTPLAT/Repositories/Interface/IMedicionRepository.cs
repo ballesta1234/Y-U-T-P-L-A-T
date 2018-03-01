@@ -1,6 +1,6 @@
-﻿
-using System;
+﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using YUTPLAT.Models;
 using YUTPLAT.ViewModel;
 
@@ -14,6 +14,6 @@ namespace YUTPLAT.Repositories.Interface
 
         IQueryable<Medicion> Buscar(MedicionViewModel filtro);
 
-        void Guardar(Medicion medicion);
+        Task<int> Guardar(Medicion medicion);
     }
 }

@@ -1,6 +1,6 @@
-﻿
-using System;
+﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using YUTPLAT.Models;
 using YUTPLAT.ViewModel;
 
@@ -14,6 +14,6 @@ namespace YUTPLAT.Repositories.Interface
 
         IQueryable<Objetivo> Buscar(ObjetivoViewModel filtro);
 
-        void Guardar(Objetivo objetivo);
+        Task<int> Guardar(Objetivo objetivo);
     }
 }

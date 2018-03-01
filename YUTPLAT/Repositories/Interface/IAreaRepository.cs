@@ -1,6 +1,6 @@
-﻿
-using System;
+﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using YUTPLAT.Models;
 using YUTPLAT.ViewModel;
 
@@ -16,6 +16,6 @@ namespace YUTPLAT.Repositories.Interface
 
         IQueryable<Area> Buscar(AreaViewModel filtro);
 
-        void Guardar(Area area);
+        Task<int> Guardar(Area area);
     }
 }

@@ -1,17 +1,15 @@
-﻿
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using YUTPLAT.ViewModel;
 
 namespace YUTPLAT.Services.Interface
 {
     public interface IObjetivoService
     {
-        ObjetivoViewModel GetById(int id);
+        Task<ObjetivoViewModel> GetById(int id);        
 
-        IList<ObjetivoViewModel> Todas();
+        Task<IList<ObjetivoViewModel>> Buscar(BuscarObjetivoViewModel filtro);
 
-        IList<ObjetivoViewModel> Buscar(BuscarObjetivoViewModel filtro);
-
-        int Guardar(ObjetivoViewModel areaViewModel);
+        Task<int> Guardar(ObjetivoViewModel areaViewModel);
     }
 }

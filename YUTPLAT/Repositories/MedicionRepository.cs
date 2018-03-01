@@ -4,6 +4,7 @@ using YUTPLAT.ViewModel;
 using YUTPLAT.Context;
 using YUTPLAT.Repositories.Interface;
 using System.Data.Entity.Migrations;
+using System.Threading.Tasks;
 
 namespace YUTPLAT.Repositories
 {
@@ -16,10 +17,11 @@ namespace YUTPLAT.Repositories
             this.context = context;
         }
 
-        public void Guardar(Medicion medicion)
+        public async Task<int> Guardar(Medicion medicion)
         {
             this.context.Mediciones.AddOrUpdate(medicion);
-            this.context.SaveChanges();
+            await this.context.SaveChangesAsync();
+            return medicion.MedicionId;
         }
 
         public IQueryable<Medicion> GetById(int id)

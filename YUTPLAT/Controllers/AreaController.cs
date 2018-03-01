@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using YUTPLAT.Helpers;
 using YUTPLAT.Helpers.Filters;
@@ -31,11 +32,11 @@ namespace YUTPLAT.Controllers
         }
 
         [HttpPost]
-        public ActionResult Buscar(BuscarAreaViewModel model)
+        public async Task<ActionResult> Buscar(BuscarAreaViewModel model)
         {
             ViewBag.SinResultados = null;
 
-            IList <AreaViewModel> areas = AreaService.Buscar(model);
+            IList <AreaViewModel> areas = await AreaService.Buscar(model);
 
             model.Resultados = areas;
             model.Busqueda.Titulo = "Áreas";
@@ -61,7 +62,7 @@ namespace YUTPLAT.Controllers
         }
 
         [HttpPost]
-        public ActionResult Crear(AreaViewModel model)
+        public async Task<ActionResult> Crear(AreaViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -72,16 +73,16 @@ namespace YUTPLAT.Controllers
 
             ViewBag.Titulo = model.Titulo;
 
-            int idArea = AreaService.Guardar(model);
+            int idArea = await AreaService.Guardar(model);
 
             return RedirectToAction("Editar", "Area", new { q = MyExtensions.Encrypt(new { id = idArea, msgExito = "El área se ha guardado exitosamente." })});
         }
 
         [HttpGet]
         [EncryptedActionParameter]
-        public ActionResult Editar(string id, string msgExito)
+        public async Task<ActionResult> Editar(string id, string msgExito)
         {
-            AreaViewModel model = AreaService.GetById(Int32.Parse(id));
+            AreaViewModel model = await AreaService.GetById(Int32.Parse(id));
 
             model.Titulo = "Áreas";            
 
@@ -92,7 +93,7 @@ namespace YUTPLAT.Controllers
         }
 
         [HttpPost]
-        public ActionResult Editar(AreaViewModel model)
+        public async Task<ActionResult> Editar(AreaViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -105,28 +106,28 @@ namespace YUTPLAT.Controllers
             model.FechaUltimaModificacion = DateTime.Now.ToString("dd/MM/yyyy HH:mm tt");
             model.UltimoUsuarioModifico = User.Identity.Name;
 
-            int idArea = AreaService.Guardar(model);
+            int idArea = await AreaService.Guardar(model);
 
             return RedirectToAction("Editar", "Area", new { q = MyExtensions.Encrypt(new { id = idArea, msgExito = "El área se ha guardado exitosamente." }) });
         }
 
         [HttpGet]
         [EncryptedActionParameter]
-        public ActionResult Ver(string id)
+        public async Task<ActionResult> Ver(string id)
         {
-            AreaViewModel model = AreaService.GetById(Int32.Parse(id));
+            AreaViewModel model = await AreaService.GetById(Int32.Parse(id));
             model.Titulo = "Áreas";
             ViewBag.Titulo = model.Titulo;
             
             return View(model);
         }
 
-        public JsonResult BuscarAreas(string nombreArea)
+        public async Task<JsonResult> BuscarAreas(string nombreArea)
         {
             BuscarAreaViewModel filtro = new BuscarAreaViewModel();
             filtro.Busqueda.Nombre = nombreArea;
 
-            return Json(AreaService.Buscar(filtro), JsonRequestBehavior.AllowGet);
+            return Json(await AreaService.Buscar(filtro), JsonRequestBehavior.AllowGet);
         }
     }
 }

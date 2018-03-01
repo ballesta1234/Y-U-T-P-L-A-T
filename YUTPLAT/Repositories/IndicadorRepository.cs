@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Linq;
 using YUTPLAT.Models;
 using YUTPLAT.Repositories.Interface;
@@ -8,6 +7,7 @@ using System.Data.Entity.Migrations;
 using YUTPLAT.Context;
 using System.Data.Entity;
 using YUTPLAT.Helpers;
+using System.Threading.Tasks;
 
 namespace YUTPLAT.Repositories
 {
@@ -31,10 +31,11 @@ namespace YUTPLAT.Repositories
                 .Where(i => i.IndicadorID == id);
         }
 
-        public void Guardar(Indicador indicador)
+        public async Task<int> Guardar(Indicador indicador)
         {
             this.context.Indicadores.AddOrUpdate(indicador);
-            this.context.SaveChanges();
+            await this.context.SaveChangesAsync();
+            return indicador.IndicadorID;
         }
 
         public IQueryable<Indicador> Todas()

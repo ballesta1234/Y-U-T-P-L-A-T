@@ -1,15 +1,15 @@
-﻿
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using YUTPLAT.ViewModel;
 
 namespace YUTPLAT.Services.Interface
 {
     public interface IPersonaService
     {
-        PersonaViewModel GetById(string id);
+        Task<PersonaViewModel> GetById(string id);
 
-        IList<PersonaViewModel> Todas();
+        Task<IList<PersonaViewModel>> Todas();
 
-        IList<PersonaViewModel> Buscar(PersonaViewModel filtro);        
+        Task<IList<PersonaViewModel>> Buscar(PersonaViewModel filtro);        
     }
 }

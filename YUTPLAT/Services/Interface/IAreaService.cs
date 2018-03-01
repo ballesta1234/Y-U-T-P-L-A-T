@@ -1,5 +1,6 @@
 ﻿
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using YUTPLAT.Models;
 using YUTPLAT.ViewModel;
 
@@ -7,14 +8,14 @@ namespace YUTPLAT.Services.Interface
 {
     public interface IAreaService
     {
-        AreaViewModel GetById(int id);
+        Task<AreaViewModel> GetById(int id);
 
-        AreaViewModel GetByIdObjetivo(int idObjetivo);
-        
-        IList<AreaViewModel> Todas();
+        Task<AreaViewModel> GetByIdObjetivo(int idObjetivo);
 
-        IList<AreaViewModel> Buscar(BuscarAreaViewModel filtro);
+        Task<IList<AreaViewModel>> Todas();
 
-        int Guardar(AreaViewModel areaViewModel);
+        Task<IList<AreaViewModel>> Buscar(BuscarAreaViewModel filtro);
+
+        Task<int> Guardar(AreaViewModel areaViewModel);
     }
 }

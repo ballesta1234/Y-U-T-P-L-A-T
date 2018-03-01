@@ -4,6 +4,8 @@ using YUTPLAT.Repositories.Interface;
 using System.Data.Entity.Migrations;
 using YUTPLAT.Context;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using System.Data.Entity;
 
 namespace YUTPLAT.Repositories
 {
@@ -21,21 +23,24 @@ namespace YUTPLAT.Repositories
             return this.context.ResponsablesIndicador.Where(a => a.ResponsableIndicadorID == id);
         }
 
-        public void Guardar(ResponsableIndicador responsableIndicador)
+        public async Task<int> Guardar(ResponsableIndicador responsableIndicador)
         {
             this.context.ResponsablesIndicador.AddOrUpdate(responsableIndicador);
-            this.context.SaveChanges();
+            await this.context.SaveChangesAsync();
+            return responsableIndicador.ResponsableIndicadorID;
         }
 
-        public void EliminarPorIndicador(int idIndicador)
+        public async Task<int> EliminarPorIndicador(int idIndicador)
         {
-            IList<ResponsableIndicador> responsables = this.context.ResponsablesIndicador.Where(r => r.IndicadorID == idIndicador).ToList();
+            IList<ResponsableIndicador> responsables = await this.context.ResponsablesIndicador.Where(r => r.IndicadorID == idIndicador).ToListAsync();
 
             foreach (ResponsableIndicador responsable in responsables)
             {
                 this.context.ResponsablesIndicador.Remove(responsable);           
             }
-            this.context.SaveChanges();
+
+            await this.context.SaveChangesAsync();
+            return idIndicador;
         }
         
         public void Dispose()

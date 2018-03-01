@@ -1,6 +1,6 @@
-﻿
-using System;
+﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using YUTPLAT.Models;
 using YUTPLAT.ViewModel;
 
@@ -12,6 +12,6 @@ namespace YUTPLAT.Repositories.Interface
         
         IQueryable<Indicador> Buscar(BuscarIndicadorViewModel filtro);
 
-        void Guardar(Indicador area);
+        Task<int> Guardar(Indicador area);
     }
 }
