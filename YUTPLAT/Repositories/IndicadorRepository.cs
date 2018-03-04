@@ -37,14 +37,13 @@ namespace YUTPLAT.Repositories
             await this.context.SaveChangesAsync();
             return indicador.IndicadorID;
         }
-
-        public IQueryable<Indicador> Todas()
-        {
-            return this.context.Indicadores;
-        }
         
         public IQueryable<Indicador> Buscar(BuscarIndicadorViewModel filtro)
         {
+            YUTPLAT_DESAEntities aaa = new YUTPLAT_DESAEntities();
+            aaa.ObtenerTodasMediciones();
+
+
             string rolAdmin = EnumHelper<Enums.Enum.Rol>.GetDisplayValue(Enums.Enum.Rol.Admin);
 
             IQueryable<Indicador> queryable = this.context.Indicadores;

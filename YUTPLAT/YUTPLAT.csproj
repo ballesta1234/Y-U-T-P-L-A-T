@@ -116,6 +116,8 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -323,11 +325,29 @@
     <Compile Include="Models\Meta.cs" />
     <Compile Include="Models\FrecuenciaMedicionIndicador.cs" />
     <Compile Include="Models\InteresadoIndicador.cs" />
+    <Compile Include="Models\ObtenerTodasMediciones_Result.cs">
+      <DependentUpon>YUTPLATModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ResponsableIndicador.cs" />
     <Compile Include="Models\Indicador.cs" />
     <Compile Include="Models\Objetivo.cs" />
     <Compile Include="Models\Area.cs" />
     <Compile Include="HangfireNinject\NinjectJobActivator.cs" />
+    <Compile Include="Models\YUTPLATModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>YUTPLATModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\YUTPLATModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>YUTPLATModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\YUTPLATModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>YUTPLATModel.edmx</DependentUpon>
+    </Compile>
     <Compile Include="Repositories\AccesoIndicadorRepository.cs" />
     <Compile Include="Repositories\Interface\INotificacionRepository.cs" />
     <Compile Include="Repositories\NotificacionRepository.cs" />
@@ -506,7 +526,24 @@
     <Content Include="Content\bootstrap\alerts.less" />
     <Content Include="Content\_bootstrap-datetimepicker.less" />
     <Content Include="Content\bootstrap-datetimepicker-build.less" />
+    <EntityDeploy Include="Models\YUTPLATModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>YUTPLATModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\YUTPLATModel.edmx.diagram">
+      <DependentUpon>YUTPLATModel.edmx</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
+    <Content Include="Models\YUTPLATModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>YUTPLATModel.edmx</DependentUpon>
+      <LastGenOutput>YUTPLATModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\YUTPLATModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>YUTPLATModel.edmx</DependentUpon>
+      <LastGenOutput>YUTPLATModel.cs</LastGenOutput>
+    </Content>
     <Content Include="Scripts\bootstrap-checkbox-radio-switch.js" />
     <Content Include="Scripts\Graficos\d3.tip.v0.6.3.js" />
     <Content Include="Scripts\Graficos\d3.v3.js" />
@@ -651,6 +688,9 @@
     <EmbeddedResource Include="Migrations\201803020101112_Se agrega EsAutomatico en indicador.resx">
       <DependentUpon>201803020101112_Se agrega EsAutomatico en indicador.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
