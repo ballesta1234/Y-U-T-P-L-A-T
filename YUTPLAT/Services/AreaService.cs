@@ -1,12 +1,10 @@
-﻿
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using YUTPLAT.Models;
 using YUTPLAT.Repositories.Interface;
-using System.Linq;
 using YUTPLAT.ViewModel;
 using System.Threading.Tasks;
 using System.Data.Entity;
-    
+
 namespace YUTPLAT.Services.Interface
 {
     public class AreaService : IAreaService

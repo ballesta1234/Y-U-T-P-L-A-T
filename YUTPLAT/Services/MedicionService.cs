@@ -252,7 +252,8 @@ namespace YUTPLAT.Services.Interface
                         celdaHeatMapViewModel.GrupoIndicador = filasHeatMapViewModel[i].Grupo;
                         celdaHeatMapViewModel.NombreMes = mes.ToString();
                         celdaHeatMapViewModel.TieneAccesoLecturaEscritura = filasHeatMapViewModel[i].TieneAccesoLecturaEscritura;
-                        
+                        celdaHeatMapViewModel.EsAutomatico = filasHeatMapViewModel[i].EsAutomatico;
+
                         if (medicionesPorMes.Any(m => m.IndicadorViewModel.Grupo == filasHeatMapViewModel[i].Grupo && m.Mes == mes))
                         {
                             MedicionViewModel medicionPorMes = medicionesPorMes.First(m => m.IndicadorViewModel.Grupo == filasHeatMapViewModel[i].Grupo && m.Mes == mes);
@@ -319,6 +320,17 @@ namespace YUTPLAT.Services.Interface
             }
 
             return medicionId;
+        }
+
+        public async Task<decimal> CalcularMedicionAutomatica(int idIndicador, int mes)
+        {
+            Random rand = new Random();
+            return rand.Next();
+        }
+
+        public async Task CalcularTodasMedicionesAutomaticas()
+        {
+           
         }
     }
 }

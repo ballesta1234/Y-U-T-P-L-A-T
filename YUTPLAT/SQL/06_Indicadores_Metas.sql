@@ -1,7 +1,7 @@
 
-INSERT INTO dbo.Indicador (Nombre, Descripcion, FechaCreacion, ObjetivoID, FrecuenciaMedicionIndicadorID, Grupo, ID_TEMP)
+INSERT INTO dbo.Indicador (Nombre, Descripcion, FechaCreacion, ObjetivoID, FrecuenciaMedicionIndicadorID, Grupo, EsAutomatico, ID_TEMP)
 SELECT 
-	TI.IND_NOMBRE, TI.IND_DESCRIPCION, GETDATE(), OB.Id, FMI.FrecuenciaMedicionIndicadorID, 1, TI.ID
+	TI.IND_NOMBRE, TI.IND_DESCRIPCION, GETDATE(), OB.Id, FMI.FrecuenciaMedicionIndicadorID, 1, TI.IND_ES_AUTOMATICO, TI.ID
 FROM 
 	dbo.TEMP_INDICADORES TI
 	INNER JOIN dbo.Objetivo OB on OB.Nombre = TI.IND_OBJETIVO

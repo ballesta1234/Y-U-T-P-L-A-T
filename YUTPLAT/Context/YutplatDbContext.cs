@@ -19,7 +19,7 @@ namespace YUTPLAT.Context
         public virtual IDbSet<ArchivoSQL> ArchivosSQL { get; set; }
         public virtual IDbSet<AccesoIndicador> AccesosIndicadores { get; set; }
 
-        public YutplatDbContext() : base("DefaultConnection", throwIfV1Schema: false)
+        public YutplatDbContext() : base("YUTPLAT", throwIfV1Schema: false)
         {
         }
 

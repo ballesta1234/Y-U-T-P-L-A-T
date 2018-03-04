@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Web.Mvc;
 using YUTPLAT.Helpers;
 using YUTPLAT.Helpers.Filters;
 using YUTPLAT.Services.Interface;
 using YUTPLAT.ViewModel;
-using static YUTPLAT.Enums.Enum;
 
 namespace YUTPLAT.Controllers
 {
@@ -97,16 +92,38 @@ namespace YUTPLAT.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> AbrirModalCargaMedicion(int idIndicador, int mes, int? idMedicion, long grupo, bool tieneAccesoEscritura)
+        [AllowAnonymous]
+        public async Task<ActionResult> CargarMedicionAutomatica(MedicionViewModel model)
+        {
+            if (!ModelState.IsValidField("Comentario"))
+            {
+                ModelState.AddModelError(string.Empty, "Verifique que todos los campos estén cargados y sean correctos.");
+                return PartialView("Medicion/_CrearAutomatico", model);
+            }
+
+            model.FechaCarga = DateTimeHelper.OntenerFechaActual().ToString("dd/MM/yyyy HH:mm tt");
+            model.UsuarioCargo = User.Identity.Name;
+
+            await MedicionService.GuardarMedicion(model);
+            return Json(new { success = true });
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> AbrirModalCargaMedicion(int idIndicador, int mes, int? idMedicion, long grupo, bool tieneAccesoEscritura, bool esAutomatico)
         {
             string view = "Medicion/_Crear";
 
-            if ( (idMedicion != null && mes != DateTimeHelper.OntenerFechaActual().Month) || !tieneAccesoEscritura)
+            if ((idMedicion != null && mes != DateTimeHelper.OntenerFechaActual().Month) || !tieneAccesoEscritura)
             {
                 view = "Medicion/_Ver";
             }
+            else if (esAutomatico)
+            {
+                view = "Medicion/_CrearAutomatico";
+            }
+
 
             return PartialView(view, await MedicionService.ObtenerMedicionViewModel(idIndicador, mes, idMedicion, grupo));
-        }        
+        }
     }
 }

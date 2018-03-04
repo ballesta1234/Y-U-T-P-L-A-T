@@ -248,6 +248,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\MedicionController.cs" />
     <Compile Include="Controllers\TableroController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\PersonaController.cs" />
@@ -259,11 +260,11 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="HangfireNinject\GlobalConfigurationExtensions.cs" />
     <Compile Include="Helpers\DateTimeHelper.cs" />
     <Compile Include="Helpers\EnumHelper.cs" />
     <Compile Include="Helpers\Filters\EncryptedActionParameterAttribute.cs" />
     <Compile Include="Helpers\MyExtensions.cs" />
-    <Compile Include="Jobs\SnippetHighlighter.cs" />
     <Compile Include="Migrations\201710050326098_Creacion_Inicial.cs" />
     <Compile Include="Migrations\201710050326098_Creacion_Inicial.Designer.cs">
       <DependentUpon>201710050326098_Creacion_Inicial.cs</DependentUpon>
@@ -312,6 +313,10 @@
     <Compile Include="Migrations\201801310214477_Agregar rol a persona.Designer.cs">
       <DependentUpon>201801310214477_Agregar rol a persona.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201803020101112_Se agrega EsAutomatico en indicador.cs" />
+    <Compile Include="Migrations\201803020101112_Se agrega EsAutomatico en indicador.Designer.cs">
+      <DependentUpon>201803020101112_Se agrega EsAutomatico en indicador.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\ArchivoSQL.cs" />
     <Compile Include="Models\Medicion.cs" />
     <Compile Include="Models\AccesoIndicador.cs" />
@@ -322,7 +327,10 @@
     <Compile Include="Models\Indicador.cs" />
     <Compile Include="Models\Objetivo.cs" />
     <Compile Include="Models\Area.cs" />
+    <Compile Include="HangfireNinject\NinjectJobActivator.cs" />
     <Compile Include="Repositories\AccesoIndicadorRepository.cs" />
+    <Compile Include="Repositories\Interface\INotificacionRepository.cs" />
+    <Compile Include="Repositories\NotificacionRepository.cs" />
     <Compile Include="Repositories\Interface\IMetaRepository.cs" />
     <Compile Include="Repositories\Interface\IMedicionRepository.cs" />
     <Compile Include="Repositories\Interface\IAccesoIndicadorRepository.cs" />
@@ -344,6 +352,8 @@
     <Compile Include="Repositories\Interface\IAreaRepository.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Context\YutplatDbContext.cs" />
+    <Compile Include="Services\Interface\INotificacionService.cs" />
+    <Compile Include="Services\NotificacionService.cs" />
     <Compile Include="Services\Interface\IMedicionService.cs" />
     <Compile Include="Services\Interface\IPersonaService.cs" />
     <Compile Include="Services\MedicionService.cs" />
@@ -561,7 +571,9 @@
     <None Include="Views\Demo\Table.cshtml" />
     <None Include="Views\Demo\Typography.cshtml" />
     <None Include="Views\Demo\Users.cshtml" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -591,6 +603,7 @@
     <Content Include="Views\Error\HttpErrorGeneral.cshtml" />
     <Content Include="Views\Shared\Medicion\_Crear.cshtml" />
     <Content Include="Views\Shared\Medicion\_Ver.cshtml" />
+    <Content Include="Views\Shared\Medicion\_CrearAutomatico.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -634,6 +647,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201801310214477_Agregar rol a persona.resx">
       <DependentUpon>201801310214477_Agregar rol a persona.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201803020101112_Se agrega EsAutomatico en indicador.resx">
+      <DependentUpon>201803020101112_Se agrega EsAutomatico en indicador.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

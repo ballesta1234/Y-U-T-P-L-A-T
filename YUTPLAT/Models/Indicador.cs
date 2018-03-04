@@ -26,6 +26,7 @@ namespace YUTPLAT.Models
         public long Grupo { get; set; }
         public int ObjetivoID { get; set; }
         public virtual Objetivo Objetivo { get; set; }
+        public bool EsAutomatico { get; set; }
 
         public int FrecuenciaMedicionIndicadorID { get; set; }
         public virtual FrecuenciaMedicionIndicador FrecuenciaMedicion { get; set; }

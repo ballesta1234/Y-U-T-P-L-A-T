@@ -1,0 +1,171 @@
+﻿@using YUTPLAT.ViewModel
+@model MedicionViewModel
+
+<script type="text/javascript">
+    jQuery(document).ready(function () {
+
+        jQuery(".errorGeneral").hide();
+
+        jQuery("input[type=text]").keydown(function () {
+            jQuery(".errorGeneral").hide();
+        });
+
+        jQuery('#form').submit(function () {
+
+            jQuery(".errorGeneralSummary").hide();
+
+            if (!jQuery('#form').valid()) {
+                jQuery(".errorGeneral").show();
+                return false;
+            }
+            else {
+                jQuery.ajax({
+                    url: this.action,
+                    type: this.method,
+
+                    data: jQuery(this).serialize(),
+                    success: function (result) {
+                        if (result.success) {
+                            jQuery('#cargaMedicionModal').modal('hide');
+                            var serviceURL = '@Url.Action("Ver", "Tablero", new { q = YUTPLAT.Helpers.MyExtensions.Encrypt(new { msgExito = "La medición se ha guardado exitosamente." }) })';
+                            window.location.href = serviceURL;
+                        } else {
+                            jQuery('#contenidoModal').html(result);
+                        }
+                    }
+                });
+
+                return false;
+
+            }
+        });
+
+        jQuery("#Valor").keydown(function (e) {
+            // Allow: backspace, delete, tab, escape, enter and .
+            if (jQuery.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190, 109]) !== -1 ||
+                // Allow: Ctrl+A, Command+A
+                (e.keyCode === 65 && (e.ctrlKey === true || e.metaKey === true)) ||
+                // Allow: home, end, left, right, down, up
+                (e.keyCode >= 35 && e.keyCode <= 40)) {
+                // let it happen, don't do anything
+                return;
+            }
+            // Ensure that it is a number and stop the keypress
+            if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+                e.preventDefault();
+            }
+        });
+    });
+
+    function recalcularMedicion() {
+        var parametros = {
+            "idIndicador": jQuery("#IndicadorViewModel_Id").val(),
+            "mes": jQuery("#Mes").val()
+        };
+        jQuery.ajax({
+            data: parametros,
+            url: '@Url.Action("Recalcular", "Medicion")',
+            type: 'post',
+            beforeSend: function () {
+            },
+            success: function (response) {
+                jQuery("#Valor").val(response);
+            }
+        });
+    }
+
+</script>
+
+@using (Html.BeginForm("CargarMedicionAutomatica", "Tablero", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { id = "form", role = "form" }))
+{
+    <div class="modal-body">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger errorGeneralSummary" })
+
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12">
+                <span class="aclaracion">@Model.IndicadorViewModel.Nombre </span>
+            </div>
+        </div>
+        <div class="row">
+            <br />
+            <div class="col-xs-12 col-sm-12 col-md-12">
+                @Html.LabelFor(m => m.Valor)
+                <div class="row">
+                    <div class="col-xs-3 col-sm-3 col-md-3">
+                        @Html.TextBoxFor(m => m.Valor, new { @readonly = "readonly", @class = "form-control" })
+                    </div>
+                    <div class="col-xs-3 col-sm-3 col-md-3">
+                        <button type="button" class="btn btn-secondary" onclick="javascript:recalcularMedicion();">Recalcular</button>
+                    </div>
+                </div>
+                <span class="aclaracion">(Este indicador es automático; no se puede cargar el valor de la medición.)</span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12">
+                @Html.LabelFor(m => m.Comentario)
+                @Html.TextAreaFor(m => m.Comentario, new { @rows = 5, @class = "form-control" })
+                <span class="aclaracion">(máximo 2000 caracteres)</span>
+                @Html.ValidationMessageFor(m => m.Comentario, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-2 col-sm-2 col-md-2">
+                @Html.LabelFor(m => m.IndicadorViewModel.MetaExcelenteViewModel)
+                <span class="aclaracion">@Model.IndicadorViewModel.MetaExcelenteViewModel.ToString()</span>
+            </div>
+            <div class="col-xs-2 col-sm-2 col-md-2">
+                @Html.LabelFor(m => m.IndicadorViewModel.MetaSatisfactoriaViewModel)
+                <span class="aclaracion">@Model.IndicadorViewModel.MetaSatisfactoriaViewModel.ToString()</span>
+            </div>
+            <div class="col-xs-2 col-sm-2 col-md-2">
+                @Html.LabelFor(m => m.IndicadorViewModel.MetaAceptableViewModel)
+                <span class="aclaracion">@Model.IndicadorViewModel.MetaAceptableViewModel.ToString()</span>
+            </div>
+            <div class="col-xs-2 col-sm-2 col-md-2">
+                @Html.LabelFor(m => m.IndicadorViewModel.MetaAMejorarViewModel)
+                <span class="aclaracion">@Model.IndicadorViewModel.MetaAMejorarViewModel.ToString()</span>
+            </div>
+            <div class="col-xs-2 col-sm-2 col-md-2">
+                @Html.LabelFor(m => m.IndicadorViewModel.MetaInaceptableViewModel)
+                <span class="aclaracion">@Model.IndicadorViewModel.MetaInaceptableViewModel.ToString()</span>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <input type="submit" class="btn btn-fill btn-info" value="Guardar" />
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+    </div>
+
+    @Html.HiddenFor(m => m.IndicadorID)
+    @Html.HiddenFor(m => m.MedicionId)
+    @Html.HiddenFor(m => m.Mes)
+
+    @Html.HiddenFor(m => m.IndicadorViewModel.Id)
+    @Html.HiddenFor(m => m.IndicadorViewModel.Nombre)
+
+    @Html.HiddenFor(m => m.IndicadorViewModel.MetaExcelenteViewModel.Signo1)
+    @Html.HiddenFor(m => m.IndicadorViewModel.MetaExcelenteViewModel.Signo2)
+    @Html.HiddenFor(m => m.IndicadorViewModel.MetaExcelenteViewModel.Valor1)
+    @Html.HiddenFor(m => m.IndicadorViewModel.MetaExcelenteViewModel.Valor2)
+
+    @Html.HiddenFor(m => m.IndicadorViewModel.MetaSatisfactoriaViewModel.Signo1)
+    @Html.HiddenFor(m => m.IndicadorViewModel.MetaSatisfactoriaViewModel.Signo2)
+    @Html.HiddenFor(m => m.IndicadorViewModel.MetaSatisfactoriaViewModel.Valor1)
+    @Html.HiddenFor(m => m.IndicadorViewModel.MetaSatisfactoriaViewModel.Valor2)
+
+    @Html.HiddenFor(m => m.IndicadorViewModel.MetaAceptableViewModel.Signo1)
+    @Html.HiddenFor(m => m.IndicadorViewModel.MetaAceptableViewModel.Signo2)
+    @Html.HiddenFor(m => m.IndicadorViewModel.MetaAceptableViewModel.Valor1)
+    @Html.HiddenFor(m => m.IndicadorViewModel.MetaAceptableViewModel.Valor2)
+
+    @Html.HiddenFor(m => m.IndicadorViewModel.MetaAMejorarViewModel.Signo1)
+    @Html.HiddenFor(m => m.IndicadorViewModel.MetaAMejorarViewModel.Signo2)
+    @Html.HiddenFor(m => m.IndicadorViewModel.MetaAMejorarViewModel.Valor1)
+    @Html.HiddenFor(m => m.IndicadorViewModel.MetaAMejorarViewModel.Valor2)
+
+    @Html.HiddenFor(m => m.IndicadorViewModel.MetaInaceptableViewModel.Signo1)
+    @Html.HiddenFor(m => m.IndicadorViewModel.MetaInaceptableViewModel.Signo2)
+    @Html.HiddenFor(m => m.IndicadorViewModel.MetaInaceptableViewModel.Valor1)
+    @Html.HiddenFor(m => m.IndicadorViewModel.MetaInaceptableViewModel.Valor2)
+}

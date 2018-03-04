@@ -1,18 +1,23 @@
-﻿using System;
+﻿using System.Threading.Tasks;
+using YUTPLAT.Repositories.Interface;
+using System;
 using System.Net.Mail;
-using System.Threading.Tasks;
 using SendGrid;
 
-namespace Hangfire.Highlighter.Jobs
+namespace YUTPLAT.Services.Interface
 {
-    public class SnippetHighlighter
+    public class NotificacionService : INotificacionService
     {
-        
-        public SnippetHighlighter()
-        { }
-        
-        public async Task CleanUpAsync()
+        private INotificacionRepository NotificacionRepository { get; set; }
+
+        public NotificacionService(INotificacionRepository notificacionRepository)
         {
+            this.NotificacionRepository = notificacionRepository;
+        }
+
+        public async Task Notificar()
+        {
+            /*
             try
             {
                 var myMessage = new SendGridMessage();
@@ -32,10 +37,7 @@ namespace Hangfire.Highlighter.Jobs
             {
                 Console.WriteLine(ex.Message);
             }
-
-
+            */
         }
-
-
     }
 }
