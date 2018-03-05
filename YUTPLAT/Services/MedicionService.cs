@@ -324,13 +324,20 @@ namespace YUTPLAT.Services.Interface
 
         public async Task<decimal> CalcularMedicionAutomatica(int idIndicador, int mes)
         {
-            Random rand = new Random();
-            return rand.Next();
+            YUTPLAT_DESAEntities spContext = new YUTPLAT_DESAEntities();
+            int valor = spContext.ObtenerMedicionPorMes(mes);
+
+            return valor;
         }
 
         public async Task CalcularTodasMedicionesAutomaticas()
         {
-           
+            YUTPLAT_DESAEntities spContext = new YUTPLAT_DESAEntities();
+            IList<Medicion> holaaa =  AutoMapper.Mapper.Map<IList<Medicion>>(spContext.ObtenerTodasMediciones().ToList());
+            
+            Medicion medicion1 = await this.MedicionRepository.Buscar(new MedicionViewModel { Grupo = 2, Mes = Enums.Enum.Mes.Enero }).FirstAsync();            
+            Medicion medicion2 = await this.MedicionRepository.Buscar(new MedicionViewModel { Grupo = 2, Mes = Enums.Enum.Mes.Febrero }).FirstAsync();
+            Medicion medicion3 = await this.MedicionRepository.Buscar(new MedicionViewModel { Grupo = 2, Mes = Enums.Enum.Mes.Marzo }).FirstAsync();
         }
     }
 }

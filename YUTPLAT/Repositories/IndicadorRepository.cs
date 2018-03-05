@@ -40,10 +40,6 @@ namespace YUTPLAT.Repositories
         
         public IQueryable<Indicador> Buscar(BuscarIndicadorViewModel filtro)
         {
-            YUTPLAT_DESAEntities aaa = new YUTPLAT_DESAEntities();
-            aaa.ObtenerTodasMediciones();
-
-
             string rolAdmin = EnumHelper<Enums.Enum.Rol>.GetDisplayValue(Enums.Enum.Rol.Admin);
 
             IQueryable<Indicador> queryable = this.context.Indicadores;
@@ -96,7 +92,11 @@ namespace YUTPLAT.Repositories
             {                
                 queryable = queryable.Where(a => a.Grupo == filtro.Busqueda.Grupo);
             }
-            if(filtro.RolUsuario != null && !filtro.RolUsuario.Equals(rolAdmin))
+            if (filtro.Busqueda.Id != 0)
+            {
+                queryable = queryable.Where(a => a.IndicadorID == filtro.Busqueda.Id);
+            }
+            if (filtro.RolUsuario != null && !filtro.RolUsuario.Equals(rolAdmin))
             {
                 queryable = queryable.Where( a => a.Responsables.Any( r => r.Persona.UserName.Equals(filtro.NombreUsuario)) ||
                                                   a.Interesados.Any(i => i.Persona.UserName.Equals(filtro.NombreUsuario)));
