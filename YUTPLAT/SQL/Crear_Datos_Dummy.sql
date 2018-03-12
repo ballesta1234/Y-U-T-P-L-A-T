@@ -5,7 +5,7 @@
 
 CREATE TABLE [dbo].[Valores](
 	[Id] [int] NOT NULL,
-	[Valor] [decimal](18, 0) NULL,
+	[Valor] [decimal](18, 3) NULL,
 	[Mes] [int] NULL,
 PRIMARY KEY CLUSTERED 
 (
@@ -15,18 +15,18 @@ PRIMARY KEY CLUSTERED
 GO
 
 
-INSERT INTO [dbo].[Valores] VALUES(1, 1, 1)
-INSERT INTO [dbo].[Valores] VALUES(2, 2, 2)
-INSERT INTO [dbo].[Valores] VALUES(3, 3, 3)
-INSERT INTO [dbo].[Valores] VALUES(4, 14, 4)
-INSERT INTO [dbo].[Valores] VALUES(5, 15, 5)
-INSERT INTO [dbo].[Valores] VALUES(6, 16, 6)
-INSERT INTO [dbo].[Valores] VALUES(7, 17, 7)
-INSERT INTO [dbo].[Valores] VALUES(8, 18, 8)
-INSERT INTO [dbo].[Valores] VALUES(9, 19, 9)
-INSERT INTO [dbo].[Valores] VALUES(10, 20, 10)
-INSERT INTO [dbo].[Valores] VALUES(11, 21, 11)
-INSERT INTO [dbo].[Valores] VALUES(12, 22, 12)
+INSERT INTO [dbo].[Valores] VALUES(1, 0.123, 1)
+INSERT INTO [dbo].[Valores] VALUES(2, 0.287, 2)
+INSERT INTO [dbo].[Valores] VALUES(3, 0.369, 3)
+INSERT INTO [dbo].[Valores] VALUES(4, 0.400, 4)
+INSERT INTO [dbo].[Valores] VALUES(5, 0.501, 5)
+INSERT INTO [dbo].[Valores] VALUES(6, 0.69, 6)
+INSERT INTO [dbo].[Valores] VALUES(7, 0.789, 7)
+INSERT INTO [dbo].[Valores] VALUES(8, 0.886, 8)
+INSERT INTO [dbo].[Valores] VALUES(9, 0.96, 9)
+INSERT INTO [dbo].[Valores] VALUES(10, 0.10, 10)
+INSERT INTO [dbo].[Valores] VALUES(11, 0.11, 11)
+INSERT INTO [dbo].[Valores] VALUES(12, 0.12, 12)
 GO
 
 
@@ -44,10 +44,10 @@ SELECT * FROM dbo.ObtenerTodasMediciones()
 
 
 CREATE FUNCTION [dbo].[ObtenerMedicionPorMes] (@mes int)  
-RETURNS decimal  
+RETURNS decimal(18,3)
 AS  
 BEGIN  
-	DECLARE @VALOR decimal
+	DECLARE @VALOR decimal(18, 3)
     SELECT @VALOR = Valor FROM dbo.Valores WHERE Mes = @mes
 	RETURN @VALOR
 END;  
@@ -55,8 +55,5 @@ GO
 
 
 SELECT dbo.ObtenerMedicionPorMes(9)
-
-
-
 
 */

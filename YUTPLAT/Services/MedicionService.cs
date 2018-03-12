@@ -7,6 +7,7 @@ using System;
 using YUTPLAT.Helpers;
 using System.Threading.Tasks;
 using System.Data.Entity;
+using System.Data.Entity.Core.Objects;
 
 namespace YUTPLAT.Services.Interface
 {
@@ -324,20 +325,42 @@ namespace YUTPLAT.Services.Interface
 
         public async Task<decimal> CalcularMedicionAutomatica(int idIndicador, int mes)
         {
-            YUTPLAT_DESAEntities spContext = new YUTPLAT_DESAEntities();
-            int valor = spContext.ObtenerMedicionPorMes(mes);
+            ObjectParameter valorOtuput = new ObjectParameter("ValorOutput", typeof(decimal));
 
-            return valor;
+            YUTPLAT_DESAEntities spContext = new YUTPLAT_DESAEntities();
+            spContext.ObtenerMedicionPorMes(mes, valorOtuput);
+
+            return decimal.Parse(valorOtuput.Value.ToString());
         }
+
+        private Object thisLock = new Object();
 
         public async Task CalcularTodasMedicionesAutomaticas()
         {
-            YUTPLAT_DESAEntities spContext = new YUTPLAT_DESAEntities();
-            IList<Medicion> holaaa =  AutoMapper.Mapper.Map<IList<Medicion>>(spContext.ObtenerTodasMediciones().ToList());
-            
-            Medicion medicion1 = await this.MedicionRepository.Buscar(new MedicionViewModel { Grupo = 2, Mes = Enums.Enum.Mes.Enero }).FirstAsync();            
-            Medicion medicion2 = await this.MedicionRepository.Buscar(new MedicionViewModel { Grupo = 2, Mes = Enums.Enum.Mes.Febrero }).FirstAsync();
-            Medicion medicion3 = await this.MedicionRepository.Buscar(new MedicionViewModel { Grupo = 2, Mes = Enums.Enum.Mes.Marzo }).FirstAsync();
+            lock (thisLock)
+            {
+                YUTPLAT_DESAEntities spContext = new YUTPLAT_DESAEntities();
+
+                Enums.Enum.Mes mesActual = Helpers.EnumHelper<Enums.Enum.Mes>.Parse(DateTimeHelper.OntenerFechaActual().Month.ToString());
+
+                IList<Medicion> medicionesNuevas = AutoMapper.Mapper.Map<IList<Medicion>>(spContext.ObtenerTodasMediciones().ToList());
+                Medicion medicionNuevaMes = medicionesNuevas.First(mn => (int)mn.Mes == DateTimeHelper.OntenerFechaActual().Month);
+
+                Medicion medicionMes = this.MedicionRepository.Buscar(new MedicionViewModel { Grupo = 2, Mes = mesActual }).FirstOrDefault();
+
+                if (medicionMes == null)
+                {
+                    medicionMes = new Medicion();
+                    medicionMes.Mes = mesActual;
+                    medicionMes.IndicadorID = 2;
+                }
+
+                medicionMes.FechaCarga = DateTimeHelper.OntenerFechaActual();
+                medicionMes.UsuarioCargo = "Automático Sistema";
+                medicionMes.Valor = medicionNuevaMes.Valor;
+
+                this.MedicionRepository.Guardar(medicionMes);
+            }
         }
     }
 }

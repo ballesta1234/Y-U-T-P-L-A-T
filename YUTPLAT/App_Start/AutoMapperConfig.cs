@@ -87,11 +87,10 @@ namespace YUTPLAT.App_Start
                     .ForMember(x => x.FechaCarga, x => x.MapFrom(y => !string.IsNullOrEmpty(y.FechaCarga) ? DateTime.Parse(y.FechaCarga) : (DateTime?)null))
                     .ForMember(x => x.Indicador, x => x.MapFrom(y => y.IndicadorViewModel))
                     .ForMember(x => x.Valor, x => x.MapFrom(y => Decimal.Parse(y.Valor.Replace(".", ","))));
-
+                            
                     cfg.CreateMap<ObtenerTodasMediciones_Result, Medicion>()
                     .ForMember(x => x.Mes, x => x.MapFrom(y =>  Helpers.EnumHelper<Enums.Enum.Mes>.Parse(y.Mes.Value.ToString())))
                     .ForMember(x => x.Valor, x => x.MapFrom(y => y.Valor.Value));
-
                 });
         }
     }

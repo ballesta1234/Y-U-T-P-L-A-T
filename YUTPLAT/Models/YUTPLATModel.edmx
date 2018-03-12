@@ -7,6 +7,7 @@
       <Schema Namespace="YUTPLAT_DESAModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <Function Name="ObtenerMedicionPorMes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Mes" Type="int" Mode="In" />
+          <Parameter Name="ValorOutput" Type="decimal" Mode="InOut" Precision="18" Scale="3" />
         </Function>
         <Function Name="ObtenerTodasMediciones" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <EntityContainer Name="YUTPLAT_DESAModelStoreContainer" />
@@ -18,11 +19,12 @@
         <EntityContainer Name="YUTPLAT_DESAEntities" annotation:LazyLoadingEnabled="true" >
           <FunctionImport Name="ObtenerMedicionPorMes">
             <Parameter Name="Mes" Mode="In" Type="Int32" />
+            <Parameter Name="ValorOutput" Mode="InOut" Type="Decimal" />
           </FunctionImport>
           <FunctionImport Name="ObtenerTodasMediciones" ReturnType="Collection(YUTPLAT_DESAModel.ObtenerTodasMediciones_Result)" />
         </EntityContainer>
         <ComplexType Name="ObtenerTodasMediciones_Result">
-          <Property Type="Decimal" Name="Valor" Nullable="true" Precision="18" Scale="0" />
+          <Property Type="Decimal" Name="Valor" Nullable="true" Precision="18" Scale="3" />
           <Property Type="Int32" Name="Mes" Nullable="true" />
         </ComplexType>
       </Schema>

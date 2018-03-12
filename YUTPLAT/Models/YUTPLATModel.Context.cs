@@ -28,13 +28,13 @@ namespace YUTPLAT.Models
         }
     
     
-        public virtual int ObtenerMedicionPorMes(Nullable<int> mes)
+        public virtual int ObtenerMedicionPorMes(Nullable<int> mes, ObjectParameter valorOutput)
         {
             var mesParameter = mes.HasValue ?
                 new ObjectParameter("Mes", mes) :
                 new ObjectParameter("Mes", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("ObtenerMedicionPorMes", mesParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("ObtenerMedicionPorMes", mesParameter, valorOutput);
         }
     
         public virtual ObjectResult<ObtenerTodasMediciones_Result> ObtenerTodasMediciones()
