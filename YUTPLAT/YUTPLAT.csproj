@@ -319,7 +319,12 @@
     <Compile Include="Migrations\201803020101112_Se agrega EsAutomatico en indicador.Designer.cs">
       <DependentUpon>201803020101112_Se agrega EsAutomatico en indicador.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201803130018325_Nueva tabla indicadorautomatico.cs" />
+    <Compile Include="Migrations\201803130018325_Nueva tabla indicadorautomatico.Designer.cs">
+      <DependentUpon>201803130018325_Nueva tabla indicadorautomatico.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\ArchivoSQL.cs" />
+    <Compile Include="Models\IndicadorAutomatico.cs" />
     <Compile Include="Models\Medicion.cs" />
     <Compile Include="Models\AccesoIndicador.cs" />
     <Compile Include="Models\Meta.cs" />
@@ -349,6 +354,8 @@
       <DependentUpon>YUTPLATModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="Repositories\AccesoIndicadorRepository.cs" />
+    <Compile Include="Repositories\IndicadorAutomaticoRepository.cs" />
+    <Compile Include="Repositories\Interface\IIndicadorAutomaticoRepository.cs" />
     <Compile Include="Repositories\Interface\INotificacionRepository.cs" />
     <Compile Include="Repositories\NotificacionRepository.cs" />
     <Compile Include="Repositories\Interface\IMetaRepository.cs" />
@@ -372,6 +379,10 @@
     <Compile Include="Repositories\Interface\IAreaRepository.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Context\YutplatDbContext.cs" />
+    <Compile Include="Services\IndicadorAutomaticoCPIStrategy.cs" />
+    <Compile Include="Services\IndicadorAutomaticoService.cs" />
+    <Compile Include="Services\Interface\IIndicadorAutomaticoStrategy.cs" />
+    <Compile Include="Services\Interface\IIndicadorAutomaticoService.cs" />
     <Compile Include="Services\Interface\INotificacionService.cs" />
     <Compile Include="Services\NotificacionService.cs" />
     <Compile Include="Services\Interface\IMedicionService.cs" />
@@ -388,6 +399,7 @@
     <Compile Include="Services\Interface\IAreaService.cs" />
     <Compile Include="Validadores\ValidarMeta.cs" />
     <Compile Include="Validadores\ValidarLista.cs" />
+    <Compile Include="ViewModel\IndicadorAutomaticoViewModel.cs" />
     <Compile Include="ViewModel\CeldaHeatMapViewModel.cs" />
     <Compile Include="ViewModel\LineViewModel.cs" />
     <Compile Include="ViewModel\GaugeViewModel.cs" />
@@ -687,6 +699,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201803020101112_Se agrega EsAutomatico en indicador.resx">
       <DependentUpon>201803020101112_Se agrega EsAutomatico en indicador.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201803130018325_Nueva tabla indicadorautomatico.resx">
+      <DependentUpon>201803130018325_Nueva tabla indicadorautomatico.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

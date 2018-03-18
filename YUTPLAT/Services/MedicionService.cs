@@ -19,16 +19,19 @@ namespace YUTPLAT.Services.Interface
         private IMedicionRepository MedicionRepository { get; set; }
         private IIndicadorRepository IndicadorRepository { get; set; }
         private IIndicadorService IndicadorService { get; set; }
+        private IIndicadorAutomaticoService IndicadorAutomaticoService { get; set; }
         private IPersonaRepository PersonaRepository { get; set; }
 
-        public MedicionService(IMedicionRepository medicionRepository, 
-                               IIndicadorRepository indicadorRepository, 
+        public MedicionService(IMedicionRepository medicionRepository,
+                               IIndicadorRepository indicadorRepository,
                                IIndicadorService indicadorService,
+                               IIndicadorAutomaticoService indicadorAutomaticoService,
                                IPersonaRepository personaRepository)
         {
             this.MedicionRepository = medicionRepository;
             this.IndicadorRepository = indicadorRepository;
             this.IndicadorService = indicadorService;
+            this.IndicadorAutomaticoService = indicadorAutomaticoService;
             this.PersonaRepository = personaRepository;
         }
 
@@ -61,9 +64,9 @@ namespace YUTPLAT.Services.Interface
             filtro.Grupo = grupo;
 
             IList<MedicionViewModel> medicionesViewModel = await Buscar(filtro);
-            
+
             GaugeViewModel gaugeViewModel = new GaugeViewModel();
-            
+
             if (medicionesViewModel != null && medicionesViewModel.Count > 0)
             {
                 MedicionViewModel ultimaMedicionCargada = medicionesViewModel.OrderBy(m => m.Mes).Reverse().First();
@@ -101,7 +104,7 @@ namespace YUTPLAT.Services.Interface
             {
                 decimal minimoEscala = 0;
 
-                if(!string.IsNullOrEmpty(medicion.IndicadorViewModel.MetaInaceptableViewModel.Valor1) && 
+                if (!string.IsNullOrEmpty(medicion.IndicadorViewModel.MetaInaceptableViewModel.Valor1) &&
                    !string.IsNullOrEmpty(medicion.IndicadorViewModel.MetaInaceptableViewModel.Valor2))
                 {
                     minimoEscala = decimal.Parse(medicion.IndicadorViewModel.MetaInaceptableViewModel.Valor1.Replace(".", ",")) < decimal.Parse(medicion.IndicadorViewModel.MetaInaceptableViewModel.Valor2.Replace(".", ",")) ? decimal.Parse(medicion.IndicadorViewModel.MetaInaceptableViewModel.Valor1.Replace(".", ",")) : decimal.Parse(medicion.IndicadorViewModel.MetaInaceptableViewModel.Valor2.Replace(".", ","));
@@ -110,7 +113,7 @@ namespace YUTPLAT.Services.Interface
                 {
                     minimoEscala = string.IsNullOrEmpty(medicion.IndicadorViewModel.MetaInaceptableViewModel.Valor1) ? decimal.Parse(medicion.IndicadorViewModel.MetaInaceptableViewModel.Valor2.Replace(".", ",")) : decimal.Parse(medicion.IndicadorViewModel.MetaInaceptableViewModel.Valor1.Replace(".", ","));
                 }
-                
+
                 decimal maximoEscala = 0;
 
                 if (!string.IsNullOrEmpty(medicion.IndicadorViewModel.MetaExcelenteViewModel.Valor1) &&
@@ -163,17 +166,17 @@ namespace YUTPLAT.Services.Interface
         {
             EscalaGraficosViewModel escalas = ObtenerEscalasGrafico(medicion);
             gauge.Escala = escalas.EscalaValores;
-            gauge.Colores = escalas.EscalaColores;       
+            gauge.Colores = escalas.EscalaColores;
         }
-        
+
         private decimal ObtenerValorEscala(MetaViewModel meta1, MetaViewModel meta2)
         {
             decimal valor = 0;
-             
+
             if (!string.IsNullOrEmpty(meta1.Valor1) && !string.IsNullOrEmpty(meta2.Valor1))
             {
                 if (decimal.Parse(meta1.Valor1.Replace(".", ",")) == decimal.Parse(meta2.Valor1.Replace(".", ",")))
-                    valor = decimal.Parse(meta1.Valor1.Replace(".", ","));                 
+                    valor = decimal.Parse(meta1.Valor1.Replace(".", ","));
             }
 
             if (!string.IsNullOrEmpty(meta1.Valor2) && !string.IsNullOrEmpty(meta2.Valor2))
@@ -206,22 +209,23 @@ namespace YUTPLAT.Services.Interface
 
             decimal valorMedicion = decimal.Parse(medicion.Valor.Replace(".", ","));
 
-            while(valorMedicion >= valor && i < 5)
+            while (valorMedicion >= valor && i < 5)
             {
                 i++;
-                valor = escalas.EscalaValores[i];                
+                valor = escalas.EscalaValores[i];
             }
 
             if (i == 0)
                 i++;
 
-            return escalas.EscalaColores[i-1];
+            return escalas.EscalaColores[i - 1];
         }
 
         public async Task<HeatMapViewModel> ObtenerHeatMapViewModel(BuscarIndicadorViewModel buscarIndicadorViewModel)
         {
             Persona persona = await PersonaRepository.GetByUserName(buscarIndicadorViewModel.NombreUsuario);
-            
+            IList<IndicadorAutomaticoViewModel> todosIndicadoresAutomaticos = this.IndicadorAutomaticoService.Todos();
+
             IList<FilaHeatMapViewModel> filasHeatMapViewModel = AutoMapper.Mapper.Map<IList<FilaHeatMapViewModel>>(IndicadorRepository.Buscar(buscarIndicadorViewModel).ToList());
 
             CargarPermisosAIndicadores(filasHeatMapViewModel, persona);
@@ -253,12 +257,12 @@ namespace YUTPLAT.Services.Interface
                         celdaHeatMapViewModel.GrupoIndicador = filasHeatMapViewModel[i].Grupo;
                         celdaHeatMapViewModel.NombreMes = mes.ToString();
                         celdaHeatMapViewModel.TieneAccesoLecturaEscritura = filasHeatMapViewModel[i].TieneAccesoLecturaEscritura;
-                        celdaHeatMapViewModel.EsAutomatico = filasHeatMapViewModel[i].EsAutomatico;
+                        celdaHeatMapViewModel.EsAutomatico = todosIndicadoresAutomaticos.Any( ia => ia.IndicadorViewModel.Grupo == celdaHeatMapViewModel.GrupoIndicador);
 
                         if (medicionesPorMes.Any(m => m.IndicadorViewModel.Grupo == filasHeatMapViewModel[i].Grupo && m.Mes == mes))
                         {
                             MedicionViewModel medicionPorMes = medicionesPorMes.First(m => m.IndicadorViewModel.Grupo == filasHeatMapViewModel[i].Grupo && m.Mes == mes);
-                            
+
                             celdaHeatMapViewModel.Medicion = medicionPorMes.Valor;
                             celdaHeatMapViewModel.IdMedicion = medicionPorMes.MedicionId;
                             celdaHeatMapViewModel.ColorMeta = ObtenerColorCeldaHeatMap(medicionPorMes);
@@ -269,7 +273,7 @@ namespace YUTPLAT.Services.Interface
                         i++;
                     }
                 }
-            }                       
+            }
             heatMapViewModel.Celdas = celdasHeatMapViewModel;
             return heatMapViewModel;
         }
@@ -293,7 +297,7 @@ namespace YUTPLAT.Services.Interface
 
             // Obtener el nombre del último indicador del grupo.
             IndicadorViewModel indicadorViewModel = await IndicadorService.GetUltimoByGrupo(grupo);
-                        
+
             if (idMedicion != null)
             {
                 medicionViewModel = await this.GetById(idMedicion.Value);
@@ -321,46 +325,6 @@ namespace YUTPLAT.Services.Interface
             }
 
             return medicionId;
-        }
-
-        public async Task<decimal> CalcularMedicionAutomatica(int idIndicador, int mes)
-        {
-            ObjectParameter valorOtuput = new ObjectParameter("ValorOutput", typeof(decimal));
-
-            YUTPLAT_DESAEntities spContext = new YUTPLAT_DESAEntities();
-            spContext.ObtenerMedicionPorMes(mes, valorOtuput);
-
-            return decimal.Parse(valorOtuput.Value.ToString());
-        }
-
-        private Object thisLock = new Object();
-
-        public async Task CalcularTodasMedicionesAutomaticas()
-        {
-            lock (thisLock)
-            {
-                YUTPLAT_DESAEntities spContext = new YUTPLAT_DESAEntities();
-
-                Enums.Enum.Mes mesActual = Helpers.EnumHelper<Enums.Enum.Mes>.Parse(DateTimeHelper.OntenerFechaActual().Month.ToString());
-
-                IList<Medicion> medicionesNuevas = AutoMapper.Mapper.Map<IList<Medicion>>(spContext.ObtenerTodasMediciones().ToList());
-                Medicion medicionNuevaMes = medicionesNuevas.First(mn => (int)mn.Mes == DateTimeHelper.OntenerFechaActual().Month);
-
-                Medicion medicionMes = this.MedicionRepository.Buscar(new MedicionViewModel { Grupo = 2, Mes = mesActual }).FirstOrDefault();
-
-                if (medicionMes == null)
-                {
-                    medicionMes = new Medicion();
-                    medicionMes.Mes = mesActual;
-                    medicionMes.IndicadorID = 2;
-                }
-
-                medicionMes.FechaCarga = DateTimeHelper.OntenerFechaActual();
-                medicionMes.UsuarioCargo = "Automático Sistema";
-                medicionMes.Valor = medicionNuevaMes.Valor;
-
-                this.MedicionRepository.Guardar(medicionMes);
-            }
         }
     }
 }

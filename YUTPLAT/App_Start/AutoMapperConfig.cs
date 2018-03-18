@@ -49,8 +49,7 @@ namespace YUTPLAT.App_Start
 
                     cfg.CreateMap<Indicador, FilaHeatMapViewModel>()
                     .ForMember(x => x.IdIndicador, x => x.MapFrom(y => y.IndicadorID))
-                    .ForMember(x => x.Grupo, x => x.MapFrom(y => y.Grupo))
-                    .ForMember(x => x.EsAutomatico, x => x.MapFrom(y => y.EsAutomatico))
+                    .ForMember(x => x.Grupo, x => x.MapFrom(y => y.Grupo))                    
                     .ForMember(x => x.NombreIndicador, x => x.MapFrom(y => y.Nombre));
 
                     cfg.CreateMap<IndicadorViewModel, Indicador>()
@@ -91,6 +90,9 @@ namespace YUTPLAT.App_Start
                     cfg.CreateMap<ObtenerTodasMediciones_Result, Medicion>()
                     .ForMember(x => x.Mes, x => x.MapFrom(y =>  Helpers.EnumHelper<Enums.Enum.Mes>.Parse(y.Mes.Value.ToString())))
                     .ForMember(x => x.Valor, x => x.MapFrom(y => y.Valor.Value));
+
+                    cfg.CreateMap<IndicadorAutomatico, IndicadorAutomaticoViewModel>()
+                    .ForMember(x => x.IndicadorViewModel, x => x.MapFrom(y => y.Indicador));                    
                 });
         }
     }

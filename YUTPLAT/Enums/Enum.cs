@@ -58,5 +58,10 @@ namespace YUTPLAT.Enums
             SoloLectura = 1,
             LecturaEscritura = 2
         }
+
+        public enum CategoriaIndicadorAutomatico
+        {
+            CPI = 1
+        }
     }
 }
