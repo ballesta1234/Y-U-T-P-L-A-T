@@ -1,5 +1,10 @@
 INSERT INTO dbo.Parametros VALUES('UsarLinkedServer', 'false')
 
+DECLARE @ID_INDICADOR_SPI INT 
+SELECT @ID_INDICADOR_SPI = IndicadorId FROM dbo.Indicador WHERE Nombre = 'SPI Servicios'
+
+INSERT INTO dbo.IndicadorAutomatico VALUES('IndicadorAutomatico', @ID_INDICADOR_SPI, 1) 
+
 CREATE TABLE [dbo].[ValoresBORRAR](
 	[Id] [int] NOT NULL,
 	[Valor] [decimal](18, 3) NULL,

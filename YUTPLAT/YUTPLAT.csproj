@@ -48,6 +48,10 @@
       <HintPath>..\packages\AutoMapper.6.1.1\lib\net45\AutoMapper.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="EPPlus, Version=4.1.1.0, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
+      <HintPath>..\packages\EPPlus.4.1.1\lib\net40\EPPlus.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Hangfire.AspNet, Version=0.2.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Hangfire.AspNet.0.2.0\lib\net45\Hangfire.AspNet.dll</HintPath>
       <Private>True</Private>
@@ -265,6 +269,7 @@
     <Compile Include="HangfireNinject\GlobalConfigurationExtensions.cs" />
     <Compile Include="Helpers\DateTimeHelper.cs" />
     <Compile Include="Helpers\EnumHelper.cs" />
+    <Compile Include="Helpers\ExcelExportHelper.cs" />
     <Compile Include="Helpers\Filters\EncryptedActionParameterAttribute.cs" />
     <Compile Include="Helpers\MyExtensions.cs" />
     <Compile Include="Migrations\201710050326098_Creacion_Inicial.cs" />
