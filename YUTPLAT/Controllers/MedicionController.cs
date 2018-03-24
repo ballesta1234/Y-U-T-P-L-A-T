@@ -3,6 +3,7 @@ using YUTPLAT.Services.Interface;
 using System.Threading.Tasks;
 using YUTPLAT.Helpers;
 using System.Collections.Generic;
+using YUTPLAT.ViewModel;
 
 namespace YUTPLAT.Controllers
 {
@@ -30,16 +31,11 @@ namespace YUTPLAT.Controllers
         [HttpGet]
         public FileContentResult ExportToExcel()
         {
-            List<Technology> technologies = new List<Technology>{
-                     new Technology{Name="ASP.NET", Project=12,Developer=50, TeamLeader=6},
-                    new Technology{Name="Php", Project=40,Developer=60, TeamLeader=9},
-                    new Technology{Name="iOS", Project=11,Developer=5, TeamLeader=1},
-                     new Technology{Name="Android", Project=20,Developer=26, TeamLeader=2}
-                };
-            
-            string[] columns = { "Name", "Project", "Developer" };
-            byte[] filecontent = ExcelExportHelper.ExportExcel(technologies, "Technology", true, columns);
-            return File(filecontent, ExcelExportHelper.ExcelContentType, "Technologies.xlsx");
+            List<MedicionExportarDTO> mediciones = (List<MedicionExportarDTO>)IndicadorAutomaticoCPIStrategy.ObtenerDetallesMediciones();           
+                        
+            string[] columnas = { "Proyecto", "Mes", "Valor" };
+            byte[] filecontent = ExcelExportHelper.ExportExcel(mediciones, "Detalles Indicador CPI", false, columnas);
+            return File(filecontent, ExcelExportHelper.ExcelContentType, "DetalleIndicador.xlsx");
         }
 
     }

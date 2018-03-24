@@ -48,13 +48,14 @@
         arc = d3.svg.arc()
             .innerRadius(r - config.ringWidth - config.ringInset)
             .outerRadius(r - config.ringInset)
-            .startAngle(function (d, i) {                
-                return deg2rad(-90 + (180 * ((config.ticks[i] - config.ticks[0]) / (config.ticks[5] - config.ticks[0]))));                
+            .startAngle(function (d, i) {
+                return deg2rad(-90 + (180 * ((config.ticks[i] - config.ticks[0]) / (config.ticks[5] - config.ticks[0]))));
             })
-            .endAngle(function (d, i) {                
-                return deg2rad(-90 + (180 * ((config.ticks[i+1] - config.ticks[0]) / (config.ticks[5] - config.ticks[0]))));
+            .endAngle(function (d, i) {
+                return deg2rad(-90 + (180 * ((config.ticks[i + 1] - config.ticks[0]) / (config.ticks[5] - config.ticks[0]))));
             });
     }
+
     that.configure = configure;
 
     function centerTranslation() {
@@ -120,6 +121,7 @@
 
         update(newValue === undefined ? 0 : newValue);
     }
+
     that.render = render;
 
     function update(newValue, newConfiguration) {
@@ -133,10 +135,15 @@
             .ease('elastic')
             .attr('transform', 'rotate(' + newAngle + ')');
     }
+
     that.update = update;
     configure(configuration);
     return that;
 };
+
+function redibujar() {
+    //alert(12);
+}
 
 function onDocumentReadyGauge(datosGauge) {
 
@@ -158,7 +165,12 @@ function onDocumentReadyGauge(datosGauge) {
             ticks: datosGauge.Escala,
             colors: datosGauge.Colores
         });
+
         powerGauge.render();
         powerGauge.update(datosGauge.Valor);
+        
+        alert(window);
+
+        window.addEventListener("resize", redibujar);
     }
 }

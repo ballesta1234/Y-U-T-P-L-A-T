@@ -1,4 +1,5 @@
-﻿using YUTPLAT.ViewModel;
+﻿using System.Collections.Generic;
+using YUTPLAT.ViewModel;
 
 namespace YUTPLAT.Services.Interface
 {
@@ -6,5 +7,6 @@ namespace YUTPLAT.Services.Interface
     {
         void EjecutarIndicador(IndicadorViewModel indicadorViewModel);
         decimal RecalcularIndicador(int mes);
+        IList<MedicionExportarDTO> ObtenerDetallesMediciones();
     }
 }

@@ -335,6 +335,9 @@
     <Compile Include="Models\Meta.cs" />
     <Compile Include="Models\FrecuenciaMedicionIndicador.cs" />
     <Compile Include="Models\InteresadoIndicador.cs" />
+    <Compile Include="Models\ObtenerDetallesMediciones_Result.cs">
+      <DependentUpon>YUTPLATModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ObtenerTodasMediciones_Result.cs">
       <DependentUpon>YUTPLATModel.tt</DependentUpon>
     </Compile>
@@ -406,6 +409,7 @@
     <Compile Include="Validadores\ValidarLista.cs" />
     <Compile Include="ViewModel\IndicadorAutomaticoViewModel.cs" />
     <Compile Include="ViewModel\CeldaHeatMapViewModel.cs" />
+    <Compile Include="ViewModel\MedicionExportarDTO.cs" />
     <Compile Include="ViewModel\LineViewModel.cs" />
     <Compile Include="ViewModel\GaugeViewModel.cs" />
     <Compile Include="ViewModel\FilaHeatMapViewModel.cs" />
@@ -444,6 +448,7 @@
     <Content Include="Content\pe-icon-7-stroke.css" />
     <Content Include="Content\select2.css" />
     <Content Include="Content\select2.min.css" />
+    <Content Include="images\loading.gif" />
     <Content Include="images\paisaje.jpg" />
     <Content Include="images\bosque.jpg" />
     <Content Include="images\sidebar-5.jpg" />
@@ -615,7 +620,6 @@
     <Content Include="Views\Area\Crear.cshtml" />
     <Content Include="Views\Area\Editar.cshtml" />
     <Content Include="Views\Area\Ver.cshtml" />
-    <Content Include="images\stocks.csv" />
     <Content Include="Views\Tablero\Ver.cshtml" />
     <None Include="Views\Demo\Icons.cshtml" />
     <Content Include="Views\Objetivo\Buscar.cshtml" />

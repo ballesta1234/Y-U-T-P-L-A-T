@@ -91,6 +91,11 @@ namespace YUTPLAT.App_Start
                     .ForMember(x => x.Mes, x => x.MapFrom(y =>  Helpers.EnumHelper<Enums.Enum.Mes>.Parse(y.Mes.Value.ToString())))
                     .ForMember(x => x.Valor, x => x.MapFrom(y => y.Valor.Value));
 
+                    cfg.CreateMap<ObtenerDetallesMediciones_Result, MedicionExportarDTO>()
+                    .ForMember(x => x.Mes, x => x.MapFrom(y => Helpers.EnumHelper<Enums.Enum.Mes>.Parse(y.Mes.Value.ToString())))
+                    .ForMember(x => x.Proyecto, x => x.MapFrom(y => y.Proyecto))
+                    .ForMember(x => x.Valor, x => x.MapFrom(y => y.Valor.Value));
+
                     cfg.CreateMap<IndicadorAutomatico, IndicadorAutomaticoViewModel>()
                     .ForMember(x => x.IndicadorViewModel, x => x.MapFrom(y => y.Indicador));                    
                 });

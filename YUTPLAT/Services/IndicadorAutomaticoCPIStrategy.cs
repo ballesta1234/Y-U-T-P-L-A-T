@@ -57,5 +57,11 @@ namespace YUTPLAT.Services.Interface
 
             return decimal.Parse(valorOtuput.Value.ToString());
         }
+
+        public IList<MedicionExportarDTO> ObtenerDetallesMediciones()
+        {
+            YUTPLAT_DESAEntities spContext = new YUTPLAT_DESAEntities();
+            return AutoMapper.Mapper.Map<IList<MedicionExportarDTO>>(spContext.ObtenerDetallesMediciones().ToList());            
+        }
     }
 }

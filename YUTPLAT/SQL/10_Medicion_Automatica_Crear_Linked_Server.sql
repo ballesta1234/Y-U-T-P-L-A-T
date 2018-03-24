@@ -9,24 +9,25 @@ CREATE TABLE [dbo].[ValoresBORRAR](
 	[Id] [int] NOT NULL,
 	[Valor] [decimal](18, 3) NULL,
 	[Mes] [int] NULL,
+	[Proyecto] [varchar](200) NULL,
 PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 
-INSERT INTO [dbo].[ValoresBORRAR] VALUES(1, 0.01, 1)
-INSERT INTO [dbo].[ValoresBORRAR] VALUES(2, 0.2, 2)
-INSERT INTO [dbo].[ValoresBORRAR] VALUES(3, 0.3, 3)
-INSERT INTO [dbo].[ValoresBORRAR] VALUES(4, 0.4, 4)
-INSERT INTO [dbo].[ValoresBORRAR] VALUES(5, 0.5, 5)
-INSERT INTO [dbo].[ValoresBORRAR] VALUES(6, 0.6, 6)
-INSERT INTO [dbo].[ValoresBORRAR] VALUES(7, 0.7, 7)
-INSERT INTO [dbo].[ValoresBORRAR] VALUES(8, 0.8, 8)
-INSERT INTO [dbo].[ValoresBORRAR] VALUES(9, 0.9, 9)
-INSERT INTO [dbo].[ValoresBORRAR] VALUES(10, 0.10, 10)
-INSERT INTO [dbo].[ValoresBORRAR] VALUES(11, 0.11, 11)
-INSERT INTO [dbo].[ValoresBORRAR] VALUES(12, 0.12, 12)
+INSERT INTO [dbo].[ValoresBORRAR] VALUES(1, 0.01, 1, 'Proyecto 1')
+INSERT INTO [dbo].[ValoresBORRAR] VALUES(2, 0.2, 2, 'Proyecto 1')
+INSERT INTO [dbo].[ValoresBORRAR] VALUES(3, 0.3, 3, 'Proyecto 1')
+INSERT INTO [dbo].[ValoresBORRAR] VALUES(4, 0.4, 4, 'Proyecto 1')
+INSERT INTO [dbo].[ValoresBORRAR] VALUES(5, 0.5, 5, 'Proyecto 1')
+INSERT INTO [dbo].[ValoresBORRAR] VALUES(6, 0.6, 6, 'Proyecto 1')
+INSERT INTO [dbo].[ValoresBORRAR] VALUES(7, 0.7, 7, 'Proyecto 1')
+INSERT INTO [dbo].[ValoresBORRAR] VALUES(8, 0.8, 8, 'Proyecto 1')
+INSERT INTO [dbo].[ValoresBORRAR] VALUES(9, 0.9, 9, 'Proyecto 1')
+INSERT INTO [dbo].[ValoresBORRAR] VALUES(10, 0.10, 10, 'Proyecto 1')
+INSERT INTO [dbo].[ValoresBORRAR] VALUES(11, 0.11, 11, 'Proyecto 1')
+INSERT INTO [dbo].[ValoresBORRAR] VALUES(12, 0.12, 12, 'Proyecto 1')
 
 
 EXEC('
@@ -77,6 +78,24 @@ BEGIN
 	ELSE
 	BEGIN
 		SELECT Valor, Mes FROM dbo.ValoresBORRAR
+	END
+END
+')
+
+EXEC('
+CREATE PROCEDURE dbo.ObtenerDetallesMediciones
+AS
+BEGIN
+	DECLARE @UsarLinkedServer VARCHAR(300)
+	SELECT @UsarLinkedServer = Valor FROM dbo.Parametros WHERE Clave = ''UsarLinkedServer''
+	
+	IF(@UsarLinkedServer = ''true'')
+	BEGIN 	
+		EXEC [DESKTOP-NAIO2G5\SQLEXPRESS].[KAIROS_BUXIS].dbo.sp_executesql N''SELECT Valor, Mes, Proyecto FROM [KAIROS_BUXIS].dbo.ObtenerDetallesMediciones()'';
+	END
+	ELSE
+	BEGIN
+		SELECT Valor, Mes, Proyecto FROM dbo.ValoresBORRAR
 	END
 END
 ')
