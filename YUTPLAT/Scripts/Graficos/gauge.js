@@ -70,15 +70,22 @@
 
     function render(newValue) {
 
+        // matias
+        var contentWidth = parseInt(d3.select('#power-gauge').style('width'));
+        
         svg = d3.select(container)
             .append('svg:svg')
                 .attr('class', 'gauge')
-                .attr('width', config.clipWidth)
-                .attr('height', config.clipHeight);
+                .attr('width', contentWidth)
+                .attr('height', contentWidth / 2);
+
+        marginContainer = svg.append('g').attr('class', 'margin-container');
+
+        marginContainer.attr("transform", "translate(" + 60 + "," + 40 + ")");
 
         var centerTx = centerTranslation();
 
-        var arcs = svg.append('g')
+        var arcs = marginContainer.append('g')
                 .attr('class', 'arc')
                 .attr('transform', centerTx);
 
@@ -90,7 +97,7 @@
                 })
                 .attr('d', arc);
 
-        var lg = svg.append('g')
+        var lg = marginContainer.append('g')
                 .attr('class', 'label')
                 .attr('transform', centerTx);
         lg.selectAll('text')
@@ -111,7 +118,7 @@
 
         var pointerLine = d3.svg.line().interpolate('monotone');
 
-        var pg = svg.append('g').data([lineData])
+        var pg = marginContainer.append('g').data([lineData])
                 .attr('class', 'pointer')
                 .attr('transform', centerTx);
 
@@ -141,8 +148,37 @@
     return that;
 };
 
-function redibujar() {
-    //alert(12);
+function redibujar(datosGauge) {
+    d3.select(".gauge").remove();
+
+    if (!datosGauge.Valor) {
+        jQuery(".gaugeSubtitulo").text("No hay información disponible.");
+    }
+    else {
+        dibujar(datosGauge);        
+    }
+}
+
+function dibujar(datosGauge) {
+
+    jQuery(".gaugeSubtitulo").text(datosGauge.NombreMes + ' - ' + datosGauge.NombreIndicador);
+
+    var tamanioContent = parseInt(d3.select('#power-gauge').style('width'));
+    var tamanioInicial = tamanioContent / 1.716666;
+
+    var powerGauge = gauge('#power-gauge', {
+        size: tamanioInicial,
+        clipWidth: tamanioInicial,
+        clipHeight: tamanioInicial / 1.5,
+        ringWidth: tamanioInicial / 5,
+        maxValue: 1,
+        transitionMs: 4000,
+        ticks: datosGauge.Escala,
+        colors: datosGauge.Colores
+    });
+
+    powerGauge.render();
+    powerGauge.update(datosGauge.Valor);
 }
 
 function onDocumentReadyGauge(datosGauge) {
@@ -153,24 +189,7 @@ function onDocumentReadyGauge(datosGauge) {
         jQuery(".gaugeSubtitulo").text("No hay información disponible.");
     }
     else {
-        jQuery(".gaugeSubtitulo").text(datosGauge.NombreMes + ' - ' + datosGauge.NombreIndicador);
-
-        var powerGauge = gauge('#power-gauge', {
-            size: 300,
-            clipWidth: 300,
-            clipHeight: 200,
-            ringWidth: 60,
-            maxValue: 1,
-            transitionMs: 4000,
-            ticks: datosGauge.Escala,
-            colors: datosGauge.Colores
-        });
-
-        powerGauge.render();
-        powerGauge.update(datosGauge.Valor);
-        
-        alert(window);
-
-        window.addEventListener("resize", redibujar);
+        dibujar(datosGauge);        
+        window.addEventListener("resize", function () { redibujar(datosGauge); });
     }
 }

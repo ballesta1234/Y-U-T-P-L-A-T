@@ -214,6 +214,7 @@ function showCircleDetail(datos) {
 
 function getDimensions() {
     var containerWidth = parseInt(d3.select('.chart-container').style('width'));
+
     margin.top = 20;
     margin.right = 30;
     margin.left = 60;
@@ -233,8 +234,7 @@ function resize(dataLine) {
       .transition()
       .attr('transform', 'translate(0,' + height + ')')
       .call(xAxis);
-
-
+    
     marginContainer.select('.y.axis')
       .transition()
       .call(yAxis);
