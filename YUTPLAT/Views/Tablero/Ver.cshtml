@@ -191,7 +191,7 @@
     };
 
     function abrirModalCargaMedicion(idIndicador, mes, idMedicion, nombreMes, grupo, tieneAccesoEscritura, esAutomatico) {
-        
+
         jQuery("#tituloModal").text("Medición del indicador - " + nombreMes);
 
         var serviceURL = '@Url.Action("AbrirModalCargaMedicion", "Tablero")';
@@ -219,17 +219,23 @@
 
         <div class="card">
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-xs-12 col-sm-12 col-md-12">
 
                     <div class="header">
                         <h4 class="title">Tablero de comando</h4>
                         <p class="category">Año @DateTime.Now.Year</p>
                     </div>
                     <div class="content">
-                        <div id="chart"></div>
 
+                        <div class="testimonial-group">
+                            <div class="row">
+                                <div class="col-xs-12 col-sm-12 col-md-12">
+                                    <div id="chart"></div>
+                                </div>
+                            </div>
+                        </div>
                         <div class="row detalleGrafico" style="visibility:hidden">
-                            <div class="col-md-6">
+                            <div class="col-xs-12 col-sm-6 col-md-6">
                                 <div class="header">
                                     <h4 class="title">Detalle de la última carga</h4>
                                     <p class="category gaugeSubtitulo"></p>
@@ -237,7 +243,7 @@
                                 <div id="power-gauge"></div>
                             </div>
 
-                            <div class="col-md-6">
+                            <div class="col-xs-12 col-sm-6 col-md-6">
                                 <div class="header">
                                     <h4 class="title">Evolución últimos meses</h4>
                                     <p class="category lineSubtitulo"></p>
@@ -250,7 +256,7 @@
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="tituloModal">Ingreso de la medición del indicador - </h5>                                        
+                                        <h5 class="modal-title" id="tituloModal">Ingreso de la medición del indicador - </h5>
                                     </div>
                                     <div id="contenidoModal" />
                                 </div>

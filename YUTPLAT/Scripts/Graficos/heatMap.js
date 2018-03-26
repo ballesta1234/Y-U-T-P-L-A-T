@@ -9,12 +9,13 @@
 
     var heatMap = obtenerHeatMapViewModel();
 
-    var gridSize = 40;
-    var width = (gridSize + 30) * heatMap.Meses.length + gridSize + 700;
+    var contentWidth = parseInt(d3.select('#chart').style('width'));
+   
+    var gridSize = 40;    
     var height = gridSize * heatMap.FilasHeatMapViewModel.length + gridSize;
-
+    
     var svg = d3.select("#chart").append("svg")
-        .attr("width", (gridSize + 30) * heatMap.Meses.length + gridSize + 100)
+        .attr("width", contentWidth)
         .attr("height", height)
         .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");

@@ -33,7 +33,9 @@
     }
 
     function configure(configuration) {
+
         var prop = undefined;
+
         for (prop in configuration) {
             config[prop] = configuration[prop];
         }
@@ -77,15 +79,14 @@
             .append('svg:svg')
                 .attr('class', 'gauge')
                 .attr('width', contentWidth)
-                .attr('height', contentWidth / 2);
-
-        marginContainer = svg.append('g').attr('class', 'margin-container');
-
-        marginContainer.attr("transform", "translate(" + 60 + "," + 40 + ")");
+                .attr('height', contentWidth * 0.75);
+        
+        marginContainerGauge = svg.append('g').attr('class', 'margin-container-gauge');
+        marginContainerGauge.attr("transform", "translate(" + (contentWidth - (contentWidth / 1.5)) / 2 + "," + contentWidth * 0.02 + ")");
 
         var centerTx = centerTranslation();
 
-        var arcs = marginContainer.append('g')
+        var arcs = marginContainerGauge.append('g')
                 .attr('class', 'arc')
                 .attr('transform', centerTx);
 
@@ -97,9 +98,10 @@
                 })
                 .attr('d', arc);
 
-        var lg = marginContainer.append('g')
+        var lg = marginContainerGauge.append('g')
                 .attr('class', 'label')
                 .attr('transform', centerTx);
+
         lg.selectAll('text')
                 .data(config.ticks)
             .enter().append('text')
@@ -118,7 +120,7 @@
 
         var pointerLine = d3.svg.line().interpolate('monotone');
 
-        var pg = marginContainer.append('g').data([lineData])
+        var pg = marginContainerGauge.append('g').data([lineData])
                 .attr('class', 'pointer')
                 .attr('transform', centerTx);
 
@@ -132,11 +134,14 @@
     that.render = render;
 
     function update(newValue, newConfiguration) {
+
         if (newConfiguration !== undefined) {
             configure(newConfiguration);
         }
+
         var ratio = scale(newValue);
         var newAngle = -90 + (ratio * 180);
+
         pointer.transition()
             .duration(config.transitionMs)
             .ease('elastic')
@@ -145,6 +150,7 @@
 
     that.update = update;
     configure(configuration);
+
     return that;
 };
 
@@ -164,7 +170,8 @@ function dibujar(datosGauge) {
     jQuery(".gaugeSubtitulo").text(datosGauge.NombreMes + ' - ' + datosGauge.NombreIndicador);
 
     var tamanioContent = parseInt(d3.select('#power-gauge').style('width'));
-    var tamanioInicial = tamanioContent / 1.716666;
+    // var tamanioInicial = tamanioContent / 1.716666;
+    var tamanioInicial = tamanioContent / 1.5;
 
     var powerGauge = gauge('#power-gauge', {
         size: tamanioInicial,
