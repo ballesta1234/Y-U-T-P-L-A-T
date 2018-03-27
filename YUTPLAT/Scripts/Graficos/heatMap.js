@@ -15,7 +15,7 @@
     var height = gridSize * heatMap.FilasHeatMapViewModel.length + gridSize;
     
     var svg = d3.select("#chart").append("svg")
-        .attr("width", contentWidth)
+        .attr("width", 940)
         .attr("height", height)
         .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
