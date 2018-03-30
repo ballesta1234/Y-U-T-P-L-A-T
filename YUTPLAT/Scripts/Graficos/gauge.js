@@ -79,7 +79,7 @@
             .append('svg:svg')
                 .attr('class', 'gauge')
                 .attr('width', contentWidth)
-                .attr('height', contentWidth * 0.75);
+                .attr('height', contentWidth * 0.42);
         
         marginContainerGauge = svg.append('g').attr('class', 'margin-container-gauge');
         marginContainerGauge.attr("transform", "translate(" + (contentWidth - (contentWidth / 1.5)) / 2 + "," + contentWidth * 0.02 + ")");
