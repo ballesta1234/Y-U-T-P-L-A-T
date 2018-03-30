@@ -141,7 +141,10 @@
 
 <script type="text/javascript">
 
+    $('.filter-modal select').css('width', '100%');
+
     $("#ddlAreas").select2({
+        theme: "bootstrap",
         ajax: {
             beforeSend: function (xhr, opts) {
             },

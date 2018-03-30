@@ -2350,7 +2350,10 @@ body > .navbar-collapse {
     display: none !important; }
 
   .card form [class*="col-"] {
-    padding: 6px; }
+    padding-top: 2px;
+    padding-bottom: 2px;
+    padding-right: 6px;
+    padding-left: 6px; }
   .card form [class*="col-"]:first-child {
     padding-left: 15px; }
   .card form [class*="col-"]:last-child {

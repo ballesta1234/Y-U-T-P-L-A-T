@@ -43,7 +43,8 @@ namespace YUTPLAT
                         "~/Content/light-bootstrap-dashboard.css",
                         "~/Content/pe-icon-7-stroke.css",
                         "~/Content/animate.min.css",
-                        "~/Content/select2.min.css"
+                        "~/Content/select2.min.css",
+                        "~/Content/select2-bootstrap.css"
                         ));           
         }
     }

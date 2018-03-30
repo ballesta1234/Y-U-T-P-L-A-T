@@ -23,7 +23,7 @@ namespace YUTPLAT.ViewModel
         [Display(Name = "Último usuario modificó")]
         public string UltimoUsuarioModifico { get; set; }
 
-        [Display(Name = "Fecha última modificación")]
+        [Display(Name = "Fecha modificación")]
         public string FechaUltimaModificacion { get; set; }
     }
 }
