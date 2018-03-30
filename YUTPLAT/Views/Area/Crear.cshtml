@@ -39,7 +39,7 @@
                             </div>
                             
                             <div class="row">
-                                <div class="col-xs-12 col-sm-6 col-md-4">
+                                <div class="col-xs-12 col-sm-6 col-md-3">
                                     @Html.LabelFor(m => m.Nombre)
                                     <span class="text-danger">*</span>
                                     @Html.TextBoxFor(m => m.Nombre, new { @class = "form-control" })
@@ -47,7 +47,7 @@
                                     @Html.ValidationMessageFor(m => m.Nombre, "", new { @class = "text-danger" })
                                 </div>
 
-                                <div class="col-xs-12 col-sm-6 col-md-2">
+                                <div class="col-xs-12 col-sm-6 col-md-3">
                                     @Html.LabelFor(m => m.FechaCreacion)
                                     <p class="description">@Model.FechaCreacion</p>
                                     @Html.HiddenFor(m => m.FechaCreacion)
@@ -85,7 +85,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-xs-12 col-sm-3 col-md-3">
+                                <div class="col-xs-12 col-sm-12 col-md-12">
                                     <input type="submit" class="btn btn-fill btn-info" value="Guardar" />
                                     <button class="btn btn-fill btn-info" onclick="history.go(-1); return false;">Volver</button>
                                 </div>
