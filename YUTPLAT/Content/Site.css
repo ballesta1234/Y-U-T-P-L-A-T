@@ -129,8 +129,7 @@ textarea {
     margin-left: 6px !important;
 }
 
-.width-meta-izq {
-    margin-left: 14px !important;
+.width-meta-izq {  
     float: left !important;
     width: 69px !important;
 }
@@ -139,4 +138,8 @@ textarea {
     float: left !important;
     width: 69px !important;
     margin-left: 2px !important;
+}
+
+.width-row {
+    width: 287px !important;
 }
