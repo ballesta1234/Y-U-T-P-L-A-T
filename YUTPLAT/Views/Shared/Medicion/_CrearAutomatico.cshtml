@@ -94,7 +94,7 @@
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <label>Valor</label>
                 <div class="row">
-                    <div class="col-xs-8 col-sm-3 col-md-3">
+                    <div class="col-xs-5 col-sm-3 col-md-3">
                         @Html.TextBoxFor(m => m.Valor, new { @readonly = "readonly", @class = "form-control" })
                     </div>
                     <div class="col-xs-1 col-sm-1 col-md-1">
@@ -109,10 +109,8 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-xs-6 col-sm-3 col-md-3">
-                <button type="button" class="btn btn-secondary" onclick="javascript:recalcularMedicion();">Recalcular</button>
-            </div>
-            <div class="col-xs-6 col-sm-3 col-md-3">
+            <div class="col-xs-12 col-sm-12 col-md-12">
+                <button type="button" class="btn btn-secondary" onclick="javascript:recalcularMedicion();">Recalcular</button>            
                 <button type="button" class="btn btn-secondary" onclick="location.href='@Url.Action("ExportToExcel", "Medicion")'">Exportar</button>
             </div>
         </div>

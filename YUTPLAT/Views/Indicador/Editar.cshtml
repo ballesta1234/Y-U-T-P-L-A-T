@@ -109,134 +109,154 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-xs-4 col-sm-4 col-md-6">
+                                <div class="col-xs-12 col-sm-6 col-md-6">
                                     @Html.LabelFor(m => m.MetaExcelenteViewModel)
-                                    <div class="row">
-                                        <div class="col-xs-3 col-sm-3 col-md-2">
-                                            @Html.TextBoxFor(m => m.MetaExcelenteViewModel.Valor1, new { @class = "form-control" })
-                                        </div>
-                                        <div class="col-xs-3 col-sm-3 col-md-2">
-                                            @Html.EnumDropDownListFor(x => x.MetaExcelenteViewModel.Signo1, new { @class = "form-control" })
-                                        </div>
-                                        <div class="col-xs-1 col-sm-1 text-center col-md-1">
-                                            i
-                                        </div>
-                                        <div class="col-xs-3 col-sm-3 col-md-2">
-                                            @Html.EnumDropDownListFor(x => x.MetaExcelenteViewModel.Signo2, new { @class = "form-control" })
-                                        </div>
-                                        <div class="col-xs-3 col-sm-3 col-md-2">
-                                            @Html.TextBoxFor(m => m.MetaExcelenteViewModel.Valor2, new { @class = "form-control" })
+                                    <div class="testimonial-group">
+                                        <div class="row">
+                                            <div class="width-row">
+                                                <div class="width-meta-izq">
+                                                    @Html.TextBoxFor(m => m.MetaExcelenteViewModel.Valor1, new { @class = "form-control  width-meta" })
+                                                </div>
+                                                <div class="width-signo">
+                                                    @Html.EnumDropDownListFor(x => x.MetaExcelenteViewModel.Signo1, new { @class = "form-control  width-signo" })
+                                                </div>
+                                                <div class="width-nro">
+                                                    meta
+                                                </div>
+                                                <div class="width-signo">
+                                                    @Html.EnumDropDownListFor(x => x.MetaExcelenteViewModel.Signo2, new { @class = "form-control  width-signo" })
+                                                </div>
+                                                <div class="width-meta">
+                                                    @Html.TextBoxFor(m => m.MetaExcelenteViewModel.Valor2, new { @class = "form-control  width-meta" })
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                    <span class="aclaracion">(ejemplo: 1 >= i > 0.8)</span>
+                                    <span class="aclaracion">(ejemplo: 1 >= meta > 0.8)</span>
                                     @Html.ValidationMessageFor(m => m.MetaExcelenteViewModel, "", new { @class = "text-danger" })
                                     @Html.ValidationMessageFor(m => m.MetaExcelenteViewModel.Valor1, "", new { @class = "text-danger" })
                                     @Html.ValidationMessageFor(m => m.MetaExcelenteViewModel.Valor2, "", new { @class = "text-danger" })
                                 </div>
 
-                                <div class="col-xs-4 col-sm-4 col-md-6">
+                                <div class="col-xs-12 col-sm-6 col-md-6">
                                     <label>Meta satisfactoria</label>
-                                    <div class="row">
-                                        <div class="col-xs-3 col-sm-3 col-md-2">
-                                            @Html.TextBoxFor(m => m.MetaSatisfactoriaViewModel.Valor1, new { @class = "form-control" })
-                                        </div>
-                                        <div class="col-xs-3 col-sm-3 col-md-2">
-                                            @Html.EnumDropDownListFor(x => x.MetaSatisfactoriaViewModel.Signo1, new { @class = "form-control" })
-                                        </div>
-                                        <div class="col-xs-1 col-sm-1 text-center col-md-1">
-                                            i
-                                        </div>
-                                        <div class="col-xs-3 col-sm-3 col-md-2">
-                                            @Html.EnumDropDownListFor(x => x.MetaSatisfactoriaViewModel.Signo2, new { @class = "form-control" })
-                                        </div>
-                                        <div class="col-xs-3 col-sm-3 col-md-2">
-                                            @Html.TextBoxFor(m => m.MetaSatisfactoriaViewModel.Valor2, new { @class = "form-control" })
+                                    <div class="testimonial-group">
+                                        <div class="row">
+                                            <div class="width-row">
+                                                <div class="width-meta-izq">
+                                                    @Html.TextBoxFor(m => m.MetaSatisfactoriaViewModel.Valor1, new { @class = "form-control width-meta" })
+                                                </div>
+                                                <div class="width-signo">
+                                                    @Html.EnumDropDownListFor(x => x.MetaSatisfactoriaViewModel.Signo1, new { @class = "form-control width-signo" })
+                                                </div>
+                                                <div class="width-nro">
+                                                    meta
+                                                </div>
+                                                <div class="width-signo">
+                                                    @Html.EnumDropDownListFor(x => x.MetaSatisfactoriaViewModel.Signo2, new { @class = "form-control width-signo" })
+                                                </div>
+                                                <div class="width-meta">
+                                                    @Html.TextBoxFor(m => m.MetaSatisfactoriaViewModel.Valor2, new { @class = "form-control width-meta" })
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                    <span class="aclaracion">(ejemplo: 0.80 >= i > 0.6)</span>
+                                    <span class="aclaracion">(ejemplo: 0.80 >= meta > 0.6)</span>
                                     @Html.ValidationMessageFor(m => m.MetaSatisfactoriaViewModel, "", new { @class = "text-danger" })
                                     @Html.ValidationMessageFor(m => m.MetaSatisfactoriaViewModel.Valor1, "", new { @class = "text-danger" })
                                     @Html.ValidationMessageFor(m => m.MetaSatisfactoriaViewModel.Valor2, "", new { @class = "text-danger" })
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-xs-4 col-sm-4 col-md-6">
+                                <div class="col-xs-12 col-sm-6 col-md-6">
                                     <label>Meta aceptable</label>
-                                    <div class="row">
-                                        <div class="col-xs-3 col-sm-3 col-md-2">
-                                            @Html.TextBoxFor(m => m.MetaAceptableViewModel.Valor1, new { @class = "form-control" })
-                                        </div>
-                                        <div class="col-xs-3 col-sm-3 col-md-2">
-                                            @Html.EnumDropDownListFor(x => x.MetaAceptableViewModel.Signo1, new { @class = "form-control" })
-                                        </div>
-                                        <div class="col-xs-1 col-sm-1 text-center col-md-1">
-                                            i
-                                        </div>
-                                        <div class="col-xs-3 col-sm-3 col-md-2">
-                                            @Html.EnumDropDownListFor(x => x.MetaAceptableViewModel.Signo2, new { @class = "form-control" })
-                                        </div>
-                                        <div class="col-xs-3 col-sm-3 col-md-2">
-                                            @Html.TextBoxFor(m => m.MetaAceptableViewModel.Valor2, new { @class = "form-control" })
+                                    <div class="testimonial-group">
+                                        <div class="row">
+                                            <div class="width-row">
+                                                <div class="width-meta-izq">
+                                                    @Html.TextBoxFor(m => m.MetaAceptableViewModel.Valor1, new { @class = "form-control width-meta" })
+                                                </div>
+                                                <div class="width-signo">
+                                                    @Html.EnumDropDownListFor(x => x.MetaAceptableViewModel.Signo1, new { @class = "form-control width-signo" })
+                                                </div>
+                                                <div class="width-nro">
+                                                    meta
+                                                </div>
+                                                <div class="width-signo">
+                                                    @Html.EnumDropDownListFor(x => x.MetaAceptableViewModel.Signo2, new { @class = "form-control width-signo" })
+                                                </div>
+                                                <div class="width-meta">
+                                                    @Html.TextBoxFor(m => m.MetaAceptableViewModel.Valor2, new { @class = "form-control width-meta" })
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                    <span class="aclaracion">(ejemplo: 0.60 >= i > 0.40)</span>
+                                    <span class="aclaracion">(ejemplo: 0.60 >= meta > 0.40)</span>
                                     @Html.ValidationMessageFor(m => m.MetaAceptableViewModel, "", new { @class = "text-danger" })
                                     @Html.ValidationMessageFor(m => m.MetaAceptableViewModel.Valor1, "", new { @class = "text-danger" })
                                     @Html.ValidationMessageFor(m => m.MetaAceptableViewModel.Valor2, "", new { @class = "text-danger" })
                                 </div>
-                                <div class="col-xs-4 col-sm-4 col-md-6">
+                                <div class="col-xs-12 col-sm-6 col-md-6">
                                     <label>Meta a mejorar</label>
-                                    <div class="row">
-                                        <div class="col-xs-3 col-sm-3 col-md-2">
-                                            @Html.TextBoxFor(m => m.MetaAMejorarViewModel.Valor1, new { @class = "form-control" })
-                                        </div>
-                                        <div class="col-xs-3 col-sm-3 col-md-2">
-                                            @Html.EnumDropDownListFor(x => x.MetaAMejorarViewModel.Signo1, new { @class = "form-control" })
-                                        </div>
-                                        <div class="col-xs-1 col-sm-1 text-center col-md-1">
-                                            i
-                                        </div>
-                                        <div class="col-xs-3 col-sm-3 col-md-2">
-                                            @Html.EnumDropDownListFor(x => x.MetaAMejorarViewModel.Signo2, new { @class = "form-control" })
-                                        </div>
-                                        <div class="col-xs-3 col-sm-3 col-md-2">
-                                            @Html.TextBoxFor(m => m.MetaAMejorarViewModel.Valor2, new { @class = "form-control" })
+                                    <div class="testimonial-group">
+                                        <div class="row">
+                                            <div class="width-row">
+                                                <div class="width-meta-izq">
+                                                    @Html.TextBoxFor(m => m.MetaAMejorarViewModel.Valor1, new { @class = "form-control width-meta" })
+                                                </div>
+                                                <div class="width-signo">
+                                                    @Html.EnumDropDownListFor(x => x.MetaAMejorarViewModel.Signo1, new { @class = "form-control width-signo" })
+                                                </div>
+                                                <div class="width-nro">
+                                                    <span class="AAA">meta</span>
+                                                </div>
+                                                <div class="width-signo">
+                                                    @Html.EnumDropDownListFor(x => x.MetaAMejorarViewModel.Signo2, new { @class = "form-control width-signo" })
+                                                </div>
+                                                <div class="width-meta">
+                                                    @Html.TextBoxFor(m => m.MetaAMejorarViewModel.Valor2, new { @class = "form-control width-meta" })
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                    <span class="aclaracion">(ejemplo: 0.4 >= i > 0.2)</span>
+                                    <span class="aclaracion">(ejemplo: 0.4 >= meta > 0.2)</span>
                                     @Html.ValidationMessageFor(m => m.MetaAMejorarViewModel, "", new { @class = "text-danger" })
                                     @Html.ValidationMessageFor(m => m.MetaAMejorarViewModel.Valor1, "", new { @class = "text-danger" })
                                     @Html.ValidationMessageFor(m => m.MetaAMejorarViewModel.Valor2, "", new { @class = "text-danger" })
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-xs-4 col-sm-4 col-md-6">
+                                <div class="col-xs-12 col-sm-6 col-md-6">
                                     <label>Meta inaceptable</label>
-                                    <div class="row">
-                                        <div class="col-xs-3 col-sm-3 col-md-2">
-                                            @Html.TextBoxFor(m => m.MetaInaceptableViewModel.Valor1, new { @class = "form-control" })
-                                        </div>
-                                        <div class="col-xs-3 col-sm-3 col-md-2">
-                                            @Html.EnumDropDownListFor(x => x.MetaInaceptableViewModel.Signo1, new { @class = "form-control" })
-                                        </div>
-                                        <div class="col-xs-1 col-sm-1 text-center col-md-1">
-                                            i
-                                        </div>
-                                        <div class="col-xs-3 col-sm-3 col-md-2">
-                                            @Html.EnumDropDownListFor(x => x.MetaInaceptableViewModel.Signo2, new { @class = "form-control" })
-                                        </div>
-                                        <div class="col-xs-3 col-sm-3 col-md-2">
-                                            @Html.TextBoxFor(m => m.MetaInaceptableViewModel.Valor2, new { @class = "form-control" })
+                                    <div class="testimonial-group">
+                                        <div class="row">
+                                            <div class="width-row">
+                                                <div class="width-meta-izq">
+                                                    @Html.TextBoxFor(m => m.MetaInaceptableViewModel.Valor1, new { @class = "form-control width-meta" })
+                                                </div>
+                                                <div class="width-signo">
+                                                    @Html.EnumDropDownListFor(x => x.MetaInaceptableViewModel.Signo1, new { @class = "form-control width-signo" })
+                                                </div>
+                                                <div class="width-nro">
+                                                    meta
+                                                </div>
+                                                <div class="width-signo">
+                                                    @Html.EnumDropDownListFor(x => x.MetaInaceptableViewModel.Signo2, new { @class = "form-control width-signo" })
+                                                </div>
+                                                <div class="width-meta">
+                                                    @Html.TextBoxFor(m => m.MetaInaceptableViewModel.Valor2, new { @class = "form-control width-meta" })
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                    <span class="aclaracion">(ejemplo: 0.2 >= i)</span>
+                                    <span class="aclaracion">(ejemplo: 0.2 >= meta)</span>
                                     @Html.ValidationMessageFor(m => m.MetaInaceptableViewModel, "", new { @class = "text-danger" })
                                     @Html.ValidationMessageFor(m => m.MetaInaceptableViewModel.Valor1, "", new { @class = "text-danger" })
                                     @Html.ValidationMessageFor(m => m.MetaInaceptableViewModel.Valor2, "", new { @class = "text-danger" })
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-xs-6 col-sm-6 col-md-6">
+                                <div class="col-xs-12 col-sm-6 col-md-6">
                                     <div class="row">
                                         <div class="col-xs-8 col-sm-8 col-md-8">
                                             @Html.LabelFor(m => m.ResponsableID)
@@ -287,7 +307,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-xs-6 col-sm-6 col-md-6">
+                                <div class="col-xs-12 col-sm-6 col-md-6">
                                     <div class="row">
                                         <div class="col-xs-8 col-sm-8 col-md-8">
                                             @Html.LabelFor(m => m.InteresadoID)
@@ -349,7 +369,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-xs-12 col-sm-3 col-md-3">
+                                <div class="col-xs-12 col-sm-12 col-md-12">
                                     <input type="submit" class="btn btn-fill btn-info" value="Guardar" />
                                     <button class="btn btn-fill btn-info" onclick="history.go(-1); return false;">Volver</button>
                                 </div>

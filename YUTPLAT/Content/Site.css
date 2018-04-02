@@ -100,7 +100,6 @@ textarea {
     float: none;
 }
 
-/* The heart of the matter */
 .testimonial-group > .row {
     overflow-x: auto;
     white-space: nowrap;
@@ -127,6 +126,7 @@ textarea {
 .width-nro {
     float: left !important;
     margin-left: 6px !important;
+    margin-top:10px;
 }
 
 .width-meta-izq {  
@@ -141,5 +141,5 @@ textarea {
 }
 
 .width-row {
-    width: 287px !important;
+    width: 304px !important;
 }
