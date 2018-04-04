@@ -1,13 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Data.Entity;
+using System.Linq;
+using System.Threading.Tasks;
+using YUTPLAT.Helpers;
 using YUTPLAT.Models;
 using YUTPLAT.Repositories.Interface;
-using System.Linq;
 using YUTPLAT.ViewModel;
-using System;
-using YUTPLAT.Helpers;
-using System.Threading.Tasks;
-using System.Data.Entity;
-using System.Data.Entity.Core.Objects;
 
 namespace YUTPLAT.Services.Interface
 {
@@ -167,6 +166,15 @@ namespace YUTPLAT.Services.Interface
             EscalaGraficosViewModel escalas = ObtenerEscalasGrafico(medicion);
             gauge.Escala = escalas.EscalaValores;
             gauge.Colores = escalas.EscalaColores;
+
+            if(decimal.Parse(gauge.Valor.Replace(".", ",")) < gauge.Escala[0])
+            {
+                gauge.Valor = (gauge.Escala[0] != 0 ? gauge.Escala[0].ToString().Replace(",", ".").TrimEnd('0').TrimEnd('.') : "0");
+            }
+            else if(decimal.Parse(gauge.Valor.Replace(".", ",")) > gauge.Escala[5])
+            {
+                gauge.Valor = (gauge.Escala[5] != 0 ? gauge.Escala[5].ToString().Replace(",", ".").TrimEnd('0').TrimEnd('.') : "0");
+            }            
         }
 
         private decimal ObtenerValorEscala(MetaViewModel meta1, MetaViewModel meta2)
@@ -325,6 +333,11 @@ namespace YUTPLAT.Services.Interface
             }
 
             return medicionId;
+        }
+
+        public bool ValidaMedicion(MedicionViewModel medicionViewModel)
+        {
+            return true;
         }
     }
 }

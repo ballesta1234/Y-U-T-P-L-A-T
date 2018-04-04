@@ -78,7 +78,9 @@ namespace YUTPLAT.Controllers
         [AllowAnonymous]
         public async Task<ActionResult> CargarMedicion(MedicionViewModel model)
         {
-            if (!ModelState.IsValidField("Valor") || !ModelState.IsValidField("Comentario"))
+            if (!ModelState.IsValidField("Valor") || 
+                !ModelState.IsValidField("Comentario") || 
+                !MedicionService.ValidaMedicion(model))
             {
                 ModelState.AddModelError(string.Empty, "Verifique que todos los campos estén cargados y sean correctos.");
                 return PartialView("Medicion/_Crear", model);
@@ -95,7 +97,8 @@ namespace YUTPLAT.Controllers
         [AllowAnonymous]
         public async Task<ActionResult> CargarMedicionAutomatica(MedicionViewModel model)
         {
-            if (!ModelState.IsValidField("Comentario"))
+            if (!ModelState.IsValidField("Comentario") || 
+                !MedicionService.ValidaMedicion(model))
             {
                 ModelState.AddModelError(string.Empty, "Verifique que todos los campos estén cargados y sean correctos.");
                 return PartialView("Medicion/_CrearAutomatico", model);

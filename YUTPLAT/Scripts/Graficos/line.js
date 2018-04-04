@@ -1,11 +1,11 @@
-﻿$(function () {    
+﻿$(function () {
 });
 
 function showLine(dataLine, nombreIndicador) {
-    
+
     initLine();
 
-    if (dataLine == "") {        
+    if (dataLine == "") {
         jQuery(".lineSubtitulo").text("No hay información disponible.");
     }
     else {
@@ -13,19 +13,53 @@ function showLine(dataLine, nombreIndicador) {
 
         cargarGraficoLinea(dataLine);
 
-        marginContainer.append('g')
-          .attr('class', 'x axis')
-          .attr('transform', 'translate(0,' + height + ')')
-          .call(xAxis);
+        var ancho = parseInt(d3.select('.chart-container').style('width'));
+        var angulo = 0;
 
-        marginContainer.append('g')
+        if (ancho >= 476) {
+            angulo = 0
+        }
+        else if (ancho <= 300) {
+            angulo = 90;
+        }
+        else {
+            angulo = 90 - (ancho - 300) * 45 / 88;
+        }
+        
+        var tamanioLetraX = 15;
+        var tamanioLetraY = 15;
+
+        if (ancho <= 270) {
+            tamanioLetraY = 8;
+            if (dataLine.length >= 6) {
+                tamanioLetraX = 8;
+            }
+        }
+
+        var ejeX = marginContainer.append('g')
+            .attr('class', 'x axis')
+            .attr('transform', 'translate(0,' + height + ')')
+            .style('font-size', '' + tamanioLetraX + 'px')
+            .call(xAxis);
+
+        ejeX.selectAll('text')
+        .style("text-anchor", "end")
+            .attr("dx", "-.8em")
+            .attr("dy", ".15em")
+            .attr("transform", "rotate(-65)");
+
+        // mati
+
+        var ejeY = marginContainer.append('g')
           .attr('class', 'y axis')
-          .call(yAxis)
-          .append('text')
-          .attr('transform', 'rotate(-90)')
-          .attr('y', '1.5em')
-          .style('text-anchor', 'end')
-          .text('Valor');
+          .style('font-size', '' + tamanioLetraY + 'px')
+          .call(yAxis);
+
+        ejeY.append('text')
+        .attr('transform', 'rotate(-90)')
+        .attr('y', '1.5em')
+        .style('text-anchor', 'end')
+        .text('Valor');
 
         marginContainer.append('path')
           .datum(startData)
@@ -79,7 +113,7 @@ var line;
 var area;
 var startData;
 
-var margin = { top: 20, right: 30, bottom: 30, left: 40 };
+var margin = { top: 20, right: 30, bottom: 100, left: 40 };
 var maxWidth = 800 - margin.left - margin.right;
 
 var detailWidth = 150;
@@ -218,7 +252,7 @@ function getDimensions() {
     margin.top = 20;
     margin.right = 30;
     margin.left = 60;
-    margin.bottom = 30;
+    margin.bottom = 100;
 
     width = containerWidth - margin.left - margin.right;
     if (width > maxWidth) {
@@ -230,14 +264,58 @@ function getDimensions() {
 function resize(dataLine) {
     cargarGraficoLinea(dataLine);
 
-    marginContainer.select('.x.axis')
+
+    var ancho = parseInt(d3.select('.chart-container').style('width'));
+    var angulo = 0;
+
+    if (ancho >= 476) {
+        angulo = 0
+    }
+    else if (ancho <= 300) {
+        angulo = 90;
+    }
+    else {
+        angulo = 90 - (ancho - 300) * 45 / 88;
+    }
+
+    var tamanioLetraX = 15;
+    var tamanioLetraY = 15;
+
+    if (ancho <= 270) {
+        tamanioLetraY = 8;
+        if (dataLine.length >= 6) {
+            tamanioLetraX = 8;
+        }
+    }
+
+    var ejeX = marginContainer.select('.x.axis')
       .transition()
+      .style('font-size', '' + tamanioLetraX + 'px')
       .attr('transform', 'translate(0,' + height + ')')
       .call(xAxis);
-    
-    marginContainer.select('.y.axis')
+
+    ejeX.selectAll("text")
+      .style("text-anchor", "end")
+            .attr("dx", "-.8em")
+            .attr("dy", ".15em")
+            .attr("transform", "rotate(-65)");
+
+    // eze
+
+    var ejeY = marginContainer.select('.y.axis')
       .transition()
+      .style('font-size', '' + tamanioLetraY + 'px')
       .call(yAxis);
+
+    /*
+    ejeY.selectAll(".labelEjeX")
+       .style("text-anchor", "end")
+       .attr("dx", "0em")
+       .attr("dy", "0em")
+       .attr("transform", "rotate(0)");
+    */
+
+
 
     marginContainer.select('.circles').remove();
 
@@ -274,7 +352,7 @@ function cargarGraficoLinea(dataLine) {
     getDimensions();
 
     svg.attr("width", width + margin.left + margin.right)
-      .attr("height", height + margin.top + margin.bottom);   
+      .attr("height", height + margin.top + margin.bottom);
 
     marginContainer
       .attr("transform", "translate(" + margin.left + "," + margin.top + ")");

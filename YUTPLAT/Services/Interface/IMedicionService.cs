@@ -20,6 +20,8 @@ namespace YUTPLAT.Services.Interface
 
         Task<MedicionViewModel> ObtenerMedicionViewModel(int idIndicador, int mes, int? idMedicion, long grupo);
 
-        Task<int> GuardarMedicion(MedicionViewModel medicionViewModel);        
+        Task<int> GuardarMedicion(MedicionViewModel medicionViewModel);
+
+        bool ValidaMedicion(MedicionViewModel medicionViewModel);  
     }
 }
