@@ -116,9 +116,9 @@ var startData;
 var margin = { top: 20, right: 30, bottom: 100, left: 40 };
 var maxWidth = 800 - margin.left - margin.right;
 
-var detailWidth = 150;
-var detailHeight = 75;
-var detailMargin = 15;
+var detailWidth = 100;
+var detailHeight = 50;
+var detailMargin = 10;
 
 function initLine() {
     d3.select(".lineChart").remove();

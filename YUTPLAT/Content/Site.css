@@ -147,3 +147,21 @@ background: rgb(147,104,233, 0.5);
 .background-login{
     background: rgb(222,234,238) !important;
 }
+
+.btn-login {
+  border-color: #1A2654 !important;
+  color: #5FB404 !important; }
+  .btn-login:hover, .btn-login:focus, .btn-login:active, .btn-login.active, .open > .btn-login.dropdown-toggle {
+    background-color: transparent;
+    color: #070F2A !important;
+    border-color: #1A2654 !important; }
+
+
+  .btn-login.btn-fill {
+    color: #FFFFFF !important;
+    background-color: #314587 !important;
+    opacity: 1;
+    filter: alpha(opacity=100); }
+    .btn-login.btn-fill:hover, .btn-login.btn-fill:focus, .btn-login.btn-fill:active, .btn-login.btn-fill.active, .open > .btn-login.btn-fill.dropdown-toggle {
+      background-color: #1A2654 !important;
+      color: #FFFFFF !important; }
