@@ -7,29 +7,22 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
+
+            @{
+                var NombreApellido = ((YUTPLAT.ViewModel.PersonaViewModel)HttpContext.Current.Session["Persona"]).NombreApellido;
+            }
+
             <p class="navbar-brand">@ViewBag.Titulo</p>
         </div>
         <div class="collapse navbar-collapse">
-            <ul class="nav navbar-nav navbar-left">
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <i class="fa fa-globe"></i>
-                        <b class="caret hidden-sm hidden-xs"></b>
-                        <span class="notification hidden-sm hidden-xs">2</span>
-                        <p class="hidden-lg hidden-md">
-                            2 Notificaciones
-                            <b class="caret"></b>
-                        </p>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#">Falta cargar mes de noviembre</a></li>
-                        <li><a href="#">Mes de diciembre inaceptable</a></li>                        
-                    </ul>
-                </li>               
-            </ul>
+
+            
 
             <ul class="nav navbar-nav navbar-right">
                 <li>
+                    <p class="navbar-brand-name">@NombreApellido</p>
+                    </li>
+<li>
                     <a href="@Url.Action("LogOff", "Account")">
                         <p>Salir</p>
                     </a>

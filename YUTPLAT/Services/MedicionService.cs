@@ -231,7 +231,7 @@ namespace YUTPLAT.Services.Interface
 
         public async Task<HeatMapViewModel> ObtenerHeatMapViewModel(BuscarIndicadorViewModel buscarIndicadorViewModel)
         {
-            Persona persona = await PersonaRepository.GetByUserName(buscarIndicadorViewModel.NombreUsuario);
+            Persona persona = await PersonaRepository.GetByUserName(buscarIndicadorViewModel.NombreUsuario).FirstOrDefaultAsync();
             IList<IndicadorAutomaticoViewModel> todosIndicadoresAutomaticos = this.IndicadorAutomaticoService.Todos();
 
             IList<FilaHeatMapViewModel> filasHeatMapViewModel = AutoMapper.Mapper.Map<IList<FilaHeatMapViewModel>>(IndicadorRepository.Buscar(buscarIndicadorViewModel).ToList());

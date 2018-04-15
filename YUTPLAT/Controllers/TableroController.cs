@@ -22,7 +22,7 @@ namespace YUTPLAT.Controllers
         public ActionResult Ver(string msgExito)
         {
             TableroViewModel model = new TableroViewModel();
-            model.Titulo = "Tablero";
+            model.Titulo = "Tablero de comando";
 
             ViewBag.Titulo = model.Titulo;
             ViewBag.MensageExito = msgExito;
@@ -42,7 +42,7 @@ namespace YUTPLAT.Controllers
         public ActionResult Tablero()
         {
             TableroViewModel model = new TableroViewModel();
-            model.Titulo = "Tablero";
+            model.Titulo = "Tablero de comando";
             ViewBag.Titulo = model.Titulo;
 
             return View(model);

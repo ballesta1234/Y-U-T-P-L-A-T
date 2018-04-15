@@ -8,6 +8,8 @@ namespace YUTPLAT.Services.Interface
     {
         Task<PersonaViewModel> GetById(string id);
 
+        Task<PersonaViewModel> GetByUserName(string userName);
+            
         Task<IList<PersonaViewModel>> Todas();
 
         Task<IList<PersonaViewModel>> Buscar(PersonaViewModel filtro);        

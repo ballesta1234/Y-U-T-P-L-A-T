@@ -50,7 +50,8 @@ namespace YUTPLAT.App_Start
                     cfg.CreateMap<Indicador, FilaHeatMapViewModel>()
                     .ForMember(x => x.IdIndicador, x => x.MapFrom(y => y.IndicadorID))
                     .ForMember(x => x.Grupo, x => x.MapFrom(y => y.Grupo))                    
-                    .ForMember(x => x.NombreIndicador, x => x.MapFrom(y => y.Nombre));
+                    .ForMember(x => x.NombreIndicador, x => x.MapFrom(y => y.Nombre))
+                    .ForMember(x => x.NombreArea, x => x.MapFrom(y => y.Objetivo.Area.Nombre));
 
                     cfg.CreateMap<IndicadorViewModel, Indicador>()
                     .ForMember(x => x.IndicadorID, x => x.MapFrom(y => y.Id))

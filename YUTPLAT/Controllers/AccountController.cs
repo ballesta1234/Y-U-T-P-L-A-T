@@ -5,6 +5,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using YUTPLAT.ViewModel;
+using YUTPLAT.Services.Interface;
 
 namespace YUTPLAT.Controllers
 {
@@ -14,8 +15,11 @@ namespace YUTPLAT.Controllers
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
-        public AccountController()
+        public IPersonaService PersonaService { get; set; }
+
+        public AccountController(IPersonaService personaService)
         {
+            this.PersonaService = personaService;
         }
 
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
@@ -72,6 +76,7 @@ namespace YUTPLAT.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
+                    Session["Persona"] = await PersonaService.GetByUserName(model.User);
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");               

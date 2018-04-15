@@ -12,7 +12,7 @@
     /*HEATMAP*/
     .square:hover {
         stroke: DarkBlue;
-        stroke-width: 3px;
+        stroke-width: 2px;
     }
 
     text.mono {
@@ -55,8 +55,9 @@
 
     .d3-tip {
         font-family: Verdana;
+        font-size: 12px;
         background: rgba(0, 0, 0, 0.8);
-        padding: 8px;
+        padding: 5px;
         color: #fff;
         z-index: 5070;
     }
@@ -204,6 +205,11 @@
             contentType: "application/json; charset=utf-8",
             dataType: "html",
             success: function successFunc(response) {
+
+                if (response == '') {
+                    window.location.href = "/Account/Login";
+                }
+
                 jQuery('#contenidoModal').html(response);
                 jQuery('#cargaMedicionModal').modal('show');
             },
@@ -220,13 +226,14 @@
         <div class="card">
             <div class="row">
                 <div class="col-xs-12 col-sm-12 col-md-12">
-
                     <div class="header">
-                        <h4 class="title">Tablero de comando</h4>
-                        <p class="category">Año @DateTime.Now.Year</p>
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-3 col-md-2">
+                                @Html.DropDownListFor(m => m.Titulo, Enumerable.Empty<SelectListItem>(), new { @id = "ddlObjetivos", @class = "form-control" })
+                            </div>
+                        </div>
                     </div>
                     <div class="content">
-
                         <div class="testimonial-group">
                             <div class="row">
                                 <div class="col-xs-12 col-sm-12 col-md-12">

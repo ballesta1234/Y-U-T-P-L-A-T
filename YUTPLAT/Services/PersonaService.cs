@@ -19,7 +19,12 @@ namespace YUTPLAT.Services.Interface
         public async Task<PersonaViewModel> GetById(string id)
         {
             return AutoMapper.Mapper.Map<PersonaViewModel>(await PersonaRepository.GetById(id).FirstAsync());
-        }        
+        }
+
+        public async Task<PersonaViewModel> GetByUserName(string userName)
+        {
+            return AutoMapper.Mapper.Map<PersonaViewModel>(await PersonaRepository.GetByUserName(userName).FirstAsync());
+        }
 
         public async Task<IList<PersonaViewModel>> Todas()
         {

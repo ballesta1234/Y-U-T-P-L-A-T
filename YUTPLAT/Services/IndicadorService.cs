@@ -68,7 +68,7 @@ namespace YUTPLAT.Services.Interface
         
         public async Task<IList<IndicadorViewModel>> Buscar(BuscarIndicadorViewModel filtro)
         {
-            Persona persona = await PersonaRepository.GetByUserName(filtro.NombreUsuario);
+            Persona persona = await PersonaRepository.GetByUserName(filtro.NombreUsuario).FirstOrDefaultAsync();
             IList<IndicadorViewModel> indicadores = AutoMapper.Mapper.Map<IList<IndicadorViewModel>>(IndicadorRepository.Buscar(filtro).ToList());
 
             CargarPermisosAIndicadores(indicadores, persona);

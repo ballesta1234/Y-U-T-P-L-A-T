@@ -9,8 +9,8 @@ namespace YUTPLAT.Repositories.Interface
     public interface IPersonaRepository : IDisposable
     {
         IQueryable<Persona> GetById(string id);
-
-        Task<Persona> GetByUserName(string userName);
+               
+        IQueryable<Persona> GetByUserName(string userName);
 
         IQueryable<Persona> Todas();
 
