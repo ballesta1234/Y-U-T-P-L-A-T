@@ -2,7 +2,7 @@
 {
     public class AnioTableroViewModel
     {
-        public int AnioTableroViewModelID { get; set; }
+        public int AnioTableroID { get; set; }
 
         public string Descripcion { get; set; }
 
