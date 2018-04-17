@@ -62,7 +62,10 @@ namespace YUTPLAT.App_Start
                     
                     cfg.CreateMap<FrecuenciaMedicionIndicador, FrecuenciaMedicionIndicadorViewModel>();
                     cfg.CreateMap<FrecuenciaMedicionIndicadorViewModel, FrecuenciaMedicionIndicador>();
-                                       
+
+                    cfg.CreateMap<AnioTablero, AnioTableroViewModel>();
+                    cfg.CreateMap<AnioTableroViewModel, AnioTablero>();
+
                     cfg.CreateMap<Persona, PersonaViewModel>()
                    .ForMember(x => x.NombreUsuario, x => x.MapFrom(y => y.UserName));
 

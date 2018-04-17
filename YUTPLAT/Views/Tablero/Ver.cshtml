@@ -229,7 +229,14 @@
                     <div class="header">
                         <div class="row">
                             <div class="col-xs-12 col-sm-3 col-md-2">
-                                @Html.DropDownListFor(m => m.Titulo, Enumerable.Empty<SelectListItem>(), new { @id = "ddlObjetivos", @class = "form-control" })
+                                @if (Model.AnioTableroViewModel.AnioTableroViewModelID > 0)
+                                {
+                                    @Html.DropDownListFor(m => m.AnioTableroID, new SelectList(new List<SelectListItem> { new SelectListItem { Text = Model.AnioTableroViewModel.Descripcion, Value = Model.AnioTableroViewModel.AnioTableroViewModelID.ToString() } }, "Value", "Text"), new { @id = "ddlAnios", @class = "form-control" })
+                                }
+                                else
+                                {
+                                    @Html.DropDownListFor(m => m.AnioTableroID, Enumerable.Empty<SelectListItem>(), new { @id = "ddlAnios", @class = "form-control" })
+                                }
                             </div>
                         </div>
                     </div>
@@ -277,6 +284,64 @@
 </div>
 
 <script type="text/javascript">
+
+    $("#ddlAnios").select2({
+        ajax: {
+            beforeSend: function (xhr, opts) {
+            },
+            url: '@Url.Action("BuscarAnios", "Tablero")',
+            dataType: 'json',
+            delay: 250,
+            data: function (params) {
+                return {
+                    nombreAnio: params.term,
+                };
+            },
+            processResults: function (data, page) {
+                return {
+                    results: procesarAnios(data)
+                };
+            },
+            cache: true
+        },
+        minimumInputLength: 0,
+        language: {
+            inputTooShort: function (args) {
+                return "Ingrese al menos un caracter";
+            },
+            inputTooLong: function (args) {
+                return "Texto demadiado largo";
+            },
+            errorLoading: function () {
+                return "Error al cargar resultados";
+            },
+            loadingMore: function () {
+                return "Cargando más resultados";
+            },
+            noResults: function () {
+                return "No se encontraron resultados";
+            },
+            searching: function () {
+                return "Buscando...";
+            },
+            maximumSelected: function (args) {
+                return "Error al cargar resultados";
+            }
+        }
+    });
+
+    function procesarAnios(resultados) {
+        var array = [];
+        for (i = 0; i < resultados.length; i++) {
+            array.push(procesarAnio(resultados[i]));
+        }
+        return array
+    }
+
+    function procesarAnio(resultado) {
+        return { id: resultado.AnioTableroID, text: resultado.Descripcion };
+    }
+
     var mensageExito = '@Html.Raw(@ViewBag.MensageExito)';
 
     if (mensageExito != '') {

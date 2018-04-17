@@ -11,10 +11,13 @@ namespace YUTPLAT.Controllers
     public class TableroController : Controller
     {
         public IMedicionService MedicionService { get; set; }
+        public IAnioTableroService AnioTableroService { get; set; }
 
-        public TableroController(IMedicionService medicionService)
+        public TableroController(IMedicionService medicionService,
+                                 IAnioTableroService anioTableroService)
         {
             this.MedicionService = medicionService;
+            this.AnioTableroService = anioTableroService;
         }
 
         [HttpGet]
@@ -127,6 +130,15 @@ namespace YUTPLAT.Controllers
 
 
             return PartialView(view, await MedicionService.ObtenerMedicionViewModel(idIndicador, mes, idMedicion, grupo));
+        }
+
+        public async Task<JsonResult> BuscarAnios(string nombreAnio)
+        {
+            AnioTableroViewModel filtro = new AnioTableroViewModel();
+            filtro.Descripcion = nombreAnio;
+            filtro.Habilitado = true;
+
+            return Json(await AnioTableroService.Buscar(filtro), JsonRequestBehavior.AllowGet);
         }
     }
 }

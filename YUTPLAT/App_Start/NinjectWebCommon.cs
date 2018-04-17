@@ -75,6 +75,7 @@ namespace YUTPLAT.App_Start
             kernel.Bind<IAccesoIndicadorRepository>().To<AccesoIndicadorRepository>();
             kernel.Bind<INotificacionRepository>().To<NotificacionRepository>();
             kernel.Bind<IIndicadorAutomaticoRepository>().To<IndicadorAutomaticoRepository>();
+            kernel.Bind<IAnioTableroRepository>().To<AnioTableroRepository>();
         }
 
         private static void RegisterServices(IKernel kernel)
@@ -87,6 +88,7 @@ namespace YUTPLAT.App_Start
             kernel.Bind<IMedicionService>().To<MedicionService>();
             kernel.Bind<INotificacionService>().To<NotificacionService>();
             kernel.Bind<IIndicadorAutomaticoService>().To<IndicadorAutomaticoService>();
+            kernel.Bind<IAnioTableroService>().To<AnioTableroService>();
         }
 
         private static void RegisterStrategies(IKernel kernel)
