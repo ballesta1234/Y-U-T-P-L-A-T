@@ -39,9 +39,9 @@ namespace YUTPLAT.Services.Interface
             return AutoMapper.Mapper.Map<MedicionViewModel>(await MedicionRepository.GetById(id).FirstAsync());
         }
 
-        public async Task<IList<MedicionViewModel>> Todas()
+        public async Task<IList<MedicionViewModel>> Todas(int anio)
         {
-            return AutoMapper.Mapper.Map<IList<MedicionViewModel>>(await MedicionRepository.Todas().ToListAsync());
+            return AutoMapper.Mapper.Map<IList<MedicionViewModel>>(await MedicionRepository.Todas(anio).ToListAsync());
         }
 
         public async Task<IList<MedicionViewModel>> Buscar(MedicionViewModel filtro)
@@ -238,7 +238,7 @@ namespace YUTPLAT.Services.Interface
 
             CargarPermisosAIndicadores(filasHeatMapViewModel, persona);
 
-            IList<MedicionViewModel> mediciones = await Todas();
+            IList<MedicionViewModel> mediciones = await Todas(buscarIndicadorViewModel.AnioTablero);
 
             IList<CeldaHeatMapViewModel> celdasHeatMapViewModel = new List<CeldaHeatMapViewModel>();
 

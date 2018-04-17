@@ -29,9 +29,9 @@ namespace YUTPLAT.Repositories
             return this.context.Mediciones.Where(m => m.MedicionId == id);
         }
          
-        public IQueryable<Medicion> Todas()
+        public IQueryable<Medicion> Todas(int anio)
         {
-            return this.context.Mediciones;
+            return this.context.Mediciones.Where( m => m.Indicador.FechaValidez == null || m.Indicador.FechaValidez.Value.Year == anio);
         }
 
         public IQueryable<Medicion> Buscar(MedicionViewModel filtro)

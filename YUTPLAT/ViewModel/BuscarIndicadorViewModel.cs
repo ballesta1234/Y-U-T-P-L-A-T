@@ -9,6 +9,7 @@ namespace YUTPLAT.ViewModel
 
         public string RolUsuario { get; set; }
         public string NombreUsuario { get; set; }
+        public int AnioTablero { get; set; }
 
         public IList<IndicadorViewModel> Resultados { get; set; }
 

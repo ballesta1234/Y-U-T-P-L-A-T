@@ -6,7 +6,8 @@ namespace YUTPLAT.Services.Interface
 {
     public interface IAnioTableroService
     {
-        Task<AnioTableroViewModel> GetById(int id);        
+        Task<AnioTableroViewModel> GetById(int id);
+        Task<AnioTableroViewModel> GetActual();        
         Task<IList<AnioTableroViewModel>> Buscar(AnioTableroViewModel filtro);
         Task<IList<AnioTableroViewModel>> TodosHabilitados();
     }

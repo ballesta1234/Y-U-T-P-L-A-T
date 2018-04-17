@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using YUTPLAT.Helpers;
 using YUTPLAT.Helpers.Filters;
@@ -22,10 +23,15 @@ namespace YUTPLAT.Controllers
 
         [HttpGet]
         [EncryptedActionParameter]
-        public ActionResult Ver(string msgExito)
+        public async Task<ActionResult> Ver(string msgExito)
         {
             TableroViewModel model = new TableroViewModel();
-            model.Titulo = "Tablero de comando";
+            model.Titulo = "Tablero de comando ";
+
+            if (Session["IdAnioTablero"] != null)
+            {
+                model.AnioTableroViewModel = await AnioTableroService.GetById(Int32.Parse((string)Session["IdAnioTablero"]));
+            }
 
             ViewBag.Titulo = model.Titulo;
             ViewBag.MensageExito = msgExito;
@@ -61,6 +67,7 @@ namespace YUTPLAT.Controllers
 
             model.NombreUsuario = User.Identity.Name;
             model.RolUsuario = User.IsInRole(rolAdmin) ? rolAdmin : rolUsuario;
+            model.AnioTablero = (await AnioTableroService.GetById(Int32.Parse((string)Session["IdAnioTablero"]))).Anio;
 
             return Json(await MedicionService.ObtenerHeatMapViewModel(model), JsonRequestBehavior.AllowGet);
         }
@@ -81,8 +88,8 @@ namespace YUTPLAT.Controllers
         [AllowAnonymous]
         public async Task<ActionResult> CargarMedicion(MedicionViewModel model)
         {
-            if (!ModelState.IsValidField("Valor") || 
-                !ModelState.IsValidField("Comentario") || 
+            if (!ModelState.IsValidField("Valor") ||
+                !ModelState.IsValidField("Comentario") ||
                 !MedicionService.ValidaMedicion(model))
             {
                 ModelState.AddModelError(string.Empty, "Verifique que todos los campos estén cargados y sean correctos.");
@@ -100,7 +107,7 @@ namespace YUTPLAT.Controllers
         [AllowAnonymous]
         public async Task<ActionResult> CargarMedicionAutomatica(MedicionViewModel model)
         {
-            if (!ModelState.IsValidField("Comentario") || 
+            if (!ModelState.IsValidField("Comentario") ||
                 !MedicionService.ValidaMedicion(model))
             {
                 ModelState.AddModelError(string.Empty, "Verifique que todos los campos estén cargados y sean correctos.");
@@ -140,5 +147,12 @@ namespace YUTPLAT.Controllers
 
             return Json(await AnioTableroService.Buscar(filtro), JsonRequestBehavior.AllowGet);
         }
+
+        public ActionResult CambiarAnioTablero(string idAnio)
+        {
+            Session["IdAnioTablero"] = idAnio;
+            return Json(new { success = true });
+        }
+
     }
 }

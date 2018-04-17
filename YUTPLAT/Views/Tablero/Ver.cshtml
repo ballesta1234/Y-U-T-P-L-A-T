@@ -229,9 +229,9 @@
                     <div class="header">
                         <div class="row">
                             <div class="col-xs-12 col-sm-3 col-md-2">
-                                @if (Model.AnioTableroViewModel.AnioTableroViewModelID > 0)
+                                @if (Model.AnioTableroViewModel.AnioTableroID > 0)
                                 {
-                                    @Html.DropDownListFor(m => m.AnioTableroID, new SelectList(new List<SelectListItem> { new SelectListItem { Text = Model.AnioTableroViewModel.Descripcion, Value = Model.AnioTableroViewModel.AnioTableroViewModelID.ToString() } }, "Value", "Text"), new { @id = "ddlAnios", @class = "form-control" })
+                                    @Html.DropDownListFor(m => m.AnioTableroID, new SelectList(new List<SelectListItem> { new SelectListItem { Text = Model.AnioTableroViewModel.Descripcion, Value = Model.AnioTableroViewModel.AnioTableroID.ToString() } }, "Value", "Text"), new { @id = "ddlAnios", @class = "form-control" })
                                 }
                                 else
                                 {
@@ -328,6 +328,27 @@
                 return "Error al cargar resultados";
             }
         }
+    });
+
+    $('#ddlAnios').on("select2:selecting", function (e) {
+
+        var idAnio = e.params.args.data.id;
+
+        var parametros = {
+            "idAnio": idAnio
+        };
+        jQuery.ajax({
+            data: parametros,
+            url: '@Url.Action("CambiarAnioTablero", "Tablero")',
+            type: 'post',
+            beforeSend: function () {
+            },
+            success: function (response) {
+                if (response.success == true) {
+                    location.reload();
+                }
+            }
+        });
     });
 
     function procesarAnios(resultados) {

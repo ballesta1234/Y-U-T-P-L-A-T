@@ -3,6 +3,7 @@ using YUTPLAT.Models;
 using YUTPLAT.Repositories.Interface;
 using YUTPLAT.ViewModel;
 using YUTPLAT.Context;
+using YUTPLAT.Helpers;
 
 namespace YUTPLAT.Repositories
 {
@@ -13,6 +14,12 @@ namespace YUTPLAT.Repositories
         public AnioTableroRepository(YutplatDbContext context)
         {
             this.context = context;
+        }
+
+        public IQueryable<AnioTablero> GetActual()
+        {
+            int anioActual = DateTimeHelper.OntenerFechaActual().Year;
+            return this.context.AniosTablero.Where(a => a.Anio == anioActual);             
         }
 
         public IQueryable<AnioTablero> GetById(int id)

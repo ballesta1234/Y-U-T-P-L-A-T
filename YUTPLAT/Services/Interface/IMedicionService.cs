@@ -8,7 +8,7 @@ namespace YUTPLAT.Services.Interface
     {
         Task<MedicionViewModel> GetById(int id);
 
-        Task<IList<MedicionViewModel>> Todas();
+        Task<IList<MedicionViewModel>> Todas(int anio);
 
         Task<IList<MedicionViewModel>> Buscar(MedicionViewModel filtro);
 

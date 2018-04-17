@@ -54,6 +54,10 @@ namespace YUTPLAT.Repositories
                         }).Select(g => g.LastAccess);
             }
 
+            if (filtro.AnioTablero > 0)
+            {
+                queryable = queryable.Where(a => a.FechaValidez == null || a.FechaValidez.Value.Year == filtro.AnioTablero);
+            }
             if (filtro.Busqueda.Nombre != null && !string.IsNullOrEmpty(filtro.Busqueda.Nombre.Trim()))
             {
                 queryable = queryable.Where(a => a.Nombre.Contains(filtro.Busqueda.Nombre.Trim()));

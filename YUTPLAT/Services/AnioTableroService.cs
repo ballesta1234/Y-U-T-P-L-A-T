@@ -20,6 +20,11 @@ namespace YUTPLAT.Services.Interface
             return AutoMapper.Mapper.Map<AnioTableroViewModel>(await AnioTableroRepository.GetById(id).FirstAsync());
         }
 
+        public async Task<AnioTableroViewModel> GetActual()
+        {
+            return AutoMapper.Mapper.Map<AnioTableroViewModel>(await AnioTableroRepository.GetActual().FirstAsync());
+        }
+
         public async Task<IList<AnioTableroViewModel>> TodosHabilitados()
         {
             return AutoMapper.Mapper.Map<IList<AnioTableroViewModel>>(await AnioTableroRepository.TodosHabilitados().ToListAsync());

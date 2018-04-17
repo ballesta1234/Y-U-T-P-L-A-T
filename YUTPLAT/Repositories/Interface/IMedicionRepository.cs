@@ -10,7 +10,7 @@ namespace YUTPLAT.Repositories.Interface
     {
         IQueryable<Medicion> GetById(int id);        
 
-        IQueryable<Medicion> Todas();
+        IQueryable<Medicion> Todas(int anio);
 
         IQueryable<Medicion> Buscar(MedicionViewModel filtro);
 

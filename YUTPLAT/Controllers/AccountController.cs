@@ -15,11 +15,14 @@ namespace YUTPLAT.Controllers
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
+        public IAnioTableroService AnioTableroService { get; set; }
         public IPersonaService PersonaService { get; set; }
 
-        public AccountController(IPersonaService personaService)
+        public AccountController(IPersonaService personaService,
+                                 IAnioTableroService anioTableroService)
         {
             this.PersonaService = personaService;
+            this.AnioTableroService = anioTableroService;
         }
 
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
@@ -77,7 +80,7 @@ namespace YUTPLAT.Controllers
             {
                 case SignInStatus.Success:
                     Session["Persona"] = await PersonaService.GetByUserName(model.User);
-                    return RedirectToLocal(returnUrl);
+                    return await RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");               
                 case SignInStatus.Failure:
@@ -135,7 +138,7 @@ namespace YUTPLAT.Controllers
             }
         }
 
-        private ActionResult RedirectToLocal(string returnUrl)
+        private async Task<ActionResult> RedirectToLocal(string returnUrl)
         {            
             string decodedUrl = "";
 
@@ -150,6 +153,7 @@ namespace YUTPLAT.Controllers
             }
             else
             {
+                Session["IdAnioTablero"] = (await AnioTableroService.GetActual()).AnioTableroID.ToString();
                 return RedirectToAction("Ver", "Tablero");
             }            
         }
