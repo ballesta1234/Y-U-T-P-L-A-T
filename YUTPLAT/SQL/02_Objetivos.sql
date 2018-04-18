@@ -45,7 +45,7 @@ INSERT INTO [dbo].[Objetivo] ([Nombre], [Descripcion], [FechaCreacion], [UltimoU
 SELECT
 	N'Evaluar el desempeño de los procesos y la implementación de oportunidades de mejora', 
 	N'Evaluar el desempeño de los procesos y la implementación de oportunidades de mejora', 
-	GETDATE(), NULL, NULL, Id FROM [dbo].[Area] WHERE Nombre = N'Ingeniería de Software'
+	GETDATE(), NULL, NULL, Id FROM [dbo].[Area] WHERE Nombre = N'Calidad'
 	
 INSERT INTO [dbo].[Objetivo] ([Nombre], [Descripcion], [FechaCreacion], [UltimoUsuarioModifico], [FechaUltimaModificacion], [AreaID]) 
 SELECT

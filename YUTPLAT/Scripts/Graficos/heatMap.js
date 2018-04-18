@@ -35,7 +35,7 @@ $(function () {
     tip(svg.append("g"));
 
     svg.append('text')
-      .attr("x", 17)
+      .attr("x", -10)
       .attr("y", 0)
       .style("text-anchor", "middle")
       .attr("transform", "translate(" + gridSize / 2 + ", -6)")
@@ -43,7 +43,7 @@ $(function () {
       .text('Área');
 
     svg.append('text')
-      .attr("x", 188)
+      .attr("x", 139)
       .attr("y", 0)
       .style("text-anchor", "middle")
       .attr("transform", "translate(" + gridSize / 2 + ", -6)")
@@ -118,18 +118,19 @@ $(function () {
         .append("a").attr("xlink:href", function (d) { return "#" }).attr("xlink:title", function (d) { return d.NombreIndicador; })
         .append("text")
         .text(function (d) {
-            if (d.NombreIndicador.length >= 50) {
+            /*
+            if (d.NombreIndicador.length >= 70) {
                 d.NombreIndicador + '...';
-            }
-            if (d.NombreIndicador.length >= 49) {
-                return d.NombreIndicador.substring(0, 49) + '...';
+            }*/
+            if (d.NombreIndicador.length >= 57) {
+                return d.NombreIndicador.substring(0, 57) + '...';
             }
             return d.NombreIndicador;
         })
         .attr("x", 150)
         .attr("y", function (d, i) {
             var offsetYEtiqueta = 8;
-            if (d.NombreIndicador.length >= 19) {
+            if (d.NombreIndicador.length >= 45) {
                 offsetYEtiqueta = 12;
             }
             return (i * (gridSize - 8)) - offsetYEtiqueta;
@@ -166,7 +167,7 @@ $(function () {
                 d3.select(this).classed("mono1", false);
                 d3.select(this).classed("text-mono1-hover", true);
             })
-            .call(wrapHorizontal, 190, 127);
+            .call(wrapHorizontal, 234, 62);
 
     // Etiquetas tipo meses
     var dim2Labels = svg.selectAll(".dim2Label")
