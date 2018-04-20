@@ -68,7 +68,6 @@ $(function () {
            var nombreArea = d[0];
            return nombreArea;
        })
-       .attr("x", 110)
        .attr("y", function (d, i) {
            if (i > 0) {
                offsetTextoArea += offsetTextoAreaAnterior;
@@ -77,15 +76,11 @@ $(function () {
 
            if (d[1] <= 2) {
                return (offsetTextoArea * (gridSize - 8)) - 12;
-           }
-           else {
-               //alert(this.getComputedTextLength());               
-               return 10;
-           }
+           }           
        })
        .style("text-anchor", "end")
        .attr("class", "mono")
-       .call(wrap, cantIndicadoresPorArea);
+       .call(wrap);
 
     svg.append("line")
        .attr("x1", -30)
@@ -221,13 +216,20 @@ function contarIndicadoresPorArea(heatMap) {
     return arr;
 }
 
-function wrap(text, cantPorArea) {
+function wrap(text) {
+
+    var cantFilasInicio = 0;
+
     text.each(function () {
+
+        cantFilasInicio += dictionaryIndicadoresPorArea[d3.select(this).text()];
+
         if (dictionaryIndicadoresPorArea[d3.select(this).text()] <= 2) {
             wrapHorizontalPalabra(d3.select(this), 90, -24);
         }
         else {
-            wrapVerticalPalabra(d3.select(this), 170, -25);
+            //alert(cantFilasInicio);
+            wrapVerticalPalabra(d3.select(this), 32 * dictionaryIndicadoresPorArea[d3.select(this).text()], -(2.6666667*cantFilasInicio));
         }
     });
 }
