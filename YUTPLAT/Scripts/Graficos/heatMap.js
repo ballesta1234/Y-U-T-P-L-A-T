@@ -43,7 +43,7 @@ $(function () {
       .text('Área');
 
     svg.append('text')
-      .attr("x", 139)
+      .attr("x", 152)
       .attr("y", 0)
       .style("text-anchor", "middle")
       .attr("transform", "translate(" + gridSize / 2 + ", -6)")
@@ -118,13 +118,6 @@ $(function () {
         .append("a").attr("xlink:href", function (d) { return "#" }).attr("xlink:title", function (d) { return d.NombreIndicador; })
         .append("text")
         .text(function (d) {
-            /*
-            if (d.NombreIndicador.length >= 70) {
-                d.NombreIndicador + '...';
-            }*/
-            if (d.NombreIndicador.length >= 57) {
-                return d.NombreIndicador.substring(0, 57) + '...';
-            }
             return d.NombreIndicador;
         })
         .attr("x", 150)
@@ -310,9 +303,17 @@ function wrapHorizontalPalabra(text, width, posicionX) {
         tspan.text(line.join(" "));
 
         if (tspan.node().getComputedTextLength() > width) {
-            line.pop();
-            tspan.text(line.join(" "));
-            line = [word];
+
+            if (lineNumber == 1) {
+                agregarTresPuntos(tspan, width, line);                     
+                break;
+            }
+            else {
+                line.pop();
+                tspan.text(line.join(" "));
+                line = [word];
+            }
+
             tspan = text.append("tspan")
                         .attr("x", posicionX)
                         .attr("y", y)
@@ -320,7 +321,19 @@ function wrapHorizontalPalabra(text, width, posicionX) {
                         .attr("dy", ++lineNumber * lineHeight + dy + "em")
                         .text(word);
         }
+    }
+}
 
+function agregarTresPuntos(tspan, width, line) {
+
+    var palabra = line.pop();    
+    tspan.text(line.join(" ") + "...");
+
+    var cantLetras = palabra.length;
+
+    while ((tspan.node().getComputedTextLength() < width) && cantLetras > 0) {        
+        tspan.text(line.join(" ") + " " + palabra.substring(0, palabra.length - cantLetras + 1) + "...");
+        cantLetras--;
     }
 }
 
