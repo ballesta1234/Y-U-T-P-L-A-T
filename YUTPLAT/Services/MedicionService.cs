@@ -246,11 +246,11 @@ namespace YUTPLAT.Services.Interface
             heatMapViewModel.Meses = Enum.GetValues(typeof(Enums.Enum.Mes)).Cast<Enums.Enum.Mes>().Select(v => v.ToString()).ToList();
             heatMapViewModel.FilasHeatMapViewModel = filasHeatMapViewModel;
 
-            int mesActual = DateTimeHelper.OntenerFechaActual().Month;
-
+            DateTime fechaActual = DateTimeHelper.OntenerFechaActual();
+            
             foreach (Enums.Enum.Mes mes in Enum.GetValues(typeof(Enums.Enum.Mes)).Cast<Enums.Enum.Mes>())
             {
-                if ((int)mes <= mesActual)
+                if ((int)mes <= fechaActual.Month || buscarIndicadorViewModel.AnioTablero < fechaActual.Year)
                 {
                     IList<MedicionViewModel> medicionesPorMes = mediciones.Where(m => m.Mes == mes).OrderBy(m => m.IndicadorViewModel.Id).ToList();
 
@@ -258,26 +258,41 @@ namespace YUTPLAT.Services.Interface
 
                     while (i < filasHeatMapViewModel.Count)
                     {
-                        CeldaHeatMapViewModel celdaHeatMapViewModel = new CeldaHeatMapViewModel();
-                        celdaHeatMapViewModel.IndiceIndicador = i + 1;
-                        celdaHeatMapViewModel.Mes = (int)mes;
-                        celdaHeatMapViewModel.IdIndicador = filasHeatMapViewModel[i].IdIndicador;
-                        celdaHeatMapViewModel.GrupoIndicador = filasHeatMapViewModel[i].Grupo;
-                        celdaHeatMapViewModel.NombreMes = mes.ToString();
-                        celdaHeatMapViewModel.TieneAccesoLecturaEscritura = filasHeatMapViewModel[i].TieneAccesoLecturaEscritura;
-                        celdaHeatMapViewModel.EsAutomatico = todosIndicadoresAutomaticos.Any( ia => ia.IndicadorViewModel.Grupo == celdaHeatMapViewModel.GrupoIndicador);
+                        FilaHeatMapViewModel indicador = filasHeatMapViewModel[i];
 
-                        if (medicionesPorMes.Any(m => m.IndicadorViewModel.Grupo == filasHeatMapViewModel[i].Grupo && m.Mes == mes))
+                        if (indicador.FechaValidez == null || 
+                            (indicador.FechaValidez != null && 
+                             (
+                                (indicador.FechaValidez.Value.Year > buscarIndicadorViewModel.AnioTablero) ||
+                                    (
+                                        indicador.FechaValidez.Value.Year == buscarIndicadorViewModel.AnioTablero &&
+                                        indicador.FechaValidez.Value.Month >= (int)mes
+                                    )
+                                )
+                             )
+                           )
                         {
-                            MedicionViewModel medicionPorMes = medicionesPorMes.First(m => m.IndicadorViewModel.Grupo == filasHeatMapViewModel[i].Grupo && m.Mes == mes);
+                            CeldaHeatMapViewModel celdaHeatMapViewModel = new CeldaHeatMapViewModel();
+                            celdaHeatMapViewModel.IndiceIndicador = i + 1;
+                            celdaHeatMapViewModel.Mes = (int)mes;
+                            celdaHeatMapViewModel.IdIndicador = indicador.IdIndicador;
+                            celdaHeatMapViewModel.GrupoIndicador = indicador.Grupo;
+                            celdaHeatMapViewModel.NombreMes = mes.ToString();
+                            celdaHeatMapViewModel.TieneAccesoLecturaEscritura = indicador.TieneAccesoLecturaEscritura;
+                            celdaHeatMapViewModel.EsAutomatico = todosIndicadoresAutomaticos.Any(ia => ia.IndicadorViewModel.Grupo == celdaHeatMapViewModel.GrupoIndicador);
 
-                            celdaHeatMapViewModel.Medicion = medicionPorMes.Valor;
-                            celdaHeatMapViewModel.IdMedicion = medicionPorMes.MedicionId;
-                            celdaHeatMapViewModel.ColorMeta = ObtenerColorCeldaHeatMap(medicionPorMes);
-                            celdaHeatMapViewModel.MedicionCargada = true;
+                            if (medicionesPorMes.Any(m => m.IndicadorViewModel.Grupo == indicador.Grupo && m.Mes == mes))
+                            {
+                                MedicionViewModel medicionPorMes = medicionesPorMes.First(m => m.IndicadorViewModel.Grupo == indicador.Grupo && m.Mes == mes);
+
+                                celdaHeatMapViewModel.Medicion = medicionPorMes.Valor;
+                                celdaHeatMapViewModel.IdMedicion = medicionPorMes.MedicionId;
+                                celdaHeatMapViewModel.ColorMeta = ObtenerColorCeldaHeatMap(medicionPorMes);
+                                celdaHeatMapViewModel.MedicionCargada = true;
+                            }
+
+                            celdasHeatMapViewModel.Add(celdaHeatMapViewModel);
                         }
-
-                        celdasHeatMapViewModel.Add(celdaHeatMapViewModel);
                         i++;
                     }
                 }

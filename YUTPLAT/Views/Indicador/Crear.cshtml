@@ -27,6 +27,14 @@
                 return true;
             }
         });
+
+        $('#dpFechaValidez').datetimepicker(
+            {
+                format: "MM/YYYY",
+                locale: 'es',
+                keepOpen: false
+            });
+
     });
 </script>
 
@@ -98,26 +106,21 @@
                                         @Html.DropDownListFor(m => m.FrecuenciaMedicionIndicadorID, Enumerable.Empty<SelectListItem>(), new { @id = "ddlFrecuencias", @class = "form-control" })
                                         @Html.ValidationMessageFor(m => m.FrecuenciaMedicionIndicadorID, "", new { @class = "text-danger" })
                                     }
-                                </div>
+                                </div>                                
+                                <div class="col-xs-12 col-sm-6 col-md-2">
+                                    @Html.LabelFor(m => m.FechaValidez)
+                                    <div class="input-group date" id="dpFechaValidez">
+                                        @Html.TextBoxFor(m => m.FechaValidez, new { @class = "form-control" })
+                                        <div class="input-group-addon">
+                                            <span class="glyphicon glyphicon-calendar"></span>
+                                        </div>
+                                    </div>
+                                </div>   
                                 <div class="col-xs-12 col-sm-6 col-md-2">
                                     @Html.LabelFor(m => m.FechaCreacion)
                                     <p class="description">@Model.FechaCreacion</p>
                                     @Html.HiddenFor(m => m.FechaCreacion)
-                                </div>
-
-                                @if (!String.IsNullOrEmpty(Model.FechaUltimaModificacion))
-                                {
-                                    <div class="col-xs-12 col-sm-6 col-md-3">
-                                        @Html.LabelFor(m => m.UltimoUsuarioModifico)
-                                        <p class="description">@Model.UltimoUsuarioModifico</p>
-                                    </div>
-
-                                    <div class="col-xs-12 col-sm-6 col-md-3">
-                                        @Html.LabelFor(m => m.FechaUltimaModificacion)
-                                        <p class="description">@Model.FechaUltimaModificacion</p>
-                                        @Html.HiddenFor(m => m.FechaUltimaModificacion)
-                                    </div>
-                                }
+                                </div>                             
                             </div>
                             <div class="row">
                                 <div class="col-xs-12 col-sm-12 col-md-12">

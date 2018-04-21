@@ -111,15 +111,16 @@ namespace YUTPLAT.Controllers
 
             int idIndicador = await IndicadorService.Guardar(model);
 
-            string nombreUsuario = User.Identity.Name;
+            string idUsuario = ((PersonaViewModel)Session["Persona"]).Id;
 
             object parametros = new { q = MyExtensions.Encrypt(new { id = idIndicador, msgExito = "El indicador se ha guardado exitosamente." }) };
 
-            if (model.Responsables.Any(r => r.NombreUsuario.Equals(nombreUsuario)))
+            if (model.Responsables.Any(r => r.Id.Equals(idUsuario)) ||
+               ((PersonaViewModel)Session["Persona"]).EsAdmin)
             {
                 return RedirectToAction("Editar", "Indicador", parametros);
             }
-            else if(model.Interesados.Any(i => i.NombreUsuario.Equals(nombreUsuario)))
+            else if(model.Interesados.Any(i => i.Id.Equals(idUsuario)))
             {
                 return RedirectToAction("Ver", "Indicador", parametros);
             }
@@ -173,15 +174,16 @@ namespace YUTPLAT.Controllers
             model.UltimoUsuarioModifico = User.Identity.Name;            
             int idIndicador = await IndicadorService.Guardar(model);
             
-            string nombreUsuario = User.Identity.Name;
+            string idUsuario = ((PersonaViewModel)Session["Persona"]).Id;
 
             object parametros = new { q = MyExtensions.Encrypt(new { id = idIndicador, msgExito = "El indicador se ha guardado exitosamente." }) };
-
-            if (model.Responsables.Any(r => r.NombreUsuario != null && r.NombreUsuario.Equals(nombreUsuario)))
+            
+            if (model.Responsables.Any(r => r.Id != null && r.Id.Equals(idUsuario)) ||
+               ((PersonaViewModel)Session["Persona"]).EsAdmin)
             {
                 return RedirectToAction("Editar", "Indicador", parametros);
             }
-            else if (model.Interesados.Any(i => i.NombreUsuario != null && i.NombreUsuario.Equals(nombreUsuario)))
+            else if (model.Interesados.Any(i => i.Id != null && i.Id.Equals(idUsuario)))
             {
                 return RedirectToAction("Ver", "Indicador", parametros);
             }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace YUTPLAT.ViewModel
 {
@@ -10,6 +11,8 @@ namespace YUTPLAT.ViewModel
         public string NombreArea { get; set; }
         public bool TieneAccesoLecturaEscritura { get; set; }
         public bool EsAutomatico { get; set; }
+        public DateTime? FechaValidez { get; set; }
+
     }
 }
 

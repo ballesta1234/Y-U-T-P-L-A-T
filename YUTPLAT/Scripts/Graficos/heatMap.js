@@ -210,7 +210,7 @@ function contarIndicadoresPorArea(heatMap) {
         var arr1 = [];
         arr1.push(key);
         arr1.push(value);
-        arr.push(arr1);
+        arr.push(arr1);          
     });
 
     return arr;

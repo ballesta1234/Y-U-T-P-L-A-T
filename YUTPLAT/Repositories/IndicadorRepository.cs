@@ -56,7 +56,7 @@ namespace YUTPLAT.Repositories
 
             if (filtro.AnioTablero > 0)
             {
-                queryable = queryable.Where(a => a.FechaValidez == null || a.FechaValidez.Value.Year == filtro.AnioTablero);
+                queryable = queryable.Where(a => a.FechaValidez == null || a.FechaValidez.Value.Year >= filtro.AnioTablero);
             }
             if (filtro.Busqueda.Nombre != null && !string.IsNullOrEmpty(filtro.Busqueda.Nombre.Trim()))
             {
@@ -106,7 +106,7 @@ namespace YUTPLAT.Repositories
                                                   a.Interesados.Any(i => i.Persona.UserName.Equals(filtro.NombreUsuario)));
             }
             
-            return queryable;
+            return queryable.OrderBy( a => a.ObjetivoID);
         }
 
         public void Dispose()

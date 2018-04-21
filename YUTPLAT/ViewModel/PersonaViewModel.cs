@@ -10,6 +10,7 @@ namespace YUTPLAT.ViewModel
         public string Nombre { get; set; }
         public string Apellido { get; set; }
         public string NombreOApellidoONombreUsuario { get; set; }
+        public bool EsAdmin { get; set; }
 
         public string NombreApellido 
         {

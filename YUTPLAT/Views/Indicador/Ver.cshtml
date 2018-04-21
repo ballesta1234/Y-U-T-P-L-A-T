@@ -43,14 +43,22 @@
 
                                 </div>
 
+                                @if (!String.IsNullOrEmpty(Model.FechaValidez))
+                                {
+                                    <div class="col-xs-12 col-sm-6 col-md-2">
+                                        @Html.LabelFor(m => m.FechaValidez)
+                                        <p class="description">@Model.FechaValidez</p>
+                                    </div>                                   
+                                }
+
                                 @if (!String.IsNullOrEmpty(Model.FechaUltimaModificacion))
                                 {
-                                    <div class="col-xs-12 col-sm-6 col-md-3">
+                                    <div class="col-xs-12 col-sm-6 col-md-2">
                                         @Html.LabelFor(m => m.UltimoUsuarioModifico)
                                         <p class="description">@Model.UltimoUsuarioModifico</p>
                                     </div>
 
-                                    <div class="col-xs-12 col-sm-6 col-md-3">
+                                    <div class="col-xs-12 col-sm-6 col-md-2">
                                         @Html.LabelFor(m => m.FechaUltimaModificacion)
                                         <p class="description">@Model.FechaUltimaModificacion</p>
                                     </div>

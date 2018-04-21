@@ -34,6 +34,7 @@ namespace YUTPLAT.App_Start
                     cfg.CreateMap<Indicador, IndicadorViewModel>()
                     .ForMember(x => x.Id, x => x.MapFrom(y => y.IndicadorID))
                     .ForMember(x => x.FechaCreacion, x => x.MapFrom(y => y.FechaCreacion != null ? y.FechaCreacion.Value.ToString("dd/MM/yyyy HH:mm tt") : ""))
+                    .ForMember(x => x.FechaValidez, x => x.MapFrom(y => y.FechaValidez != null ? y.FechaValidez.Value.ToString("MM/yyyy") : ""))
                     .ForMember(x => x.FechaUltimaModificacion, x => x.MapFrom(y => y.FechaUltimaModificacion != null ? y.FechaUltimaModificacion.Value.ToString("dd/MM/yyyy HH:mm tt") : ""))
                     .ForMember(x => x.FrecuenciaMedicionIndicadorID, x => x.MapFrom(y => y.FrecuenciaMedicion != null ? y.FrecuenciaMedicion.FrecuenciaMedicionIndicadorID.ToString() : ""))
                     .ForMember(x => x.AreaID, x => x.MapFrom(y => y.Objetivo != null ? y.Objetivo.Area.Id.ToString() : ""))
@@ -51,6 +52,7 @@ namespace YUTPLAT.App_Start
                     .ForMember(x => x.IdIndicador, x => x.MapFrom(y => y.IndicadorID))
                     .ForMember(x => x.Grupo, x => x.MapFrom(y => y.Grupo))                    
                     .ForMember(x => x.NombreIndicador, x => x.MapFrom(y => y.Nombre))
+                    .ForMember(x => x.FechaValidez, x => x.MapFrom(y => y.FechaValidez))
                     .ForMember(x => x.NombreArea, x => x.MapFrom(y => y.Objetivo.Area.Nombre));
 
                     cfg.CreateMap<IndicadorViewModel, Indicador>()
@@ -67,7 +69,8 @@ namespace YUTPLAT.App_Start
                     cfg.CreateMap<AnioTableroViewModel, AnioTablero>();
 
                     cfg.CreateMap<Persona, PersonaViewModel>()
-                   .ForMember(x => x.NombreUsuario, x => x.MapFrom(y => y.UserName));
+                   .ForMember(x => x.NombreUsuario, x => x.MapFrom(y => y.UserName))
+                   .ForMember(x => x.EsAdmin, x => x.MapFrom(y => y.EsAdmin()));
 
                     cfg.CreateMap<Meta, MetaViewModel>()
                     .ForMember(x => x.Valor1, x => x.MapFrom(y => (y.Valor1 == null && (int)y.Signo1 == 0) ? "" : y.Valor1.Value.ToString().Replace(",", ".").TrimEnd('0').TrimEnd('.')))               
