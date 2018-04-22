@@ -97,7 +97,8 @@ namespace YUTPLAT.Controllers
                 ModelState.AddModelError(string.Empty, "Verifique que todos los campos estén cargados y sean correctos.");
                 return PartialView("Medicion/_Crear", model);
             }
-
+            
+            model.Anio = (await AnioTableroService.GetById(Int32.Parse((string)Session["IdAnioTablero"]))).Anio;
             model.FechaCarga = DateTimeHelper.OntenerFechaActual().ToString("dd/MM/yyyy HH:mm tt");
             model.UsuarioCargo = User.Identity.Name;
 
@@ -117,6 +118,7 @@ namespace YUTPLAT.Controllers
                 return PartialView("Medicion/_CrearAutomatico", model);
             }
 
+            model.Anio = (await AnioTableroService.GetById(Int32.Parse((string)Session["IdAnioTablero"]))).Anio;
             model.FechaCarga = DateTimeHelper.OntenerFechaActual().ToString("dd/MM/yyyy HH:mm tt");
             model.UsuarioCargo = User.Identity.Name;
 
@@ -130,8 +132,10 @@ namespace YUTPLAT.Controllers
             string view = "Medicion/_Crear";
 
             AnioTableroViewModel anioViewModel = await AnioTableroService.GetById(idAnio);
+            DateTime fechaActual = DateTimeHelper.OntenerFechaActual();
 
-            if (anioViewModel.Anio != DateTimeHelper.OntenerFechaActual().Year || !tieneAccesoEscritura)
+            if ((anioViewModel.Anio != fechaActual.Year && !(fechaActual.Month == 1 && mes == 12)) 
+               || !tieneAccesoEscritura)
             {
                 view = "Medicion/_Ver";
             }

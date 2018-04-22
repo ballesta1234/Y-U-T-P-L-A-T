@@ -70,7 +70,8 @@ namespace YUTPLAT.App_Start
 
                     cfg.CreateMap<Persona, PersonaViewModel>()
                    .ForMember(x => x.NombreUsuario, x => x.MapFrom(y => y.UserName))
-                   .ForMember(x => x.EsAdmin, x => x.MapFrom(y => y.EsAdmin()));
+                   .ForMember(x => x.EsAdmin, x => x.MapFrom(y => y.EsAdmin()))
+                   .ForMember(x => x.AreaViewModel, x => x.MapFrom(y => y.Area != null ? y.Area : null));
 
                     cfg.CreateMap<Meta, MetaViewModel>()
                     .ForMember(x => x.Valor1, x => x.MapFrom(y => (y.Valor1 == null && (int)y.Signo1 == 0) ? "" : y.Valor1.Value.ToString().Replace(",", ".").TrimEnd('0').TrimEnd('.')))               

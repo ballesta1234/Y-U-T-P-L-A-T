@@ -17,6 +17,9 @@ namespace YUTPLAT.Models
         public string Apellido { get; set; }
         public string Rol { get; set; }
 
+        public int? AreaID { get; set; }
+        public virtual Area Area { get; set; }
+
         public virtual ICollection<AccesoIndicador> AccesosIndicadores { get; set; }
 
         public Persona() : base()

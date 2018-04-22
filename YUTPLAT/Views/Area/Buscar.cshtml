@@ -31,7 +31,11 @@
                 <div class="card">
                     <div class="header">
                         <h4 class="title">Buscar</h4>
-                        <a class="btn btn-info btn-fill pull-right" href="@Url.Action("Crear", "Area")"><i class="fa fa-plus">&nbsp;</i>Nuevo</a>
+                        @if (Model.PuedeCrearAreas)
+                        {
+                            <a class="btn btn-info btn-fill pull-right" href="@Url.Action("Crear", "Area")"><i class="fa fa-plus">&nbsp;</i>Nuevo</a>
+                        }
+                        @Html.HiddenFor(m => m.PuedeCrearAreas)
                     </div>
                     <div class="content">
                         @using (Html.BeginForm("Buscar", "Area", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form" }))
@@ -87,12 +91,12 @@
                                             <div class="content table-responsive table-full-width">
                                                 <table class="table table-hover table-striped">
                                                     <thead>
-                                                        <th class="col-md-2">@Html.LabelFor(m => m.Busqueda.Nombre)</th>
-                                                        <th class="col-md-3">@Html.LabelFor(m => m.Busqueda.Descripcion)</th>
-                                                        <th class="col-md-2">@Html.LabelFor(m => m.Busqueda.FechaCreacion)</th>
-                                                        <th class="col-md-2">@Html.LabelFor(m => m.Busqueda.UltimoUsuarioModifico)</th>
-                                                        <th class="col-md-2">@Html.LabelFor(m => m.Busqueda.FechaUltimaModificacion)</th>
-                                                        <th class="col-md-1">Acciones</th>
+                                                    <th class="col-md-2">@Html.LabelFor(m => m.Busqueda.Nombre)</th>
+                                                    <th class="col-md-3">@Html.LabelFor(m => m.Busqueda.Descripcion)</th>
+                                                    <th class="col-md-2">@Html.LabelFor(m => m.Busqueda.FechaCreacion)</th>
+                                                    <th class="col-md-2">@Html.LabelFor(m => m.Busqueda.UltimoUsuarioModifico)</th>
+                                                    <th class="col-md-2">@Html.LabelFor(m => m.Busqueda.FechaUltimaModificacion)</th>
+                                                    <th class="col-md-1">Acciones</th>
                                                     </thead>
                                                     <tbody>
                                                         @foreach (AreaViewModel area in Model.Resultados)

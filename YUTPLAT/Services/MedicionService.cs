@@ -341,8 +341,7 @@ namespace YUTPLAT.Services.Interface
         {
             Medicion medicion = AutoMapper.Mapper.Map<Medicion>(medicionViewModel);
             medicion.Indicador = null;
-            medicion.Anio = DateTimeHelper.OntenerFechaActual().Year;
-
+           
             return await MedicionRepository.Guardar(medicion);
         }
 

@@ -44,9 +44,9 @@ namespace YUTPLAT.Migrations
                 {
                     context.Database.ExecuteSqlCommand(File.ReadAllText(archivo));
                     context.ArchivosSQL.AddOrUpdate(new YUTPLAT.Models.ArchivoSQL { NombreArchivo = archivo.Replace(parentDirName + "\\SQL\\", "") });
+                    context.SaveChanges();
                 }
-            }
-            context.SaveChanges();
+            }            
         }
 
         private void CargarRoles(YUTPLAT.Context.YutplatDbContext context)
@@ -86,7 +86,7 @@ namespace YUTPLAT.Migrations
                 var store = new UserStore<Persona>(context);
                 var manager = new UserManager<Persona>(store);
                 var user = new Persona { UserName = "mballestero", Email = "mballestero" + email, EmailConfirmed = true, Nombre = "Matias", Apellido = "Ballestero", Rol = rolAdmin };
-
+                
                 manager.Create(user, "123qwe");
                 manager.AddToRole(user.Id, rolAdmin);                
             }
@@ -95,8 +95,9 @@ namespace YUTPLAT.Migrations
             {
                 var store = new UserStore<Persona>(context);
                 var manager = new UserManager<Persona>(store);
-                var user = new Persona { UserName = "amolinari", Email = "amolinari" + email, EmailConfirmed = true, Nombre = "Alejandro", Apellido = "Molinari", Rol = rolUsuario };
 
+                var user = new Persona { UserName = "amolinari", Email = "amolinari" + email, EmailConfirmed = true, Nombre = "Alejandro", Apellido = "Molinari", Rol = rolAdmin };
+                
                 manager.Create(user, "123qwe");
                 manager.AddToRole(user.Id, rolUsuario);
             }
@@ -105,8 +106,8 @@ namespace YUTPLAT.Migrations
             {
                 var store = new UserStore<Persona>(context);
                 var manager = new UserManager<Persona>(store);
-                var user = new Persona { UserName = "jbarbosa", Email= "jbarbosa" + email, EmailConfirmed = true, Nombre = "Jorge", Apellido = "Barbosa", Rol = rolUsuario };
-
+                var user = new Persona { UserName = "jbarbosa", Email= "jbarbosa" + email, EmailConfirmed = true, Nombre = "Jorge", Apellido = "Barbosa", Rol = rolAdmin };
+                
                 manager.Create(user, "123qwe");
                 manager.AddToRole(user.Id, rolUsuario);
             }
@@ -116,7 +117,7 @@ namespace YUTPLAT.Migrations
                 var store = new UserStore<Persona>(context);
                 var manager = new UserManager<Persona>(store);
                 var user = new Persona { UserName = "cfontela", Email = "cfontela" + email, EmailConfirmed = true, Nombre = "Carlos", Apellido = "Fontela", Rol = rolUsuario };
-
+               
                 manager.Create(user, "123qwe");
                 manager.AddToRole(user.Id, rolUsuario);
             }
@@ -125,8 +126,8 @@ namespace YUTPLAT.Migrations
             {
                 var store = new UserStore<Persona>(context);
                 var manager = new UserManager<Persona>(store);
-                var user = new Persona { UserName = "elara", Email = "elara" + email, EmailConfirmed = true, Nombre = "Enrique", Apellido = "Lara", Rol = rolUsuario };
-
+                var user = new Persona { UserName = "elara", Email = "elara" + email, EmailConfirmed = true, Nombre = "Enrique", Apellido = "Lara", Rol = rolAdmin };
+                
                 manager.Create(user, "123qwe");
                 manager.AddToRole(user.Id, rolUsuario);
             }
@@ -146,7 +147,7 @@ namespace YUTPLAT.Migrations
                 var store = new UserStore<Persona>(context);
                 var manager = new UserManager<Persona>(store);
                 var user = new Persona { UserName = "lbertuzzi", Email = "lbertuzzi" + email, EmailConfirmed = true, Nombre = "Liliana", Apellido = "Bertuzzi", Rol = rolUsuario };
-
+               
                 manager.Create(user, "123qwe");
                 manager.AddToRole(user.Id, rolUsuario);
             }
@@ -156,7 +157,7 @@ namespace YUTPLAT.Migrations
                 var store = new UserStore<Persona>(context);
                 var manager = new UserManager<Persona>(store);
                 var user = new Persona { UserName = "econtreras", Email = "econtreras" + email, EmailConfirmed = true, Nombre = "Eduardo", Apellido = "Contreras", Rol = rolUsuario };
-
+               
                 manager.Create(user, "123qwe");
                 manager.AddToRole(user.Id, rolUsuario);
             }
@@ -166,7 +167,7 @@ namespace YUTPLAT.Migrations
                 var store = new UserStore<Persona>(context);
                 var manager = new UserManager<Persona>(store);
                 var user = new Persona { UserName = "mlrosas", Email = "mlrosas" + email, EmailConfirmed = true, Nombre = "Maria Laura", Apellido = "Rosas", Rol = rolUsuario };
-
+                
                 manager.Create(user, "123qwe");
                 manager.AddToRole(user.Id, rolUsuario);
             }
@@ -176,7 +177,7 @@ namespace YUTPLAT.Migrations
                 var store = new UserStore<Persona>(context);
                 var manager = new UserManager<Persona>(store);
                 var user = new Persona { UserName = "jdelvalle", Email = "jdelvalle" + email, EmailConfirmed = true, Nombre = "Javier", Apellido = "del Valle", Rol = rolUsuario };
-
+                
                 manager.Create(user, "123qwe");
                 manager.AddToRole(user.Id, rolUsuario);
             }

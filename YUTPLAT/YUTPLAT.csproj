@@ -340,6 +340,10 @@
     <Compile Include="Migrations\201804220320244_Agregar anio a las mediciones.Designer.cs">
       <DependentUpon>201804220320244_Agregar anio a las mediciones.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201804222231380_Agregar area a persona.cs" />
+    <Compile Include="Migrations\201804222231380_Agregar area a persona.Designer.cs">
+      <DependentUpon>201804222231380_Agregar area a persona.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\ArchivoSQL.cs" />
     <Compile Include="Models\AnioTablero.cs" />
     <Compile Include="Models\IndicadorAutomatico.cs" />
@@ -739,6 +743,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201804220320244_Agregar anio a las mediciones.resx">
       <DependentUpon>201804220320244_Agregar anio a las mediciones.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201804222231380_Agregar area a persona.resx">
+      <DependentUpon>201804222231380_Agregar area a persona.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

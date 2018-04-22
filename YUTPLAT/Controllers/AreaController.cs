@@ -23,8 +23,11 @@ namespace YUTPLAT.Controllers
         [EncryptedActionParameter]
         public ActionResult Buscar()
         {
+            PersonaViewModel persona = (PersonaViewModel)Session["Persona"];
+
             BuscarAreaViewModel model = new BuscarAreaViewModel();
             model.Busqueda.Titulo = "Áreas";
+            model.PuedeCrearAreas = persona.EsAdmin;
 
             ViewBag.Titulo = model.Busqueda.Titulo;
 

@@ -106,7 +106,7 @@ namespace YUTPLAT.Repositories
                                                   a.Interesados.Any(i => i.Persona.UserName.Equals(filtro.NombreUsuario)));
             }
             
-            return queryable.OrderBy( a => a.ObjetivoID);
+            return queryable.OrderBy( a => a.Objetivo.AreaID).ThenBy(a => a.ObjetivoID);
         }
 
         public void Dispose()
