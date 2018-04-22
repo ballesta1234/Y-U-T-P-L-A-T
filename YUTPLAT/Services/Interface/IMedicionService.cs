@@ -14,9 +14,9 @@ namespace YUTPLAT.Services.Interface
 
         Task<HeatMapViewModel> ObtenerHeatMapViewModel(BuscarIndicadorViewModel buscarIndicadorViewModel);
 
-        Task<GaugeViewModel> ObtenerGaugeViewModel(long grupo);
+        Task<GaugeViewModel> ObtenerGaugeViewModel(long grupo, int anio);
 
-        Task<IList<LineViewModel>> ObtenerLineViewModel(long grupo);
+        Task<IList<LineViewModel>> ObtenerLineViewModel(long grupo, int anio);
 
         Task<MedicionViewModel> ObtenerMedicionViewModel(int idIndicador, int mes, int? idMedicion, long grupo, int anio);
 

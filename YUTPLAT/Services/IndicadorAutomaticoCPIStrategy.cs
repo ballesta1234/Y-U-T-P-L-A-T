@@ -42,6 +42,7 @@ namespace YUTPLAT.Services.Interface
 
                 medicionMes.FechaCarga = DateTimeHelper.OntenerFechaActual();
                 medicionMes.UsuarioCargo = "Automático Sistema";
+                medicionMes.Anio = DateTimeHelper.OntenerFechaActual().Year;
                 medicionMes.Valor = medicionNuevaMes.Valor;
 
                 this.MedicionRepository.Guardar(medicionMes);

@@ -42,15 +42,17 @@ namespace YUTPLAT.Repositories
             {
                 queryable = queryable.Where(a => a.Indicador.Grupo == filtro.Grupo);
             }
-
             if (filtro.IndicadorID > 0)
             {
                 queryable = queryable.Where(m => m.IndicadorID == filtro.IndicadorID);
             }
-
             if (filtro.Mes > 0)
             {
                 queryable = queryable.Where(m => m.Mes == filtro.Mes);
+            }
+            if (filtro.Anio > 0)
+            {
+                queryable = queryable.Where(m => m.Anio == filtro.Anio);
             }
 
             return queryable;

@@ -75,13 +75,15 @@ namespace YUTPLAT.Controllers
         [HttpPost]
         public async Task<ActionResult> ObtenerGaugeViewModel(long grupo)
         {
-            return Json(await MedicionService.ObtenerGaugeViewModel(grupo), JsonRequestBehavior.AllowGet);
+            int anio = (await AnioTableroService.GetById(Int32.Parse((string)Session["IdAnioTablero"]))).Anio;
+            return Json(await MedicionService.ObtenerGaugeViewModel(grupo, anio), JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
         public async Task<ActionResult> ObtenerLineViewModel(long grupo)
         {
-            return Json(await MedicionService.ObtenerLineViewModel(grupo), JsonRequestBehavior.AllowGet);
+            int anio = (await AnioTableroService.GetById(Int32.Parse((string)Session["IdAnioTablero"]))).Anio;
+            return Json(await MedicionService.ObtenerLineViewModel(grupo, anio), JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]

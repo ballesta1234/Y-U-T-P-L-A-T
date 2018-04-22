@@ -12,6 +12,7 @@ namespace YUTPLAT.ViewModel
         public long Grupo { get; set; }
 
         public Mes Mes { get; set; }
+        public int Anio { get; set; }
 
         [Required]
         [RegularExpression("^[-]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?(\\.[0-9]?[0-9]?[0-9]?)?$", ErrorMessage = "El valor tiene que tener hasta 12 dígitos y hasta 3 decimales")]

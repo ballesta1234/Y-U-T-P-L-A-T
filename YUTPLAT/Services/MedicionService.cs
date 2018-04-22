@@ -49,18 +49,20 @@ namespace YUTPLAT.Services.Interface
             return AutoMapper.Mapper.Map<IList<MedicionViewModel>>(await MedicionRepository.Buscar(filtro).ToListAsync());
         }
 
-        public async Task<IList<LineViewModel>> ObtenerLineViewModel(long grupo)
+        public async Task<IList<LineViewModel>> ObtenerLineViewModel(long grupo, int anio)
         {
             MedicionViewModel filtro = new MedicionViewModel();
             filtro.Grupo = grupo;
+            filtro.Anio = anio;
 
             return AutoMapper.Mapper.Map<IList<LineViewModel>>((await MedicionRepository.Buscar(filtro).ToListAsync()).OrderBy(m => m.Mes));
         }
 
-        public async Task<GaugeViewModel> ObtenerGaugeViewModel(long grupo)
+        public async Task<GaugeViewModel> ObtenerGaugeViewModel(long grupo, int anio)
         {
             MedicionViewModel filtro = new MedicionViewModel();
             filtro.Grupo = grupo;
+            filtro.Anio = anio;
 
             IList<MedicionViewModel> medicionesViewModel = await Buscar(filtro);
 

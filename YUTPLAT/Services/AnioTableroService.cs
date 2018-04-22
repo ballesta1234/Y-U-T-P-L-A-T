@@ -3,6 +3,7 @@ using YUTPLAT.Repositories.Interface;
 using YUTPLAT.ViewModel;
 using System.Threading.Tasks;
 using System.Data.Entity;
+using YUTPLAT.Helpers;
 
 namespace YUTPLAT.Services.Interface
 {
@@ -32,7 +33,13 @@ namespace YUTPLAT.Services.Interface
 
         public async Task<IList<AnioTableroViewModel>> Buscar(AnioTableroViewModel filtro)
         {
-            return AutoMapper.Mapper.Map<IList<AnioTableroViewModel>>(await AnioTableroRepository.Buscar(filtro).ToListAsync());           
+            return AutoMapper.Mapper.Map<IList<AnioTableroViewModel>>(await AnioTableroRepository.Buscar(filtro).ToListAsync());
+        }
+
+        public async Task ProcesoHabilitarAnioSiguiente()
+        {
+            int anioActual = DateTimeHelper.OntenerFechaActual().Year;
+            await AnioTableroRepository.HabilitarAnio(++anioActual);
         }
     }
 }

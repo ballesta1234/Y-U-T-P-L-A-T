@@ -42,6 +42,11 @@ namespace YUTPLAT
                 "NotificacionesJob",
                 x => x.Notificar(),
                 Cron.Minutely);
+
+            RecurringJob.AddOrUpdate<AnioTableroService>(
+                "ProcesoHabilitarAnioSiguiente",
+                x => x.ProcesoHabilitarAnioSiguiente(),
+                Cron.Yearly(12, 31, 23, 0));                
         }
     }
 }
