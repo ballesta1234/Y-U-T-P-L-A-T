@@ -92,20 +92,19 @@
         </div>        
         <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-12">
-                <label>Valor</label>
+                @Html.LabelFor(m => m.Valor)
                 <div class="row">
                     <div class="col-xs-5 col-sm-3 col-md-3">
-                        @Html.TextBoxFor(m => m.Valor, new { @readonly = "readonly", @class = "form-control" })
+                        @Html.TextBoxFor(m => m.Valor, new { @class = "form-control" })
                     </div>
                     <div class="col-xs-1 col-sm-1 col-md-1">
                         <div id="loader" style="display: none;">
                             <img src="~/images/loading.gif" width="32px" height="32px">
                         </div>
-                    </div>
-                    <div class="col-xs-12 col-sm-8 col-md-8">
-                        <span class="aclaracion">(Este indicador es automático; no se puede cargar el valor de la medición.)</span>
-                    </div>
+                    </div>                   
                 </div>
+                <span class="aclaracion">(caracter punto "." como separador decimal)</span>
+                @Html.ValidationMessageFor(m => m.Valor, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="row">

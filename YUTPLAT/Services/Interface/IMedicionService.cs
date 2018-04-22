@@ -18,7 +18,7 @@ namespace YUTPLAT.Services.Interface
 
         Task<IList<LineViewModel>> ObtenerLineViewModel(long grupo);
 
-        Task<MedicionViewModel> ObtenerMedicionViewModel(int idIndicador, int mes, int? idMedicion, long grupo);
+        Task<MedicionViewModel> ObtenerMedicionViewModel(int idIndicador, int mes, int? idMedicion, long grupo, int anio);
 
         Task<int> GuardarMedicion(MedicionViewModel medicionViewModel);
 

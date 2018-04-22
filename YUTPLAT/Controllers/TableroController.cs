@@ -107,7 +107,8 @@ namespace YUTPLAT.Controllers
         [AllowAnonymous]
         public async Task<ActionResult> CargarMedicionAutomatica(MedicionViewModel model)
         {
-            if (!ModelState.IsValidField("Comentario") ||
+            if (!ModelState.IsValidField("Valor") ||
+                !ModelState.IsValidField("Comentario") ||
                 !MedicionService.ValidaMedicion(model))
             {
                 ModelState.AddModelError(string.Empty, "Verifique que todos los campos estén cargados y sean correctos.");
@@ -122,11 +123,13 @@ namespace YUTPLAT.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> AbrirModalCargaMedicion(int idIndicador, int mes, int? idMedicion, long grupo, bool tieneAccesoEscritura, bool esAutomatico)
+        public async Task<ActionResult> AbrirModalCargaMedicion(int idIndicador, int mes, int idAnio, int? idMedicion, long grupo, bool tieneAccesoEscritura, bool esAutomatico)
         {
             string view = "Medicion/_Crear";
 
-            if ((idMedicion != null && mes != DateTimeHelper.OntenerFechaActual().Month) || !tieneAccesoEscritura)
+            AnioTableroViewModel anioViewModel = await AnioTableroService.GetById(idAnio);
+
+            if (anioViewModel.Anio != DateTimeHelper.OntenerFechaActual().Year || !tieneAccesoEscritura)
             {
                 view = "Medicion/_Ver";
             }
@@ -134,9 +137,8 @@ namespace YUTPLAT.Controllers
             {
                 view = "Medicion/_CrearAutomatico";
             }
-
-
-            return PartialView(view, await MedicionService.ObtenerMedicionViewModel(idIndicador, mes, idMedicion, grupo));
+            
+            return PartialView(view, await MedicionService.ObtenerMedicionViewModel(idIndicador, mes, idMedicion, grupo, anioViewModel.Anio));
         }
 
         public async Task<JsonResult> BuscarAnios(string nombreAnio)

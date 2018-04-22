@@ -193,6 +193,8 @@
 
     function abrirModalCargaMedicion(idIndicador, mes, idMedicion, nombreMes, grupo, tieneAccesoEscritura, esAutomatico) {
 
+        var idAnio = jQuery("#ddlAnios").val();
+
         jQuery("#tituloModal").text("Medición del indicador - " + nombreMes);
 
         var serviceURL = '@Url.Action("AbrirModalCargaMedicion", "Tablero")';
@@ -201,7 +203,7 @@
             type: "POST",
             url: serviceURL,
             async: false,
-            data: JSON.stringify({ idIndicador: idIndicador, mes: mes, idMedicion: idMedicion, grupo: grupo, tieneAccesoEscritura: tieneAccesoEscritura, esAutomatico: esAutomatico }),
+            data: JSON.stringify({ idIndicador: idIndicador, mes: mes, idAnio: idAnio, idMedicion: idMedicion, grupo: grupo, tieneAccesoEscritura: tieneAccesoEscritura, esAutomatico: esAutomatico }),
             contentType: "application/json; charset=utf-8",
             dataType: "html",
             success: function successFunc(response) {

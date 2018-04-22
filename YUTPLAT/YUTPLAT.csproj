@@ -336,6 +336,10 @@
     <Compile Include="Migrations\201804172043106_Agragar fecha validez indicador.Designer.cs">
       <DependentUpon>201804172043106_Agragar fecha validez indicador.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201804220320244_Agregar anio a las mediciones.cs" />
+    <Compile Include="Migrations\201804220320244_Agregar anio a las mediciones.Designer.cs">
+      <DependentUpon>201804220320244_Agregar anio a las mediciones.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\ArchivoSQL.cs" />
     <Compile Include="Models\AnioTablero.cs" />
     <Compile Include="Models\IndicadorAutomatico.cs" />
@@ -732,6 +736,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201804172043106_Agragar fecha validez indicador.resx">
       <DependentUpon>201804172043106_Agragar fecha validez indicador.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201804220320244_Agregar anio a las mediciones.resx">
+      <DependentUpon>201804220320244_Agregar anio a las mediciones.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

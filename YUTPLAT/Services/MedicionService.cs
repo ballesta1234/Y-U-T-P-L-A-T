@@ -167,14 +167,14 @@ namespace YUTPLAT.Services.Interface
             gauge.Escala = escalas.EscalaValores;
             gauge.Colores = escalas.EscalaColores;
 
-            if(decimal.Parse(gauge.Valor.Replace(".", ",")) < gauge.Escala[0])
+            if (decimal.Parse(gauge.Valor.Replace(".", ",")) < gauge.Escala[0])
             {
                 gauge.Valor = (gauge.Escala[0] != 0 ? gauge.Escala[0].ToString().Replace(",", ".").TrimEnd('0').TrimEnd('.') : "0");
             }
-            else if(decimal.Parse(gauge.Valor.Replace(".", ",")) > gauge.Escala[5])
+            else if (decimal.Parse(gauge.Valor.Replace(".", ",")) > gauge.Escala[5])
             {
                 gauge.Valor = (gauge.Escala[5] != 0 ? gauge.Escala[5].ToString().Replace(",", ".").TrimEnd('0').TrimEnd('.') : "0");
-            }            
+            }
         }
 
         private decimal ObtenerValorEscala(MetaViewModel meta1, MetaViewModel meta2)
@@ -247,7 +247,7 @@ namespace YUTPLAT.Services.Interface
             heatMapViewModel.FilasHeatMapViewModel = filasHeatMapViewModel;
 
             DateTime fechaActual = DateTimeHelper.OntenerFechaActual();
-            
+
             foreach (Enums.Enum.Mes mes in Enum.GetValues(typeof(Enums.Enum.Mes)).Cast<Enums.Enum.Mes>())
             {
                 if ((int)mes <= fechaActual.Month || buscarIndicadorViewModel.AnioTablero < fechaActual.Year)
@@ -260,8 +260,8 @@ namespace YUTPLAT.Services.Interface
                     {
                         FilaHeatMapViewModel indicador = filasHeatMapViewModel[i];
 
-                        if (indicador.FechaValidez == null || 
-                            (indicador.FechaValidez != null && 
+                        if (indicador.FechaValidez == null ||
+                            (indicador.FechaValidez != null &&
                              (
                                 (indicador.FechaValidez.Value.Year > buscarIndicadorViewModel.AnioTablero) ||
                                     (
@@ -312,7 +312,7 @@ namespace YUTPLAT.Services.Interface
             }
         }
 
-        public async Task<MedicionViewModel> ObtenerMedicionViewModel(int idIndicador, int mes, int? idMedicion, long grupo)
+        public async Task<MedicionViewModel> ObtenerMedicionViewModel(int idIndicador, int mes, int? idMedicion, long grupo, int anio)
         {
             MedicionViewModel medicionViewModel = new MedicionViewModel();
             medicionViewModel.Mes = Helpers.EnumHelper<Enums.Enum.Mes>.Parse(mes.ToString());
@@ -337,17 +337,11 @@ namespace YUTPLAT.Services.Interface
 
         public async Task<int> GuardarMedicion(MedicionViewModel medicionViewModel)
         {
-            int medicionId = 0;
+            Medicion medicion = AutoMapper.Mapper.Map<Medicion>(medicionViewModel);
+            medicion.Indicador = null;
+            medicion.Anio = DateTimeHelper.OntenerFechaActual().Year;
 
-            if (medicionViewModel.MedicionId == 0 || (int)medicionViewModel.Mes == DateTimeHelper.OntenerFechaActual().Month)
-            {
-                Medicion medicion = AutoMapper.Mapper.Map<Medicion>(medicionViewModel);
-                medicion.Indicador = null;
-
-                medicionId = await MedicionRepository.Guardar(medicion);
-            }
-
-            return medicionId;
+            return await MedicionRepository.Guardar(medicion);
         }
 
         public bool ValidaMedicion(MedicionViewModel medicionViewModel)

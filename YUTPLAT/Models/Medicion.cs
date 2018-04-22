@@ -14,7 +14,7 @@ namespace YUTPLAT.Models
 
         public virtual Indicador Indicador { get; set; }
         public int IndicadorID { get; set; }
-
+        public int Anio { get; set; }
         public Mes Mes { get; set; }
         public decimal Valor { get; set; }        
         public DateTime? FechaCarga { get; set; }

@@ -31,7 +31,7 @@ namespace YUTPLAT.Repositories
          
         public IQueryable<Medicion> Todas(int anio)
         {
-            return this.context.Mediciones.Where( m => m.Indicador.FechaValidez == null || m.Indicador.FechaValidez.Value.Year == anio);
+            return this.context.Mediciones.Where( m => m.Anio == anio);
         }
 
         public IQueryable<Medicion> Buscar(MedicionViewModel filtro)
