@@ -49,7 +49,7 @@ namespace YUTPLAT.Services.Interface
             return AutoMapper.Mapper.Map<IList<MedicionViewModel>>(await MedicionRepository.Buscar(filtro).ToListAsync());
         }
 
-        public async Task<IList<LineViewModel>> ObtenerLineViewModel(long grupo, int anio)
+        public async Task<IList<LineViewModel>> ObtenerLineViewModel(long grupo, int anio, PersonaViewModel personaViewModel)
         {
             MedicionViewModel filtro = new MedicionViewModel();
             filtro.Grupo = grupo;
@@ -58,7 +58,7 @@ namespace YUTPLAT.Services.Interface
             return AutoMapper.Mapper.Map<IList<LineViewModel>>((await MedicionRepository.Buscar(filtro).ToListAsync()).OrderBy(m => m.Mes));
         }
 
-        public async Task<GaugeViewModel> ObtenerGaugeViewModel(long grupo, int anio)
+        public async Task<GaugeViewModel> ObtenerGaugeViewModel(long grupo, int anio, PersonaViewModel personaViewModel)
         {
             MedicionViewModel filtro = new MedicionViewModel();
             filtro.Grupo = grupo;
@@ -73,7 +73,7 @@ namespace YUTPLAT.Services.Interface
                 MedicionViewModel ultimaMedicionCargada = medicionesViewModel.OrderBy(m => m.Mes).Reverse().First();
 
                 // Obtener el último indicador
-                Indicador ultimoIndicador = IndicadorRepository.Buscar(new BuscarIndicadorViewModel { Busqueda = new IndicadorViewModel { Grupo = grupo } }).First();
+                Indicador ultimoIndicador = IndicadorRepository.Buscar(new BuscarIndicadorViewModel { Busqueda = new IndicadorViewModel { Grupo = grupo }, PersonaLogueadaViewModel = personaViewModel }).First();
 
                 gaugeViewModel.NombreMes = ultimaMedicionCargada.Mes.ToString();
                 gaugeViewModel.NombreIndicador = ultimoIndicador.Nombre;
@@ -233,7 +233,7 @@ namespace YUTPLAT.Services.Interface
 
         public async Task<HeatMapViewModel> ObtenerHeatMapViewModel(BuscarIndicadorViewModel buscarIndicadorViewModel)
         {
-            Persona persona = await PersonaRepository.GetByUserName(buscarIndicadorViewModel.NombreUsuario).FirstOrDefaultAsync();
+            Persona persona = await PersonaRepository.GetByUserName(buscarIndicadorViewModel.PersonaLogueadaViewModel.NombreUsuario).FirstOrDefaultAsync();
             IList<IndicadorAutomaticoViewModel> todosIndicadoresAutomaticos = this.IndicadorAutomaticoService.Todos();
 
             IList<FilaHeatMapViewModel> filasHeatMapViewModel = AutoMapper.Mapper.Map<IList<FilaHeatMapViewModel>>(IndicadorRepository.Buscar(buscarIndicadorViewModel).ToList());
@@ -314,14 +314,14 @@ namespace YUTPLAT.Services.Interface
             }
         }
 
-        public async Task<MedicionViewModel> ObtenerMedicionViewModel(int idIndicador, int mes, int? idMedicion, long grupo, int anio)
+        public async Task<MedicionViewModel> ObtenerMedicionViewModel(int idIndicador, int mes, int? idMedicion, long grupo, int anio, PersonaViewModel personaViewModel)
         {
             MedicionViewModel medicionViewModel = new MedicionViewModel();
             medicionViewModel.Mes = Helpers.EnumHelper<Enums.Enum.Mes>.Parse(mes.ToString());
             medicionViewModel.IndicadorID = idIndicador;
 
             // Obtener el nombre del último indicador del grupo.
-            IndicadorViewModel indicadorViewModel = await IndicadorService.GetUltimoByGrupo(grupo);
+            IndicadorViewModel indicadorViewModel = await IndicadorService.GetUltimoByGrupo(grupo, personaViewModel);
 
             if (idMedicion != null)
             {

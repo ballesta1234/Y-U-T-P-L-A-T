@@ -59,14 +59,10 @@ namespace YUTPLAT.Controllers
 
         [HttpPost]
         public async Task<ActionResult> ObtenerHeatMapViewModel(string nombre)
-        {
-            string rolAdmin = EnumHelper<Enums.Enum.Rol>.GetDisplayValue(Enums.Enum.Rol.Admin);
-            string rolUsuario = EnumHelper<Enums.Enum.Rol>.GetDisplayValue(Enums.Enum.Rol.Usuario);
-
+        {            
             BuscarIndicadorViewModel model = new BuscarIndicadorViewModel();
 
-            model.NombreUsuario = User.Identity.Name;
-            model.RolUsuario = User.IsInRole(rolAdmin) ? rolAdmin : rolUsuario;
+            model.PersonaLogueadaViewModel = (PersonaViewModel)Session["Persona"];            
             model.AnioTablero = (await AnioTableroService.GetById(Int32.Parse((string)Session["IdAnioTablero"]))).Anio;
 
             return Json(await MedicionService.ObtenerHeatMapViewModel(model), JsonRequestBehavior.AllowGet);
@@ -75,15 +71,17 @@ namespace YUTPLAT.Controllers
         [HttpPost]
         public async Task<ActionResult> ObtenerGaugeViewModel(long grupo)
         {
+            PersonaViewModel personaViewModel = (PersonaViewModel)Session["Persona"];
             int anio = (await AnioTableroService.GetById(Int32.Parse((string)Session["IdAnioTablero"]))).Anio;
-            return Json(await MedicionService.ObtenerGaugeViewModel(grupo, anio), JsonRequestBehavior.AllowGet);
+            return Json(await MedicionService.ObtenerGaugeViewModel(grupo, anio, personaViewModel), JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
         public async Task<ActionResult> ObtenerLineViewModel(long grupo)
         {
+            PersonaViewModel personaViewModel = (PersonaViewModel)Session["Persona"];
             int anio = (await AnioTableroService.GetById(Int32.Parse((string)Session["IdAnioTablero"]))).Anio;
-            return Json(await MedicionService.ObtenerLineViewModel(grupo, anio), JsonRequestBehavior.AllowGet);
+            return Json(await MedicionService.ObtenerLineViewModel(grupo, anio, personaViewModel), JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
@@ -129,13 +127,15 @@ namespace YUTPLAT.Controllers
         [HttpPost]
         public async Task<ActionResult> AbrirModalCargaMedicion(int idIndicador, int mes, int idAnio, int? idMedicion, long grupo, bool tieneAccesoEscritura, bool esAutomatico)
         {
+            PersonaViewModel personaViewModel = (PersonaViewModel)Session["Persona"];
+            
             string view = "Medicion/_Crear";
 
             AnioTableroViewModel anioViewModel = await AnioTableroService.GetById(idAnio);
             DateTime fechaActual = DateTimeHelper.OntenerFechaActual();
 
             if ((anioViewModel.Anio != fechaActual.Year && !(fechaActual.Month == 1 && mes == 12)) 
-               || !tieneAccesoEscritura)
+               || (!personaViewModel.EsJefeArea && !tieneAccesoEscritura))
             {
                 view = "Medicion/_Ver";
             }
@@ -144,7 +144,7 @@ namespace YUTPLAT.Controllers
                 view = "Medicion/_CrearAutomatico";
             }
             
-            return PartialView(view, await MedicionService.ObtenerMedicionViewModel(idIndicador, mes, idMedicion, grupo, anioViewModel.Anio));
+            return PartialView(view, await MedicionService.ObtenerMedicionViewModel(idIndicador, mes, idMedicion, grupo, anioViewModel.Anio, personaViewModel));
         }
 
         public async Task<JsonResult> BuscarAnios(string nombreAnio)

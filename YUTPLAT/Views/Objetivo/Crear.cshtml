@@ -51,9 +51,14 @@
                                     @Html.LabelFor(m => m.IdArea)
                                     <span class="text-danger">*</span>
 
-                                    @if (Model.AreaViewModel.Id > 0)
+                                    @if (Model.PersonaLogueadaViewModel.EsAdmin && Model.AreaViewModel.Id > 0)
                                     {
                                         @Html.DropDownListFor(m => m.IdArea, new SelectList(new List<SelectListItem> { new SelectListItem { Text = Model.AreaViewModel.Nombre, Value = Model.AreaViewModel.Id.ToString() } }, "Value", "Text"), new { @id = "ddlAreas", @class = "form-control" })
+                                    }
+                                    else if (!Model.PersonaLogueadaViewModel.EsAdmin)
+                                    {
+                                        @Html.DropDownListFor(m => m.IdArea, new SelectList(new List<SelectListItem> { new SelectListItem { Text = Model.AreaViewModel.Nombre, Value = Model.AreaViewModel.Id.ToString() } }, "Value", "Text"), new { @id = "ddlAreas", @class = "form-control", @disabled = "true" })
+                                        @Html.HiddenFor(m => m.IdArea)
                                     }
                                     else
                                     {

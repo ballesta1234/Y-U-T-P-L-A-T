@@ -11,9 +11,10 @@ namespace YUTPLAT.ViewModel
         public string Apellido { get; set; }
         public string NombreOApellidoONombreUsuario { get; set; }
         public bool EsAdmin { get; set; }
-        public AreaViewModel AreaViewModel { get; set;}
+        public bool EsUsuario { get; set; }
+        public AreaViewModel AreaViewModel { get; set; }
 
-        public string NombreApellido 
+        public string NombreApellido
         {
             get
             {
@@ -29,8 +30,12 @@ namespace YUTPLAT.ViewModel
             }
         }
 
+        public bool EsJefeArea
+        {
+            get { return EsAdmin || EsUsuario; }
+        }
     }
-
+            
     // Custom comparer for the Product class
     class PersonaViewModelComparer : IEqualityComparer<PersonaViewModel>
     {

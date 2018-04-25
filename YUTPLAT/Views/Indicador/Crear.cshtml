@@ -82,9 +82,14 @@
 
                                 <div class="col-xs-12 col-sm-6 col-md-4">
                                     @Html.LabelFor(m => m.AreaID)
-                                    @if (Model.ObjetivoViewModel.AreaViewModel.Id > 0)
+                                    @if (Model.PersonaLogueadaViewModel.EsAdmin && Model.ObjetivoViewModel.AreaViewModel.Id > 0)
                                     {
                                         @Html.DropDownListFor(m => m.AreaID, new SelectList(new List<SelectListItem> { new SelectListItem { Text = Model.ObjetivoViewModel.AreaViewModel.Nombre, Value = Model.ObjetivoViewModel.AreaViewModel.Id.ToString() } }, "Value", "Text"), new { @id = "ddlAreas", @class = "form-control" })
+                                    }
+                                    else if (!Model.PersonaLogueadaViewModel.EsAdmin)
+                                    {
+                                        @Html.DropDownListFor(m => m.AreaID, new SelectList(new List<SelectListItem> { new SelectListItem { Text = Model.ObjetivoViewModel.AreaViewModel.Nombre, Value = Model.ObjetivoViewModel.AreaViewModel.Id.ToString() } }, "Value", "Text"), new { @id = "ddlAreas", @class = "form-control", @disabled = "true" })
+                                        @Html.HiddenFor(m => m.AreaID)
                                     }
                                     else
                                     {

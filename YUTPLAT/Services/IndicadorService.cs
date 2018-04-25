@@ -37,10 +37,10 @@ namespace YUTPLAT.Services.Interface
             this.AccesoIndicadorRepository = accesoIndicadorRepository;
         }
         
-        public async Task<IndicadorViewModel> GetUltimoByGrupo(long grupo)
+        public async Task<IndicadorViewModel> GetUltimoByGrupo(long grupo, PersonaViewModel personaViewModel)
         {
             // Obtener el nombre del último indicador del grupo.
-            Indicador indicador = await IndicadorRepository.Buscar(new BuscarIndicadorViewModel { Busqueda = new IndicadorViewModel { Grupo = grupo } }).FirstAsync();
+            Indicador indicador = await IndicadorRepository.Buscar(new BuscarIndicadorViewModel { Busqueda = new IndicadorViewModel { Grupo = grupo }, PersonaLogueadaViewModel = personaViewModel }).FirstAsync();
 
             IndicadorViewModel indicadorViewModel = AutoMapper.Mapper.Map<IndicadorViewModel>(indicador);
             indicadorViewModel.ObjetivoViewModel = AutoMapper.Mapper.Map<ObjetivoViewModel>(indicador.Objetivo);
@@ -68,7 +68,7 @@ namespace YUTPLAT.Services.Interface
         
         public async Task<IList<IndicadorViewModel>> Buscar(BuscarIndicadorViewModel filtro)
         {
-            Persona persona = await PersonaRepository.GetByUserName(filtro.NombreUsuario).FirstOrDefaultAsync();
+            Persona persona = await PersonaRepository.GetByUserName(filtro.PersonaLogueadaViewModel.NombreUsuario).FirstOrDefaultAsync();
             IList<IndicadorViewModel> indicadores = AutoMapper.Mapper.Map<IList<IndicadorViewModel>>(IndicadorRepository.Buscar(filtro).ToList());
 
             CargarPermisosAIndicadores(indicadores, persona);

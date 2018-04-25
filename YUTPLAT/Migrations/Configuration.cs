@@ -53,6 +53,7 @@ namespace YUTPLAT.Migrations
         {
             string rolAdmin = EnumHelper<Enums.Enum.Rol>.GetDisplayValue(Enums.Enum.Rol.Admin);
             string rolUsuario = EnumHelper<Enums.Enum.Rol>.GetDisplayValue(Enums.Enum.Rol.Usuario);
+            string rolOperador = EnumHelper<Enums.Enum.Rol>.GetDisplayValue(Enums.Enum.Rol.Operador);
 
             if (!context.Roles.Any(r => r.Name == rolAdmin))
             {
@@ -71,12 +72,22 @@ namespace YUTPLAT.Migrations
 
                 manager.Create(role);
             }
+
+            if (!context.Roles.Any(r => r.Name == rolOperador))
+            {
+                var store = new RoleStore<IdentityRole>(context);
+                var manager = new RoleManager<IdentityRole>(store);
+                var role = new IdentityRole { Name = rolOperador };
+
+                manager.Create(role);
+            }
         }
 
         private void CargarUsuarios(YUTPLAT.Context.YutplatDbContext context)
         {
             string rolAdmin = EnumHelper<Enums.Enum.Rol>.GetDisplayValue(Enums.Enum.Rol.Admin);
             string rolUsuario = EnumHelper<Enums.Enum.Rol>.GetDisplayValue(Enums.Enum.Rol.Usuario);
+            string rolOperador = EnumHelper<Enums.Enum.Rol>.GetDisplayValue(Enums.Enum.Rol.Operador);
 
             string email = "@cys.com.ar";
             email += "TEST";
@@ -91,6 +102,16 @@ namespace YUTPLAT.Migrations
                 manager.AddToRole(user.Id, rolAdmin);                
             }
 
+            if (!context.Users.Any(u => u.UserName == "mfernandez"))
+            {
+                var store = new UserStore<Persona>(context);
+                var manager = new UserManager<Persona>(store);
+                var user = new Persona { UserName = "mfernandez", Email = "mfernandez" + email, EmailConfirmed = true, Nombre = "Maria Victoria", Apellido = "Fernandez", Rol = rolOperador };
+
+                manager.Create(user, "123qwe");
+                manager.AddToRole(user.Id, rolOperador);
+            }
+
             if (!context.Users.Any(u => u.UserName == "amolinari"))
             {
                 var store = new UserStore<Persona>(context);
@@ -99,7 +120,7 @@ namespace YUTPLAT.Migrations
                 var user = new Persona { UserName = "amolinari", Email = "amolinari" + email, EmailConfirmed = true, Nombre = "Alejandro", Apellido = "Molinari", Rol = rolAdmin };
                 
                 manager.Create(user, "123qwe");
-                manager.AddToRole(user.Id, rolUsuario);
+                manager.AddToRole(user.Id, rolAdmin);
             }
 
             if (!context.Users.Any(u => u.UserName == "jbarbosa"))
@@ -109,7 +130,7 @@ namespace YUTPLAT.Migrations
                 var user = new Persona { UserName = "jbarbosa", Email= "jbarbosa" + email, EmailConfirmed = true, Nombre = "Jorge", Apellido = "Barbosa", Rol = rolAdmin };
                 
                 manager.Create(user, "123qwe");
-                manager.AddToRole(user.Id, rolUsuario);
+                manager.AddToRole(user.Id, rolAdmin);
             }
 
             if (!context.Users.Any(u => u.UserName == "cfontela"))
@@ -129,7 +150,7 @@ namespace YUTPLAT.Migrations
                 var user = new Persona { UserName = "elara", Email = "elara" + email, EmailConfirmed = true, Nombre = "Enrique", Apellido = "Lara", Rol = rolAdmin };
                 
                 manager.Create(user, "123qwe");
-                manager.AddToRole(user.Id, rolUsuario);
+                manager.AddToRole(user.Id, rolAdmin);
             }
 
             if (!context.Users.Any(u => u.UserName == "ncaniggia"))

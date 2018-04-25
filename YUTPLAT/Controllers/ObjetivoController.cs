@@ -26,6 +26,13 @@ namespace YUTPLAT.Controllers
         {
             BuscarObjetivoViewModel model = new BuscarObjetivoViewModel();
             model.Busqueda.Titulo = "Objetivos";
+            model.PersonaLogueadaViewModel = (PersonaViewModel)Session["Persona"];
+
+            if (model.PersonaLogueadaViewModel.AreaViewModel != null)
+            {
+                model.Busqueda.AreaViewModel = model.PersonaLogueadaViewModel.AreaViewModel;
+                model.Busqueda.IdArea = model.Busqueda.AreaViewModel.Id.ToString();
+            }
 
             ViewBag.Titulo = model.Busqueda.Titulo;
 
@@ -37,11 +44,19 @@ namespace YUTPLAT.Controllers
         {
             ViewBag.SinResultados = null;
 
-            IList <ObjetivoViewModel> objetivos = await ObjetivoService.Buscar(model);
+            model.PersonaLogueadaViewModel = (PersonaViewModel)Session["Persona"];
+
+            if (model.PersonaLogueadaViewModel.AreaViewModel != null)
+            {
+                model.Busqueda.AreaViewModel = model.PersonaLogueadaViewModel.AreaViewModel;
+                model.Busqueda.IdArea = model.Busqueda.AreaViewModel.Id.ToString();
+            }
+
+            IList<ObjetivoViewModel> objetivos = await ObjetivoService.Buscar(model);
 
             model.Resultados = objetivos;
             model.Busqueda.Titulo = "Objetivos";
-
+            
             ViewBag.Titulo = model.Busqueda.Titulo;
 
             if (objetivos == null || objetivos.Count <= 0)
@@ -57,25 +72,39 @@ namespace YUTPLAT.Controllers
             ObjetivoViewModel model = new ObjetivoViewModel();
             model.Titulo = "Objetivos";
             model.FechaCreacion = DateTime.Now.ToString("dd/MM/yyyy HH:mm tt");
+            model.PersonaLogueadaViewModel = (PersonaViewModel)Session["Persona"];
 
-            if(idArea != null)
+            if (model.PersonaLogueadaViewModel.AreaViewModel != null)
+            {
+                model.AreaViewModel = model.PersonaLogueadaViewModel.AreaViewModel;
+                model.IdArea = model.AreaViewModel.Id.ToString();
+            }
+
+            if (idArea != null)
                 model.AreaViewModel = await AreaService.GetById(Int32.Parse(idArea));
 
             ViewBag.Titulo = model.Titulo;
 
             return View(model);
-        }       
+        }
 
         [HttpPost]
         public async Task<ActionResult> Crear(ObjetivoViewModel model)
         {
+            model.PersonaLogueadaViewModel = (PersonaViewModel)Session["Persona"];
+
+            if (model.PersonaLogueadaViewModel.AreaViewModel != null)
+            {
+                model.AreaViewModel = model.PersonaLogueadaViewModel.AreaViewModel;
+                model.IdArea = model.AreaViewModel.Id.ToString();
+            }
+            
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
 
-            model.Titulo = "Objetivos";
-
+            model.Titulo = "Objetivos";            
             ViewBag.Titulo = model.Titulo;
 
             int idObjetivo = await ObjetivoService.Guardar(model);
@@ -86,9 +115,10 @@ namespace YUTPLAT.Controllers
         [HttpGet]
         [EncryptedActionParameter]
         public async Task<ActionResult> Editar(string id, string msgExito)
-        {
+        {   
             ObjetivoViewModel model = await ObjetivoService.GetById(Int32.Parse(id));
 
+            model.PersonaLogueadaViewModel = (PersonaViewModel)Session["Persona"];
             model.Titulo = "Objetivos";
 
             ViewBag.Titulo = model.Titulo;
@@ -100,6 +130,8 @@ namespace YUTPLAT.Controllers
         [HttpPost]
         public async Task<ActionResult> Editar(ObjetivoViewModel model)
         {
+            model.PersonaLogueadaViewModel = (PersonaViewModel)Session["Persona"];
+
             if (!ModelState.IsValid)
             {
                 return View(model);

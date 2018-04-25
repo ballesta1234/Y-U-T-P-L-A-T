@@ -12,6 +12,7 @@ namespace YUTPLAT.Models
     {
         private string rolAdmin = EnumHelper<Enums.Enum.Rol>.GetDisplayValue(Enums.Enum.Rol.Admin);
         private string rolUsuario = EnumHelper<Enums.Enum.Rol>.GetDisplayValue(Enums.Enum.Rol.Usuario);
+        private string rolOperador = EnumHelper<Enums.Enum.Rol>.GetDisplayValue(Enums.Enum.Rol.Operador);
 
         public string Nombre { get; set; }
         public string Apellido { get; set; }
@@ -36,6 +37,11 @@ namespace YUTPLAT.Models
         public bool EsAdmin()
         {
             return Rol.Equals(rolAdmin);
+        }
+
+        public bool EsOperador()
+        {
+            return Rol.Equals(rolOperador);
         }
 
         public bool EsUsuario()

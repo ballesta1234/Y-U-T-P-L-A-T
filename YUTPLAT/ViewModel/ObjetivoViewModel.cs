@@ -36,6 +36,8 @@ namespace YUTPLAT.ViewModel
 
         [Display(Name = "Fecha modificación")]
         public string FechaUltimaModificacion { get; set; }
+
+        public PersonaViewModel PersonaLogueadaViewModel { get; set; }
     }
 }
 

@@ -6,10 +6,9 @@ namespace YUTPLAT.ViewModel
     {
         public IndicadorViewModel Busqueda { get; set; }
         public bool UltimoDeCadaGrupo { get; set; }
-
-        public string RolUsuario { get; set; }
-        public string NombreUsuario { get; set; }
+        
         public int AnioTablero { get; set; }
+        public PersonaViewModel PersonaLogueadaViewModel { get; set; }
 
         public IList<IndicadorViewModel> Resultados { get; set; }
 

@@ -71,6 +71,7 @@ namespace YUTPLAT.App_Start
                     cfg.CreateMap<Persona, PersonaViewModel>()
                    .ForMember(x => x.NombreUsuario, x => x.MapFrom(y => y.UserName))
                    .ForMember(x => x.EsAdmin, x => x.MapFrom(y => y.EsAdmin()))
+                   .ForMember(x => x.EsUsuario, x => x.MapFrom(y => y.EsUsuario()))
                    .ForMember(x => x.AreaViewModel, x => x.MapFrom(y => y.Area != null ? y.Area : null));
 
                     cfg.CreateMap<Meta, MetaViewModel>()

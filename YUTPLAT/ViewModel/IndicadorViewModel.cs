@@ -97,6 +97,8 @@ namespace YUTPLAT.ViewModel
         [ValidarMeta(ValidarValor1 = false, ValidarValor2 = false)]
         [Display(Name = "Meta excelente")]
         public MetaViewModel MetaExcelenteViewModel { get; set; }
+
+        public PersonaViewModel PersonaLogueadaViewModel { get; set; }
     }
 }
 

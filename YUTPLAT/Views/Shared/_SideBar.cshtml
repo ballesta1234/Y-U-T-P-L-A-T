@@ -1,4 +1,4 @@
-﻿<div class="sidebar" data-color="purple" data-image="/images/sidebar-5.jpg">    
+﻿<div class="sidebar" data-color="purple" data-image="/images/sidebar-5.jpg">
     <div class="sidebar-wrapper">
         <div class="logo">
             <a href="#" class="simple-text">
@@ -13,7 +13,7 @@
                     <i class="pe-7s-graph"></i>
                     <p>Tablero</p>
                 </a>
-            </li>           
+            </li>
             <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Indicador" &&
                          ViewContext.RouteData.Values["Action"].ToString() == "Buscar" ? "active" : "")">
                 <a href="@Url.Action("Buscar", "Indicador")">
@@ -28,13 +28,16 @@
                     <p>Objetivos</p>
                 </a>
             </li>
-            <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Area" &&
-                         ViewContext.RouteData.Values["Action"].ToString() == "Buscar" ? "active" : "")">
-                <a href="@Url.Action("Buscar", "Area")">
-                    <i class="pe-7s-way"></i>
-                    <p>Áreas</p>
-                </a>
-            </li>
+            @if (User.IsInRole(YUTPLAT.Helpers.EnumHelper<YUTPLAT.Enums.Enum.Rol>.GetDisplayValue(YUTPLAT.Enums.Enum.Rol.Admin)))
+            {
+                <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Area" &&
+                      ViewContext.RouteData.Values["Action"].ToString() == "Buscar" ? "active" : "")">
+                    <a href="@Url.Action("Buscar", "Area")">
+                        <i class="pe-7s-way"></i>
+                        <p>Áreas</p>
+                    </a>
+                </li>
+            }
         </ul>
     </div>
 </div>

@@ -34,7 +34,10 @@
                 <div class="card">
                     <div class="header">
                         <h4 class="title">Buscar</h4>
-                        <a class="btn btn-info btn-fill pull-right" href="@Url.Action("Crear", "Objetivo")"><i class="fa fa-plus">&nbsp;</i>Nuevo</a>
+                        @if (Model.PersonaLogueadaViewModel.EsJefeArea)
+                        {
+                            <a class="btn btn-info btn-fill pull-right" href="@Url.Action("Crear", "Objetivo")"><i class="fa fa-plus">&nbsp;</i>Nuevo</a>
+                        }
                     </div>
                     <div class="content">
                         @using (Html.BeginForm("Buscar", "Objetivo", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form" }))
@@ -46,8 +49,15 @@
                                 </div>
 
                                 <div class="col-xs-12 col-sm-6 col-md-4">
-                                    @Html.LabelFor(m => m.Busqueda.IdArea)                                   
-                                    @Html.DropDownListFor(m => m.Busqueda.IdArea, Enumerable.Empty<SelectListItem>(), new { @id = "ddlAreas", @class = "form-control" })
+                                    @Html.LabelFor(m => m.Busqueda.IdArea)
+                                    @if (Model.Busqueda.AreaViewModel.Id > 0)
+                                    {
+                                        @Html.DropDownListFor(m => m.Busqueda.IdArea, new SelectList(new List<SelectListItem> { new SelectListItem { Text = Model.Busqueda.AreaViewModel.Nombre, Value = Model.Busqueda.AreaViewModel.Id.ToString() } }, "Value", "Text"), new { @id = "ddlAreas", @class = "form-control", @disabled = "true" })
+                                    }
+                                    else
+                                    {
+                                        @Html.DropDownListFor(m => m.Busqueda.IdArea, Enumerable.Empty<SelectListItem>(), new { @id = "ddlAreas", @class = "form-control" })
+                                    }
                                 </div>
 
                                 <div class="col-xs-12 col-sm-6 col-md-4">
@@ -80,7 +90,7 @@
                                     <button type="submit" class="btn btn-info btn-fill pull-left">Buscar</button>
                                 </div>
                             </div>
-                            
+
                             if (Model != null && Model.Resultados != null && Model.Resultados.Count > 0)
                             {
                                 <br />
@@ -111,15 +121,19 @@
                                                                 <td>@objetivo.UltimoUsuarioModifico</td>
                                                                 <td>@objetivo.FechaUltimaModificacion</td>
                                                                 <td>
-                                                                    <a href='@Url.Action("Editar", "Objetivo", new { q = MyExtensions.Encrypt(new { id = objetivo.Id }) })'>
-                                                                        <i data-toggle="tooltip" data-placement="bottom" title="Editar" class="glyphicon glyphicon-pencil"></i>
-                                                                    </a>
+                                                                    @if (Model.PersonaLogueadaViewModel.EsJefeArea)
+                                                                    {
+                                                                        <a href='@Url.Action("Crear", "Indicador", new { q = MyExtensions.Encrypt(new { idObjetivo = objetivo.Id }) })'>
+                                                                            <i data-toggle="tooltip" data-placement="bottom" title="Crear indicador" class="glyphicon glyphicon glyphicon-saved"></i>
+                                                                        </a>
+                                                                        <a href='@Url.Action("Editar", "Objetivo", new { q = MyExtensions.Encrypt(new { id = objetivo.Id }) })'>
+                                                                            <i data-toggle="tooltip" data-placement="bottom" title="Editar" class="glyphicon glyphicon-pencil"></i>
+                                                                        </a>
+                                                                    }
                                                                     <a href='@Url.Action("Ver", "Objetivo", new { q = MyExtensions.Encrypt(new { id = objetivo.Id }) })'>
                                                                         <i data-toggle="tooltip" data-placement="bottom" title="Ver" class="glyphicon glyphicon-search"></i>
                                                                     </a>
-                                                                    <a href='@Url.Action("Crear", "Indicador", new { q = MyExtensions.Encrypt(new { idObjetivo = objetivo.Id }) })'>
-                                                                        <i data-toggle="tooltip" data-placement="bottom" title="Crear indicador" class="glyphicon glyphicon glyphicon-saved"></i>
-                                                                    </a>
+
                                                                 </td>
                                                             </tr>
                                                         }

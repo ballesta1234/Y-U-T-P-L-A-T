@@ -31,11 +31,10 @@
                 <div class="card">
                     <div class="header">
                         <h4 class="title">Buscar</h4>
-                        @if (Model.PuedeCrearAreas)
+                        @if (Model.PersonaLogueadaViewModel.EsAdmin)
                         {
                             <a class="btn btn-info btn-fill pull-right" href="@Url.Action("Crear", "Area")"><i class="fa fa-plus">&nbsp;</i>Nuevo</a>
                         }
-                        @Html.HiddenFor(m => m.PuedeCrearAreas)
                     </div>
                     <div class="content">
                         @using (Html.BeginForm("Buscar", "Area", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form" }))
@@ -108,14 +107,17 @@
                                                                 <td>@area.UltimoUsuarioModifico</td>
                                                                 <td>@area.FechaUltimaModificacion</td>
                                                                 <td>
-                                                                    <a href='@Url.Action("Editar", "Area", new { q = MyExtensions.Encrypt(new { id = area.Id }) })'>
-                                                                        <i data-toggle="tooltip" data-placement="bottom" title="Editar" class="glyphicon glyphicon-pencil"></i>
-                                                                    </a>
+                                                                    @if (Model.PersonaLogueadaViewModel.EsAdmin)
+                                                                    {
+                                                                        <a href='@Url.Action("Crear", "Objetivo", new { q = MyExtensions.Encrypt(new { idArea = area.Id }) })'>
+                                                                            <i data-toggle="tooltip" data-placement="bottom" title="Crear objetivo" class="glyphicon glyphicon-list-alt"></i>
+                                                                        </a>
+                                                                        <a href='@Url.Action("Editar", "Area", new { q = MyExtensions.Encrypt(new { id = area.Id }) })'>
+                                                                            <i data-toggle="tooltip" data-placement="bottom" title="Editar" class="glyphicon glyphicon-pencil"></i>
+                                                                        </a>
+                                                                    }
                                                                     <a href='@Url.Action("Ver", "Area", new { q = MyExtensions.Encrypt(new { id = area.Id }) })'>
                                                                         <i data-toggle="tooltip" data-placement="bottom" title="Ver" class="glyphicon glyphicon-search"></i>
-                                                                    </a>
-                                                                    <a href='@Url.Action("Crear", "Objetivo", new { q = MyExtensions.Encrypt(new { idArea = area.Id }) })'>
-                                                                        <i data-toggle="tooltip" data-placement="bottom" title="Crear objetivo" class="glyphicon glyphicon-list-alt"></i>
                                                                     </a>
                                                                 </td>
                                                             </tr>

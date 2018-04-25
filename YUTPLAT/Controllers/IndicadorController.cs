@@ -35,6 +35,12 @@ namespace YUTPLAT.Controllers
         {
             BuscarIndicadorViewModel model = new BuscarIndicadorViewModel();
             model.Busqueda.Titulo = "Indicadores";
+            model.PersonaLogueadaViewModel = (PersonaViewModel)Session["Persona"];
+
+            if(!model.PersonaLogueadaViewModel.EsAdmin)
+            {
+                model.Busqueda.AreaID = model.PersonaLogueadaViewModel.AreaViewModel.Id.ToString();
+            }
 
             ViewBag.Titulo = model.Busqueda.Titulo;
             ViewBag.MensageExito = msgExito;
@@ -44,14 +50,15 @@ namespace YUTPLAT.Controllers
 
         [HttpPost]
         public async Task<ActionResult> Buscar(BuscarIndicadorViewModel model)
-        {
-            string rolAdmin = EnumHelper<Enums.Enum.Rol>.GetDisplayValue(Enums.Enum.Rol.Admin);
-            string rolUsuario = EnumHelper<Enums.Enum.Rol>.GetDisplayValue(Enums.Enum.Rol.Usuario);
-
+        {            
             ViewBag.SinResultados = null;
+            
+            model.PersonaLogueadaViewModel = (PersonaViewModel)Session["Persona"];
 
-            model.NombreUsuario = User.Identity.Name;
-            model.RolUsuario = User.IsInRole(rolAdmin) ? rolAdmin : rolUsuario;
+            if (!model.PersonaLogueadaViewModel.EsAdmin)
+            {
+                model.Busqueda.AreaID = model.PersonaLogueadaViewModel.AreaViewModel.Id.ToString();
+            }
 
             IList <IndicadorViewModel> indicadores = await IndicadorService.Buscar(model);
 
@@ -73,9 +80,17 @@ namespace YUTPLAT.Controllers
             IndicadorViewModel model = new IndicadorViewModel();
             model.Titulo = "Indicadores";
             model.FechaCreacion = DateTime.Now.ToString("dd/MM/yyyy HH:mm tt");
-                        
+                       
             Session["InteresadosSeleccionados"] = model.Interesados;
             Session["ResponsablesSeleccionados"] = model.Responsables;
+
+            model.PersonaLogueadaViewModel = (PersonaViewModel)Session["Persona"];
+
+            if (model.PersonaLogueadaViewModel.AreaViewModel != null)
+            {
+                model.ObjetivoViewModel.AreaViewModel = model.PersonaLogueadaViewModel.AreaViewModel;
+                model.AreaID = model.ObjetivoViewModel.AreaViewModel.Id.ToString();
+            }
 
             if (idObjetivo != null)
                 model.ObjetivoViewModel = await ObjetivoService.GetById(Int32.Parse(idObjetivo));
@@ -88,6 +103,14 @@ namespace YUTPLAT.Controllers
         [HttpPost]
         public async Task<ActionResult> Crear(IndicadorViewModel model)
         {
+            model.PersonaLogueadaViewModel = (PersonaViewModel)Session["Persona"];
+
+            if (model.PersonaLogueadaViewModel.AreaViewModel != null)
+            {
+                model.ObjetivoViewModel.AreaViewModel = model.PersonaLogueadaViewModel.AreaViewModel;
+                model.AreaID = model.ObjetivoViewModel.AreaViewModel.Id.ToString();
+            }
+
             model.FrecuenciaMedicionIndicadorViewModel = await FrecuenciaMedicionIndicadorService.GetById(Int32.Parse(model.FrecuenciaMedicionIndicadorID));
 
             if (!String.IsNullOrEmpty(model.ObjetivoID) && !model.ObjetivoID.Equals("0"))
@@ -135,6 +158,7 @@ namespace YUTPLAT.Controllers
             IndicadorViewModel model = await IndicadorService.GetById(Int32.Parse(id));
             model.CantidadInteresadosElegidos = model.Interesados.Count;
             model.CantidadResponsablesElegidos = model.Responsables.Count;
+            model.PersonaLogueadaViewModel = (PersonaViewModel)Session["Persona"];
 
             model.Titulo = "Indicadores";
 
@@ -151,8 +175,9 @@ namespace YUTPLAT.Controllers
         public async Task<ActionResult> Editar(IndicadorViewModel model)
         {
             model.FrecuenciaMedicionIndicadorViewModel = await FrecuenciaMedicionIndicadorService.GetById(Int32.Parse(model.FrecuenciaMedicionIndicadorID));
+            model.PersonaLogueadaViewModel = (PersonaViewModel)Session["Persona"];
 
-            if(!String.IsNullOrEmpty(model.ObjetivoID) && !model.ObjetivoID.Equals("0"))
+            if (!String.IsNullOrEmpty(model.ObjetivoID) && !model.ObjetivoID.Equals("0"))
                 model.ObjetivoViewModel = await ObjetivoService.GetById(Int32.Parse(model.ObjetivoID));
 
             model.Interesados = (IList<PersonaViewModel>)Session["InteresadosSeleccionados"];

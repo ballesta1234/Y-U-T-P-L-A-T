@@ -87,6 +87,11 @@ namespace YUTPLAT.Repositories
                 int areaId = Int32.Parse(filtro.Busqueda.AreaID.Trim());
                 queryable = queryable.Where(a => a.Objetivo.AreaID == areaId);
             }
+            else if(!filtro.PersonaLogueadaViewModel.EsAdmin)
+            {
+                int areaId = filtro.PersonaLogueadaViewModel.AreaViewModel.Id;
+                queryable = queryable.Where(a => a.Objetivo.AreaID == areaId);
+            }
             if (filtro.Busqueda.ObjetivoID != null && !string.IsNullOrEmpty(filtro.Busqueda.ObjetivoID.Trim()))
             {
                 int objetivoId = Int32.Parse(filtro.Busqueda.ObjetivoID.Trim());
@@ -100,10 +105,10 @@ namespace YUTPLAT.Repositories
             {
                 queryable = queryable.Where(a => a.IndicadorID == filtro.Busqueda.Id);
             }
-            if (filtro.RolUsuario != null && !filtro.RolUsuario.Equals(rolAdmin))
+            if (!filtro.PersonaLogueadaViewModel.EsJefeArea)
             {
-                queryable = queryable.Where( a => a.Responsables.Any( r => r.Persona.UserName.Equals(filtro.NombreUsuario)) ||
-                                                  a.Interesados.Any(i => i.Persona.UserName.Equals(filtro.NombreUsuario)));
+                queryable = queryable.Where( a => a.Responsables.Any( r => r.Persona.UserName.Equals(filtro.PersonaLogueadaViewModel.NombreUsuario)) ||
+                                                  a.Interesados.Any(i => i.Persona.UserName.Equals(filtro.PersonaLogueadaViewModel.NombreUsuario)));
             }
             
             return queryable.OrderBy( a => a.Objetivo.AreaID).ThenBy(a => a.ObjetivoID);

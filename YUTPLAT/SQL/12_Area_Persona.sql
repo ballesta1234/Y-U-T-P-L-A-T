@@ -25,6 +25,12 @@ WHERE
 
 UPDATE 
 	dbo.AspNetUsers
+SET  AreaID = (SELECT Id FROM dbo.Area WHERE Nombre = 'RRHH')
+WHERE
+	UserName = 'mfernandez'
+	
+UPDATE 
+	dbo.AspNetUsers
 SET  AreaID = (SELECT Id FROM dbo.Area WHERE Nombre = 'Calidad')
 WHERE
 	UserName = 'mlrosas'

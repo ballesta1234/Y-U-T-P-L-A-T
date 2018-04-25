@@ -9,7 +9,9 @@ namespace YUTPLAT.Enums
             [Display(Name = "admin")]
             Admin = 1,
             [Display(Name = "usuario")]
-            Usuario = 2
+            Usuario = 2,
+            [Display(Name = "operador")]
+            Operador = 3
         }
 
         public enum Signo
