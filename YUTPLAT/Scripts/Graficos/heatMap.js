@@ -80,7 +80,7 @@ $(function () {
        })
        .style("text-anchor", "end")
        .attr("class", "mono")
-       .call(wrap);
+       .call(wrap, true);
 
     svg.append("line")
        .attr("x1", -30)
@@ -216,7 +216,7 @@ function contarIndicadoresPorArea(heatMap) {
     return arr;
 }
 
-function wrap(text) {
+function wrap(text, centrarHorizontal) {
 
     var cantFilasInicio = 0;
 
@@ -225,11 +225,10 @@ function wrap(text) {
         cantFilasInicio += dictionaryIndicadoresPorArea[d3.select(this).text()];
 
         if (dictionaryIndicadoresPorArea[d3.select(this).text()] <= 2) {
-            wrapHorizontalPalabra(d3.select(this), 90, -24);
+            wrapHorizontalPalabra(d3.select(this), 90, -24, centrarHorizontal);
         }
-        else {
-            //alert(cantFilasInicio);
-            wrapVerticalPalabra(d3.select(this), 32 * dictionaryIndicadoresPorArea[d3.select(this).text()], -(2.6666667*cantFilasInicio));
+        else {           
+            wrapVerticalPalabra(d3.select(this), 32 * dictionaryIndicadoresPorArea[d3.select(this).text()], -32 * cantFilasInicio);
         }
     });
 }
@@ -246,44 +245,62 @@ function wrapVerticalPalabra(text, width, posicionX) {
         word,
         line = [],
         lineNumber = 0,
-        lineHeight = 1.1,
-        y = text.attr("y"),
+        lineHeight = 1.1,        
         dy = 0,
         tspan = text.text(null)
                     .append("tspan")
                     .style("text-anchor", "start")
-                    .attr("y", y)
+                    .attr("y", 0)
                     .attr("x", 0)
-                    .attr("dx", posicionX + "em")
-                    .attr("dy", dy + "em");
+                    .attr("dx", posicionX + "px")
+                    .attr("dy", dy + "em");   
 
     while (word = words.pop()) {
         line.push(word);
         tspan.text(line.join(" "));
 
+        //alert(tspan.node().getComputedTextLength());
+
         if (tspan.node().getComputedTextLength() > width) {
             line.pop();
             tspan.text(line.join(" "));
             line = [word];
+
+            /*
+            alert(width);
+            alert(tspan.node().getComputedTextLength());
+            alert(tspan.text());
+            */
+
+            tspan.attr("dx", posicionX + ( ( width - tspan.node().getComputedTextLength()) / 2 ) + "px");
+
             tspan = text.append("tspan")
-                        .attr("y", y)
+                        .attr("y", 0)
                         .attr("x", 0)
                         .style("text-anchor", "start")
-                        .attr("dx", posicionX + "em")
+                        .attr("dx", posicionX + "px")
                         .attr("dy", ++lineNumber * lineHeight + dy + "em")
                         .text(word);
-        }
 
+            //tspan.attr("dx", -32 * 9 + "px");
+        }
     }
+    
+    /*
+    alert(width);
+    alert(tspan.node().getComputedTextLength());
+    alert(tspan.text());
+    */
+    tspan.attr("dx", posicionX + ((width - tspan.node().getComputedTextLength()) / 2) + "px");
 }
 
-function wrapHorizontal(text, width, posicionX) {
+function wrapHorizontal(text, width, posicionX, centrarHorizontal) {
     text.each(function () {
-        wrapHorizontalPalabra(d3.select(this), width, posicionX);
+        wrapHorizontalPalabra(d3.select(this), width, posicionX, centrarHorizontal);
     });
 }
 
-function wrapHorizontalPalabra(text, width, posicionX) {
+function wrapHorizontalPalabra(text, width, posicionX, centrarHorizontal) {
 
     var words = text.text().split(/\s+/).reverse(),
         word,
@@ -296,6 +313,7 @@ function wrapHorizontalPalabra(text, width, posicionX) {
         tspan = text.text(null)
                     .append("tspan")
                     .attr("x", posicionX)
+                    //.attr("dx", 12 + "px")
                     .style("text-anchor", "start")
                     .attr("y", y)
                     .attr("dy", dy + "em");
@@ -315,6 +333,9 @@ function wrapHorizontalPalabra(text, width, posicionX) {
                 tspan.text(line.join(" "));
                 line = [word];
             }
+                 
+            if (centrarHorizontal)
+                tspan.attr("dx", -5 + ((width - tspan.node().getComputedTextLength()) / 2) + "px");
 
             tspan = text.append("tspan")
                         .attr("x", posicionX)
@@ -324,6 +345,9 @@ function wrapHorizontalPalabra(text, width, posicionX) {
                         .text(word);
         }
     }
+
+    if (centrarHorizontal)
+        tspan.attr("dx", -5 + ((width - tspan.node().getComputedTextLength()) / 2) + "px");
 }
 
 function agregarTresPuntos(tspan, width, line) {
