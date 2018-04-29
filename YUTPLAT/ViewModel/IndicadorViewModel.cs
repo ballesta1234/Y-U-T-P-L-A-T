@@ -79,23 +79,23 @@ namespace YUTPLAT.ViewModel
         public string FechaUltimaModificacion { get; set; }
                 
         [ValidarMeta(ValidarValor1 = false, ValidarValor2 = false)]
-        [Display(Name = "Meta inaceptable")]
+        [Display(Name = "Inaceptable")]
         public MetaViewModel MetaInaceptableViewModel { get; set; }
 
         [ValidarMeta]
-        [Display(Name = "Meta a mejorar")]
+        [Display(Name = "A mejorar")]
         public MetaViewModel MetaAMejorarViewModel { get; set; }
 
         [ValidarMeta]
-        [Display(Name = "Meta aceptable")]
+        [Display(Name = "Aceptable")]
         public MetaViewModel MetaAceptableViewModel { get; set; }
 
         [ValidarMeta]
-        [Display(Name = "Meta satisfactoria")]
+        [Display(Name = "Satisfactoria")]
         public MetaViewModel MetaSatisfactoriaViewModel { get; set; }
 
         [ValidarMeta(ValidarValor1 = false, ValidarValor2 = false)]
-        [Display(Name = "Meta excelente")]
+        [Display(Name = "Excelente")]
         public MetaViewModel MetaExcelenteViewModel { get; set; }
 
         public PersonaViewModel PersonaLogueadaViewModel { get; set; }

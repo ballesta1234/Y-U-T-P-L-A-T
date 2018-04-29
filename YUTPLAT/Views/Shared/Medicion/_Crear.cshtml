@@ -67,11 +67,6 @@
 
         <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-12">
-                <span class="aclaracion">@Model.IndicadorViewModel.Nombre </span>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-12">
                 @Html.LabelFor(m => m.Valor)
                 <div class="row">
                     <div class="col-xs-6 col-sm-3 col-md-3">
@@ -85,9 +80,19 @@
         <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-12">
                 @Html.LabelFor(m => m.Comentario)
-                @Html.TextAreaFor(m => m.Comentario, new { @rows = 5, @class = "form-control" })
+                @Html.TextAreaFor(m => m.Comentario, new { @rows = 2, @class = "form-control" })
                 <span class="aclaracion">(máximo 2000 caracteres)</span>
                 @Html.ValidationMessageFor(m => m.Comentario, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-sm-6 col-md-6">
+                @Html.LabelFor(m => m.IndicadorViewModel.Descripcion)
+                <span class="aclaracion">@Model.IndicadorViewModel.Descripcion </span>
+            </div>
+            <div class="col-xs-12 col-sm-6 col-md-6">
+                @Html.LabelFor(m => m.IndicadorViewModel.ObjetivoID)
+                <span class="aclaracion">@Model.IndicadorViewModel.ObjetivoViewModel.Descripcion </span>
             </div>
         </div>
         <div class="row">
@@ -113,39 +118,39 @@
             </div>
         </div>
     </div>
-    <div class="modal-footer">
-        <input type="submit" class="btn btn-fill btn-info" value="Guardar" />
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-    </div>
+            <div class="modal-footer">
+                <input type="submit" class="btn btn-fill btn-info" value="Guardar" />
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            </div>
 
-    @Html.HiddenFor(m => m.IndicadorID)
-    @Html.HiddenFor(m => m.MedicionId)
-    @Html.HiddenFor(m => m.Mes)
+            @Html.HiddenFor(m => m.IndicadorID)
+            @Html.HiddenFor(m => m.MedicionId)
+            @Html.HiddenFor(m => m.Mes)
 
-    @Html.HiddenFor(m => m.IndicadorViewModel.Nombre)
+            @Html.HiddenFor(m => m.IndicadorViewModel.Nombre)
 
-    @Html.HiddenFor(m => m.IndicadorViewModel.MetaExcelenteViewModel.Signo1)
-    @Html.HiddenFor(m => m.IndicadorViewModel.MetaExcelenteViewModel.Signo2)
-    @Html.HiddenFor(m => m.IndicadorViewModel.MetaExcelenteViewModel.Valor1)
-    @Html.HiddenFor(m => m.IndicadorViewModel.MetaExcelenteViewModel.Valor2)
+            @Html.HiddenFor(m => m.IndicadorViewModel.MetaExcelenteViewModel.Signo1)
+            @Html.HiddenFor(m => m.IndicadorViewModel.MetaExcelenteViewModel.Signo2)
+            @Html.HiddenFor(m => m.IndicadorViewModel.MetaExcelenteViewModel.Valor1)
+            @Html.HiddenFor(m => m.IndicadorViewModel.MetaExcelenteViewModel.Valor2)
 
-    @Html.HiddenFor(m => m.IndicadorViewModel.MetaSatisfactoriaViewModel.Signo1)
-    @Html.HiddenFor(m => m.IndicadorViewModel.MetaSatisfactoriaViewModel.Signo2)
-    @Html.HiddenFor(m => m.IndicadorViewModel.MetaSatisfactoriaViewModel.Valor1)
-    @Html.HiddenFor(m => m.IndicadorViewModel.MetaSatisfactoriaViewModel.Valor2)
+            @Html.HiddenFor(m => m.IndicadorViewModel.MetaSatisfactoriaViewModel.Signo1)
+            @Html.HiddenFor(m => m.IndicadorViewModel.MetaSatisfactoriaViewModel.Signo2)
+            @Html.HiddenFor(m => m.IndicadorViewModel.MetaSatisfactoriaViewModel.Valor1)
+            @Html.HiddenFor(m => m.IndicadorViewModel.MetaSatisfactoriaViewModel.Valor2)
 
-    @Html.HiddenFor(m => m.IndicadorViewModel.MetaAceptableViewModel.Signo1)
-    @Html.HiddenFor(m => m.IndicadorViewModel.MetaAceptableViewModel.Signo2)
-    @Html.HiddenFor(m => m.IndicadorViewModel.MetaAceptableViewModel.Valor1)
-    @Html.HiddenFor(m => m.IndicadorViewModel.MetaAceptableViewModel.Valor2)
+            @Html.HiddenFor(m => m.IndicadorViewModel.MetaAceptableViewModel.Signo1)
+            @Html.HiddenFor(m => m.IndicadorViewModel.MetaAceptableViewModel.Signo2)
+            @Html.HiddenFor(m => m.IndicadorViewModel.MetaAceptableViewModel.Valor1)
+            @Html.HiddenFor(m => m.IndicadorViewModel.MetaAceptableViewModel.Valor2)
 
-    @Html.HiddenFor(m => m.IndicadorViewModel.MetaAMejorarViewModel.Signo1)
-    @Html.HiddenFor(m => m.IndicadorViewModel.MetaAMejorarViewModel.Signo2)
-    @Html.HiddenFor(m => m.IndicadorViewModel.MetaAMejorarViewModel.Valor1)
-    @Html.HiddenFor(m => m.IndicadorViewModel.MetaAMejorarViewModel.Valor2)
+            @Html.HiddenFor(m => m.IndicadorViewModel.MetaAMejorarViewModel.Signo1)
+            @Html.HiddenFor(m => m.IndicadorViewModel.MetaAMejorarViewModel.Signo2)
+            @Html.HiddenFor(m => m.IndicadorViewModel.MetaAMejorarViewModel.Valor1)
+            @Html.HiddenFor(m => m.IndicadorViewModel.MetaAMejorarViewModel.Valor2)
 
-    @Html.HiddenFor(m => m.IndicadorViewModel.MetaInaceptableViewModel.Signo1)
-    @Html.HiddenFor(m => m.IndicadorViewModel.MetaInaceptableViewModel.Signo2)
-    @Html.HiddenFor(m => m.IndicadorViewModel.MetaInaceptableViewModel.Valor1)
-    @Html.HiddenFor(m => m.IndicadorViewModel.MetaInaceptableViewModel.Valor2)
+            @Html.HiddenFor(m => m.IndicadorViewModel.MetaInaceptableViewModel.Signo1)
+            @Html.HiddenFor(m => m.IndicadorViewModel.MetaInaceptableViewModel.Signo2)
+            @Html.HiddenFor(m => m.IndicadorViewModel.MetaInaceptableViewModel.Valor1)
+            @Html.HiddenFor(m => m.IndicadorViewModel.MetaInaceptableViewModel.Valor2)
 }

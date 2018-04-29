@@ -57,6 +57,7 @@ namespace YUTPLAT.Repositories
             if (filtro.AnioTablero > 0)
             {
                 queryable = queryable.Where(a => a.FechaValidez == null || a.FechaValidez.Value.Year >= filtro.AnioTablero);
+                queryable = queryable.Where(a => a.FechaCreacion.Value.Year <= filtro.AnioTablero);
             }
             if (filtro.Busqueda.Nombre != null && !string.IsNullOrEmpty(filtro.Busqueda.Nombre.Trim()))
             {

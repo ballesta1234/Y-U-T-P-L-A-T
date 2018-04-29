@@ -5,6 +5,7 @@
         public int IndiceIndicador { get; set; }
         public int IdIndicador { get; set; }
         public string NombreMes { get; set; }
+        public string NombreIndicador { get; set; }
         public long GrupoIndicador { get; set; }
         public int? IdMedicion { get; set; }
         public bool TieneAccesoLecturaEscritura {get; set;}

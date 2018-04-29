@@ -26,7 +26,7 @@ namespace YUTPLAT.ViewModel
             if ((int)Signo1 > 0)
                 meta += EnumHelper<Enums.Enum.Signo>.GetDisplayValue(Signo1);
 
-            meta += "nº";
+            meta += "meta";
 
             if ((int)Signo2 >0)
                 meta += EnumHelper<Enums.Enum.Signo>.GetDisplayValue(Signo2);

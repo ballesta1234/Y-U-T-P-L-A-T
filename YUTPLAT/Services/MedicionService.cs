@@ -280,6 +280,7 @@ namespace YUTPLAT.Services.Interface
                             celdaHeatMapViewModel.IdIndicador = indicador.IdIndicador;
                             celdaHeatMapViewModel.GrupoIndicador = indicador.Grupo;
                             celdaHeatMapViewModel.NombreMes = mes.ToString();
+                            celdaHeatMapViewModel.NombreIndicador = indicador.NombreIndicador;
                             celdaHeatMapViewModel.TieneAccesoLecturaEscritura = indicador.TieneAccesoLecturaEscritura;
                             celdaHeatMapViewModel.EsAutomatico = todosIndicadoresAutomaticos.Any(ia => ia.IndicadorViewModel.Grupo == celdaHeatMapViewModel.GrupoIndicador);
 

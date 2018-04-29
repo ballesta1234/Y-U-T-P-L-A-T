@@ -191,11 +191,11 @@
         return valores;
     };
 
-    function abrirModalCargaMedicion(idIndicador, mes, idMedicion, nombreMes, grupo, tieneAccesoEscritura, esAutomatico) {
+    function abrirModalCargaMedicion(idIndicador, mes, idMedicion, nombreMes, grupo, tieneAccesoEscritura, esAutomatico, nombreIndicador) {
 
         var idAnio = jQuery("#ddlAnios").val();
 
-        jQuery("#tituloModal").text("Medición del indicador - " + nombreMes);
+        jQuery("#tituloModal").text(nombreIndicador + " - " + nombreMes);
 
         var serviceURL = '@Url.Action("AbrirModalCargaMedicion", "Tablero")';
 
@@ -346,8 +346,8 @@
             beforeSend: function () {
             },
             success: function (response) {
-                if (response.success == true) {
-                    location.reload();
+                if (response.success == true) {                    
+                    window.location.href = "Ver";                    
                 }
             }
         });
