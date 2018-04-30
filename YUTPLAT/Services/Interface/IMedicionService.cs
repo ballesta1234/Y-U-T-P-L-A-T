@@ -22,6 +22,8 @@ namespace YUTPLAT.Services.Interface
 
         Task<int> GuardarMedicion(MedicionViewModel medicionViewModel);
 
-        bool ValidaMedicion(MedicionViewModel medicionViewModel);  
+        bool ValidaMedicion(MedicionViewModel medicionViewModel);
+
+        byte[] ObtenerArchivo(int anio, int mes);
     }
 }

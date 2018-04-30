@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using YUTPLAT.Helpers;
@@ -342,13 +343,41 @@ namespace YUTPLAT.Services.Interface
         {
             Medicion medicion = AutoMapper.Mapper.Map<Medicion>(medicionViewModel);
             medicion.Indicador = null;
-           
+
             return await MedicionRepository.Guardar(medicion);
         }
 
         public bool ValidaMedicion(MedicionViewModel medicionViewModel)
         {
             return true;
+        }
+
+        public byte[] ObtenerArchivo(int anio, int mes)
+        {
+            string tempDirectory = AppDomain.CurrentDomain.BaseDirectory + "Temp/";
+            string file = anio.ToString() + "_" + mes.ToString() + ".xlsx";
+
+            byte[] fileBytes = null;
+
+            if (File.Exists(tempDirectory + file))
+            {
+                FileStream fs =  File.OpenRead(tempDirectory + file);
+                
+                byte[] buffer = new byte[4096];
+
+                System.IO.MemoryStream memoryStream = new System.IO.MemoryStream();
+                int chunkSize = 0;
+
+                do
+                {
+                    chunkSize = fs.Read(buffer, 0, buffer.Length);
+                    memoryStream.Write(buffer, 0, chunkSize);
+                } while (chunkSize != 0);
+
+                fileBytes = memoryStream.ToArray();
+            }
+
+            return fileBytes;
         }
     }
 }

@@ -1,56 +1,65 @@
 ﻿@using YUTPLAT.ViewModel
+@using YUTPLAT.Helpers
+
 @model MedicionViewModel
-    <div class="modal-body">        
-        <div class="row">            
-            <div class="col-xs-12 col-sm-12 col-md-12">
-                @Html.LabelFor(m => m.Valor)
-                <div class="row">
-                    <div class="col-xs-6 col-sm-3 col-md-3">
-                        @Html.TextBoxFor(m => m.Valor, new { @disabled = "true", @class = "form-control" })
+
+<div class="modal-body">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12">
+            @Html.LabelFor(m => m.Valor)
+            <div class="row">
+                <div class="col-xs-6 col-sm-3 col-md-3">
+                    @Html.TextBoxFor(m => m.Valor, new { @disabled = "true", @class = "form-control" })
+                </div>
+                @if (Model.ArchivoGenerado)
+                {
+                    <div class="col-xs-4 col-sm-2 col-md-2">
+                        <button type="button" class="btn btn-secondary" onclick="location.href='@Url.Action("ExportToExcel", "Medicion", new { q = MyExtensions.Encrypt(new { mes = (int)Model.Mes }) })'">Exportar</button>
                     </div>
-                </div>               
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-12">
-                @Html.LabelFor(m => m.Comentario)
-                @Html.TextAreaFor(m => m.Comentario, new { @disabled = "true", @rows = 3, @class = "form-control" })
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-xs-12 col-sm-6 col-md-6">
-                @Html.LabelFor(m => m.IndicadorViewModel.Descripcion)
-                <span class="aclaracion">@Model.IndicadorViewModel.Descripcion </span>
-            </div>
-            <div class="col-xs-12 col-sm-6 col-md-6">
-                @Html.LabelFor(m => m.IndicadorViewModel.ObjetivoID)
-                <span class="aclaracion">@Model.IndicadorViewModel.ObjetivoViewModel.Descripcion </span>
-            </div>
-        </div>
-        <div class="row">
-            <br/>
-            <div class="col-xs-6 col-sm-2 col-md-2">
-                @Html.LabelFor(m => m.IndicadorViewModel.MetaExcelenteViewModel)
-                <span class="aclaracion">@Model.IndicadorViewModel.MetaExcelenteViewModel.ToString()</span>
-            </div>
-            <div class="col-xs-6 col-sm-2 col-md-2">
-                @Html.LabelFor(m => m.IndicadorViewModel.MetaSatisfactoriaViewModel)
-                <span class="aclaracion">@Model.IndicadorViewModel.MetaSatisfactoriaViewModel.ToString()</span>
-            </div>
-            <div class="col-xs-6 col-sm-2 col-md-2">
-                @Html.LabelFor(m => m.IndicadorViewModel.MetaAceptableViewModel)
-                <span class="aclaracion">@Model.IndicadorViewModel.MetaAceptableViewModel.ToString()</span>
-            </div>
-            <div class="col-xs-6 col-sm-2 col-md-2">
-                @Html.LabelFor(m => m.IndicadorViewModel.MetaAMejorarViewModel)
-                <span class="aclaracion">@Model.IndicadorViewModel.MetaAMejorarViewModel.ToString()</span>
-            </div>
-            <div class="col-xs-6 col-sm-2 col-md-2">
-                @Html.LabelFor(m => m.IndicadorViewModel.MetaInaceptableViewModel)
-                <span class="aclaracion">@Model.IndicadorViewModel.MetaInaceptableViewModel.ToString()</span>
+                }
             </div>
         </div>
     </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12">
+            @Html.LabelFor(m => m.Comentario)
+            @Html.TextAreaFor(m => m.Comentario, new { @disabled = "true", @rows = 3, @class = "form-control" })
+        </div>
     </div>
+    <div class="row">
+        <div class="col-xs-12 col-sm-6 col-md-6">
+            @Html.LabelFor(m => m.IndicadorViewModel.Descripcion)
+            <span class="aclaracion">@Model.IndicadorViewModel.Descripcion </span>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-6">
+            @Html.LabelFor(m => m.IndicadorViewModel.ObjetivoID)
+            <span class="aclaracion">@Model.IndicadorViewModel.ObjetivoViewModel.Descripcion </span>
+        </div>
+    </div>
+    <div class="row">
+        <br />
+        <div class="col-xs-6 col-sm-2 col-md-2">
+            @Html.LabelFor(m => m.IndicadorViewModel.MetaExcelenteViewModel)
+            <span class="aclaracion">@Model.IndicadorViewModel.MetaExcelenteViewModel.ToString()</span>
+        </div>
+        <div class="col-xs-6 col-sm-2 col-md-2">
+            @Html.LabelFor(m => m.IndicadorViewModel.MetaSatisfactoriaViewModel)
+            <span class="aclaracion">@Model.IndicadorViewModel.MetaSatisfactoriaViewModel.ToString()</span>
+        </div>
+        <div class="col-xs-6 col-sm-2 col-md-2">
+            @Html.LabelFor(m => m.IndicadorViewModel.MetaAceptableViewModel)
+            <span class="aclaracion">@Model.IndicadorViewModel.MetaAceptableViewModel.ToString()</span>
+        </div>
+        <div class="col-xs-6 col-sm-2 col-md-2">
+            @Html.LabelFor(m => m.IndicadorViewModel.MetaAMejorarViewModel)
+            <span class="aclaracion">@Model.IndicadorViewModel.MetaAMejorarViewModel.ToString()</span>
+        </div>
+        <div class="col-xs-6 col-sm-2 col-md-2">
+            @Html.LabelFor(m => m.IndicadorViewModel.MetaInaceptableViewModel)
+            <span class="aclaracion">@Model.IndicadorViewModel.MetaInaceptableViewModel.ToString()</span>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+</div>

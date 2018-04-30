@@ -27,6 +27,7 @@ namespace YUTPLAT.Services.Interface
                        indicadorAutomatico.Nombre,
                        x => x.EjecutarIndicador(indicadorAutomatico.IndicadorViewModel),
                        Cron.Minutely);
+                       //Cron.Monthly(5, 1, 0)); // El 5 de cada mes a la 1:00 a.m.
                 }
             }
         }

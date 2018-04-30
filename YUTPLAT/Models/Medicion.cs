@@ -19,7 +19,7 @@ namespace YUTPLAT.Models
         public decimal Valor { get; set; }        
         public DateTime? FechaCarga { get; set; }
         public string UsuarioCargo { get; set; }
-
+        public bool ArchivoGenerado { get; set; }
         public string Comentario { get; set; }
 
     }

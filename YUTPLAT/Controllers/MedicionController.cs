@@ -2,8 +2,8 @@
 using YUTPLAT.Services.Interface;
 using System.Threading.Tasks;
 using YUTPLAT.Helpers;
-using System.Collections.Generic;
-using YUTPLAT.ViewModel;
+using System;
+using YUTPLAT.Helpers.Filters;
 
 namespace YUTPLAT.Controllers
 {
@@ -12,12 +12,15 @@ namespace YUTPLAT.Controllers
     {
         public IMedicionService MedicionService { get; set; }
         public IIndicadorAutomaticoStrategy IndicadorAutomaticoCPIStrategy { get; set; }
+        public IAnioTableroService AnioTableroService { get; set; }
 
         public MedicionController(IMedicionService medicionService,
-                                  IIndicadorAutomaticoStrategy indicadorAutomaticoCPIStrategy)
+                                  IIndicadorAutomaticoStrategy indicadorAutomaticoCPIStrategy,
+                                  AnioTableroService anioTableroService)
         {
             this.MedicionService = medicionService;
             IndicadorAutomaticoCPIStrategy = indicadorAutomaticoCPIStrategy;
+            AnioTableroService = anioTableroService;
         }
 
         public JsonResult Recalcular(int idIndicador, int mes)
@@ -27,24 +30,12 @@ namespace YUTPLAT.Controllers
             return Json(valor, JsonRequestBehavior.AllowGet);
         }
 
-
         [HttpGet]
-        public FileContentResult ExportToExcel()
+        [EncryptedActionParameter]
+        public async Task<FileContentResult> ExportToExcel(string mes)
         {
-            List<MedicionExportarDTO> mediciones = (List<MedicionExportarDTO>)IndicadorAutomaticoCPIStrategy.ObtenerDetallesMediciones();           
-                        
-            string[] columnas = { "Proyecto", "Mes", "Valor" };
-            byte[] filecontent = ExcelExportHelper.ExportExcel(mediciones, "Detalles Indicador CPI", false, columnas);
-            return File(filecontent, ExcelExportHelper.ExcelContentType, "DetalleIndicador.xlsx");
+            int anio = (await AnioTableroService.GetById(Int32.Parse((string)Session["IdAnioTablero"]))).Anio;
+            return File(MedicionService.ObtenerArchivo(anio, Int32.Parse(mes)), ExcelExportHelper.ExcelContentType, "DetalleIndicador.xlsx");
         }
-
-    }
-
-    public class Technology
-    {
-        public string Name { get; set; }
-        public int Project { get; set; }
-        public int Developer { get; set; }
-        public int TeamLeader { get; set; }
-    }
+    }    
 }

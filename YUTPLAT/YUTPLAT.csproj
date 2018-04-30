@@ -344,6 +344,10 @@
     <Compile Include="Migrations\201804222231380_Agregar area a persona.Designer.cs">
       <DependentUpon>201804222231380_Agregar area a persona.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201804302027487_Archivo generado em medicion.cs" />
+    <Compile Include="Migrations\201804302027487_Archivo generado em medicion.Designer.cs">
+      <DependentUpon>201804302027487_Archivo generado em medicion.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\ArchivoSQL.cs" />
     <Compile Include="Models\AnioTablero.cs" />
     <Compile Include="Models\IndicadorAutomatico.cs" />
@@ -746,6 +750,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201804222231380_Agregar area a persona.resx">
       <DependentUpon>201804222231380_Agregar area a persona.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201804302027487_Archivo generado em medicion.resx">
+      <DependentUpon>201804302027487_Archivo generado em medicion.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
