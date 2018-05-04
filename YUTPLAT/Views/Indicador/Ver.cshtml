@@ -201,16 +201,15 @@
                             <div class="row">
                                 <div class="col-xs-12 col-sm-6 col-md-6">
                                     <div class="row">
-                                        <div class="col-xs-9 col-sm-9 col-md-9">
+                                        <div class="col-xs-12 col-sm-9 col-md-9">
                                             @Html.LabelFor(m => m.ResponsableID)
-                                            <div class="content table-responsive table-full-width">
+                                            <div class="contentPersona table-responsive table-full-width">
                                                 @if (Model != null && Model.Responsables != null)
                                                 {
                                                     <table id="tblResponsables" class="table table-striped table-responsive">
                                                         <thead>
                                                             <tr>
-                                                                <th>Nombre</th>
-                                                                <th></th>
+                                                                <th>Nombre</th>                                                                
                                                             </tr>
                                                         </thead>
                                                         <tbody id="tblBodyResponsables">
@@ -232,18 +231,16 @@
                                 </div>
 
                                 <div class="col-xs-12 col-sm-6 col-md-6">
-
                                     <div class="row">
-                                        <div class="col-xs-9 col-sm-9 col-md-9">
+                                        <div class="col-xs-12 col-sm-9 col-md-9">
                                             @Html.LabelFor(m => m.InteresadoID)
-                                            <div class="content table-responsive table-full-width">
+                                            <div class="contentPersona table-responsive table-full-width">
                                                 @if (Model != null && Model.Interesados != null)
                                                 {
                                                     <table id="tblInteresados" class="table table-striped table-responsive">
                                                         <thead>
                                                             <tr>
                                                                 <th>Nombre</th>
-
                                                             </tr>
                                                         </thead>
                                                         <tbody id="tblBodyInteresados">

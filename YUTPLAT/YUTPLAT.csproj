@@ -348,6 +348,10 @@
     <Compile Include="Migrations\201804302027487_Archivo generado em medicion.Designer.cs">
       <DependentUpon>201804302027487_Archivo generado em medicion.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201805012351401_Se agrega SeDebeNotificar en medicion.cs" />
+    <Compile Include="Migrations\201805012351401_Se agrega SeDebeNotificar en medicion.Designer.cs">
+      <DependentUpon>201805012351401_Se agrega SeDebeNotificar en medicion.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\ArchivoSQL.cs" />
     <Compile Include="Models\AnioTablero.cs" />
     <Compile Include="Models\IndicadorAutomatico.cs" />
@@ -753,6 +757,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201804302027487_Archivo generado em medicion.resx">
       <DependentUpon>201804302027487_Archivo generado em medicion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805012351401_Se agrega SeDebeNotificar en medicion.resx">
+      <DependentUpon>201805012351401_Se agrega SeDebeNotificar en medicion.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

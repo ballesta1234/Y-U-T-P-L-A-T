@@ -13,8 +13,14 @@ namespace YUTPLAT.Services.Interface
 {
     public class MedicionService : IMedicionService
     {
-        public static readonly string[] ColorMetaInaceptableExcelente = { "#DF0101", "#F79F81", "#F7FE2E", "#81F781", "#0B610B" };
-        public static readonly string[] ColorMetaExcelenteInaceptable = { "#0B610B", "#81F781", "#F7FE2E", "#F79F81", "#DF0101" };
+        public static string Inaceptable { get { return "#DF0101"; } }
+        public static string AMejorar { get { return "#F79F81"; } }
+        public static string Aceptable { get { return "#F7FE2E"; } }
+        public static string Satisfactoria { get { return "#81F781"; } }
+        public static string Excelente { get { return "#0B610B"; } }
+
+        public static readonly string[] ColorMetaInaceptableExcelente = { Inaceptable, AMejorar, Aceptable, Satisfactoria, Excelente };
+        public static readonly string[] ColorMetaExcelenteInaceptable = { Excelente, Satisfactoria, Aceptable, AMejorar, Inaceptable };
 
         private IMedicionRepository MedicionRepository { get; set; }
         private IIndicadorRepository IndicadorRepository { get; set; }
@@ -341,9 +347,29 @@ namespace YUTPLAT.Services.Interface
 
         public async Task<int> GuardarMedicion(MedicionViewModel medicionViewModel)
         {
+            Medicion medicionActual = await MedicionRepository.GetById(medicionViewModel.MedicionId).FirstOrDefaultAsync();
+            
+            string colorActual = null;
+
+            if(medicionActual != null)
+            {
+                MedicionViewModel medicionViewModelActual = AutoMapper.Mapper.Map<MedicionViewModel>(medicionActual);
+                colorActual = ObtenerColorCeldaHeatMap(medicionViewModelActual);
+            }
+            
+            string colorNuevo =  ObtenerColorCeldaHeatMap(medicionViewModel);
+
+            if(colorNuevo.Equals(Inaceptable))
+            {
+                if(colorActual == null || !colorActual.Equals(colorNuevo))
+                {
+                    medicionViewModel.SeDebeNotificar = true;
+                }
+            }
+
             Medicion medicion = AutoMapper.Mapper.Map<Medicion>(medicionViewModel);
             medicion.Indicador = null;
-
+            
             return await MedicionRepository.Guardar(medicion);
         }
 

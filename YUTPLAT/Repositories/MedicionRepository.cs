@@ -54,6 +54,10 @@ namespace YUTPLAT.Repositories
             {
                 queryable = queryable.Where(m => m.Anio == filtro.Anio);
             }
+            if(filtro.SeDebeNotificar != null)
+            {
+                queryable = queryable.Where(m => m.SeDebeNotificar == filtro.SeDebeNotificar.Value);
+            }
 
             return queryable;
         }

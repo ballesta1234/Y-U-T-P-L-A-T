@@ -230,7 +230,7 @@
                 <div class="col-xs-12 col-sm-12 col-md-12">
                     <div class="header">
                         <div class="row">
-                            <div class="col-xs-12 col-sm-3 col-md-2">
+                            <div class="col-xs-5 col-sm-3 col-md-2">
                                 @if (Model.AnioTableroViewModel.AnioTableroID > 0)
                                 {
                                     @Html.DropDownListFor(m => m.AnioTableroID, new SelectList(new List<SelectListItem> { new SelectListItem { Text = Model.AnioTableroViewModel.Descripcion, Value = Model.AnioTableroViewModel.AnioTableroID.ToString() } }, "Value", "Text"), new { @id = "ddlAnios", @class = "form-control" })

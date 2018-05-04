@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using static YUTPLAT.Enums.Enum;
@@ -21,6 +20,6 @@ namespace YUTPLAT.Models
         public string UsuarioCargo { get; set; }
         public bool ArchivoGenerado { get; set; }
         public string Comentario { get; set; }
-
+        public bool SeDebeNotificar { get; set; }
     }
 }

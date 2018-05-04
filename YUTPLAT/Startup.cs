@@ -39,9 +39,16 @@ namespace YUTPLAT
             indicadorAutomaticoService.GenerarJobsTareasAutomaticas();
 
             RecurringJob.AddOrUpdate<NotificacionService>(
-                "NotificacionesJob",
-                x => x.Notificar(),
+                "NotificarCarga",
+                x => x.NotificarCarga(),
+                //Cron.Minutely);
+                Cron.Monthly(1, 2, 0)); // Cada 1º de mes a las 2 a.m.
+
+            RecurringJob.AddOrUpdate<NotificacionService>(
+                "NotificarMetas",
+                x => x.NotificarMetas(),
                 Cron.Minutely);
+                //Cron.Daily(3, 0)); // Cada día a las 3 a.m.
 
             RecurringJob.AddOrUpdate<AnioTableroService>(
                 "ProcesoHabilitarAnioSiguiente",

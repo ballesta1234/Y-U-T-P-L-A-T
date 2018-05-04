@@ -22,6 +22,8 @@ namespace YUTPLAT.ViewModel
         public string FechaCarga { get; set; }
         public string UsuarioCargo { get; set; }
 
+        public bool? SeDebeNotificar { get; set; }
+
         [StringLength(2000)]
         [Display(Name = "Comentario")]
         public string Comentario { get; set; }        

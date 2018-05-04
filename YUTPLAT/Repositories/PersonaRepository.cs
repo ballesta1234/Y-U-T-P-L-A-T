@@ -5,6 +5,7 @@ using YUTPLAT.Context;
 using YUTPLAT.Repositories.Interface;
 using System.Threading.Tasks;
 using System.Data.Entity;
+using YUTPLAT.Helpers;
 
 namespace YUTPLAT.Repositories
 {
@@ -48,11 +49,20 @@ namespace YUTPLAT.Repositories
             {
                 queryable = queryable.Where(a => a.UserName.Contains(filtro.NombreUsuario.Trim()));
             }
+            if (filtro.EsUsuario != null)
+            {
+                string rolUsuario = EnumHelper<Enums.Enum.Rol>.GetDisplayValue(Enums.Enum.Rol.Usuario);
+                queryable = queryable.Where(a => a.Rol.Equals(rolUsuario));
+            }
             if (filtro.NombreOApellidoONombreUsuario != null && !string.IsNullOrEmpty(filtro.NombreOApellidoONombreUsuario.Trim()))
             {
                 queryable = queryable.Where(a => a.UserName.Contains(filtro.NombreOApellidoONombreUsuario.Trim()) ||
                                                  a.Nombre.Contains(filtro.NombreOApellidoONombreUsuario.Trim()) ||
                                                  a.Apellido.Contains(filtro.NombreOApellidoONombreUsuario.Trim()));
+            }
+            if (filtro.AreaViewModel != null && filtro.AreaViewModel.Id > 0)
+            {
+                queryable = queryable.Where(a => a.AreaID == filtro.AreaViewModel.Id);
             }
 
             return queryable;
