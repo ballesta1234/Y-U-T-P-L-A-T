@@ -434,9 +434,11 @@
     <Compile Include="Services\ObjetivoService.cs" />
     <Compile Include="Services\AreaService.cs" />
     <Compile Include="Services\Interface\IAreaService.cs" />
+    <Compile Include="Validadores\ValidarEnumRol.cs" />
     <Compile Include="Validadores\ValidarMeta.cs" />
     <Compile Include="Validadores\ValidarLista.cs" />
     <Compile Include="ViewModel\AnioTableroViewModel.cs" />
+    <Compile Include="ViewModel\BuscarUsuarioViewModel.cs" />
     <Compile Include="ViewModel\IndicadorAutomaticoViewModel.cs" />
     <Compile Include="ViewModel\CeldaHeatMapViewModel.cs" />
     <Compile Include="ViewModel\MedicionExportarDTO.cs" />
@@ -446,6 +448,7 @@
     <Compile Include="ViewModel\HeatMapViewModel.cs" />
     <Compile Include="ViewModel\EscalaGraficosViewModel.cs" />
     <Compile Include="ViewModel\MedicionViewModel.cs" />
+    <Compile Include="ViewModel\RolViewModel.cs" />
     <Compile Include="ViewModel\TableroViewModel.cs" />
     <Compile Include="ViewModel\ErrorViewModel.cs" />
     <Compile Include="ViewModel\MetaViewModel.cs" />
@@ -693,6 +696,8 @@
     <Content Include="Views\Shared\Medicion\_Crear.cshtml" />
     <Content Include="Views\Shared\Medicion\_Ver.cshtml" />
     <Content Include="Views\Shared\Medicion\_CrearAutomatico.cshtml" />
+    <Content Include="Views\Persona\Buscar.cshtml" />
+    <Content Include="Views\Persona\Crear.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

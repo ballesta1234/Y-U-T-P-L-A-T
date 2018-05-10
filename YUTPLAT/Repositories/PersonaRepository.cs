@@ -6,6 +6,9 @@ using YUTPLAT.Repositories.Interface;
 using System.Threading.Tasks;
 using System.Data.Entity;
 using YUTPLAT.Helpers;
+using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.AspNet.Identity;
+using System;
 
 namespace YUTPLAT.Repositories
 {
@@ -21,6 +24,11 @@ namespace YUTPLAT.Repositories
         public IQueryable<Persona> GetById(string id)
         {
             return this.context.Users.Where(a => a.Id.Equals(id));
+        }
+
+        public IQueryable<IdentityRole> TodosRoles()
+        {
+            return this.context.Roles;
         }
 
         public IQueryable<Persona> GetByUserName(string userName)
@@ -54,6 +62,10 @@ namespace YUTPLAT.Repositories
                 string rolUsuario = EnumHelper<Enums.Enum.Rol>.GetDisplayValue(Enums.Enum.Rol.Usuario);
                 queryable = queryable.Where(a => a.Rol.Equals(rolUsuario));
             }
+            if (filtro.IdRol != null && !string.IsNullOrEmpty(filtro.IdRol.Trim()))
+            {
+                queryable = queryable.Where(a => a.Roles.Select(r => r.RoleId).Contains(filtro.IdRol));
+            }
             if (filtro.NombreOApellidoONombreUsuario != null && !string.IsNullOrEmpty(filtro.NombreOApellidoONombreUsuario.Trim()))
             {
                 queryable = queryable.Where(a => a.UserName.Contains(filtro.NombreOApellidoONombreUsuario.Trim()) ||
@@ -66,6 +78,33 @@ namespace YUTPLAT.Repositories
             }
 
             return queryable;
+        }
+
+        public async Task<bool> ExisteUsuario(string nombreUsuario)
+        {
+            return await this.context.Users.AnyAsync(u => u.UserName.Equals(nombreUsuario));
+        }
+
+        public async Task<string> Guardar(Persona persona, string contrasenia)
+        {
+            var user = new Persona
+            {
+                UserName = persona.UserName,
+                Email = persona.Email,
+                EmailConfirmed = true,
+                Nombre = persona.Nombre,
+                Apellido = persona.Apellido,
+                Rol = persona.Rol,
+                AreaID = persona.AreaID
+            };
+
+            var store = new UserStore<Persona>(context);
+            var manager = new UserManager<Persona>(store);
+            
+            await manager.CreateAsync(user, contrasenia);
+            await manager.AddToRoleAsync(user.Id, persona.Rol);
+
+            return user.Id;
         }
 
         public void Dispose()

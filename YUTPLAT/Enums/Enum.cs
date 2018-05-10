@@ -6,6 +6,8 @@ namespace YUTPLAT.Enums
     {
         public enum Rol
         {
+            [Display(Name = " ")]
+            Indefinido = 0,
             [Display(Name = "admin")]
             Admin = 1,
             [Display(Name = "usuario")]

@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
+using Microsoft.AspNet.Identity.EntityFramework;
 using System;
+using YUTPLAT.Helpers;
 using YUTPLAT.Models;
 using YUTPLAT.ViewModel;
 
@@ -12,6 +14,10 @@ namespace YUTPLAT.App_Start
             Mapper.Initialize(
                 cfg =>
                 {
+                    cfg.CreateMap<IdentityRole, RolViewModel>()
+                    .ForMember(x => x.Id, x => x.MapFrom(y => y.Id))
+                    .ForMember(x => x.Nombre, x => x.MapFrom(y => y.Name));
+                    
                     cfg.CreateMap<Area, AreaViewModel>()
                     .ForMember(x => x.FechaCreacion, x => x.MapFrom(y => y.FechaCreacion != null ? y.FechaCreacion.Value.ToString("dd/MM/yyyy HH:mm tt") : ""))
                     .ForMember(x => x.FechaUltimaModificacion, x => x.MapFrom(y => y.FechaUltimaModificacion != null ? y.FechaUltimaModificacion.Value.ToString("dd/MM/yyyy HH:mm tt") : ""));
@@ -72,7 +78,17 @@ namespace YUTPLAT.App_Start
                    .ForMember(x => x.NombreUsuario, x => x.MapFrom(y => y.UserName))
                    .ForMember(x => x.EsAdmin, x => x.MapFrom(y => y.EsAdmin()))
                    .ForMember(x => x.EsUsuario, x => x.MapFrom(y => y.EsUsuario()))
+                   .ForMember(x => x.NombreRol, x => x.MapFrom(y => y.Rol))
+                   .ForMember(x => x.Email, x => x.MapFrom(y => y.Email))
                    .ForMember(x => x.AreaViewModel, x => x.MapFrom(y => y.Area != null ? y.Area : null));
+
+                    cfg.CreateMap<PersonaViewModel, Persona>()
+                   .ForMember(x => x.UserName, x => x.MapFrom(y => y.NombreUsuario))
+                   .ForMember(x => x.Nombre, x => x.MapFrom(y => y.Nombre))
+                   .ForMember(x => x.Apellido, x => x.MapFrom(y => y.Apellido))
+                   .ForMember(x => x.Rol, x => x.MapFrom(y => EnumHelper<Enums.Enum.Rol>.GetDisplayValue(y.Rol)))
+                   .ForMember(x => x.AreaID, x => x.MapFrom(y => y.AreaViewModel != null && y.AreaViewModel.Id > 0 ? y.AreaViewModel.Id : (int?)null))
+                   .ForMember(x => x.Email, x => x.MapFrom(y => y.Email));
 
                     cfg.CreateMap<Meta, MetaViewModel>()
                     .ForMember(x => x.Valor1, x => x.MapFrom(y => (y.Valor1 == null && (int)y.Signo1 == 0) ? "" : y.Valor1.Value.ToString().Replace(",", ".").TrimEnd('0').TrimEnd('.')))               

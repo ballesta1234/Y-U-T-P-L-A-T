@@ -41,9 +41,9 @@
             @if (User.IsInRole(YUTPLAT.Helpers.EnumHelper<YUTPLAT.Enums.Enum.Rol>.GetDisplayValue(YUTPLAT.Enums.Enum.Rol.Admin)) ||
                 User.IsInRole(YUTPLAT.Helpers.EnumHelper<YUTPLAT.Enums.Enum.Rol>.GetDisplayValue(YUTPLAT.Enums.Enum.Rol.Usuario)))
             {
-                <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Area" &&
+                <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Persona" &&
                       ViewContext.RouteData.Values["Action"].ToString() == "Buscar" ? "active" : "")">
-                    <a href="@Url.Action("Buscar", "Area")">
+                    <a href="@Url.Action("Buscar", "Persona")">
                         <i class="pe-7s-users"></i>
                         <p>Usuarios</p>
                     </a>

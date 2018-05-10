@@ -18,7 +18,7 @@ namespace YUTPLAT.Models
         public string Nombre { get; set; }
         public string Apellido { get; set; }
         public string Rol { get; set; }
-
+        
         public int? AreaID { get; set; }
         public virtual Area Area { get; set; }
 

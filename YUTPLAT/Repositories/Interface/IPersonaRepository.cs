@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity.EntityFramework;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using YUTPLAT.Models;
@@ -14,6 +15,12 @@ namespace YUTPLAT.Repositories.Interface
 
         IQueryable<Persona> Todas();
 
-        IQueryable<Persona> Buscar(PersonaViewModel filtro);        
+        IQueryable<Persona> Buscar(PersonaViewModel filtro);
+
+        IQueryable<IdentityRole> TodosRoles();
+
+        Task<string> Guardar(Persona persona, string contrasenia);
+
+        Task<bool> ExisteUsuario(string nombreUsuario);
     }
 }

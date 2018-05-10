@@ -12,6 +12,12 @@ namespace YUTPLAT.Services.Interface
             
         Task<IList<PersonaViewModel>> Todas();
 
-        Task<IList<PersonaViewModel>> Buscar(PersonaViewModel filtro);        
+        Task<IList<PersonaViewModel>> Buscar(PersonaViewModel filtro);
+        
+        Task<IList<RolViewModel>> TodosRoles();
+
+        Task<string> Guardar(PersonaViewModel personaViewModel);
+
+        Task<bool> ExisteUsuario(string nombreUsuario);
     }
 }
