@@ -6,6 +6,7 @@ using YUTPLAT.Helpers;
 using YUTPLAT.Helpers.Filters;
 using YUTPLAT.Services.Interface;
 using YUTPLAT.ViewModel;
+using System.Linq;
 
 namespace YUTPLAT.Controllers
 {
@@ -61,6 +62,17 @@ namespace YUTPLAT.Controllers
         {
             PersonaViewModel model = new PersonaViewModel();
 
+            PersonaViewModel personaLogueadaViewModel = (PersonaViewModel)Session["Persona"];
+            model.EsAdmin = personaLogueadaViewModel.EsAdmin;
+
+            if (personaLogueadaViewModel.AreaViewModel != null)
+            {
+                model.AreaViewModel = personaLogueadaViewModel.AreaViewModel;
+                model.IdArea = model.AreaViewModel.Id.ToString();
+
+                model.NombreRol = EnumHelper<Enums.Enum.Rol>.GetDisplayValue(Enums.Enum.Rol.Operador);
+            }
+
             model.Titulo = "Usuarios";
             ViewBag.Titulo = model.Titulo;
 
@@ -70,10 +82,21 @@ namespace YUTPLAT.Controllers
         [HttpPost]
         public async Task<ActionResult> Crear(PersonaViewModel model)
         {
+            PersonaViewModel personaLogueadaViewModel = (PersonaViewModel)Session["Persona"];
+            model.EsAdmin = personaLogueadaViewModel.EsAdmin;
+
+            if (personaLogueadaViewModel.AreaViewModel != null)
+            {
+                model.AreaViewModel = personaLogueadaViewModel.AreaViewModel;
+                model.IdArea = model.AreaViewModel.Id.ToString();
+
+                model.NombreRol = EnumHelper<Enums.Enum.Rol>.GetDisplayValue(Enums.Enum.Rol.Operador);
+            }
+
             if (!String.IsNullOrEmpty(model.IdArea) && !model.IdArea.Equals("0"))
                 model.AreaViewModel = await AreaService.GetById(Int32.Parse(model.IdArea));
 
-            if (model.Rol == Enums.Enum.Rol.Admin)
+            if (EnumHelper<Enums.Enum.Rol>.Parse(model.NombreRol.ToString()) == Enums.Enum.Rol.Admin)
             {
                 ModelState.Remove("IdArea");
             }
@@ -92,12 +115,77 @@ namespace YUTPLAT.Controllers
             return RedirectToAction("Editar", "Persona", new { q = MyExtensions.Encrypt(new { id = idPersona, msgExito = "El usuario se ha guardado exitosamente." }) });
         }
 
-        public async Task<JsonResult> BuscarRoles(string nombreRol)
-        {   /*
-            BuscarAreaViewModel filtro = new BuscarAreaViewModel();
-            filtro.Busqueda.Nombre = nombreArea;
-            */
-            return Json(await PersonaService.TodosRoles(), JsonRequestBehavior.AllowGet);
+        [HttpGet]
+        [EncryptedActionParameter]
+        public async Task<ActionResult> Editar(string id, string msgExito)
+        {
+            PersonaViewModel model = await PersonaService.GetById(id);
+
+            PersonaViewModel personaLogueadaViewModel = (PersonaViewModel)Session["Persona"];
+            model.EsAdmin = personaLogueadaViewModel.EsAdmin;
+
+            if (personaLogueadaViewModel.AreaViewModel != null)
+            {
+                model.AreaViewModel = personaLogueadaViewModel.AreaViewModel;
+                model.IdArea = model.AreaViewModel.Id.ToString();
+
+                model.NombreRol = EnumHelper<Enums.Enum.Rol>.GetDisplayValue(Enums.Enum.Rol.Operador);
+            }
+
+            model.Titulo = "Usuarios";
+            ViewBag.Titulo = model.Titulo;
+            ViewBag.MensageExito = msgExito;
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Editar(PersonaViewModel model)
+        {
+            PersonaViewModel personaLogueadaViewModel = (PersonaViewModel)Session["Persona"];
+            model.EsAdmin = personaLogueadaViewModel.EsAdmin;
+
+            if (personaLogueadaViewModel.AreaViewModel != null)
+            {
+                model.AreaViewModel = personaLogueadaViewModel.AreaViewModel;
+                model.IdArea = model.AreaViewModel.Id.ToString();
+
+                model.NombreRol = EnumHelper<Enums.Enum.Rol>.GetDisplayValue(Enums.Enum.Rol.Operador);
+            }
+
+            if (!String.IsNullOrEmpty(model.IdArea) && !model.IdArea.Equals("0"))
+                model.AreaViewModel = await AreaService.GetById(Int32.Parse(model.IdArea));
+
+            if (EnumHelper<Enums.Enum.Rol>.Parse(model.NombreRol.ToString()) == Enums.Enum.Rol.Admin)
+            {
+                ModelState.Remove("IdArea");
+            }
+
+            if (String.IsNullOrEmpty(model.Contrasenia) && String.IsNullOrEmpty(model.ConfirmarContrasenia))
+            {
+                ModelState.Remove("Contrasenia");
+                ModelState.Remove("ConfirmarContrasenia");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            model.Titulo = "Usuarios";
+
+            ViewBag.Titulo = model.Titulo;
+
+            string idPersona = await PersonaService.Guardar(model);
+
+            return RedirectToAction("Editar", "Persona", new { q = MyExtensions.Encrypt(new { id = idPersona, msgExito = "El usuario se ha guardado exitosamente." }) });
+        }
+
+        public async Task<JsonResult> BuscarRoles(string nombreRol, bool considerarArea)
+        {
+            IList<RolViewModel> roles = await PersonaService.TodosRoles();
+
+            return Json(roles, JsonRequestBehavior.AllowGet);
         }
 
         public async Task<JsonResult> BuscarPersonas(string nombreOApellidoONombreUsuario)
@@ -108,15 +196,17 @@ namespace YUTPLAT.Controllers
             return Json(await PersonaService.Buscar(filtro), JsonRequestBehavior.AllowGet);
         }
 
-        public async Task<JsonResult> ValidarNombreUsuario(string NombreUsuario)
+        public async Task<JsonResult> ValidarNombreUsuario(string NombreUsuario, string NombreUsuarioOriginal)
         {
-            if (!(await PersonaService.ExisteUsuario(NombreUsuario)))
+            if ((String.IsNullOrEmpty(NombreUsuarioOriginal) || !NombreUsuario.Equals(NombreUsuarioOriginal)) &&
+                (await PersonaService.ExisteUsuario(NombreUsuario)))
             {
-                return Json(true, JsonRequestBehavior.AllowGet);
+                return Json("El Nombre de usuario ya existe.", JsonRequestBehavior.AllowGet);
+
             }
             else
             {
-                return Json("El Nombre de usuario ya existe.", JsonRequestBehavior.AllowGet);
+                return Json(true, JsonRequestBehavior.AllowGet);
             }
         }
     }

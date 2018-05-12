@@ -8,8 +8,11 @@ namespace YUTPLAT.Validadores
         protected override ValidationResult
                 IsValid(object value, ValidationContext validationContext)
         {
-            Rol rol = (Rol)value;
+            if (value == null)
+                return null;
 
+            Rol rol = YUTPLAT.Helpers.EnumHelper<Enums.Enum.Rol>.Parse(value.ToString());
+            
             if (rol != Rol.Indefinido)
             {
                 return null;

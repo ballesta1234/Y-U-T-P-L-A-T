@@ -14,8 +14,7 @@ namespace YUTPLAT.App_Start
             Mapper.Initialize(
                 cfg =>
                 {
-                    cfg.CreateMap<IdentityRole, RolViewModel>()
-                    .ForMember(x => x.Id, x => x.MapFrom(y => y.Id))
+                    cfg.CreateMap<IdentityRole, RolViewModel>()                    
                     .ForMember(x => x.Nombre, x => x.MapFrom(y => y.Name));
                     
                     cfg.CreateMap<Area, AreaViewModel>()
@@ -44,8 +43,7 @@ namespace YUTPLAT.App_Start
                     .ForMember(x => x.FechaUltimaModificacion, x => x.MapFrom(y => y.FechaUltimaModificacion != null ? y.FechaUltimaModificacion.Value.ToString("dd/MM/yyyy HH:mm tt") : ""))
                     .ForMember(x => x.FrecuenciaMedicionIndicadorID, x => x.MapFrom(y => y.FrecuenciaMedicion != null ? y.FrecuenciaMedicion.FrecuenciaMedicionIndicadorID.ToString() : ""))
                     .ForMember(x => x.AreaID, x => x.MapFrom(y => y.Objetivo != null ? y.Objetivo.Area.Id.ToString() : ""))
-                    .ForMember(x => x.ObjetivoViewModel, x => x.MapFrom(y => y.Objetivo))
-                    .ForMember(x => x.Grupo, x => x.MapFrom(y => y.Grupo))
+                    .ForMember(x => x.ObjetivoViewModel, x => x.MapFrom(y => y.Objetivo))                    
                     .ForMember(x => x.MetaAceptableViewModel, x => x.MapFrom(y => y.MetaAceptable))
                     .ForMember(x => x.MetaAMejorarViewModel, x => x.MapFrom(y => y.MetaAMejorar))
                     .ForMember(x => x.MetaExcelenteViewModel, x => x.MapFrom(y => y.MetaExcelente))
@@ -55,10 +53,8 @@ namespace YUTPLAT.App_Start
                     .ForMember(x => x.Interesados, x => x.Ignore());
 
                     cfg.CreateMap<Indicador, FilaHeatMapViewModel>()
-                    .ForMember(x => x.IdIndicador, x => x.MapFrom(y => y.IndicadorID))
-                    .ForMember(x => x.Grupo, x => x.MapFrom(y => y.Grupo))                    
-                    .ForMember(x => x.NombreIndicador, x => x.MapFrom(y => y.Nombre))
-                    .ForMember(x => x.FechaValidez, x => x.MapFrom(y => y.FechaValidez))
+                    .ForMember(x => x.IdIndicador, x => x.MapFrom(y => y.IndicadorID))                                    
+                    .ForMember(x => x.NombreIndicador, x => x.MapFrom(y => y.Nombre))                    
                     .ForMember(x => x.NombreArea, x => x.MapFrom(y => y.Objetivo.Area.Nombre));
 
                     cfg.CreateMap<IndicadorViewModel, Indicador>()
@@ -76,20 +72,18 @@ namespace YUTPLAT.App_Start
 
                     cfg.CreateMap<Persona, PersonaViewModel>()
                    .ForMember(x => x.NombreUsuario, x => x.MapFrom(y => y.UserName))
+                   .ForMember(x => x.NombreUsuarioOriginal, x => x.MapFrom(y => y.UserName))
                    .ForMember(x => x.EsAdmin, x => x.MapFrom(y => y.EsAdmin()))
                    .ForMember(x => x.EsUsuario, x => x.MapFrom(y => y.EsUsuario()))
                    .ForMember(x => x.NombreRol, x => x.MapFrom(y => y.Rol))
-                   .ForMember(x => x.Email, x => x.MapFrom(y => y.Email))
+                   .ForMember(x => x.IdArea, x => x.MapFrom(y => y.Area != null ? y.Area.Id.ToString() : null))
                    .ForMember(x => x.AreaViewModel, x => x.MapFrom(y => y.Area != null ? y.Area : null));
 
                     cfg.CreateMap<PersonaViewModel, Persona>()
                    .ForMember(x => x.UserName, x => x.MapFrom(y => y.NombreUsuario))
-                   .ForMember(x => x.Nombre, x => x.MapFrom(y => y.Nombre))
-                   .ForMember(x => x.Apellido, x => x.MapFrom(y => y.Apellido))
-                   .ForMember(x => x.Rol, x => x.MapFrom(y => EnumHelper<Enums.Enum.Rol>.GetDisplayValue(y.Rol)))
-                   .ForMember(x => x.AreaID, x => x.MapFrom(y => y.AreaViewModel != null && y.AreaViewModel.Id > 0 ? y.AreaViewModel.Id : (int?)null))
-                   .ForMember(x => x.Email, x => x.MapFrom(y => y.Email));
-
+                   .ForMember(x => x.Rol, x => x.MapFrom(y => EnumHelper<Enums.Enum.Rol>.GetDisplayValue(EnumHelper<Enums.Enum.Rol>.Parse(y.NombreRol))))
+                   .ForMember(x => x.AreaID, x => x.MapFrom(y => y.AreaViewModel != null && y.AreaViewModel.Id > 0 ? y.AreaViewModel.Id : (int?)null));
+                   
                     cfg.CreateMap<Meta, MetaViewModel>()
                     .ForMember(x => x.Valor1, x => x.MapFrom(y => (y.Valor1 == null && (int)y.Signo1 == 0) ? "" : y.Valor1.Value.ToString().Replace(",", ".").TrimEnd('0').TrimEnd('.')))               
                     .ForMember(x => x.Valor2, x => x.MapFrom(y => (y.Valor2 == null && (int)y.Signo2 == 0) ? "" : y.Valor2.Value.ToString().Replace(",", ".").TrimEnd('0').TrimEnd('.')));
@@ -103,8 +97,7 @@ namespace YUTPLAT.App_Start
                     .ForMember(x => x.FechaCarga, x => x.MapFrom(y => y.FechaCarga != null ? y.FechaCarga.Value.ToString("dd/MM/yyyy HH:mm tt") : ""))
                     .ForMember(x => x.IndicadorViewModel, x => x.MapFrom(y => y.Indicador));
 
-                    cfg.CreateMap<Medicion, LineViewModel>()
-                    .ForMember(x => x.Valor, x => x.MapFrom(y => y.Valor))
+                    cfg.CreateMap<Medicion, LineViewModel>()                    
                     .ForMember(x => x.Mes, x => x.MapFrom( y => y.Mes.ToString()));
                     
                     cfg.CreateMap<MedicionViewModel, Medicion>()                    
@@ -117,8 +110,7 @@ namespace YUTPLAT.App_Start
                     .ForMember(x => x.Valor, x => x.MapFrom(y => y.Valor.Value));
 
                     cfg.CreateMap<ObtenerDetallesMediciones_Result, MedicionExportarDTO>()
-                    .ForMember(x => x.Mes, x => x.MapFrom(y => Helpers.EnumHelper<Enums.Enum.Mes>.Parse(y.Mes.Value.ToString())))
-                    .ForMember(x => x.Proyecto, x => x.MapFrom(y => y.Proyecto))
+                    .ForMember(x => x.Mes, x => x.MapFrom(y => Helpers.EnumHelper<Enums.Enum.Mes>.Parse(y.Mes.Value.ToString())))                    
                     .ForMember(x => x.Valor, x => x.MapFrom(y => y.Valor.Value));
 
                     cfg.CreateMap<IndicadorAutomatico, IndicadorAutomaticoViewModel>()

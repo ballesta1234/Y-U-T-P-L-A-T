@@ -698,6 +698,7 @@
     <Content Include="Views\Shared\Medicion\_CrearAutomatico.cshtml" />
     <Content Include="Views\Persona\Buscar.cshtml" />
     <Content Include="Views\Persona\Crear.cshtml" />
+    <Content Include="Views\Persona\Editar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -10,41 +10,37 @@ namespace YUTPLAT.ViewModel
     {
         public string Id { get; set; }
         public string Titulo { get; set; }
-
+        
         [Required]
         [Display(Name = "Nombre de usuario")]
-        [StringLength(150)]
-        [System.Web.Mvc.Remote("ValidarNombreUsuario", "Persona")]
+        [StringLength(15)]
+        [System.Web.Mvc.Remote("ValidarNombreUsuario", "Persona", AdditionalFields = "NombreUsuarioOriginal")]
         public string NombreUsuario { get; set; }
+
+        public string NombreUsuarioOriginal { get; set; }
 
         [Required]
         [Display(Name = "Email")]
-        [StringLength(150)]
+        [StringLength(100)]
         public string Email { get; set; }
 
         [Required]
         [Display(Name = "Nombre")]
-        [StringLength(150)]
+        [StringLength(100)]
         public string Nombre { get; set; }
 
         [Required]
         [Display(Name = "Apellido")]
-        [StringLength(150)]
+        [StringLength(100)]
         public string Apellido { get; set; }
         
         [Required]
-        [Display(Name = "Rol")]
-        [ValidarEnumRol]
-        public Rol Rol { get; set; }
-
-        [Required]
         [Display(Name = "Contraseña")]
-        [StringLength(150, MinimumLength = 6)]
+        [StringLength(15, MinimumLength = 6)]
         public string Contrasenia { get; set; }
         
         [Required]
-        [Display(Name = "Confirmar contraseña")]
-        [StringLength(150, MinimumLength = 6)]
+        [Display(Name = "Confirmar contraseña")]        
         [Compare("Contrasenia", ErrorMessage = "La confirmación de la contraseña no coincide.")]
         public string ConfirmarContrasenia { get; set; }
 
@@ -56,10 +52,10 @@ namespace YUTPLAT.ViewModel
         public bool EsAdmin { get; set; }
         public bool? EsUsuario { get; set; }
         public AreaViewModel AreaViewModel { get; set; }
-
-        [Display(Name = "Rol")]        
-        public string IdRol { get; set; }
-
+        
+        [Display(Name = "Rol")]
+        [Required]
+        [ValidarEnumRol]
         public string NombreRol { get; set; }
 
         public string NombreApellido

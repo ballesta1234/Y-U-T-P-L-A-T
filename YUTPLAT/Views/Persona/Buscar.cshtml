@@ -10,6 +10,7 @@
         $("#Busqueda_Apellido").rules("remove", "required");
         $("#Busqueda_NombreUsuario").rules("remove", "required");
         $("#ddlRoles").rules("remove", "required");
+        $("#Busqueda_IdRol").rules("remove");
     });
 </script>
 
@@ -42,8 +43,8 @@
                                     @Html.TextBoxFor(m => m.Busqueda.NombreUsuario, new { @class = "form-control" })
                                 </div>
                                 <div class="col-xs-12 col-sm-6 col-md-3">
-                                    @Html.LabelFor(m => m.Busqueda.IdRol)                                    
-                                    @Html.DropDownListFor(m => m.Busqueda.IdRol, Enumerable.Empty<SelectListItem>(), new { @id = "ddlRoles", @class = "form-control" })
+                                    @Html.LabelFor(m => m.Busqueda.NombreRol)                                    
+                                    @Html.DropDownListFor(m => m.Busqueda.NombreRol, Enumerable.Empty<SelectListItem>(), new { @id = "ddlRoles", @class = "form-control" })
                                     
                                 </div>
                             </div>
@@ -69,7 +70,7 @@
                                                     <th class="col-md-2">@Html.LabelFor(m => m.Busqueda.Nombre)</th>
                                                     <th class="col-md-2">@Html.LabelFor(m => m.Busqueda.Apellido)</th>
                                                     <th class="col-md-2">@Html.LabelFor(m => m.Busqueda.NombreUsuario)</th>
-                                                    <th class="col-md-2">@Html.LabelFor(m => m.Busqueda.IdRol)</th>
+                                                    <th class="col-md-2">@Html.LabelFor(m => m.Busqueda.NombreRol)</th>
                                                     <th class="col-md-1">Acciones</th>
                                                     </thead>
                                                     <tbody>
@@ -123,6 +124,7 @@
             data: function (params) {
                 return {
                     nombreRol: params.term,
+                    considerarArea: false,
                 };
             },
             processResults: function (data, page) {
@@ -159,7 +161,7 @@
     });
 
     function procesarResultado(resultado) {
-        return { id: resultado.Id, text: resultado.Nombre };
+        return { id: resultado.Nombre, text: resultado.Nombre };
     }
 
     function procesarRol(resultados) {

@@ -62,9 +62,9 @@ namespace YUTPLAT.Repositories
                 string rolUsuario = EnumHelper<Enums.Enum.Rol>.GetDisplayValue(Enums.Enum.Rol.Usuario);
                 queryable = queryable.Where(a => a.Rol.Equals(rolUsuario));
             }
-            if (filtro.IdRol != null && !string.IsNullOrEmpty(filtro.IdRol.Trim()))
+            if (filtro.NombreRol != null && !string.IsNullOrEmpty(filtro.NombreRol.Trim()))
             {
-                queryable = queryable.Where(a => a.Roles.Select(r => r.RoleId).Contains(filtro.IdRol));
+                queryable = queryable.Where(a => a.Rol.Contains(filtro.NombreRol));
             }
             if (filtro.NombreOApellidoONombreUsuario != null && !string.IsNullOrEmpty(filtro.NombreOApellidoONombreUsuario.Trim()))
             {
@@ -87,23 +87,46 @@ namespace YUTPLAT.Repositories
 
         public async Task<string> Guardar(Persona persona, string contrasenia)
         {
-            var user = new Persona
-            {
-                UserName = persona.UserName,
-                Email = persona.Email,
-                EmailConfirmed = true,
-                Nombre = persona.Nombre,
-                Apellido = persona.Apellido,
-                Rol = persona.Rol,
-                AreaID = persona.AreaID
-            };
-
             var store = new UserStore<Persona>(context);
             var manager = new UserManager<Persona>(store);
-            
-            await manager.CreateAsync(user, contrasenia);
-            await manager.AddToRoleAsync(user.Id, persona.Rol);
 
+            var user = new Persona {};
+
+            if (!String.IsNullOrEmpty(persona.Id))
+            {
+                user = await this.context.Users.FirstAsync(u => u.Id.Equals(persona.Id));
+                user.UserName = persona.UserName;
+                user.Email = persona.Email;
+                user.EmailConfirmed = true;
+                user.Nombre = persona.Nombre;
+                user.Apellido = persona.Apellido;
+                user.Rol = persona.Rol;
+                user.AreaID = persona.AreaID;
+               
+                if (!String.IsNullOrEmpty(contrasenia))
+                {                    
+                    user.PasswordHash = manager.PasswordHasher.HashPassword(contrasenia);
+                }
+
+                await manager.UpdateAsync(user);
+            }
+            else
+            {
+                user = new Persona
+                {
+                    UserName = persona.UserName,
+                    Email = persona.Email,
+                    EmailConfirmed = true,
+                    Nombre = persona.Nombre,
+                    Apellido = persona.Apellido,
+                    Rol = persona.Rol,
+                    AreaID = persona.AreaID                    
+                };
+
+                await manager.CreateAsync(user, contrasenia);
+                await manager.AddToRoleAsync(user.Id, user.Rol);
+            }        
+            
             return user.Id;
         }
 

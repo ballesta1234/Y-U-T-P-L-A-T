@@ -47,8 +47,7 @@ namespace YUTPLAT.Services.Interface
         public async Task<string> Guardar(PersonaViewModel personaViewModel)
         {
             Persona persona = AutoMapper.Mapper.Map<Persona>(personaViewModel);
-            await PersonaRepository.Guardar(persona, personaViewModel.Contrasenia);
-            return persona.Id;
+            return await PersonaRepository.Guardar(persona, personaViewModel.Contrasenia);
         }
 
         public async Task<bool> ExisteUsuario(string nombreUsuario)

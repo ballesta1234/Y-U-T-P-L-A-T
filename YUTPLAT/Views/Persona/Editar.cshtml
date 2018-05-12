@@ -35,19 +35,17 @@
                 $("#ddlAreas").rules("remove", "required");
             }
         });
-        
-        if($("#EsAdmin").val() == 'True') {
-            if ($('#NombreRol option:selected').text() == ' ' || $('#NombreRol option:selected').text() == 'admin') {
-                $("#divArea").hide();
-            }
 
-            if ($('#NombreRol option:selected').text() == 'operador' || $('#NombreRol option:selected').text() == 'usuario') {
-                $("#divArea").show();
-            }
+        if ($('#NombreRol').val() == ' ' || $('#NombreRol').val() == 'admin') {
+            $("#divArea").hide();
         }
-        else {           
+
+        if ($('#NombreRol').val() == 'operador' || $('#NombreRol').val() == 'usuario') {
             $("#divArea").show();
         }
+        
+        $("#Contrasenia").rules("remove", "required");
+        $("#ConfirmarContrasenia").rules("remove", "required");
     });
 
 </script>
@@ -59,10 +57,10 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="header">
-                        <h4 class="title">Crear</h4>
+                        <h4 class="title">Editar</h4>
                     </div>
                     <div class="content">
-                        @using (Html.BeginForm("Crear", "Persona", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { id="form", role = "form" }))
+                        @using (Html.BeginForm("Editar", "Persona", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { id="form", role = "form" }))
                         {
                             <div id="errorGeneral" style="display:none;" class="text-danger">
                                 Verifique que todos los campos estén cargados y sean correctos.
@@ -124,7 +122,6 @@
 
                                 <div class="col-xs-12 col-sm-6 col-md-3">
                                     @Html.LabelFor(m => m.Contrasenia)
-                                    <span class="text-danger">*</span>
                                     @Html.TextBoxFor(m => m.Contrasenia, new { @class = "form-control", type = "password" })
                                     <span class="aclaracion">(máximo 15 caracteres)</span>
                                     @Html.ValidationMessageFor(m => m.Contrasenia, "", new { @class = "text-danger" })
@@ -132,7 +129,6 @@
 
                                 <div class="col-xs-12 col-sm-6 col-md-3">
                                     @Html.LabelFor(m => m.ConfirmarContrasenia)
-                                    <span class="text-danger">*</span>
                                     @Html.TextBoxFor(m => m.ConfirmarContrasenia, new { @class = "form-control", type = "password" })                                    
                                     @Html.ValidationMessageFor(m => m.ConfirmarContrasenia, "", new { @class = "text-danger" })
                                 </div>
@@ -175,7 +171,10 @@
                                 </div>
                             </div>
 
+                            @Html.HiddenFor(m => m.NombreUsuarioOriginal)
                             @Html.HiddenFor(m => m.EsAdmin)
+                            @Html.HiddenFor(m => m.Id)
+                            @Html.HiddenFor(m => m.NombreRol)
                         }
                     </div>
                 </div>
@@ -196,7 +195,7 @@
             delay: 250,
             data: function (params) {
                 return {
-                    nombreArea: params.term,                    
+                    nombreArea: params.term,
                 };
             },
             processResults: function (data, page) {
@@ -242,7 +241,7 @@
             array.push(procesarResultado(resultados[i]));
         }
         return array
-    } 
+    }
 
     $('.filter-modal select').css('width', '100%');
 
@@ -305,10 +304,10 @@
         return array
     }
 
-    var sinResultados = '@Html.Raw(@ViewBag.SinResultados)';
+    var mensageExito = '@Html.Raw(@ViewBag.MensageExito)';
 
-    if (sinResultados != '') {
-        demo.showNotificationWarning('top', 'center', sinResultados, 'pe-7s-attention');
+    if (mensageExito != '') {
+        demo.showNotificationInfo('top', 'center', mensageExito, 'pe-7s-check');
     }
 
 </script>
