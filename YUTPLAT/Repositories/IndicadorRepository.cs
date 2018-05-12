@@ -88,7 +88,7 @@ namespace YUTPLAT.Repositories
                 int areaId = Int32.Parse(filtro.Busqueda.AreaID.Trim());
                 queryable = queryable.Where(a => a.Objetivo.AreaID == areaId);
             }
-            else if(!filtro.PersonaLogueadaViewModel.EsAdmin)
+            else if(filtro.PersonaLogueadaViewModel != null && !filtro.PersonaLogueadaViewModel.EsAdmin)
             {
                 int areaId = filtro.PersonaLogueadaViewModel.AreaViewModel.Id;
                 queryable = queryable.Where(a => a.Objetivo.AreaID == areaId);
@@ -99,14 +99,14 @@ namespace YUTPLAT.Repositories
                 queryable = queryable.Where(a => a.ObjetivoID == objetivoId);
             }
             if (filtro.Busqueda.Grupo != 0)
-            {                
+            {              
                 queryable = queryable.Where(a => a.Grupo == filtro.Busqueda.Grupo);
             }
             if (filtro.Busqueda.Id != 0)
             {
                 queryable = queryable.Where(a => a.IndicadorID == filtro.Busqueda.Id);
             }
-            if (!filtro.PersonaLogueadaViewModel.EsJefeArea)
+            if (filtro.PersonaLogueadaViewModel != null && !filtro.PersonaLogueadaViewModel.EsJefeArea)
             {
                 queryable = queryable.Where( a => a.Responsables.Any( r => r.Persona.UserName.Equals(filtro.PersonaLogueadaViewModel.NombreUsuario)) ||
                                                   a.Interesados.Any(i => i.Persona.UserName.Equals(filtro.PersonaLogueadaViewModel.NombreUsuario)));

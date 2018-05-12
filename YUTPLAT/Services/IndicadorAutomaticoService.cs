@@ -32,6 +32,23 @@ namespace YUTPLAT.Services.Interface
             }
         }
 
+        public void DetenerJob(IndicadorAutomaticoViewModel indicadorAutomatico)
+        {
+            RecurringJob.RemoveIfExists(indicadorAutomatico.Nombre);
+        }
+
+        public void IniciarJob(IndicadorAutomaticoViewModel indicadorAutomatico)
+        {
+            if (indicadorAutomatico.CategoriaIndicadorAutomatico == Enums.Enum.CategoriaIndicadorAutomatico.CPI)
+            {
+                RecurringJob.AddOrUpdate<IndicadorAutomaticoCPIStrategy>(
+                   indicadorAutomatico.Nombre,
+                   x => x.EjecutarIndicador(indicadorAutomatico.IndicadorViewModel),
+                   Cron.Minutely);
+                //Cron.Monthly(5, 1, 0)); // El 5 de cada mes a la 1:00 a.m.
+            }
+        }
+
         public IList<IndicadorAutomaticoViewModel> Todos()
         {
             return AutoMapper.Mapper.Map<IList<IndicadorAutomaticoViewModel>>(IndicadorAutomaticoRepository.Todos().ToList());

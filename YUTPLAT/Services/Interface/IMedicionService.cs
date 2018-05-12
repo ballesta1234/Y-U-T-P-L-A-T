@@ -12,6 +12,8 @@ namespace YUTPLAT.Services.Interface
 
         Task<IList<MedicionViewModel>> Buscar(MedicionViewModel filtro);
 
+        IList<MedicionViewModel> BuscarNoTask(MedicionViewModel filtro);
+
         Task<HeatMapViewModel> ObtenerHeatMapViewModel(BuscarIndicadorViewModel buscarIndicadorViewModel);
 
         Task<GaugeViewModel> ObtenerGaugeViewModel(long grupo, int anio, PersonaViewModel personaViewModel);
@@ -20,10 +22,15 @@ namespace YUTPLAT.Services.Interface
 
         Task<MedicionViewModel> ObtenerMedicionViewModel(int idIndicador, int mes, int? idMedicion, long grupo, int anio, PersonaViewModel personaViewModel);
 
+        MedicionViewModel ObtenerMedicionViewModelNoTask(int idIndicador, int mes, int? idMedicion, long grupo, int anio, PersonaViewModel personaViewModel);
+        
         Task<int> GuardarMedicion(MedicionViewModel medicionViewModel);
+        int GuardarMedicionNoTask(MedicionViewModel medicionViewModel);
 
         bool ValidaMedicion(MedicionViewModel medicionViewModel);
 
         byte[] ObtenerArchivo(int anio, int mes);
+
+        Task<int> Guardar(MedicionViewModel medicionViewModel);
     }
 }

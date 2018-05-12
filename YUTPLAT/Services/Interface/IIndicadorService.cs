@@ -10,6 +10,8 @@ namespace YUTPLAT.Services.Interface
 
         Task<IndicadorViewModel> GetUltimoByGrupo(long grupo, PersonaViewModel personaViewModel);
 
+        IndicadorViewModel GetUltimoByGrupoNoTask(long grupo, PersonaViewModel personaViewModel);
+
         Task<IList<IndicadorViewModel>> Buscar(BuscarIndicadorViewModel filtro);
 
         Task<int> Guardar(IndicadorViewModel indicadorViewModel);        

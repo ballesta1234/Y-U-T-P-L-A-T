@@ -41,6 +41,11 @@ namespace YUTPLAT.Services.Interface
             this.PersonaRepository = personaRepository;
         }
 
+        public MedicionViewModel GetByIdNoTask(int id)
+        {
+            return AutoMapper.Mapper.Map<MedicionViewModel>(MedicionRepository.GetById(id).First());
+        }
+
         public async Task<MedicionViewModel> GetById(int id)
         {
             return AutoMapper.Mapper.Map<MedicionViewModel>(await MedicionRepository.GetById(id).FirstAsync());
@@ -54,6 +59,11 @@ namespace YUTPLAT.Services.Interface
         public async Task<IList<MedicionViewModel>> Buscar(MedicionViewModel filtro)
         {
             return AutoMapper.Mapper.Map<IList<MedicionViewModel>>(await MedicionRepository.Buscar(filtro).ToListAsync());
+        }
+
+        public IList<MedicionViewModel> BuscarNoTask(MedicionViewModel filtro)
+        {
+            return AutoMapper.Mapper.Map<IList<MedicionViewModel>>(MedicionRepository.Buscar(filtro).ToList());
         }
 
         public async Task<IList<LineViewModel>> ObtenerLineViewModel(long grupo, int anio, PersonaViewModel personaViewModel)
@@ -322,6 +332,29 @@ namespace YUTPLAT.Services.Interface
             }
         }
 
+        public MedicionViewModel ObtenerMedicionViewModelNoTask(int idIndicador, int mes, int? idMedicion, long grupo, int anio, PersonaViewModel personaViewModel)
+        {
+            MedicionViewModel medicionViewModel = new MedicionViewModel();
+            medicionViewModel.Mes = Helpers.EnumHelper<Enums.Enum.Mes>.Parse(mes.ToString());
+            medicionViewModel.IndicadorID = idIndicador;
+
+            // Obtener el nombre del último indicador del grupo.
+            IndicadorViewModel indicadorViewModel = IndicadorService.GetUltimoByGrupoNoTask(grupo, personaViewModel);
+
+            if (idMedicion != null)
+            {
+                medicionViewModel = this.GetByIdNoTask(idMedicion.Value);
+            }
+            else
+            {
+                medicionViewModel.IndicadorViewModel = indicadorViewModel;
+            }
+
+            medicionViewModel.IndicadorViewModel.Nombre = indicadorViewModel.Nombre;
+
+            return medicionViewModel;
+        }
+        
         public async Task<MedicionViewModel> ObtenerMedicionViewModel(int idIndicador, int mes, int? idMedicion, long grupo, int anio, PersonaViewModel personaViewModel)
         {
             MedicionViewModel medicionViewModel = new MedicionViewModel();
@@ -343,6 +376,13 @@ namespace YUTPLAT.Services.Interface
             medicionViewModel.IndicadorViewModel.Nombre = indicadorViewModel.Nombre;
 
             return medicionViewModel;
+        }
+
+        public async Task<int> Guardar(MedicionViewModel medicionViewModel)
+        {
+            Medicion medicion = AutoMapper.Mapper.Map<Medicion>(medicionViewModel);
+            medicion.Indicador = null;
+            return await MedicionRepository.Guardar(medicion);
         }
 
         public async Task<int> GuardarMedicion(MedicionViewModel medicionViewModel)
@@ -371,6 +411,34 @@ namespace YUTPLAT.Services.Interface
             medicion.Indicador = null;
             
             return await MedicionRepository.Guardar(medicion);
+        }
+
+        public int GuardarMedicionNoTask(MedicionViewModel medicionViewModel)
+        {
+            Medicion medicionActual = MedicionRepository.GetById(medicionViewModel.MedicionId).FirstOrDefault();
+
+            string colorActual = null;
+
+            if (medicionActual != null)
+            {
+                MedicionViewModel medicionViewModelActual = AutoMapper.Mapper.Map<MedicionViewModel>(medicionActual);
+                colorActual = ObtenerColorCeldaHeatMap(medicionViewModelActual);
+            }
+
+            string colorNuevo = ObtenerColorCeldaHeatMap(medicionViewModel);
+
+            if (colorNuevo.Equals(Inaceptable))
+            {
+                if (colorActual == null || !colorActual.Equals(colorNuevo))
+                {
+                    medicionViewModel.SeDebeNotificar = true;
+                }
+            }
+
+            Medicion medicion = AutoMapper.Mapper.Map<Medicion>(medicionViewModel);
+            medicion.Indicador = null;
+
+            return MedicionRepository.GuardarNoTask(medicion);
         }
 
         public bool ValidaMedicion(MedicionViewModel medicionViewModel)

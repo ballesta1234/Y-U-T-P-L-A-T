@@ -12,11 +12,11 @@ namespace YUTPLAT.Services.Interface
 {
     public class IndicadorAutomaticoCPIStrategy : IIndicadorAutomaticoStrategy
     {
-        private IMedicionRepository MedicionRepository { get; set; }
+        private IMedicionService MedicionService { get; set; }
 
-        public IndicadorAutomaticoCPIStrategy(IMedicionRepository medicionRepository)
+        public IndicadorAutomaticoCPIStrategy(IMedicionService medicionService)
         {
-            this.MedicionRepository = medicionRepository;
+            this.MedicionService = medicionService;
         }
 
         private Object thisLock = new Object();
@@ -47,21 +47,19 @@ namespace YUTPLAT.Services.Interface
                 IList<Medicion> medicionesNuevas = AutoMapper.Mapper.Map<IList<Medicion>>(spContext.ObtenerTodasMediciones().ToList());
 
                 Medicion medicionNuevaMes = medicionesNuevas.First(mn => (int)mn.Mes == mesACalcular);
-
-                Medicion medicionMes = this.MedicionRepository.Buscar(new MedicionViewModel { Grupo = indicadorViewModel.Grupo, Mes = mesAnterior, Anio = anioACalcular }).FirstOrDefault();
+                
+                MedicionViewModel medicionMes = this.MedicionService.BuscarNoTask(new MedicionViewModel { Grupo = indicadorViewModel.Grupo, Mes = mesAnterior, Anio = anioACalcular }).FirstOrDefault();
 
                 // Guardar la medición sólo si no tiene
                 if (medicionMes == null)
                 {
-                    medicionMes = new Medicion();
-                    medicionMes.Mes = mesAnterior;
-                    medicionMes.IndicadorID = indicadorViewModel.Id;                    
-                    medicionMes.FechaCarga = DateTimeHelper.OntenerFechaActual();
+                    medicionMes = MedicionService.ObtenerMedicionViewModelNoTask(indicadorViewModel.Id, (int)mesAnterior, null, indicadorViewModel.Grupo, anioACalcular, null);
+                    medicionMes.FechaCarga = DateTimeHelper.OntenerFechaActual().ToString("dd/MM/yyyy HH:mm tt");
                     medicionMes.UsuarioCargo = "Automático Sistema";
                     medicionMes.Anio = anioACalcular;
-                    medicionMes.Valor = medicionNuevaMes.Valor;
+                    medicionMes.Valor = medicionNuevaMes.Valor.ToString().Replace(",", ".").TrimEnd('0').TrimEnd('.');
 
-                    MedicionRepository.Guardar(medicionMes);
+                    medicionMes.MedicionId = MedicionService.GuardarMedicionNoTask(medicionMes);
                 }
 
                 // Generar excel con el detalle
@@ -69,8 +67,8 @@ namespace YUTPLAT.Services.Interface
             }
         }
 
-        public void GenerarExcel(Medicion medicionMes)
-        {
+        public void GenerarExcel(MedicionViewModel medicionMes)
+        {   
             string tempDirectory = AppDomain.CurrentDomain.BaseDirectory + "Temp/";
             string file = medicionMes.Anio.ToString() + "_" + ((int)medicionMes.Mes).ToString() + ".xlsx";
 
@@ -87,7 +85,7 @@ namespace YUTPLAT.Services.Interface
                 }
 
                 medicionMes.ArchivoGenerado = true;
-                MedicionRepository.Guardar(medicionMes);
+                MedicionService.Guardar(medicionMes);
             }
         }
         

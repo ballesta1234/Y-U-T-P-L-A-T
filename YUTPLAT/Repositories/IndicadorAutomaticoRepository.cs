@@ -22,7 +22,20 @@ namespace YUTPLAT.Repositories
         {
             return this.context.IndicadoresAutomaticos;
         }
-        
+
+        public IQueryable<IndicadorAutomatico> GetByIdIndicador(int idIndicador)
+        {
+            return this.context.IndicadoresAutomaticos.Where(ia => ia.IndicadorID == idIndicador);
+        }
+
+        public async Task<int> Guardar(IndicadorAutomatico indicadorAutomatico)
+        {
+            this.context.IndicadoresAutomaticos.AddOrUpdate(indicadorAutomatico);
+            await this.context.SaveChangesAsync();
+
+            return indicadorAutomatico.Id;
+        }
+
         public void Dispose()
         {
             context.Dispose();

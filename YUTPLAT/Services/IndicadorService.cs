@@ -13,6 +13,8 @@ namespace YUTPLAT.Services.Interface
     public class IndicadorService : IIndicadorService
     {
         private IIndicadorRepository IndicadorRepository { get; set; }
+        private IIndicadorAutomaticoRepository IndicadorAutomaticoRepository { get; set; }
+        private IIndicadorAutomaticoService IndicadorAutomaticoService { get; set; }
         private IResponsableIndicadorRepository ResponsableIndicadorRepository { get; set; }
         private IInteresadoIndicadorRepository InteresadoIndicadorRepository { get; set; }
         private IMetaRepository MetaRepository { get; set; }
@@ -21,6 +23,8 @@ namespace YUTPLAT.Services.Interface
         private IAccesoIndicadorRepository AccesoIndicadorRepository { get; set; }
 
         public IndicadorService(IIndicadorRepository indicadorRepository,
+                                IIndicadorAutomaticoRepository indicadorAutomaticoRepository,
+                                IIndicadorAutomaticoService indicadorAutomaticoService,
                                 IResponsableIndicadorRepository responsableIndicadorRepository,
                                 IInteresadoIndicadorRepository interesadoIndicadorRepository,
                                 IMetaRepository metaRepository,
@@ -29,6 +33,8 @@ namespace YUTPLAT.Services.Interface
                                 IAccesoIndicadorRepository accesoIndicadorRepository)
         {
             this.IndicadorRepository = indicadorRepository;
+            this.IndicadorAutomaticoRepository = indicadorAutomaticoRepository;
+            this.IndicadorAutomaticoService = indicadorAutomaticoService;
             this.ResponsableIndicadorRepository = responsableIndicadorRepository;
             this.InteresadoIndicadorRepository = interesadoIndicadorRepository;
             this.MetaRepository = metaRepository;
@@ -36,7 +42,22 @@ namespace YUTPLAT.Services.Interface
             this.PersonaRepository = personaRepository;
             this.AccesoIndicadorRepository = accesoIndicadorRepository;
         }
-        
+
+        public IndicadorViewModel GetUltimoByGrupoNoTask(long grupo, PersonaViewModel personaViewModel)
+        {
+            // Obtener el nombre del último indicador del grupo.
+            Indicador indicador = IndicadorRepository.Buscar(new BuscarIndicadorViewModel { Busqueda = new IndicadorViewModel { Grupo = grupo }, PersonaLogueadaViewModel = personaViewModel }).First();
+
+            IndicadorViewModel indicadorViewModel = AutoMapper.Mapper.Map<IndicadorViewModel>(indicador);
+            indicadorViewModel.ObjetivoViewModel = AutoMapper.Mapper.Map<ObjetivoViewModel>(indicador.Objetivo);
+            indicadorViewModel.ObjetivoViewModel.AreaViewModel = AutoMapper.Mapper.Map<AreaViewModel>(indicador.Objetivo.Area);
+            indicadorViewModel.FrecuenciaMedicionIndicadorViewModel = AutoMapper.Mapper.Map<FrecuenciaMedicionIndicadorViewModel>(indicador.FrecuenciaMedicion);
+            indicadorViewModel.Interesados = AutoMapper.Mapper.Map<IList<PersonaViewModel>>(indicador.Interesados.Select(i => i.Persona));
+            indicadorViewModel.Responsables = AutoMapper.Mapper.Map<IList<PersonaViewModel>>(indicador.Responsables.Select(i => i.Persona));
+
+            return indicadorViewModel;
+        }
+
         public async Task<IndicadorViewModel> GetUltimoByGrupo(long grupo, PersonaViewModel personaViewModel)
         {
             // Obtener el nombre del último indicador del grupo.
@@ -123,7 +144,7 @@ namespace YUTPLAT.Services.Interface
             {
                 indicador.FechaCreacion = indicador.FechaCreacion.Value.AddMinutes(1);
             }
-
+                        
             indicador.MetaAceptableMetaID = await GuardarMeta(indicadorViewModel.MetaAceptableViewModel);
             indicador.MetaAMejorarMetaID = await GuardarMeta(indicadorViewModel.MetaAMejorarViewModel);
             indicador.MetaExcelenteMetaID = await GuardarMeta(indicadorViewModel.MetaExcelenteViewModel);
@@ -137,6 +158,23 @@ namespace YUTPLAT.Services.Interface
             {
                 indicador.Grupo = indicador.IndicadorID;
                 await IndicadorRepository.Guardar(indicador);
+            }
+            
+            if (modificado)
+            {
+                IndicadorAutomatico indicadorAutomatico = await IndicadorAutomaticoRepository.GetByIdIndicador(idIndicadorOriginal).FirstOrDefaultAsync();
+
+                if(indicadorAutomatico != null)
+                {
+                    indicadorAutomatico.Indicador = null;
+                    indicadorAutomatico.IndicadorID = indicador.IndicadorID;
+                    await IndicadorAutomaticoRepository.Guardar(indicadorAutomatico);
+
+                    IndicadorAutomaticoViewModel indicadorAutomaticoViewModel = AutoMapper.Mapper.Map<IndicadorAutomaticoViewModel>(indicadorAutomatico);
+
+                    IndicadorAutomaticoService.DetenerJob(indicadorAutomaticoViewModel);
+                    IndicadorAutomaticoService.IniciarJob(indicadorAutomaticoViewModel);
+                }
             }
 
             // Guardar los responsables

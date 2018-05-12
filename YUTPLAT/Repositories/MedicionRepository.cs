@@ -24,6 +24,13 @@ namespace YUTPLAT.Repositories
             return medicion.MedicionId;
         }
 
+        public int GuardarNoTask(Medicion medicion)
+        {
+            this.context.Mediciones.AddOrUpdate(medicion);
+            this.context.SaveChanges();
+            return medicion.MedicionId;
+        }
+
         public IQueryable<Medicion> GetById(int id)
         {
             return this.context.Mediciones.Where(m => m.MedicionId == id);
