@@ -699,6 +699,7 @@
     <Content Include="Views\Persona\Buscar.cshtml" />
     <Content Include="Views\Persona\Crear.cshtml" />
     <Content Include="Views\Persona\Editar.cshtml" />
+    <Content Include="Views\Persona\Ver.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

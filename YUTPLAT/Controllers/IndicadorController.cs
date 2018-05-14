@@ -146,10 +146,10 @@ namespace YUTPLAT.Controllers
         public async Task<ActionResult> Editar(string id, string msgExito)
         {
             IndicadorViewModel model = await IndicadorService.GetById(Int32.Parse(id));
+
             model.CantidadInteresadosElegidos = model.Interesados.Count;
             model.CantidadResponsablesElegidos = model.Responsables.Count;
             model.PersonaLogueadaViewModel = (PersonaViewModel)Session["Persona"];
-
             model.Titulo = "Indicadores";
 
             Session["InteresadosSeleccionados"] = model.Interesados;

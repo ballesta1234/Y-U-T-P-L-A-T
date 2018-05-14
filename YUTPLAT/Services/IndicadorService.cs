@@ -178,10 +178,10 @@ namespace YUTPLAT.Services.Interface
             }
 
             // Guardar los responsables
-            GuardarResponsables(indicadorViewModel.Responsables, indicador.IndicadorID);
+            await GuardarResponsables(indicadorViewModel.Responsables, indicador.IndicadorID);
             
             // Guardar los interesados
-            GuardarInteresados(indicadorViewModel.Interesados, indicador.IndicadorID);
+            await GuardarInteresados(indicadorViewModel.Interesados, indicador.IndicadorID);
                         
             if (modificado)
             {
@@ -292,7 +292,7 @@ namespace YUTPLAT.Services.Interface
             return await MetaRepository.Guardar(meta);
         }
 
-        private void GuardarResponsables(IList<PersonaViewModel> responsables, int indicadorID)
+        private async Task GuardarResponsables(IList<PersonaViewModel> responsables, int indicadorID)
         {
             if (responsables != null)
             {                
@@ -302,19 +302,19 @@ namespace YUTPLAT.Services.Interface
                     ResponsableIndicador responsableIndicador = new ResponsableIndicador();
                     responsableIndicador.IndicadorID = indicadorID;
                     responsableIndicador.PersonaID = responsable.Id;
-                    ResponsableIndicadorRepository.Guardar(responsableIndicador);
+                    await ResponsableIndicadorRepository.Guardar(responsableIndicador);
 
                     // Guardar los permisos
                     AccesoIndicador acceso = new AccesoIndicador();
                     acceso.IndicadorID = indicadorID;
                     acceso.PersonaID = responsable.Id;
                     acceso.PermisoIndicador = Enums.Enum.PermisoIndicador.LecturaEscritura;
-                    AccesoIndicadorRepository.Guardar(acceso);
+                    await AccesoIndicadorRepository.Guardar(acceso);
                 }
             }
         }
 
-        private void GuardarInteresados(IList<PersonaViewModel> interesados, int indicadorID)
+        private async Task GuardarInteresados(IList<PersonaViewModel> interesados, int indicadorID)
         {
             if (interesados != null)
             {
@@ -324,14 +324,14 @@ namespace YUTPLAT.Services.Interface
                     InteresadoIndicador interesadoIndicador = new InteresadoIndicador();
                     interesadoIndicador.IndicadorID = indicadorID;
                     interesadoIndicador.PersonaID = interesado.Id;                    
-                    InteresadoIndicadorRepository.Guardar(interesadoIndicador);
+                    await InteresadoIndicadorRepository.Guardar(interesadoIndicador);
 
                     // Guardar los permisos
                     AccesoIndicador acceso = new AccesoIndicador();
                     acceso.IndicadorID = indicadorID;
                     acceso.PersonaID = interesado.Id;
                     acceso.PermisoIndicador = Enums.Enum.PermisoIndicador.SoloLectura;
-                    AccesoIndicadorRepository.Guardar(acceso);
+                    await AccesoIndicadorRepository.Guardar(acceso);
                 }
             }
         }

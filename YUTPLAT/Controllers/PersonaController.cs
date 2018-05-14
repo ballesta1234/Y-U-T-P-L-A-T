@@ -181,6 +181,16 @@ namespace YUTPLAT.Controllers
             return RedirectToAction("Editar", "Persona", new { q = MyExtensions.Encrypt(new { id = idPersona, msgExito = "El usuario se ha guardado exitosamente." }) });
         }
 
+        [HttpGet]
+        [EncryptedActionParameter]
+        public async Task<ActionResult> Ver(string id)
+        {
+            PersonaViewModel model = await PersonaService.GetById(id);           
+            model.Titulo = "Usuarios";
+            ViewBag.Titulo = model.Titulo;
+            return View(model);
+        }
+
         public async Task<JsonResult> BuscarRoles(string nombreRol, bool considerarArea)
         {
             IList<RolViewModel> roles = await PersonaService.TodosRoles();

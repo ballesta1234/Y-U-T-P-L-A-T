@@ -20,14 +20,20 @@ namespace YUTPLAT.Services.Interface
     {
         private INotificacionRepository NotificacionRepository { get; set; }
         private IMedicionRepository MedicionRepository { get; set; }
+        private IIndicadorRepository IndicadorRepository { get; set; }
+        private IIndicadorAutomaticoService IndicadorAutomaticoService { get; set; }
         private IPersonaRepository PersonaRepository { get; set; }
 
         public NotificacionService(INotificacionRepository notificacionRepository,
                                    IMedicionRepository medicionRepository,
+                                   IIndicadorRepository indicadorRepository,
+                                   IIndicadorAutomaticoService indicadorAutomaticoService,
                                    IPersonaRepository personaRepository)
         {
             this.NotificacionRepository = notificacionRepository;
             this.MedicionRepository = medicionRepository;
+            this.IndicadorRepository = indicadorRepository;
+            this.IndicadorAutomaticoService = indicadorAutomaticoService;
             this.PersonaRepository = personaRepository;
         }
 
@@ -35,18 +41,95 @@ namespace YUTPLAT.Services.Interface
         {
             try
             {
-                var myMessage = new SendGridMessage();
-                myMessage.AddTo(ConfigurationManager.AppSettings["SendGridToAccountTest"]);
-                myMessage.From = new MailAddress(ConfigurationManager.AppSettings["SendGridFromAccount"], "Y U T P L A T");
-                myMessage.Subject = "Asunto Test";
-                myMessage.Text = "Cuerpo Test";
+                DateTime fechaActual = DateTimeHelper.OntenerFechaActual();
 
-                System.Net.NetworkCredential credentials =
-                    new System.Net.NetworkCredential(ConfigurationManager.AppSettings["SendGridUsername"],
-                                                     ConfigurationManager.AppSettings["SendGridPassword"]);
+                if (fechaActual.Day >= 1)
+                {
+                    Dictionary<Persona, IList<Indicador>> avisos = new Dictionary<Persona, IList<Indicador>>();
 
-                var transportWeb = new Web(credentials);
-                await transportWeb.DeliverAsync(myMessage);
+                    int anio = fechaActual.Year;
+                    int mes = fechaActual.Month;
+
+                    if (mes == 1)
+                    {
+                        anio -= 1;
+                        mes = 12;
+                    }
+                    else
+                    {
+                        mes -= 1;
+                    }
+
+                    IList<Indicador> indicadores = await IndicadorRepository.Buscar(new BuscarIndicadorViewModel { AnioTablero = anio }).ToListAsync();
+                    IList<IndicadorAutomaticoViewModel> todosIndicadoresAutomaticos = this.IndicadorAutomaticoService.Todos();
+
+                    foreach (Indicador indicador in indicadores)
+                    {
+                        if (!todosIndicadoresAutomaticos.Any(ia => ia.IndicadorViewModel.Grupo == indicador.Grupo) &&
+                            (indicador.FechaValidez == null  || indicador.FechaValidez.Value.Month >= mes))
+                        {
+                            List<Medicion> mediciones = await MedicionRepository.Buscar(new MedicionViewModel { Grupo = indicador.Grupo, Anio = anio, Mes = EnumHelper<Enums.Enum.Mes>.Parse(mes.ToString()) }).ToListAsync();
+
+                            if (mediciones == null || mediciones.Count == 0)
+                            {
+                                IList<Persona> personasAAvisar = new List<Persona>();
+
+                                personasAAvisar = personasAAvisar.Union(indicador.Responsables.Select(i => i.Persona).ToList()).ToList();
+                                personasAAvisar = personasAAvisar.Union(await PersonaRepository.Buscar(new PersonaViewModel { EsUsuario = true, AreaViewModel = new AreaViewModel { Id = indicador.Objetivo.AreaID } }).ToListAsync()).ToList();
+
+                                personasAAvisar = personasAAvisar.Distinct(new PersonaComparer()).ToList();
+
+                                foreach (Persona personaAAvisar in personasAAvisar)
+                                {
+                                    if (avisos.ContainsKey(personaAAvisar))
+                                    {
+                                        avisos[personaAAvisar].Add(indicador);
+                                    }
+                                    else
+                                    {
+                                        IList<Indicador> indicadorAviso = new List<Indicador>();
+                                        indicadorAviso.Add(indicador);
+                                        avisos.Add(personaAAvisar, indicadorAviso);
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    foreach (Persona persona in avisos.Keys)
+                    {
+                        DataTable tabla = new DataTable();
+                        tabla.Columns.Add("Área", typeof(string));
+                        tabla.Columns.Add("Indicador", typeof(string));
+                        tabla.Columns.Add("Mes", typeof(string));
+
+                        foreach (Indicador indicador in avisos[persona])
+                        {
+                            tabla.Rows.Add(indicador.Objetivo.Area.Nombre,
+                                           indicador.Nombre,
+                                           EnumHelper<Enums.Enum.Mes>.Parse(mes.ToString()).ToString());
+                        }
+
+                        try
+                        {
+                            string cuerpoMail = CrearTablaHtmlCargaMediciones(tabla, persona.NombreApellido).ToString();
+
+                            var myMessage = new SendGridMessage();
+                            myMessage.AddTo(persona.Email);
+                            myMessage.From = new MailAddress(ConfigurationManager.AppSettings["SendGridFromAccount"], "Y U T P L A T");
+                            myMessage.Subject = "[Y U T P L A T] Notificación de carga de medición";
+                            myMessage.Html = cuerpoMail;
+
+                            System.Net.NetworkCredential credentials =
+                                new System.Net.NetworkCredential(ConfigurationManager.AppSettings["SendGridUsername"],
+                                                                 ConfigurationManager.AppSettings["SendGridPassword"]);
+
+                            var transportWeb = new Web(credentials);
+                            await transportWeb.DeliverAsync(myMessage);
+                        }
+                        catch (Exception ex) { }
+                    }
+                }
             }
             catch (Exception ex)
             {
@@ -72,7 +155,7 @@ namespace YUTPLAT.Services.Interface
                         tabla.Columns.Add("Mes", typeof(string));
                         tabla.Columns.Add("Valor", typeof(string));
                         tabla.Columns.Add("Comentario", typeof(string));
-                                                
+
                         foreach (Medicion medicion in mediciones)
                         {
                             personasAAvisar = personasAAvisar.Union(medicion.Indicador.Interesados.Select(i => i.Persona).ToList()).ToList();
@@ -84,7 +167,7 @@ namespace YUTPLAT.Services.Interface
                                            medicion.Mes.ToString(),
                                            medicion.Valor.ToString(),
                                            (medicion.Comentario == null ? "" : medicion.Comentario));
-                           }
+                        }
 
                         personasAAvisar = personasAAvisar.Distinct(new PersonaComparer()).ToList();
 
@@ -122,6 +205,48 @@ namespace YUTPLAT.Services.Interface
             {
                 Console.WriteLine(ex.Message);
             }
+        }
+
+        public StringBuilder CrearTablaHtmlCargaMediciones(DataTable dt, string nombreApellido)
+        {
+            string tab = "\t";
+
+            StringBuilder sb = new StringBuilder();
+
+            sb.Append(@"<html>");
+            sb.AppendLine(tab + "<body>");
+            sb.AppendFormat("<p> Hola <b> {0}</b>,</p>", nombreApellido.Trim());
+            sb.Append(@"<p><b> Y U T P L A T </b> le informa las mediciones pendientes de carga: </p>");
+            sb.AppendLine(tab + tab + "<table style=\"border-collapse: collapse;\" ");
+
+            sb.Append(tab + tab + tab + "<tr>");
+
+            foreach (DataColumn dc in dt.Columns)
+            {
+                sb.AppendFormat("<th style=\"border:1px solid orange; padding:10px; text-align:center;\">{0}</th>", dc.ColumnName);
+            }
+
+            sb.AppendLine("</tr>");
+
+            foreach (DataRow dr in dt.Rows)
+            {
+                sb.Append(tab + tab + tab + "<tr>");
+
+                foreach (DataColumn dc in dt.Columns)
+                {
+                    string cellValue = dr[dc] != null ? dr[dc].ToString() : "";
+                    sb.AppendFormat("<td style=\"border:1px solid orange; padding:10px; text-align:left;\">{0}</td>", cellValue);
+                }
+
+                sb.AppendLine("</tr>");
+            }
+
+            sb.AppendLine(tab + tab + "</table>");
+            sb.AppendLine(tab + @"<p>Saludos, <br/>
+                                  El equipo de <b> Y U T P L A T </b></p></body>");
+            sb.AppendLine("</html>");
+
+            return sb;
         }
 
         public StringBuilder CrearTablaHtmlMedicionesInaceptables(DataTable dt, string nombreApellido)
