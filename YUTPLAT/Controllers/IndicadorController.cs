@@ -75,6 +75,7 @@ namespace YUTPLAT.Controllers
 
         [HttpGet]
         [EncryptedActionParameter]
+        [Authorize(Roles = "admin, usuario")]
         public async Task<ActionResult> Crear(string idObjetivo)
         {
             IndicadorViewModel model = new IndicadorViewModel();
@@ -101,6 +102,7 @@ namespace YUTPLAT.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "admin, usuario")]
         public async Task<ActionResult> Crear(IndicadorViewModel model)
         {
             model.PersonaLogueadaViewModel = (PersonaViewModel)Session["Persona"];
@@ -143,6 +145,7 @@ namespace YUTPLAT.Controllers
 
         [HttpGet]
         [EncryptedActionParameter]
+        [Authorize(Roles = "admin, usuario")]
         public async Task<ActionResult> Editar(string id, string msgExito)
         {
             IndicadorViewModel model = await IndicadorService.GetById(Int32.Parse(id));
@@ -162,6 +165,7 @@ namespace YUTPLAT.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "admin, usuario")]
         public async Task<ActionResult> Editar(IndicadorViewModel model)
         {
             model.FrecuenciaMedicionIndicadorViewModel = await FrecuenciaMedicionIndicadorService.GetById(Int32.Parse(model.FrecuenciaMedicionIndicadorID));

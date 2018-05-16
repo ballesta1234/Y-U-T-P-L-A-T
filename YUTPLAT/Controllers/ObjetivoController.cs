@@ -67,6 +67,7 @@ namespace YUTPLAT.Controllers
 
         [HttpGet]
         [EncryptedActionParameter]
+        [Authorize(Roles = "admin, usuario")]
         public async Task<ActionResult> Crear(string idArea)
         {
             ObjetivoViewModel model = new ObjetivoViewModel();
@@ -89,6 +90,7 @@ namespace YUTPLAT.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "admin, usuario")]
         public async Task<ActionResult> Crear(ObjetivoViewModel model)
         {
             model.PersonaLogueadaViewModel = (PersonaViewModel)Session["Persona"];
@@ -114,6 +116,7 @@ namespace YUTPLAT.Controllers
 
         [HttpGet]
         [EncryptedActionParameter]
+        [Authorize(Roles = "admin, usuario")]
         public async Task<ActionResult> Editar(string id, string msgExito)
         {   
             ObjetivoViewModel model = await ObjetivoService.GetById(Int32.Parse(id));
@@ -128,6 +131,7 @@ namespace YUTPLAT.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "admin, usuario")]
         public async Task<ActionResult> Editar(ObjetivoViewModel model)
         {
             model.PersonaLogueadaViewModel = (PersonaViewModel)Session["Persona"];

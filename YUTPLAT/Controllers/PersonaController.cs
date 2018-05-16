@@ -25,6 +25,7 @@ namespace YUTPLAT.Controllers
 
         [HttpGet]
         [EncryptedActionParameter]
+        [Authorize(Roles = "admin, usuario")]
         public ActionResult Buscar()
         {
             BuscarUsuarioViewModel model = new BuscarUsuarioViewModel();
@@ -37,6 +38,7 @@ namespace YUTPLAT.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "admin, usuario")]
         public async Task<ActionResult> Buscar(BuscarUsuarioViewModel model)
         {
             ViewBag.SinResultados = null;
@@ -58,6 +60,7 @@ namespace YUTPLAT.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "admin, usuario")]
         public ActionResult Crear()
         {
             PersonaViewModel model = new PersonaViewModel();
@@ -80,6 +83,7 @@ namespace YUTPLAT.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "admin, usuario")]
         public async Task<ActionResult> Crear(PersonaViewModel model)
         {
             PersonaViewModel personaLogueadaViewModel = (PersonaViewModel)Session["Persona"];
@@ -117,6 +121,7 @@ namespace YUTPLAT.Controllers
 
         [HttpGet]
         [EncryptedActionParameter]
+        [Authorize(Roles = "admin, usuario")]
         public async Task<ActionResult> Editar(string id, string msgExito)
         {
             PersonaViewModel model = await PersonaService.GetById(id);
@@ -140,6 +145,7 @@ namespace YUTPLAT.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "admin, usuario")]
         public async Task<ActionResult> Editar(PersonaViewModel model)
         {
             PersonaViewModel personaLogueadaViewModel = (PersonaViewModel)Session["Persona"];
@@ -183,6 +189,7 @@ namespace YUTPLAT.Controllers
 
         [HttpGet]
         [EncryptedActionParameter]
+        [Authorize(Roles = "admin, usuario")]
         public async Task<ActionResult> Ver(string id)
         {
             PersonaViewModel model = await PersonaService.GetById(id);           
