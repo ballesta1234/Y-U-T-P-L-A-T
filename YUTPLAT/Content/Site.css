@@ -36,6 +36,7 @@ textarea {
         z-index: -2;
     }
 
+ /*
 .login[data-color="blue"]:after {
     background: rgb(147,104,233, 0.5);
     background: -moz-linear-gradient(top, rgb(147,104,233, 0.5) 0%, rgb(148,59,234, 0.5) 100%);
@@ -46,7 +47,9 @@ textarea {
     background: linear-gradient(to bottom, rgb(147,104,233, 0.5) 0%, rgb(148,59,234, 0.5) 100%);
     background-size: 150% 150%;
 }
+*/
 
+ /*
 .login:after, .login:before {
     display: block;
     content: "";
@@ -57,6 +60,7 @@ textarea {
     left: 0;
     z-index: -1;
 }
+*/
 
 .sombra {
     box-shadow: 0 25px 30px -13px rgba(40, 40, 40, 0.4) !important;
