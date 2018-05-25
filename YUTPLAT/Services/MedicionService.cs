@@ -279,16 +279,30 @@ namespace YUTPLAT.Services.Interface
                     {
                         FilaHeatMapViewModel indicador = filasHeatMapViewModel[i];
 
-                        if (indicador.FechaValidez == null ||
-                            (indicador.FechaValidez != null &&
+                        if (
+                            (indicador.FechaInicioValidez == null ||
+                            (indicador.FechaInicioValidez != null &&
                              (
-                                (indicador.FechaValidez.Value.Year > buscarIndicadorViewModel.AnioTablero) ||
+                                (indicador.FechaInicioValidez.Value.Year < buscarIndicadorViewModel.AnioTablero) ||
                                     (
-                                        indicador.FechaValidez.Value.Year == buscarIndicadorViewModel.AnioTablero &&
-                                        indicador.FechaValidez.Value.Month >= (int)mes
+                                        indicador.FechaInicioValidez.Value.Year == buscarIndicadorViewModel.AnioTablero &&
+                                        indicador.FechaInicioValidez.Value.Month <= (int)mes
                                     )
                                 )
                              )
+                            ) &&
+                            (
+                                indicador.FechaFinValidez == null ||
+                                (indicador.FechaFinValidez != null &&
+                                    (
+                                    (indicador.FechaFinValidez.Value.Year > buscarIndicadorViewModel.AnioTablero) ||
+                                        (
+                                            indicador.FechaFinValidez.Value.Year == buscarIndicadorViewModel.AnioTablero &&
+                                            indicador.FechaFinValidez.Value.Month >= (int)mes
+                                        )
+                                    )
+                                    )
+                            )
                            )
                         {
                             CeldaHeatMapViewModel celdaHeatMapViewModel = new CeldaHeatMapViewModel();

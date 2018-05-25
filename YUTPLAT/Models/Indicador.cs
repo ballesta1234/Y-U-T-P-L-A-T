@@ -21,7 +21,8 @@ namespace YUTPLAT.Models
         public string Nombre { get; set; }
         public string Descripcion { get; set; }
         public DateTime? FechaCreacion { get; set; }
-        public DateTime? FechaValidez { get; set; }
+        public DateTime? FechaInicioValidez { get; set; }
+        public DateTime? FechaFinValidez { get; set; }
         public string UltimoUsuarioModifico { get; set; }
         public DateTime? FechaUltimaModificacion { get; set; }
         public long Grupo { get; set; }

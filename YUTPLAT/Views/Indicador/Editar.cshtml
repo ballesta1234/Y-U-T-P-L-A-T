@@ -28,7 +28,14 @@
             }
         });
 
-        $('#dpFechaValidez').datetimepicker({
+        $('#dpFechaFinValidez').datetimepicker({
+            format: "MM/YYYY",
+            locale: 'es',
+            keepOpen: false
+        });
+
+        $('#dpFechaInicioValidez').datetimepicker(
+        {
             format: "MM/YYYY",
             locale: 'es',
             keepOpen: false
@@ -68,13 +75,6 @@
                                 </div>
 
                                 <div class="col-xs-12 col-sm-6 col-md-4">
-                                    @Html.LabelFor(m => m.ObjetivoID)
-                                    <span class="text-danger">*</span>
-                                    @Html.DropDownListFor(m => m.ObjetivoID, new SelectList(new List<SelectListItem> { new SelectListItem { Text = Model.ObjetivoViewModel.Nombre, Value = Model.ObjetivoViewModel.Id.ToString() } }, "Value", "Text"), new { @id = "ddlObjetivos", @class = "form-control" })
-                                    @Html.ValidationMessageFor(m => m.ObjetivoID, "", new { @class = "text-danger" })
-                                </div>
-
-                                <div class="col-xs-12 col-sm-6 col-md-4">
                                     @Html.LabelFor(m => m.AreaID)
                                     @if (!Model.PersonaLogueadaViewModel.EsAdmin)
                                     {
@@ -86,6 +86,14 @@
                                         @Html.DropDownListFor(m => m.AreaID, new SelectList(new List<SelectListItem> { new SelectListItem { Text = Model.ObjetivoViewModel.AreaViewModel.Nombre, Value = Model.ObjetivoViewModel.AreaViewModel.Id.ToString() } }, "Value", "Text"), new { @id = "ddlAreas", @class = "form-control" })
                                     }
                                 </div>
+
+                                <div class="col-xs-12 col-sm-6 col-md-4">
+                                    @Html.LabelFor(m => m.ObjetivoID)
+                                    <span class="text-danger">*</span>
+                                    @Html.DropDownListFor(m => m.ObjetivoID, new SelectList(new List<SelectListItem> { new SelectListItem { Text = Model.ObjetivoViewModel.Nombre, Value = Model.ObjetivoViewModel.Id.ToString() } }, "Value", "Text"), new { @id = "ddlObjetivos", @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.ObjetivoID, "", new { @class = "text-danger" })
+                                </div>
+
                             </div>
                             <div class="row">
                                 <div class="col-xs-12 col-sm-6 col-md-4">
@@ -95,19 +103,26 @@
                                     @Html.ValidationMessageFor(m => m.FrecuenciaMedicionIndicadorID, "", new { @class = "text-danger" })
                                 </div>
                                 <div class="col-xs-12 col-sm-6 col-md-2">
-                                    @Html.LabelFor(m => m.FechaValidez)
-                                    <div class="input-group date" id="dpFechaValidez">
-                                        @Html.TextBoxFor(m => m.FechaValidez, new { @class = "form-control" })
+                                    @Html.LabelFor(m => m.FechaInicioValidez)
+                                    <span class="text-danger">*</span>
+                                    <div class="input-group date" id="dpFechaInicioValidez">
+                                        @Html.TextBoxFor(m => m.FechaInicioValidez, new { @class = "form-control" })
                                         <div class="input-group-addon">
                                             <span class="glyphicon glyphicon-calendar"></span>
                                         </div>
                                     </div>
-                                    @Html.HiddenFor(m => m.FechaValidez)
+                                    @Html.HiddenFor(m => m.FechaInicioValidez)
+                                    @Html.ValidationMessageFor(m => m.FechaInicioValidez, "", new { @class = "text-danger" })
                                 </div>
                                 <div class="col-xs-12 col-sm-6 col-md-2">
-                                    @Html.LabelFor(m => m.FechaCreacion)
-                                    <p class="description">@Model.FechaCreacion</p>
-                                    @Html.HiddenFor(m => m.FechaCreacion)
+                                    @Html.LabelFor(m => m.FechaFinValidez)
+                                    <div class="input-group date" id="dpFechaFinValidez">
+                                        @Html.TextBoxFor(m => m.FechaFinValidez, new { @class = "form-control" })
+                                        <div class="input-group-addon">
+                                            <span class="glyphicon glyphicon-calendar"></span>
+                                        </div>
+                                    </div>
+                                    @Html.HiddenFor(m => m.FechaFinValidez)
                                 </div>
 
                                 @if (!String.IsNullOrEmpty(Model.FechaUltimaModificacion))
@@ -134,7 +149,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-xs-12 col-sm-6 col-md-6">
-                                    @Html.LabelFor(m => m.MetaExcelenteViewModel)
+                                    <label>Meta excelente</label>
                                     <div class="testimonial-group">
                                         <div class="row">
                                             <div class="width-row">
@@ -400,6 +415,7 @@
                             </div>
                             @Html.HiddenFor(m => m.CantidadInteresadosElegidos)
                             @Html.HiddenFor(m => m.CantidadResponsablesElegidos)
+                            @Html.HiddenFor(m => m.FechaCreacion)
                         }
                     </div>
                 </div>

@@ -206,16 +206,17 @@ namespace YUTPLAT.Migrations
 
         private void CargarFrecuenciasMedicionIndicadores(YUTPLAT.Context.YutplatDbContext context)
         {
-            if (!context.FrecuenciasMedicionIndicadores.Any(f => f.Descripcion == "Al final de cada proyecto de capacitación"))
-            {
-                context.FrecuenciasMedicionIndicadores.AddOrUpdate(new FrecuenciaMedicionIndicador { Descripcion = "Al final de cada proyecto de capacitación" });
-            }
-
             if (!context.FrecuenciasMedicionIndicadores.Any(f => f.Descripcion == "Mensual"))
             {
                 context.FrecuenciasMedicionIndicadores.AddOrUpdate(new FrecuenciaMedicionIndicador { Descripcion = "Mensual" });
             }
 
+            /*
+            if (!context.FrecuenciasMedicionIndicadores.Any(f => f.Descripcion == "Al final de cada proyecto de capacitación"))
+            {
+                context.FrecuenciasMedicionIndicadores.AddOrUpdate(new FrecuenciaMedicionIndicador { Descripcion = "Al final de cada proyecto de capacitación" });
+            }
+            
             if (!context.FrecuenciasMedicionIndicadores.Any(f => f.Descripcion == "Trimestral"))
             {
                 context.FrecuenciasMedicionIndicadores.AddOrUpdate(new FrecuenciaMedicionIndicador { Descripcion = "Trimestral" });
@@ -225,6 +226,7 @@ namespace YUTPLAT.Migrations
             {
                 context.FrecuenciasMedicionIndicadores.AddOrUpdate(new FrecuenciaMedicionIndicador { Descripcion = "Cuatrimestral" });
             }
+            */
 
             context.SaveChanges();
         }

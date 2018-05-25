@@ -81,7 +81,10 @@ namespace YUTPLAT.Controllers
             IndicadorViewModel model = new IndicadorViewModel();
             model.Titulo = "Indicadores";
             model.FechaCreacion = DateTime.Now.ToString("dd/MM/yyyy HH:mm tt");
-                       
+
+            // Por el momento solo frecuencias mensuales
+            model.FrecuenciaMedicionIndicadorViewModel = (await FrecuenciaMedicionIndicadorService.Buscar(new FrecuenciaMedicionIndicadorViewModel { Descripcion = "Mensual"})).FirstOrDefault();
+            
             Session["InteresadosSeleccionados"] = model.Interesados;
             Session["ResponsablesSeleccionados"] = model.Responsables;
 

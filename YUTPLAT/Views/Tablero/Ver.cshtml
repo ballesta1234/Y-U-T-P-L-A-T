@@ -194,8 +194,9 @@
     function abrirModalCargaMedicion(idIndicador, mes, idMedicion, nombreMes, grupo, tieneAccesoEscritura, esAutomatico, nombreIndicador) {
 
         var idAnio = jQuery("#ddlAnios").val();
+        var anio = jQuery("#ddlAnios").text().replace("Año", "").trim();
 
-        jQuery("#tituloModal").text(nombreIndicador + " - " + nombreMes);
+        jQuery("#tituloModal").text(nombreIndicador + " - " + nombreMes + " - " + anio);
 
         var serviceURL = '@Url.Action("AbrirModalCargaMedicion", "Tablero")';
 

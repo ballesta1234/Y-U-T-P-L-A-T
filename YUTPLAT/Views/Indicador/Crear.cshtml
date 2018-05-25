@@ -28,12 +28,19 @@
             }
         });
 
-        $('#dpFechaValidez').datetimepicker(
-            {
-                format: "MM/YYYY",
-                locale: 'es',
-                keepOpen: false
-            });
+        $('#dpFechaFinValidez').datetimepicker(
+        {
+            format: "MM/YYYY",
+            locale: 'es',
+            keepOpen: false
+        });
+
+        $('#dpFechaInicioValidez').datetimepicker(
+        {
+            format: "MM/YYYY",
+            locale: 'es',
+            keepOpen: false
+        });
 
     });
 </script>
@@ -66,21 +73,6 @@
                                 </div>
 
                                 <div class="col-xs-12 col-sm-6 col-md-4">
-                                    @Html.LabelFor(m => m.ObjetivoID)
-                                    <span class="text-danger">*</span>
-
-                                    @if (Model.ObjetivoViewModel.Id > 0)
-                                    {
-                                        @Html.DropDownListFor(m => m.ObjetivoID, new SelectList(new List<SelectListItem> { new SelectListItem { Text = Model.ObjetivoViewModel.Nombre, Value = Model.ObjetivoViewModel.Id.ToString() } }, "Value", "Text"), new { @id = "ddlObjetivos", @class = "form-control" })
-                                    }
-                                    else
-                                    {
-                                        @Html.DropDownListFor(m => m.ObjetivoID, Enumerable.Empty<SelectListItem>(), new { @id = "ddlObjetivos", @class = "form-control" })
-                                        @Html.ValidationMessageFor(m => m.ObjetivoID, "", new { @class = "text-danger" })
-                                    }
-                                </div>
-
-                                <div class="col-xs-12 col-sm-6 col-md-4">
                                     @Html.LabelFor(m => m.AreaID)
                                     @if (Model.PersonaLogueadaViewModel.EsAdmin && Model.ObjetivoViewModel.AreaViewModel.Id > 0)
                                     {
@@ -97,6 +89,22 @@
                                         @Html.ValidationMessageFor(m => m.AreaID, "", new { @class = "text-danger" })
                                     }
                                 </div>
+
+                                <div class="col-xs-12 col-sm-6 col-md-4">
+                                    @Html.LabelFor(m => m.ObjetivoID)
+                                    <span class="text-danger">*</span>
+
+                                    @if (Model.ObjetivoViewModel.Id > 0)
+                                    {
+                                        @Html.DropDownListFor(m => m.ObjetivoID, new SelectList(new List<SelectListItem> { new SelectListItem { Text = Model.ObjetivoViewModel.Nombre, Value = Model.ObjetivoViewModel.Id.ToString() } }, "Value", "Text"), new { @id = "ddlObjetivos", @class = "form-control" })
+                                    }
+                                    else
+                                    {
+                                        @Html.DropDownListFor(m => m.ObjetivoID, Enumerable.Empty<SelectListItem>(), new { @id = "ddlObjetivos", @class = "form-control" })
+                                        @Html.ValidationMessageFor(m => m.ObjetivoID, "", new { @class = "text-danger" })
+                                    }
+                                </div>
+
                             </div>
                             <div class="row">
                                 <div class="col-xs-12 col-sm-6 col-md-4">
@@ -111,21 +119,29 @@
                                         @Html.DropDownListFor(m => m.FrecuenciaMedicionIndicadorID, Enumerable.Empty<SelectListItem>(), new { @id = "ddlFrecuencias", @class = "form-control" })
                                         @Html.ValidationMessageFor(m => m.FrecuenciaMedicionIndicadorID, "", new { @class = "text-danger" })
                                     }
-                                </div>                                
+                                </div>
                                 <div class="col-xs-12 col-sm-6 col-md-2">
-                                    @Html.LabelFor(m => m.FechaValidez)
-                                    <div class="input-group date" id="dpFechaValidez">
-                                        @Html.TextBoxFor(m => m.FechaValidez, new { @class = "form-control" })
+                                    @Html.LabelFor(m => m.FechaInicioValidez)
+                                    <span class="text-danger">*</span>
+                                    <div class="input-group date" id="dpFechaInicioValidez">
+                                        @Html.TextBoxFor(m => m.FechaInicioValidez, new { @class = "form-control" })
                                         <div class="input-group-addon">
                                             <span class="glyphicon glyphicon-calendar"></span>
                                         </div>
                                     </div>
-                                </div>   
+                                    @Html.HiddenFor(m => m.FechaInicioValidez)
+                                    @Html.ValidationMessageFor(m => m.FechaInicioValidez, "", new { @class = "text-danger" })
+                                </div>
                                 <div class="col-xs-12 col-sm-6 col-md-2">
-                                    @Html.LabelFor(m => m.FechaCreacion)
-                                    <p class="description">@Model.FechaCreacion</p>
-                                    @Html.HiddenFor(m => m.FechaCreacion)
-                                </div>                             
+                                    @Html.LabelFor(m => m.FechaFinValidez)
+                                    <div class="input-group date" id="dpFechaFinValidez">
+                                        @Html.TextBoxFor(m => m.FechaFinValidez, new { @class = "form-control" })
+                                        <div class="input-group-addon">
+                                            <span class="glyphicon glyphicon-calendar"></span>
+                                        </div>
+                                    </div>
+                                    @Html.HiddenFor(m => m.FechaFinValidez)
+                                </div>
                             </div>
                             <div class="row">
                                 <div class="col-xs-12 col-sm-12 col-md-12">
@@ -138,7 +154,7 @@
 
                             <div class="row">
                                 <div class="col-xs-12 col-sm-6 col-md-6">
-                                    @Html.LabelFor(m => m.MetaExcelenteViewModel)
+                                    <label>Meta excelente</label>
                                     <div class="testimonial-group">
                                         <div class="row">
                                             <div class="width-row">
@@ -235,7 +251,7 @@
                                                     @Html.EnumDropDownListFor(x => x.MetaAMejorarViewModel.Signo1, new { @class = "form-control width-signo" })
                                                 </div>
                                                 <div class="width-nro">
-                                                    <span class="AAA">meta</span>                                                    
+                                                    <span class="AAA">meta</span>
                                                 </div>
                                                 <div class="width-signo">
                                                     @Html.EnumDropDownListFor(x => x.MetaAMejorarViewModel.Signo2, new { @class = "form-control width-signo" })
@@ -252,36 +268,36 @@
                                     @Html.ValidationMessageFor(m => m.MetaAMejorarViewModel.Valor2, "", new { @class = "text-danger" })
                                 </div>
                             </div>
-                                <div class="row">
-                                    <div class="col-xs-12 col-sm-6 col-md-6">
-                                        <label>Meta inaceptable</label>
-                                        <div class="testimonial-group">
-                                            <div class="row">
-                                                <div class="width-row">
-                                                    <div class="width-meta-izq">
-                                                        @Html.TextBoxFor(m => m.MetaInaceptableViewModel.Valor1, new { @class = "form-control width-meta" })
-                                                    </div>
-                                                    <div class="width-signo">
-                                                        @Html.EnumDropDownListFor(x => x.MetaInaceptableViewModel.Signo1, new { @class = "form-control width-signo" })
-                                                    </div>
-                                                    <div class="width-nro">
-                                                        meta
-                                                    </div>
-                                                    <div class="width-signo">
-                                                        @Html.EnumDropDownListFor(x => x.MetaInaceptableViewModel.Signo2, new { @class = "form-control width-signo" })
-                                                    </div>
-                                                    <div class="width-meta">
-                                                        @Html.TextBoxFor(m => m.MetaInaceptableViewModel.Valor2, new { @class = "form-control width-meta" })
-                                                    </div>
+                            <div class="row">
+                                <div class="col-xs-12 col-sm-6 col-md-6">
+                                    <label>Meta inaceptable</label>
+                                    <div class="testimonial-group">
+                                        <div class="row">
+                                            <div class="width-row">
+                                                <div class="width-meta-izq">
+                                                    @Html.TextBoxFor(m => m.MetaInaceptableViewModel.Valor1, new { @class = "form-control width-meta" })
+                                                </div>
+                                                <div class="width-signo">
+                                                    @Html.EnumDropDownListFor(x => x.MetaInaceptableViewModel.Signo1, new { @class = "form-control width-signo" })
+                                                </div>
+                                                <div class="width-nro">
+                                                    meta
+                                                </div>
+                                                <div class="width-signo">
+                                                    @Html.EnumDropDownListFor(x => x.MetaInaceptableViewModel.Signo2, new { @class = "form-control width-signo" })
+                                                </div>
+                                                <div class="width-meta">
+                                                    @Html.TextBoxFor(m => m.MetaInaceptableViewModel.Valor2, new { @class = "form-control width-meta" })
                                                 </div>
                                             </div>
                                         </div>
-                                        <span class="aclaracion">(ejemplo: 0.2 >= meta)</span>
-                                        @Html.ValidationMessageFor(m => m.MetaInaceptableViewModel, "", new { @class = "text-danger" })
-                                        @Html.ValidationMessageFor(m => m.MetaInaceptableViewModel.Valor1, "", new { @class = "text-danger" })
-                                        @Html.ValidationMessageFor(m => m.MetaInaceptableViewModel.Valor2, "", new { @class = "text-danger" })
                                     </div>
+                                    <span class="aclaracion">(ejemplo: 0.2 >= meta)</span>
+                                    @Html.ValidationMessageFor(m => m.MetaInaceptableViewModel, "", new { @class = "text-danger" })
+                                    @Html.ValidationMessageFor(m => m.MetaInaceptableViewModel.Valor1, "", new { @class = "text-danger" })
+                                    @Html.ValidationMessageFor(m => m.MetaInaceptableViewModel.Valor2, "", new { @class = "text-danger" })
                                 </div>
+                            </div>
                                 <div class="row">
                                     <div class="col-xs-12 col-sm-6 col-md-6">
                                         <div class="row">
@@ -404,6 +420,7 @@
                                 </div>
                                 @Html.HiddenFor(m => m.CantidadInteresadosElegidos)
                                 @Html.HiddenFor(m => m.CantidadResponsablesElegidos)
+                                @Html.HiddenFor(m => m.FechaCreacion)
                         }
                     </div>
                 </div>

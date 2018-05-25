@@ -11,7 +11,8 @@ namespace YUTPLAT.ViewModel
         public string NombreArea { get; set; }
         public bool TieneAccesoLecturaEscritura { get; set; }
         public bool EsAutomatico { get; set; }
-        public DateTime? FechaValidez { get; set; }
+        public DateTime? FechaInicioValidez { get; set; }
+        public DateTime? FechaFinValidez { get; set; }
 
     }
 }

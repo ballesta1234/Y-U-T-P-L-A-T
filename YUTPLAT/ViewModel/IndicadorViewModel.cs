@@ -69,9 +69,13 @@ namespace YUTPLAT.ViewModel
         [Display(Name = "Fecha creación")]
         public string FechaCreacion { get; set; }
 
-        [Display(Name = "Fecha validez")]
-        public string FechaValidez { get; set; }
+        [Display(Name = "Fecha inicio validez")]
+        [Required]
+        public string FechaInicioValidez { get; set; }
 
+        [Display(Name = "Fecha fin validez")]
+        public string FechaFinValidez { get; set; }
+        
         [Display(Name = "Último usuario modificó")]
         public string UltimoUsuarioModifico { get; set; }
 

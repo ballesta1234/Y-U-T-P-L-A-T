@@ -20,35 +20,38 @@
                                 </div>
 
                                 <div class="col-xs-12 col-sm-6 col-md-4">
-                                    @Html.LabelFor(m => m.ObjetivoID)
-                                    @Html.DropDownListFor(m => m.ObjetivoID, new SelectList(new List<SelectListItem> { new SelectListItem { Text = Model.ObjetivoViewModel.Nombre, Value = Model.ObjetivoViewModel.Id.ToString() } }, "Value", "Text"), new { @id = "ddlObjetivos", @class = "form-control", @disabled = "true" })
-                                </div>
-
-                                <div class="col-xs-12 col-sm-6 col-md-4">
                                     @Html.LabelFor(m => m.AreaID)
                                     @Html.DropDownListFor(m => m.AreaID, new SelectList(new List<SelectListItem> { new SelectListItem { Text = Model.ObjetivoViewModel.AreaViewModel.Nombre, Value = Model.ObjetivoViewModel.AreaViewModel.Id.ToString() } }, "Value", "Text"), new { @id = "ddlAreas", @class = "form-control", @disabled = "true" })
 
                                 </div>
+
+                                <div class="col-xs-12 col-sm-6 col-md-4">
+                                    @Html.LabelFor(m => m.ObjetivoID)
+                                    @Html.DropDownListFor(m => m.ObjetivoID, new SelectList(new List<SelectListItem> { new SelectListItem { Text = Model.ObjetivoViewModel.Nombre, Value = Model.ObjetivoViewModel.Id.ToString() } }, "Value", "Text"), new { @id = "ddlObjetivos", @class = "form-control", @disabled = "true" })
+                                </div>
+
                             </div>
                             <div class="row">
                                 <div class="col-xs-12 col-sm-6 col-md-4">
                                     @Html.LabelFor(m => m.FrecuenciaMedicionIndicadorID)
 
                                     @Html.DropDownListFor(m => m.FrecuenciaMedicionIndicadorID, new SelectList(new List<SelectListItem> { new SelectListItem { Text = Model.FrecuenciaMedicionIndicadorViewModel.Descripcion, Value = Model.FrecuenciaMedicionIndicadorViewModel.FrecuenciaMedicionIndicadorID.ToString() } }, "Value", "Text"), new { @id = "ddlFrecuencias", @class = "form-control", @disabled = "true" })
-
-                                </div>
-                                <div class="col-xs-12 col-sm-6 col-md-2">
-                                    @Html.LabelFor(m => m.FechaCreacion)
-                                    <p class="description">@Model.FechaCreacion</p>
-
                                 </div>
 
-                                @if (!String.IsNullOrEmpty(Model.FechaValidez))
+                                @if (!String.IsNullOrEmpty(Model.FechaInicioValidez))
                                 {
                                     <div class="col-xs-12 col-sm-6 col-md-2">
-                                        @Html.LabelFor(m => m.FechaValidez)
-                                        <p class="description">@Model.FechaValidez</p>
-                                    </div>                                   
+                                        @Html.LabelFor(m => m.FechaInicioValidez)
+                                        <p class="description">@Model.FechaInicioValidez</p>
+                                    </div>
+                                }
+
+                                @if (!String.IsNullOrEmpty(Model.FechaFinValidez))
+                                {
+                                    <div class="col-xs-12 col-sm-6 col-md-2">
+                                        @Html.LabelFor(m => m.FechaFinValidez)
+                                        <p class="description">@Model.FechaFinValidez</p>
+                                    </div>
                                 }
 
                                 @if (!String.IsNullOrEmpty(Model.FechaUltimaModificacion))
@@ -73,7 +76,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-xs-12 col-sm-6 col-md-6">
-                                    @Html.LabelFor(m => m.MetaExcelenteViewModel)
+                                    <label>Meta excelente</label>
                                     <div class="testimonial-group">
                                         <div class="row">
                                             <div class="width-row">
@@ -209,7 +212,7 @@
                                                     <table id="tblResponsables" class="table table-striped table-responsive">
                                                         <thead>
                                                             <tr>
-                                                                <th>Nombre</th>                                                                
+                                                                <th>Nombre</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody id="tblBodyResponsables">

@@ -66,7 +66,8 @@ namespace YUTPLAT.Services.Interface
                     foreach (Indicador indicador in indicadores)
                     {
                         if (!todosIndicadoresAutomaticos.Any(ia => ia.IndicadorViewModel.Grupo == indicador.Grupo) &&
-                            (indicador.FechaValidez == null  || indicador.FechaValidez.Value.Month >= mes))
+                            (indicador.FechaFinValidez == null  || indicador.FechaFinValidez.Value.Month >= mes) &&
+                            (indicador.FechaInicioValidez == null || indicador.FechaInicioValidez.Value.Month <= mes))
                         {
                             List<Medicion> mediciones = await MedicionRepository.Buscar(new MedicionViewModel { Grupo = indicador.Grupo, Anio = anio, Mes = EnumHelper<Enums.Enum.Mes>.Parse(mes.ToString()) }).ToListAsync();
 
@@ -117,7 +118,7 @@ namespace YUTPLAT.Services.Interface
                             var myMessage = new SendGridMessage();
                             myMessage.AddTo(persona.Email);
                             myMessage.From = new MailAddress(ConfigurationManager.AppSettings["SendGridFromAccount"], "Y U T P L A T");
-                            myMessage.Subject = "[Y U T P L A T] Notificación de carga de medición";
+                            myMessage.Subject = "[Y U T P L A T] Indicadores incompletos";
                             myMessage.Html = cuerpoMail;
 
                             System.Net.NetworkCredential credentials =
@@ -180,7 +181,7 @@ namespace YUTPLAT.Services.Interface
                                 var myMessage = new SendGridMessage();
                                 myMessage.AddTo(persona.Email);
                                 myMessage.From = new MailAddress(ConfigurationManager.AppSettings["SendGridFromAccount"], "Y U T P L A T");
-                                myMessage.Subject = "[Y U T P L A T] Notificación de mediciones incorrectas";
+                                myMessage.Subject = "[Y U T P L A T] Indicadores no satisfactorios";
                                 myMessage.Html = cuerpoMail;
 
                                 System.Net.NetworkCredential credentials =
@@ -223,7 +224,7 @@ namespace YUTPLAT.Services.Interface
 
             foreach (DataColumn dc in dt.Columns)
             {
-                sb.AppendFormat("<th style=\"border:1px solid orange; padding:10px; text-align:center;\">{0}</th>", dc.ColumnName);
+                sb.AppendFormat("<th style=\"border:1px solid purple; padding:10px; text-align:center;\">{0}</th>", dc.ColumnName);
             }
 
             sb.AppendLine("</tr>");
@@ -235,7 +236,7 @@ namespace YUTPLAT.Services.Interface
                 foreach (DataColumn dc in dt.Columns)
                 {
                     string cellValue = dr[dc] != null ? dr[dc].ToString() : "";
-                    sb.AppendFormat("<td style=\"border:1px solid orange; padding:10px; text-align:left;\">{0}</td>", cellValue);
+                    sb.AppendFormat("<td style=\"border:1px solid purple; padding:10px; text-align:left;\">{0}</td>", cellValue);
                 }
 
                 sb.AppendLine("</tr>");
@@ -265,7 +266,7 @@ namespace YUTPLAT.Services.Interface
 
             foreach (DataColumn dc in dt.Columns)
             {
-                sb.AppendFormat("<th style=\"border:1px solid orange; padding:10px; text-align:center;\">{0}</th>", dc.ColumnName);
+                sb.AppendFormat("<th style=\"border:1px solid purple; padding:10px; text-align:center;\">{0}</th>", dc.ColumnName);
             }
 
             sb.AppendLine("</tr>");
@@ -277,7 +278,7 @@ namespace YUTPLAT.Services.Interface
                 foreach (DataColumn dc in dt.Columns)
                 {
                     string cellValue = dr[dc] != null ? dr[dc].ToString() : "";
-                    sb.AppendFormat("<td style=\"border:1px solid orange; padding:10px; text-align:left;\">{0}</td>", cellValue);
+                    sb.AppendFormat("<td style=\"border:1px solid purple; padding:10px; text-align:left;\">{0}</td>", cellValue);
                 }
 
                 sb.AppendLine("</tr>");

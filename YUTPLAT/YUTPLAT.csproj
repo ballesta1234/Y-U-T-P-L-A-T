@@ -352,6 +352,10 @@
     <Compile Include="Migrations\201805012351401_Se agrega SeDebeNotificar en medicion.Designer.cs">
       <DependentUpon>201805012351401_Se agrega SeDebeNotificar en medicion.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201805192002006_Se agrega fecha inicio validez.cs" />
+    <Compile Include="Migrations\201805192002006_Se agrega fecha inicio validez.Designer.cs">
+      <DependentUpon>201805192002006_Se agrega fecha inicio validez.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\ArchivoSQL.cs" />
     <Compile Include="Models\AnioTablero.cs" />
     <Compile Include="Models\IndicadorAutomatico.cs" />
@@ -767,6 +771,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201805012351401_Se agrega SeDebeNotificar en medicion.resx">
       <DependentUpon>201805012351401_Se agrega SeDebeNotificar en medicion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805192002006_Se agrega fecha inicio validez.resx">
+      <DependentUpon>201805192002006_Se agrega fecha inicio validez.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
