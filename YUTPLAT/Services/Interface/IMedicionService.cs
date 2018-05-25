@@ -16,11 +16,11 @@ namespace YUTPLAT.Services.Interface
 
         Task<HeatMapViewModel> ObtenerHeatMapViewModel(BuscarIndicadorViewModel buscarIndicadorViewModel);
 
-        Task<GaugeViewModel> ObtenerGaugeViewModel(long grupo, int anio, PersonaViewModel personaViewModel);
+        Task<GaugeViewModel> ObtenerGaugeViewModel(long grupo, int anio, PersonaViewModel personaViewModel, bool todasLasAreas = false);
 
         Task<IList<LineViewModel>> ObtenerLineViewModel(long grupo, int anio, PersonaViewModel personaViewModel);
 
-        Task<MedicionViewModel> ObtenerMedicionViewModel(int idIndicador, int mes, int? idMedicion, long grupo, int anio, PersonaViewModel personaViewModel);
+        Task<MedicionViewModel> ObtenerMedicionViewModel(int idIndicador, int mes, int? idMedicion, long grupo, int anio, PersonaViewModel personaViewModel, bool buscarTodasLasAreas = false);
 
         MedicionViewModel ObtenerMedicionViewModelNoTask(int idIndicador, int mes, int? idMedicion, long grupo, int anio, PersonaViewModel personaViewModel);
         

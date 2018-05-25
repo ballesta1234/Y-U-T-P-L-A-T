@@ -8,8 +8,7 @@ using YUTPLAT.Services.Interface;
 using YUTPLAT.ViewModel;
 
 namespace YUTPLAT.Controllers
-{
-    [Authorize(Roles = "admin")]
+{    
     public class AreaController : Controller
     {
         public IAreaService AreaService { get; set; }
@@ -21,6 +20,7 @@ namespace YUTPLAT.Controllers
 
         [HttpGet]
         [EncryptedActionParameter]
+        [Authorize(Roles = "admin")]
         public ActionResult Buscar()
         {
             BuscarAreaViewModel model = new BuscarAreaViewModel();
@@ -33,6 +33,7 @@ namespace YUTPLAT.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "admin")]
         public async Task<ActionResult> Buscar(BuscarAreaViewModel model)
         {
             ViewBag.SinResultados = null;
@@ -52,6 +53,7 @@ namespace YUTPLAT.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "admin")]
         public ActionResult Crear()
         {
             AreaViewModel model = new AreaViewModel();
@@ -64,6 +66,7 @@ namespace YUTPLAT.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "admin")]
         public async Task<ActionResult> Crear(AreaViewModel model)
         {
             if (!ModelState.IsValid)
@@ -82,6 +85,7 @@ namespace YUTPLAT.Controllers
 
         [HttpGet]
         [EncryptedActionParameter]
+        [Authorize(Roles = "admin")]
         public async Task<ActionResult> Editar(string id, string msgExito)
         {
             AreaViewModel model = await AreaService.GetById(Int32.Parse(id));
@@ -95,6 +99,7 @@ namespace YUTPLAT.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "admin")]
         public async Task<ActionResult> Editar(AreaViewModel model)
         {
             if (!ModelState.IsValid)
@@ -115,6 +120,7 @@ namespace YUTPLAT.Controllers
 
         [HttpGet]
         [EncryptedActionParameter]
+        [Authorize(Roles = "admin")]
         public async Task<ActionResult> Ver(string id)
         {
             AreaViewModel model = await AreaService.GetById(Int32.Parse(id));
@@ -124,6 +130,7 @@ namespace YUTPLAT.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = "admin, usuario, operador")]
         public async Task<JsonResult> BuscarAreas(string nombreArea)
         {
             BuscarAreaViewModel filtro = new BuscarAreaViewModel();

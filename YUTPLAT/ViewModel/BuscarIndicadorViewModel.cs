@@ -9,6 +9,7 @@ namespace YUTPLAT.ViewModel
         
         public int AnioTablero { get; set; }
         public PersonaViewModel PersonaLogueadaViewModel { get; set; }
+        public bool TodasLasAreas { get; set; }
 
         public IList<IndicadorViewModel> Resultados { get; set; }
 

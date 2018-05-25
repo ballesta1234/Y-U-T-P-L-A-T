@@ -75,7 +75,7 @@ namespace YUTPLAT.Services.Interface
             return AutoMapper.Mapper.Map<IList<LineViewModel>>((await MedicionRepository.Buscar(filtro).ToListAsync()).OrderBy(m => m.Mes));
         }
 
-        public async Task<GaugeViewModel> ObtenerGaugeViewModel(long grupo, int anio, PersonaViewModel personaViewModel)
+        public async Task<GaugeViewModel> ObtenerGaugeViewModel(long grupo, int anio, PersonaViewModel personaViewModel, bool todasLasAreas = false)
         {
             MedicionViewModel filtro = new MedicionViewModel();
             filtro.Grupo = grupo;
@@ -90,7 +90,7 @@ namespace YUTPLAT.Services.Interface
                 MedicionViewModel ultimaMedicionCargada = medicionesViewModel.OrderBy(m => m.Mes).Reverse().First();
 
                 // Obtener el último indicador
-                Indicador ultimoIndicador = IndicadorRepository.Buscar(new BuscarIndicadorViewModel { Busqueda = new IndicadorViewModel { Grupo = grupo }, PersonaLogueadaViewModel = personaViewModel }).First();
+                Indicador ultimoIndicador = IndicadorRepository.Buscar(new BuscarIndicadorViewModel { Busqueda = new IndicadorViewModel { Grupo = grupo }, PersonaLogueadaViewModel = personaViewModel, TodasLasAreas = todasLasAreas }).First();
 
                 gaugeViewModel.NombreMes = ultimaMedicionCargada.Mes.ToString();
                 gaugeViewModel.NombreIndicador = ultimoIndicador.Nombre;
@@ -369,14 +369,14 @@ namespace YUTPLAT.Services.Interface
             return medicionViewModel;
         }
         
-        public async Task<MedicionViewModel> ObtenerMedicionViewModel(int idIndicador, int mes, int? idMedicion, long grupo, int anio, PersonaViewModel personaViewModel)
+        public async Task<MedicionViewModel> ObtenerMedicionViewModel(int idIndicador, int mes, int? idMedicion, long grupo, int anio, PersonaViewModel personaViewModel, bool buscarTodasLasAreas = false)
         {
             MedicionViewModel medicionViewModel = new MedicionViewModel();
             medicionViewModel.Mes = Helpers.EnumHelper<Enums.Enum.Mes>.Parse(mes.ToString());
             medicionViewModel.IndicadorID = idIndicador;
 
             // Obtener el nombre del último indicador del grupo.
-            IndicadorViewModel indicadorViewModel = await IndicadorService.GetUltimoByGrupo(grupo, personaViewModel);
+            IndicadorViewModel indicadorViewModel = await IndicadorService.GetUltimoByGrupo(grupo, personaViewModel, buscarTodasLasAreas);
 
             if (idMedicion != null)
             {

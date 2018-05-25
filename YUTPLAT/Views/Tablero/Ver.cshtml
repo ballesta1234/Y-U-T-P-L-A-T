@@ -241,6 +241,9 @@
                                     @Html.DropDownListFor(m => m.AnioTableroID, Enumerable.Empty<SelectListItem>(), new { @id = "ddlAnios", @class = "form-control" })
                                 }
                             </div>
+                            <div class="col-xs-5 col-sm-3 col-md-3">                               
+                                @Html.DropDownListFor(m => m.AreaTableroId, new SelectList(new List<SelectListItem> { new SelectListItem { Text = Model.AreaTableroViewModel.Nombre, Value = Model.AreaTableroViewModel.Id.ToString() } }, "Value", "Text"), new { @id = "ddlAreas", @class = "form-control" })
+                            </div>
                         </div>
                     </div>
                     <div class="content">
@@ -347,8 +350,8 @@
             beforeSend: function () {
             },
             success: function (response) {
-                if (response.success == true) {                    
-                    window.location.href = "Ver";                    
+                if (response.success == true) {
+                    window.location.href = "Ver";
                 }
             }
         });
@@ -365,6 +368,90 @@
     function procesarAnio(resultado) {
         return { id: resultado.AnioTableroID, text: resultado.Descripcion };
     }
+
+    $("#ddlAreas").select2({
+        ajax: {            
+            beforeSend: function (xhr, opts) {
+            },
+            url: '@Url.Action("BuscarAreas", "Area")',
+            dataType: 'json',            
+            delay: 250,
+            data: function (params) {
+                return {
+                    nombreArea: params.term,
+                };
+            },
+            processResults: function (data, page) {
+                return {
+                    results: procesarAreas(data)
+                };
+            },
+            cache: true
+        },
+        minimumInputLength: 0,
+        placeholder: "Seleccionar área",
+        language: {
+            inputTooShort: function (args) {
+                return "Ingrese al menos un caracter";
+            },
+            inputTooLong: function (args) {
+                return "Texto demadiado largo";
+            },
+            errorLoading: function () {
+                return "Error al cargar resultados";
+            },
+            loadingMore: function () {
+                return "Cargando más resultados";
+            },
+            noResults: function () {
+                return "No se encontraron resultados";
+            },
+            searching: function () {
+                return "Buscando...";
+            },
+            maximumSelected: function (args) {
+                return "Error al cargar resultados";
+            }
+        }
+    });
+
+
+    $('#ddlAreas').on("select2:selecting", function (e) {
+
+        var idArea = e.params.args.data.id;
+
+        var parametros = {
+            "idArea": idArea
+        };
+        jQuery.ajax({
+            data: parametros,
+            url: '@Url.Action("CambiarAreaTablero", "Tablero")',
+            type: 'post',
+            beforeSend: function () {
+            },
+            success: function (response) {
+                if (response.success == true) {
+                    window.location.href = "Ver";
+                }
+            }
+        });
+    });
+
+    function procesarAreas(resultados) {
+        var array = [];
+
+        array.push({ id: 0, text: "Todas las áreas" });
+
+        for (i = 0; i < resultados.length; i++) {
+            array.push(procesarArea(resultados[i]));
+        }
+        return array
+    }
+
+    function procesarArea(resultado) {
+        return { id: resultado.Id, text: resultado.Nombre };
+    }
+
 
     var mensageExito = '@Html.Raw(@ViewBag.MensageExito)';
 

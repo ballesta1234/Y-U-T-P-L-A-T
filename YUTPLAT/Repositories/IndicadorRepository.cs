@@ -88,7 +88,7 @@ namespace YUTPLAT.Repositories
                 int areaId = Int32.Parse(filtro.Busqueda.AreaID.Trim());
                 queryable = queryable.Where(a => a.Objetivo.AreaID == areaId);
             }
-            else if(filtro.PersonaLogueadaViewModel != null && !filtro.PersonaLogueadaViewModel.EsAdmin)
+            else if(filtro.PersonaLogueadaViewModel != null && !filtro.PersonaLogueadaViewModel.EsAdmin && !filtro.TodasLasAreas)
             {
                 int areaId = filtro.PersonaLogueadaViewModel.AreaViewModel.Id;
                 queryable = queryable.Where(a => a.Objetivo.AreaID == areaId);

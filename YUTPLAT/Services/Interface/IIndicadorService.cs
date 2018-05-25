@@ -8,7 +8,7 @@ namespace YUTPLAT.Services.Interface
     {
         Task<IndicadorViewModel> GetById(int id);
 
-        Task<IndicadorViewModel> GetUltimoByGrupo(long grupo, PersonaViewModel personaViewModel);
+        Task<IndicadorViewModel> GetUltimoByGrupo(long grupo, PersonaViewModel personaViewModel, bool buscarTodasLasAreas = false);
 
         IndicadorViewModel GetUltimoByGrupoNoTask(long grupo, PersonaViewModel personaViewModel);
 

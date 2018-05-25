@@ -58,10 +58,10 @@ namespace YUTPLAT.Services.Interface
             return indicadorViewModel;
         }
 
-        public async Task<IndicadorViewModel> GetUltimoByGrupo(long grupo, PersonaViewModel personaViewModel)
+        public async Task<IndicadorViewModel> GetUltimoByGrupo(long grupo, PersonaViewModel personaViewModel, bool buscarTodasLasAreas = false)
         {
             // Obtener el nombre del último indicador del grupo.
-            Indicador indicador = await IndicadorRepository.Buscar(new BuscarIndicadorViewModel { Busqueda = new IndicadorViewModel { Grupo = grupo }, PersonaLogueadaViewModel = personaViewModel }).FirstAsync();
+            Indicador indicador = await IndicadorRepository.Buscar(new BuscarIndicadorViewModel { Busqueda = new IndicadorViewModel { Grupo = grupo }, PersonaLogueadaViewModel = personaViewModel, TodasLasAreas = buscarTodasLasAreas }).FirstAsync();
 
             IndicadorViewModel indicadorViewModel = AutoMapper.Mapper.Map<IndicadorViewModel>(indicador);
             indicadorViewModel.ObjetivoViewModel = AutoMapper.Mapper.Map<ObjetivoViewModel>(indicador.Objetivo);
