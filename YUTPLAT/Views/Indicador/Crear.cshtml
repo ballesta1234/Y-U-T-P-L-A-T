@@ -57,11 +57,11 @@
                     <div class="content">
                         @using (Html.BeginForm("Crear", "Indicador", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { id = "form", role = "form" }))
                         {
-                            @Html.ValidationSummary(true, "", new { @class = "text-danger errorGeneralSummary" })
-
                             <div style="display:none;" class="text-danger errorGeneral">
                                 Verifique que todos los campos estén cargados y sean correctos.
                             </div>
+
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger errorGeneralSummary" })
 
                             <div class="row">
                                 <div class="col-xs-12 col-sm-6 col-md-4">
@@ -180,6 +180,7 @@
                                     @Html.ValidationMessageFor(m => m.MetaExcelenteViewModel, "", new { @class = "text-danger" })
                                     @Html.ValidationMessageFor(m => m.MetaExcelenteViewModel.Valor1, "", new { @class = "text-danger" })
                                     @Html.ValidationMessageFor(m => m.MetaExcelenteViewModel.Valor2, "", new { @class = "text-danger" })
+                                    @Html.ValidationMessageFor(m => m, "", new { @class = "text-danger" })
                                 </div>
 
                                 <div class="col-xs-12 col-sm-6 col-md-6">

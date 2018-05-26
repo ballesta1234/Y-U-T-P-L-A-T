@@ -18,7 +18,7 @@
         });
 
         $('#form').submit(function () {
-            $(".errorGeneralSummary").hide();
+            //$(".errorGeneralSummary").hide();
             if (!$('#form').valid()) {
                 $(".errorGeneral").show();
                 return false;
@@ -58,12 +58,12 @@
                         {
                             @Html.HiddenFor(m => m.Id);
                             @Html.HiddenFor(m => m.Grupo);
+                            
+                            <div style="display:none;" class="text-danger errorGeneral">
+                                Verifique que todos los campos estén cargados y sean correctosssssssssss.
+                            </div>
 
                             @Html.ValidationSummary(true, "", new { @class = "text-danger errorGeneralSummary" })
-
-                            <div style="display:none;" class="text-danger errorGeneral">
-                                Verifique que todos los campos estén cargados y sean correctos.
-                            </div>
 
                             <div class="row">
                                 <div class="col-xs-12 col-sm-6 col-md-4">

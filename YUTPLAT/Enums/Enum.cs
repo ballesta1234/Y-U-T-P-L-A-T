@@ -26,9 +26,9 @@ namespace YUTPLAT.Enums
             Mayor = 2,
             [Display(Name = "=")]
             Igual = 3,
-            [Display(Name = "<=")]
-            MayorOIgual = 4,
             [Display(Name = ">=")]
+            MayorOIgual = 4,
+            [Display(Name = "<=")]
             MenorOIgual = 5,
         }
 

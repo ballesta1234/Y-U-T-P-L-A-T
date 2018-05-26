@@ -32,5 +32,7 @@ namespace YUTPLAT.Services.Interface
         byte[] ObtenerArchivo(int anio, int mes);
 
         Task<int> Guardar(MedicionViewModel medicionViewModel);
+
+        EscalaGraficosViewModel ObtenerEscalasGrafico(IndicadorViewModel indicador);
     }
 }

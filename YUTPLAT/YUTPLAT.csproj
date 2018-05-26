@@ -439,6 +439,7 @@
     <Compile Include="Services\AreaService.cs" />
     <Compile Include="Services\Interface\IAreaService.cs" />
     <Compile Include="Validadores\ValidarEnumRol.cs" />
+    <Compile Include="Validadores\ValidarIndicador.cs" />
     <Compile Include="Validadores\ValidarMeta.cs" />
     <Compile Include="Validadores\ValidarLista.cs" />
     <Compile Include="ViewModel\AnioTableroViewModel.cs" />

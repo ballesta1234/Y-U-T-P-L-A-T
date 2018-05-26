@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using YUTPLAT.Services.Interface;
 using YUTPLAT.Validadores;
 
 namespace YUTPLAT.ViewModel
 {
+    [ValidarIndicador]
     public class IndicadorViewModel
     {
         public IndicadorViewModel()
