@@ -37,6 +37,23 @@ namespace YUTPLAT.Services.Interface
             this.PersonaRepository = personaRepository;
         }
 
+        private IMailStrategy ObtenerMailStrategy()
+        {
+            Enums.Enum.MailTipo tipoMailStrategy = EnumHelper<Enums.Enum.MailTipo>.Parse(ConfigurationManager.AppSettings["MailTipo"]);
+
+            switch (tipoMailStrategy)
+            {
+                case Enums.Enum.MailTipo.Aplicacion:
+                    return new MailApplicationStrategy();
+                case Enums.Enum.MailTipo.BaseDatos:
+                    return new MailDatabaseStrategy();
+                case Enums.Enum.MailTipo.Sendgrid:
+                    return new MailSendgridStrategy();
+                default:
+                    return null;
+            }
+        }
+
         public async Task NotificarCarga()
         {
             try
@@ -97,6 +114,8 @@ namespace YUTPLAT.Services.Interface
                         }
                     }
 
+                    IMailStrategy mailStrategy = ObtenerMailStrategy();
+
                     foreach (Persona persona in avisos.Keys)
                     {
                         DataTable tabla = new DataTable();
@@ -113,20 +132,8 @@ namespace YUTPLAT.Services.Interface
 
                         try
                         {
-                            string cuerpoMail = CrearTablaHtmlCargaMediciones(tabla, persona.NombreApellido).ToString();
-
-                            var myMessage = new SendGridMessage();
-                            myMessage.AddTo(persona.Email);
-                            myMessage.From = new MailAddress(ConfigurationManager.AppSettings["SendGridFromAccount"], "Y U T P L A T");
-                            myMessage.Subject = "[Y U T P L A T] Indicadores incompletos";
-                            myMessage.Html = cuerpoMail;
-
-                            System.Net.NetworkCredential credentials =
-                                new System.Net.NetworkCredential(ConfigurationManager.AppSettings["SendGridUsername"],
-                                                                 ConfigurationManager.AppSettings["SendGridPassword"]);
-
-                            var transportWeb = new Web(credentials);
-                            await transportWeb.DeliverAsync(myMessage);
+                            string cuerpoMail = CrearTablaHtmlCargaMediciones(tabla, persona.NombreApellido).ToString();                            
+                            await mailStrategy.EnviarCorreo(persona.Email, "[Y U T P L A T] Indicadores incompletos", cuerpoMail);
                         }
                         catch (Exception ex) { }
                     }
@@ -172,24 +179,14 @@ namespace YUTPLAT.Services.Interface
 
                         personasAAvisar = personasAAvisar.Distinct(new PersonaComparer()).ToList();
 
+                        IMailStrategy mailStrategy = ObtenerMailStrategy();
+                        
                         foreach (Persona persona in personasAAvisar)
                         {
                             try
                             {
-                                string cuerpoMail = CrearTablaHtmlMedicionesInaceptables(tabla, persona.NombreApellido).ToString();
-
-                                var myMessage = new SendGridMessage();
-                                myMessage.AddTo(persona.Email);
-                                myMessage.From = new MailAddress(ConfigurationManager.AppSettings["SendGridFromAccount"], "Y U T P L A T");
-                                myMessage.Subject = "[Y U T P L A T] Indicadores no satisfactorios";
-                                myMessage.Html = cuerpoMail;
-
-                                System.Net.NetworkCredential credentials =
-                                    new System.Net.NetworkCredential(ConfigurationManager.AppSettings["SendGridUsername"],
-                                                                     ConfigurationManager.AppSettings["SendGridPassword"]);
-
-                                var transportWeb = new Web(credentials);
-                                await transportWeb.DeliverAsync(myMessage);
+                                string cuerpoMail = CrearTablaHtmlMedicionesInaceptables(tabla, persona.NombreApellido).ToString();                                
+                                await mailStrategy.EnviarCorreo(persona.Email, "[Y U T P L A T] Indicadores no satisfactorios", cuerpoMail);                                
                             }
                             catch (Exception ex) { }
                         }

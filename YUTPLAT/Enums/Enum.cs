@@ -67,5 +67,12 @@ namespace YUTPLAT.Enums
         {
             CPI = 1
         }
+
+        public enum MailTipo
+        {
+            Sendgrid = 1,
+            Aplicacion = 2,
+            BaseDatos = 3
+        }
     }
 }

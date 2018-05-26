@@ -6,7 +6,7 @@ namespace YUTPLAT.Services.Interface
     public interface IIndicadorAutomaticoStrategy
     {
         void EjecutarIndicador(IndicadorViewModel indicadorViewModel);
-        decimal RecalcularIndicador(int mes);
         IList<MedicionExportarDTO> ObtenerDetallesMediciones();
+        decimal RecalcularIndicador(int mes);
     }
 }

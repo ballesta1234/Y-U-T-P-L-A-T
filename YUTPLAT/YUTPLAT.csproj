@@ -419,9 +419,13 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Context\YutplatDbContext.cs" />
     <Compile Include="Services\AnioTableroService.cs" />
+    <Compile Include="Services\MailApplicationStrategy.cs" />
+    <Compile Include="Services\MailDatabaseStrategy.cs" />
+    <Compile Include="Services\MailSendgridStrategy.cs" />
     <Compile Include="Services\IndicadorAutomaticoCPIStrategy.cs" />
     <Compile Include="Services\IndicadorAutomaticoService.cs" />
     <Compile Include="Services\Interface\IAnioTableroService.cs" />
+    <Compile Include="Services\Interface\IMailStrategy.cs" />
     <Compile Include="Services\Interface\IIndicadorAutomaticoStrategy.cs" />
     <Compile Include="Services\Interface\IIndicadorAutomaticoService.cs" />
     <Compile Include="Services\Interface\INotificacionService.cs" />
