@@ -490,6 +490,7 @@
     <Content Include="images\loading.gif" />
     <Content Include="images\paisaje.jpg" />
     <Content Include="images\bosque.jpg" />
+    <Content Include="images\paisaje1.jpg" />
     <Content Include="images\sidebar-5.jpg" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -643,6 +644,7 @@
     <Content Include="Scripts\select2.full.js" />
     <Content Include="Scripts\select2.full.min.js" />
     <Content Include="Scripts\_references.js" />
+    <Content Include="Temp\dummy.txt" />
     <Content Include="Views\Home\assets\img\default-avatar.png" />
     <Content Include="Views\Home\assets\img\favicon.ico" />
     <Content Include="Views\Home\assets\img\loading-bubbles.svg" />
