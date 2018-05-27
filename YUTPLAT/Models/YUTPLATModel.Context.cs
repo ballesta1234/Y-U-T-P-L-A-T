@@ -15,10 +15,10 @@ namespace YUTPLAT.Models
     using System.Data.Entity.Core.Objects;
     using System.Linq;
     
-    public partial class YUTPLAT_DESAEntities : DbContext
+    public partial class YUTPLATEntities : DbContext
     {
-        public YUTPLAT_DESAEntities()
-            : base("name=YUTPLAT_DESAEntities")
+        public YUTPLATEntities()
+            : base("name=YUTPLATEntities")
         {
         }
     
@@ -28,23 +28,17 @@ namespace YUTPLAT.Models
         }
     
     
-        public virtual ObjectResult<ObtenerDetallesMediciones_Result> ObtenerDetallesMediciones()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ObtenerDetallesMediciones_Result>("ObtenerDetallesMediciones");
-        }
-    
-        public virtual int ObtenerMedicionPorMes(Nullable<int> mes, ObjectParameter valorOutput)
+        public virtual ObjectResult<ObtenerMedicionesPorMesAnio_Result> ObtenerMedicionesPorMesAnio(Nullable<int> mes, Nullable<int> anio)
         {
             var mesParameter = mes.HasValue ?
                 new ObjectParameter("Mes", mes) :
                 new ObjectParameter("Mes", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("ObtenerMedicionPorMes", mesParameter, valorOutput);
-        }
+            var anioParameter = anio.HasValue ?
+                new ObjectParameter("Anio", anio) :
+                new ObjectParameter("Anio", typeof(int));
     
-        public virtual ObjectResult<ObtenerTodasMediciones_Result> ObtenerTodasMediciones()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ObtenerTodasMediciones_Result>("ObtenerTodasMediciones");
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ObtenerMedicionesPorMesAnio_Result>("ObtenerMedicionesPorMesAnio", mesParameter, anioParameter);
         }
     }
 }

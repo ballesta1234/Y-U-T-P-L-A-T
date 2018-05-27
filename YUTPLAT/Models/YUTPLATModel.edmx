@@ -5,56 +5,49 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
       <Schema Namespace="YUTPLAT_DESAModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <Function Name="ObtenerDetallesMediciones" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
-        <Function Name="ObtenerMedicionPorMes" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+        <Function Name="ObtenerMedicionesPorMesAnio" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Mes" Type="int" Mode="In" />
-          <Parameter Name="ValorOutput" Type="decimal" Mode="InOut" Precision="18" Scale="3" />
+          <Parameter Name="Anio" Type="int" Mode="In" />
         </Function>
-        <Function Name="ObtenerTodasMediciones" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <EntityContainer Name="YUTPLAT_DESAModelStoreContainer" />
       </Schema>
     </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="YUTPLAT_DESAModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityContainer Name="YUTPLAT_DESAEntities1" annotation:LazyLoadingEnabled="true" >
-          <FunctionImport Name="ObtenerDetallesMediciones" ReturnType="Collection(YUTPLAT_DESAModel.ObtenerDetallesMediciones_Result)" />
-          <FunctionImport Name="ObtenerMedicionPorMes">
+        <EntityContainer Name="YUTPLAT_DESAEntities" annotation:LazyLoadingEnabled="true" >
+          <FunctionImport Name="ObtenerMedicionesPorMesAnio" ReturnType="Collection(YUTPLAT_DESAModel.ObtenerMedicionesPorMesAnio_Result)">
             <Parameter Name="Mes" Mode="In" Type="Int32" />
-            <Parameter Name="ValorOutput" Mode="InOut" Type="Decimal" Precision="18" Scale="3" />
+            <Parameter Name="Anio" Mode="In" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="ObtenerTodasMediciones" ReturnType="Collection(YUTPLAT_DESAModel.ObtenerTodasMediciones_Result)" />
         </EntityContainer>
-        <ComplexType Name="ObtenerDetallesMediciones_Result">
-          <Property Type="Decimal" Name="Valor" Nullable="true" Precision="18" Scale="3" />
-          <Property Type="Int32" Name="Mes" Nullable="true" />
-          <Property Type="String" Name="Proyecto" Nullable="true" MaxLength="200" />
-        </ComplexType>
-        <ComplexType Name="ObtenerTodasMediciones_Result">
-          <Property Type="Decimal" Name="Valor" Nullable="true" Precision="18" Scale="3" />
-          <Property Type="Int32" Name="Mes" Nullable="true" />
+        <ComplexType Name="ObtenerMedicionesPorMesAnio_Result">
+          <Property Type="String" Name="nombre" Nullable="true" />
+          <Property Type="Int32" Name="horas_totales" Nullable="true" />
+          <Property Type="Int32" Name="horas" Nullable="true" />
+          <Property Type="Int32" Name="mes" Nullable="true" />
+          <Property Type="Int32" Name="anio" Nullable="true" />
+          <Property Type="Int32" Name="ev" Nullable="true" />
+          <Property Type="Int32" Name="ac" Nullable="true" />
+          <Property Type="Decimal" Name="cpi" Nullable="true" Precision="18" Scale="2" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="YUTPLAT_DESAModelStoreContainer" CdmEntityContainer="YUTPLAT_DESAEntities1" >
-          <FunctionImportMapping FunctionImportName="ObtenerDetallesMediciones" FunctionName="YUTPLAT_DESAModel.Store.ObtenerDetallesMediciones">
+        <EntityContainerMapping StorageEntityContainer="YUTPLAT_DESAModelStoreContainer" CdmEntityContainer="YUTPLAT_DESAEntities" >
+          <FunctionImportMapping FunctionImportName="ObtenerMedicionesPorMesAnio" FunctionName="YUTPLAT_DESAModel.Store.ObtenerMedicionesPorMesAnio">
             <ResultMapping>
-              <ComplexTypeMapping TypeName="YUTPLAT_DESAModel.ObtenerDetallesMediciones_Result">
-                <ScalarProperty Name="Valor" ColumnName="Valor" />
-                <ScalarProperty Name="Mes" ColumnName="Mes" />
-                <ScalarProperty Name="Proyecto" ColumnName="Proyecto" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="ObtenerMedicionPorMes" FunctionName="YUTPLAT_DESAModel.Store.ObtenerMedicionPorMes" />
-          <FunctionImportMapping FunctionImportName="ObtenerTodasMediciones" FunctionName="YUTPLAT_DESAModel.Store.ObtenerTodasMediciones">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="YUTPLAT_DESAModel.ObtenerTodasMediciones_Result">
-                <ScalarProperty Name="Valor" ColumnName="Valor" />
-                <ScalarProperty Name="Mes" ColumnName="Mes" />
+              <ComplexTypeMapping TypeName="YUTPLAT_DESAModel.ObtenerMedicionesPorMesAnio_Result">
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="horas_totales" ColumnName="horas_totales" />
+                <ScalarProperty Name="horas" ColumnName="horas" />
+                <ScalarProperty Name="mes" ColumnName="mes" />
+                <ScalarProperty Name="anio" ColumnName="anio" />
+                <ScalarProperty Name="ev" ColumnName="ev" />
+                <ScalarProperty Name="ac" ColumnName="ac" />
+                <ScalarProperty Name="cpi" ColumnName="cpi" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

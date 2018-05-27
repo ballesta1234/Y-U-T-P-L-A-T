@@ -25,7 +25,7 @@ namespace YUTPLAT.Services.Interface
         {
             lock (thisLock)
             {
-                YUTPLAT_DESAEntities spContext = new YUTPLAT_DESAEntities();
+                YUTPLATEntities spContext = new YUTPLATEntities();
 
                 int mesACalcular = 0;
                 int anioACalcular = 0;
@@ -44,7 +44,8 @@ namespace YUTPLAT.Services.Interface
                 // Calcular las mediciones del mes anterior
                 Enums.Enum.Mes mesAnterior = Helpers.EnumHelper<Enums.Enum.Mes>.Parse(mesACalcular.ToString());
 
-                IList<Medicion> medicionesNuevas = AutoMapper.Mapper.Map<IList<Medicion>>(spContext.ObtenerTodasMediciones().ToList());
+                //corregir
+                IList<Medicion> medicionesNuevas = AutoMapper.Mapper.Map<IList<Medicion>>(spContext.ObtenerMedicionesPorMesAnio(mesACalcular, anioACalcular).ToList());
 
                 Medicion medicionNuevaMes = medicionesNuevas.First(mn => (int)mn.Mes == mesACalcular);
                 
@@ -74,9 +75,9 @@ namespace YUTPLAT.Services.Interface
 
             if (!File.Exists(tempDirectory + file))
             {
-                List<MedicionExportarDTO> mediciones = (List<MedicionExportarDTO>)ObtenerDetallesMediciones();
+                List<MedicionExportarDTO> mediciones = (List<MedicionExportarDTO>)ObtenerDetallesMediciones((int)medicionMes.Mes, medicionMes.Anio);
 
-                string[] columnas = { "Proyecto", "Mes", "Valor" };
+                string[] columnas = { "Nombre", "HorasTotales", "Horas" };
                 byte[] filecontent = ExcelExportHelper.ExportExcel(mediciones, "Detalles Indicador CPI", false, columnas);
                 
                 using (FileStream fs = File.Create(tempDirectory + file))
@@ -89,20 +90,18 @@ namespace YUTPLAT.Services.Interface
             }
         }
         
-        public decimal RecalcularIndicador(int mes)
+        public decimal RecalcularIndicador(int mes, int anio)
         {
-            ObjectParameter valorOtuput = new ObjectParameter("ValorOutput", typeof(decimal));
+            YUTPLATEntities spContext = new YUTPLATEntities();
+            spContext.ObtenerMedicionesPorMesAnio(mes, anio);
 
-            YUTPLAT_DESAEntities spContext = new YUTPLAT_DESAEntities();
-            spContext.ObtenerMedicionPorMes(mes, valorOtuput);
-
-            return decimal.Parse(valorOtuput.Value.ToString());
+            return decimal.Parse("1");
         }
 
-        public IList<MedicionExportarDTO> ObtenerDetallesMediciones()
+        public IList<MedicionExportarDTO> ObtenerDetallesMediciones(int mes, int anio)
         {
-            YUTPLAT_DESAEntities spContext = new YUTPLAT_DESAEntities();
-            return AutoMapper.Mapper.Map<IList<MedicionExportarDTO>>(spContext.ObtenerDetallesMediciones().ToList());
+            YUTPLATEntities spContext = new YUTPLATEntities();
+            return AutoMapper.Mapper.Map<IList<MedicionExportarDTO>>(spContext.ObtenerMedicionesPorMesAnio(mes, anio).ToList());
         }
     }
 }

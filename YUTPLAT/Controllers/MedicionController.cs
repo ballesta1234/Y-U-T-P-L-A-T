@@ -23,10 +23,12 @@ namespace YUTPLAT.Controllers
             AnioTableroService = anioTableroService;
         }
 
-        public JsonResult Recalcular(int idIndicador, int mes)
+        public async Task<JsonResult> Recalcular(int idIndicador, int mes)
         {
+            int anio = (await AnioTableroService.GetById(Int32.Parse((string)Session["IdAnioTablero"]))).Anio;
+
             // Por el momento solo es automático el indicador para CPI
-            decimal valor = IndicadorAutomaticoCPIStrategy.RecalcularIndicador(mes);
+            decimal valor = IndicadorAutomaticoCPIStrategy.RecalcularIndicador(mes, anio);
             return Json(valor, JsonRequestBehavior.AllowGet);
         }
 

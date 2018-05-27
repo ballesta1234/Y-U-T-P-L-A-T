@@ -364,10 +364,7 @@
     <Compile Include="Models\Meta.cs" />
     <Compile Include="Models\FrecuenciaMedicionIndicador.cs" />
     <Compile Include="Models\InteresadoIndicador.cs" />
-    <Compile Include="Models\ObtenerDetallesMediciones_Result.cs">
-      <DependentUpon>YUTPLATModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\ObtenerTodasMediciones_Result.cs">
+    <Compile Include="Models\ObtenerMedicionesPorMesAnio_Result.cs">
       <DependentUpon>YUTPLATModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ResponsableIndicador.cs" />
@@ -599,6 +596,7 @@
     <Content Include="Models\YUTPLATModel.edmx.diagram">
       <DependentUpon>YUTPLATModel.edmx</DependentUpon>
     </Content>
+    <None Include="Properties\PublishProfiles\29_PROD.pubxml" />
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
     <Content Include="Models\YUTPLATModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -711,6 +709,9 @@
     <Content Include="Views\Persona\Crear.cshtml" />
     <Content Include="Views\Persona\Editar.cshtml" />
     <Content Include="Views\Persona\Ver.cshtml" />
+    <None Include="Web.29_PROD.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -789,6 +790,9 @@
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == '29_PROD|AnyCPU'">
+    <OutputPath>bin\</OutputPath>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />

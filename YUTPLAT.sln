@@ -9,14 +9,19 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YUTPLAT.Tests", "YUTPLAT.Te
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		29_PROD|Any CPU = 29_PROD|Any CPU
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{98870266-7917-4110-B925-A9C14C188CC0}.29_PROD|Any CPU.ActiveCfg = 29_PROD|Any CPU
+		{98870266-7917-4110-B925-A9C14C188CC0}.29_PROD|Any CPU.Build.0 = 29_PROD|Any CPU
 		{98870266-7917-4110-B925-A9C14C188CC0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{98870266-7917-4110-B925-A9C14C188CC0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{98870266-7917-4110-B925-A9C14C188CC0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{98870266-7917-4110-B925-A9C14C188CC0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B98B0C18-2C87-4C3A-BD08-683A1028762B}.29_PROD|Any CPU.ActiveCfg = 29_PROD|Any CPU
+		{B98B0C18-2C87-4C3A-BD08-683A1028762B}.29_PROD|Any CPU.Build.0 = 29_PROD|Any CPU
 		{B98B0C18-2C87-4C3A-BD08-683A1028762B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B98B0C18-2C87-4C3A-BD08-683A1028762B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B98B0C18-2C87-4C3A-BD08-683A1028762B}.Release|Any CPU.ActiveCfg = Release|Any CPU

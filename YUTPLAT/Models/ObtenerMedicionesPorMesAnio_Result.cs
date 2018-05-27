@@ -11,9 +11,15 @@ namespace YUTPLAT.Models
 {
     using System;
     
-    public partial class ObtenerTodasMediciones_Result
+    public partial class ObtenerMedicionesPorMesAnio_Result
     {
-        public Nullable<decimal> Valor { get; set; }
-        public Nullable<int> Mes { get; set; }
+        public string nombre { get; set; }
+        public Nullable<int> horas_totales { get; set; }
+        public Nullable<int> horas { get; set; }
+        public Nullable<int> mes { get; set; }
+        public Nullable<int> anio { get; set; }
+        public Nullable<int> ev { get; set; }
+        public Nullable<int> ac { get; set; }
+        public Nullable<decimal> cpi { get; set; }
     }
 }
