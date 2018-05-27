@@ -554,27 +554,26 @@ BEGIN
 	
 	IF(@UsarLinkedServer = ''true'')
 	BEGIN 	
-		SELECT [nombre]
-		  ,[horas_totales]
-		  ,[horas]
-		  ,[mes]
-		  ,[anio]
-		  ,[ev]
-		  ,[ac]
-		  ,[cpi]
+		SELECT cast([nombre] as nvarchar(max)) as nombre
+		  ,cast([horas_totales] as int) as horas_totales
+		  ,cast([horas] as int) as horas
+		  ,cast([mes] as int) as mes
+		  ,cast([anio] as int) as anio
+		  ,cast([ev] as int) as ev
+		  ,cast([ac] as int) as ac
+		  ,cast([cpi] as decimal(18,2)) as cpi
 		FROM [kronosnet2-prod].dbo.Indicadores(@Mes,@Anio);
 	END
 	ELSE
 	BEGIN
-		SELECT 
-		   [nombre]
-		  ,[horas_totales]
-		  ,[horas]
-		  ,[mes]
-		  ,[anio]
-		  ,[ev]
-		  ,[ac]
-		  ,[cpi]
+		SELECT cast([nombre] as nvarchar(max)) as nombre
+		  ,cast([horas_totales] as int) as horas_totales
+		  ,cast([horas] as int) as horas
+		  ,cast([mes] as int) as mes
+		  ,cast([anio] as int) as anio
+		  ,cast([ev] as int) as ev
+		  ,cast([ac] as int) as ac
+		  ,cast([cpi] as decimal(18,2)) as cpi
 		FROM [dbo].Indicadores(@Mes,@Anio);
 	END
 END
