@@ -105,16 +105,26 @@ namespace YUTPLAT.App_Start
                     .ForMember(x => x.FechaCarga, x => x.MapFrom(y => !string.IsNullOrEmpty(y.FechaCarga) ? DateTime.Parse(y.FechaCarga) : (DateTime?)null))
                     .ForMember(x => x.Indicador, x => x.MapFrom(y => y.IndicadorViewModel))
                     .ForMember(x => x.Valor, x => x.MapFrom(y => Decimal.Parse(y.Valor.Replace(".", ","))));
-                    
-                    cfg.CreateMap<ObtenerMedicionesPorMesAnio_Result, MedicionExportarDTO>()
-                    .ForMember(x => x.Mes, x => x.MapFrom(y => Helpers.EnumHelper<Enums.Enum.Mes>.Parse(y.mes.Value.ToString())))                    
-                    .ForMember(x => x.Nombre, x => x.MapFrom(y => y.nombre != null ? y.nombre.ToString() : ""))
-                    .ForMember(x => x.HorasTotales, x => x.MapFrom(y => y.horas_totales != null ? y.horas_totales.Value.ToString() : ""))
-                    .ForMember(x => x.Horas, x => x.MapFrom(y => y.horas != null ? y.horas.Value.ToString() : ""))
-                    .ForMember(x => x.Anio, x => x.MapFrom(y => y.anio != null ? y.anio.Value.ToString() : ""))
-                    .ForMember(x => x.EV, x => x.MapFrom(y => y.ev != null ? y.ev.Value.ToString() : ""))
-                    .ForMember(x => x.AC, x => x.MapFrom(y => y.ac != null ? y.ac.Value.ToString() : ""))
-                    .ForMember(x => x.CPI, x => x.MapFrom(y => y.cpi != null ? y.cpi.Value.ToString() : ""));
+
+                    cfg.CreateMap<ObtenerMedicionesPorMesAnio_Result, MedicionResultDTO>()
+                    .ForMember(x => x.Mes, x => x.MapFrom(y => y.mes))
+                    .ForMember(x => x.Nombre, x => x.MapFrom(y => y.nombre))
+                    .ForMember(x => x.HorasTotales, x => x.MapFrom(y => y.horas_totales))
+                    .ForMember(x => x.Horas, x => x.MapFrom(y => y.horas))
+                    .ForMember(x => x.Anio, x => x.MapFrom(y => y.anio))
+                    .ForMember(x => x.EV, x => x.MapFrom(y => y.ev))
+                    .ForMember(x => x.AC, x => x.MapFrom(y => y.ac))
+                    .ForMember(x => x.CPI, x => x.MapFrom(y => y.cpi));
+
+                    cfg.CreateMap<MedicionResultDTO, MedicionExportarDTO>()
+                    .ForMember(x => x.Mes, x => x.MapFrom(y => Helpers.EnumHelper<Enums.Enum.Mes>.Parse(y.Mes.Value.ToString())))                    
+                    .ForMember(x => x.Nombre, x => x.MapFrom(y => y.Nombre != null ? y.Nombre.ToString() : " "))
+                    .ForMember(x => x.HorasTotales, x => x.MapFrom(y => y.HorasTotales != null ? y.HorasTotales.Value.ToString() : " "))
+                    .ForMember(x => x.Horas, x => x.MapFrom(y => y.Horas != null ? y.Horas.Value.ToString() : " "))
+                    .ForMember(x => x.Anio, x => x.MapFrom(y => y.Anio != null ? y.Anio.Value.ToString() : " "))
+                    .ForMember(x => x.EV, x => x.MapFrom(y => y.EV != null ? y.EV.Value.ToString() : " "))
+                    .ForMember(x => x.AC, x => x.MapFrom(y => y.AC != null ? y.AC.Value.ToString() : " "))
+                    .ForMember(x => x.CPI, x => x.MapFrom(y => y.CPI != null ? y.CPI.Value.ToString() : " "));
 
                     cfg.CreateMap<IndicadorAutomatico, IndicadorAutomaticoViewModel>()
                     .ForMember(x => x.IndicadorViewModel, x => x.MapFrom(y => y.Indicador));                    

@@ -37,7 +37,7 @@ namespace YUTPLAT.Controllers
         public async Task<FileContentResult> ExportToExcel(string mes)
         {
             int anio = (await AnioTableroService.GetById(Int32.Parse((string)Session["IdAnioTablero"]))).Anio;
-            return File(MedicionService.ObtenerArchivo(anio, Int32.Parse(mes)), ExcelExportHelper.ExcelContentType, "DetalleIndicador.xlsx");
+            return File(IndicadorAutomaticoCPIStrategy.ObtenerArchivo(anio, Int32.Parse(mes)), ExcelExportHelper.ExcelContentType, "DetalleIndicador.xlsx");
         }
     }    
 }

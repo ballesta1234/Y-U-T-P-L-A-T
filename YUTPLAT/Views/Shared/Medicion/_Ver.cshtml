@@ -11,12 +11,9 @@
                 <div class="col-xs-6 col-sm-3 col-md-3">
                     @Html.TextBoxFor(m => m.Valor, new { @disabled = "true", @class = "form-control" })
                 </div>
-                @if (Model.ArchivoGenerado)
-                {
-                    <div class="col-xs-4 col-sm-2 col-md-2">
-                        <button type="button" class="btn btn-secondary" onclick="location.href='@Url.Action("ExportToExcel", "Medicion", new { q = MyExtensions.Encrypt(new { mes = (int)Model.Mes }) })'">Exportar</button>
-                    </div>
-                }
+                <div class="col-xs-4 col-sm-2 col-md-2">
+                    <button type="button" class="btn btn-secondary" onclick="location.href='@Url.Action("ExportToExcel", "Medicion", new { q = MyExtensions.Encrypt(new { mes = (int)Model.Mes }) })'">Exportar</button>
+                </div>
             </div>
         </div>
     </div>

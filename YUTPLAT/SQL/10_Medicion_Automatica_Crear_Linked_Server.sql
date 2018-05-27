@@ -554,7 +554,7 @@ BEGIN
 	
 	IF(@UsarLinkedServer = ''true'')
 	BEGIN 	
-		SELECT TOP (1000) [nombre]
+		SELECT [nombre]
 		  ,[horas_totales]
 		  ,[horas]
 		  ,[mes]

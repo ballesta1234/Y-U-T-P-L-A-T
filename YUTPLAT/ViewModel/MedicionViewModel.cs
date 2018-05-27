@@ -9,8 +9,7 @@ namespace YUTPLAT.ViewModel
 
         public IndicadorViewModel IndicadorViewModel { get; set; }
         public int IndicadorID { get; set; }
-        public long Grupo { get; set; }
-        public bool ArchivoGenerado { get; set; }
+        public long Grupo { get; set; }        
         public Mes Mes { get; set; }
         public int Anio { get; set; }
 

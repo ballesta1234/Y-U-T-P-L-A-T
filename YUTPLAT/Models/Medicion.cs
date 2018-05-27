@@ -17,8 +17,7 @@ namespace YUTPLAT.Models
         public Mes Mes { get; set; }
         public decimal Valor { get; set; }        
         public DateTime? FechaCarga { get; set; }
-        public string UsuarioCargo { get; set; }
-        public bool ArchivoGenerado { get; set; }
+        public string UsuarioCargo { get; set; }        
         public string Comentario { get; set; }
         public bool SeDebeNotificar { get; set; }
     }

@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using YUTPLAT.Helpers;
 using YUTPLAT.Models;
-using YUTPLAT.Repositories.Interface;
 using YUTPLAT.ViewModel;
 using System.Linq;
-using System.Data.Entity.Core.Objects;
 using System.IO;
 
 namespace YUTPLAT.Services.Interface
@@ -44,64 +42,143 @@ namespace YUTPLAT.Services.Interface
                 // Calcular las mediciones del mes anterior
                 Enums.Enum.Mes mesAnterior = Helpers.EnumHelper<Enums.Enum.Mes>.Parse(mesACalcular.ToString());
 
-                //corregir
-                IList<Medicion> medicionesNuevas = AutoMapper.Mapper.Map<IList<Medicion>>(spContext.ObtenerMedicionesPorMesAnio(mesACalcular, anioACalcular).ToList());
-
-                Medicion medicionNuevaMes = medicionesNuevas.First(mn => (int)mn.Mes == mesACalcular);
-                
                 MedicionViewModel medicionMes = this.MedicionService.BuscarNoTask(new MedicionViewModel { Grupo = indicadorViewModel.Grupo, Mes = mesAnterior, Anio = anioACalcular }).FirstOrDefault();
+
+                IList<MedicionResultDTO> medicionesNuevas = null;
 
                 // Guardar la medición sólo si no tiene
                 if (medicionMes == null)
                 {
+                    medicionesNuevas = ObtenerDetallesMediciones(mesACalcular, anioACalcular);
+
                     medicionMes = MedicionService.ObtenerMedicionViewModelNoTask(indicadorViewModel.Id, (int)mesAnterior, null, indicadorViewModel.Grupo, anioACalcular, null);
                     medicionMes.FechaCarga = DateTimeHelper.OntenerFechaActual().ToString("dd/MM/yyyy HH:mm tt");
                     medicionMes.UsuarioCargo = "Automático Sistema";
                     medicionMes.Anio = anioACalcular;
-                    medicionMes.Valor = medicionNuevaMes.Valor.ToString().Replace(",", ".").TrimEnd('0').TrimEnd('.');
+                    medicionMes.Valor = ObtenerValorMedicionCPI(medicionesNuevas).ToString().Replace(",", ".").TrimEnd('0').TrimEnd('.');
 
                     medicionMes.MedicionId = MedicionService.GuardarMedicionNoTask(medicionMes);
                 }
 
                 // Generar excel con el detalle
-                GenerarExcel(medicionMes);
+                GenerarExcel((int)medicionMes.Mes, medicionMes.Anio, (List<MedicionResultDTO>)medicionesNuevas);
             }
         }
 
-        public void GenerarExcel(MedicionViewModel medicionMes)
-        {   
+        public void GenerarExcel(int mes, int anio, List<MedicionResultDTO> mediciones)
+        {
             string tempDirectory = AppDomain.CurrentDomain.BaseDirectory + "Temp/";
-            string file = medicionMes.Anio.ToString() + "_" + ((int)medicionMes.Mes).ToString() + ".xlsx";
+            string file = anio.ToString() + "_" + mes.ToString() + ".xlsx";
 
             if (!File.Exists(tempDirectory + file))
             {
-                List<MedicionExportarDTO> mediciones = (List<MedicionExportarDTO>)ObtenerDetallesMediciones((int)medicionMes.Mes, medicionMes.Anio);
-
-                string[] columnas = { "Nombre", "HorasTotales", "Horas" };
-                byte[] filecontent = ExcelExportHelper.ExportExcel(mediciones, "Detalles Indicador CPI", false, columnas);
-                
-                using (FileStream fs = File.Create(tempDirectory + file))
+                if (mediciones == null)
                 {
-                    fs.Write(filecontent, 0, filecontent.Length);
+                    mediciones = (List<MedicionResultDTO>)ObtenerDetallesMediciones(mes, anio);
                 }
 
-                medicionMes.ArchivoGenerado = true;
-                MedicionService.Guardar(medicionMes);
+                List<MedicionExportarDTO> medicionesExportar = (List<MedicionExportarDTO>)AutoMapper.Mapper.Map<IList<MedicionExportarDTO>>(mediciones);
+
+                try
+                {
+                    string mesStr = EnumHelper<Enums.Enum.Mes>.Parse(mes.ToString()).ToString();
+                    string[] columnas = { "Nombre", "HorasTotales", "Horas", "Mes", "Anio", "EV", "AC", "CPI" };
+                    string titulo = "Detalle indicador CPI - " + mesStr + " - " + anio.ToString();
+
+                    byte[] filecontent = ExcelExportHelper.ExportExcel(medicionesExportar, titulo, false, columnas);
+
+                    using (FileStream fs = File.Create(tempDirectory + file))
+                    {
+                        fs.Write(filecontent, 0, filecontent.Length);
+                        fs.Close();
+                    }
+                }
+                catch (Exception ex) { }
             }
         }
-        
+
         public decimal RecalcularIndicador(int mes, int anio)
         {
-            YUTPLATEntities spContext = new YUTPLATEntities();
-            spContext.ObtenerMedicionesPorMesAnio(mes, anio);
+            IList<MedicionResultDTO> mediciones = null;
 
-            return decimal.Parse("1");
+            lock (thisLock)
+            {
+                try
+                {
+                    mediciones = ObtenerDetallesMediciones(mes, anio);
+
+                    string tempDirectory = AppDomain.CurrentDomain.BaseDirectory + "Temp/";
+                    string file = anio.ToString() + "_" + mes.ToString() + ".xlsx";
+
+                    if (File.Exists(tempDirectory + file))
+                    {                        
+                        File.Delete(tempDirectory + file);
+                    }
+
+                    GenerarExcel(mes, anio, (List<MedicionResultDTO>)mediciones);
+                }
+                catch(Exception ex) { }             
+            }
+            
+            return ObtenerValorMedicionCPI(mediciones);
         }
 
-        public IList<MedicionExportarDTO> ObtenerDetallesMediciones(int mes, int anio)
+        private IList<MedicionResultDTO> ObtenerDetallesMediciones(int mes, int anio)
         {
             YUTPLATEntities spContext = new YUTPLATEntities();
-            return AutoMapper.Mapper.Map<IList<MedicionExportarDTO>>(spContext.ObtenerMedicionesPorMesAnio(mes, anio).ToList());
+            return AutoMapper.Mapper.Map<IList<MedicionResultDTO>>(spContext.ObtenerMedicionesPorMesAnio(mes, anio).ToList());
+        }
+
+        private decimal ObtenerValorMedicionCPI(IList<MedicionResultDTO> mediciones)
+        {
+            int count = 0;
+            decimal suma = 0;
+
+            foreach (MedicionResultDTO medicion in mediciones)
+            {
+                if (medicion.CPI != null && medicion.CPI.Value != 0)
+                {
+                    count++;
+                    suma += medicion.CPI.Value;
+                }
+            }
+
+            return suma / count;
+        }
+
+        public byte[] ObtenerArchivo(int anio, int mes)
+        {
+            string tempDirectory = AppDomain.CurrentDomain.BaseDirectory + "Temp/";
+            string file = anio.ToString() + "_" + mes.ToString() + ".xlsx";
+
+            byte[] fileBytes = null;
+
+            if (!File.Exists(tempDirectory + file))
+            {
+                RecalcularIndicador(mes, anio);
+            }
+
+            if (File.Exists(tempDirectory + file))
+            {
+                FileStream fs = File.OpenRead(tempDirectory + file);
+
+                byte[] buffer = new byte[4096];
+
+                System.IO.MemoryStream memoryStream = new System.IO.MemoryStream();
+                int chunkSize = 0;
+
+                do
+                {
+                    chunkSize = fs.Read(buffer, 0, buffer.Length);
+                    memoryStream.Write(buffer, 0, chunkSize);
+                } while (chunkSize != 0);
+
+                fs.Close();
+
+                fileBytes = memoryStream.ToArray();
+            }
+
+            return fileBytes;
         }
     }
 }

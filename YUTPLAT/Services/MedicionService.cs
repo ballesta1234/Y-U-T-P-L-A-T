@@ -25,19 +25,19 @@ namespace YUTPLAT.Services.Interface
         private IMedicionRepository MedicionRepository { get; set; }
         private IIndicadorRepository IndicadorRepository { get; set; }
         private IIndicadorService IndicadorService { get; set; }
-        private IIndicadorAutomaticoService IndicadorAutomaticoService { get; set; }
+        private IIndicadorAutomaticoService IndicadorAutomaticoService { get; set; }        
         private IPersonaRepository PersonaRepository { get; set; }
 
         public MedicionService(IMedicionRepository medicionRepository,
                                IIndicadorRepository indicadorRepository,
                                IIndicadorService indicadorService,
-                               IIndicadorAutomaticoService indicadorAutomaticoService,
+                               IIndicadorAutomaticoService indicadorAutomaticoService,                               
                                IPersonaRepository personaRepository)
         {
             this.MedicionRepository = medicionRepository;
             this.IndicadorRepository = indicadorRepository;
             this.IndicadorService = indicadorService;
-            this.IndicadorAutomaticoService = indicadorAutomaticoService;
+            this.IndicadorAutomaticoService = indicadorAutomaticoService;            
             this.PersonaRepository = personaRepository;
         }
 
@@ -458,34 +458,6 @@ namespace YUTPLAT.Services.Interface
         public bool ValidaMedicion(MedicionViewModel medicionViewModel)
         {
             return true;
-        }
-
-        public byte[] ObtenerArchivo(int anio, int mes)
-        {
-            string tempDirectory = AppDomain.CurrentDomain.BaseDirectory + "Temp/";
-            string file = anio.ToString() + "_" + mes.ToString() + ".xlsx";
-
-            byte[] fileBytes = null;
-
-            if (File.Exists(tempDirectory + file))
-            {
-                FileStream fs =  File.OpenRead(tempDirectory + file);
-                
-                byte[] buffer = new byte[4096];
-
-                System.IO.MemoryStream memoryStream = new System.IO.MemoryStream();
-                int chunkSize = 0;
-
-                do
-                {
-                    chunkSize = fs.Read(buffer, 0, buffer.Length);
-                    memoryStream.Write(buffer, 0, chunkSize);
-                } while (chunkSize != 0);
-
-                fileBytes = memoryStream.ToArray();
-            }
-
-            return fileBytes;
-        }
+        }        
     }
 }

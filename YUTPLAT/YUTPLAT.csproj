@@ -356,6 +356,10 @@
     <Compile Include="Migrations\201805192002006_Se agrega fecha inicio validez.Designer.cs">
       <DependentUpon>201805192002006_Se agrega fecha inicio validez.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201805272010313_Se elimina archivo generado medicion.cs" />
+    <Compile Include="Migrations\201805272010313_Se elimina archivo generado medicion.Designer.cs">
+      <DependentUpon>201805272010313_Se elimina archivo generado medicion.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\ArchivoSQL.cs" />
     <Compile Include="Models\AnioTablero.cs" />
     <Compile Include="Models\IndicadorAutomatico.cs" />
@@ -447,6 +451,7 @@
     <Compile Include="ViewModel\BuscarUsuarioViewModel.cs" />
     <Compile Include="ViewModel\IndicadorAutomaticoViewModel.cs" />
     <Compile Include="ViewModel\CeldaHeatMapViewModel.cs" />
+    <Compile Include="ViewModel\MedicionResultDTO.cs" />
     <Compile Include="ViewModel\MedicionExportarDTO.cs" />
     <Compile Include="ViewModel\LineViewModel.cs" />
     <Compile Include="ViewModel\GaugeViewModel.cs" />
@@ -782,6 +787,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201805192002006_Se agrega fecha inicio validez.resx">
       <DependentUpon>201805192002006_Se agrega fecha inicio validez.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805272010313_Se elimina archivo generado medicion.resx">
+      <DependentUpon>201805272010313_Se elimina archivo generado medicion.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
