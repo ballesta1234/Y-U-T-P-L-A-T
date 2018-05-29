@@ -601,7 +601,7 @@
     <Content Include="Models\YUTPLATModel.edmx.diagram">
       <DependentUpon>YUTPLATModel.edmx</DependentUpon>
     </Content>
-    <None Include="Properties\PublishProfiles\29_PROD.pubxml" />
+    <None Include="Properties\PublishProfiles\29_PROD_CASA.pubxml" />
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
     <Content Include="Models\YUTPLATModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
