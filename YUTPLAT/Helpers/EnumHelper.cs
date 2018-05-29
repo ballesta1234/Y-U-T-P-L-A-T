@@ -5,8 +5,7 @@ using System.Linq;
 using System.Reflection;
 
 namespace YUTPLAT.Helpers
-{
-    // var description = EnumHelper<UserPromotion>.GetDisplayValue(value);
+{    
     public static class EnumHelper<T>
     {
         public static IList<T> GetValues(Enum value)

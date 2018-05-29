@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Configuration;
-using System.IO;
 using System.Net.Mail;
 using System.Threading.Tasks;
+using YUTPLAT.Helpers;
 
 namespace YUTPLAT.Services.Interface
 {
@@ -41,29 +41,8 @@ namespace YUTPLAT.Services.Interface
             }
             catch (Exception ex)
             {
-                LogException(ex);
+                LogHelper.LogException(ex);
             }
-        }
-
-        private void LogException(Exception exception)
-        {
-            string nameLog = "C:/logs/YUTPLAT_" + DateTime.Now.ToShortDateString().Replace("/", "_") + ".log";
-
-            TextWriter log = null;
-            log = new StreamWriter(nameLog, true);
-
-            log.WriteLine("");
-            log.WriteLine(DateTime.Now.ToString());
-            log.WriteLine(exception.ToString());
-            log.WriteLine("");
-
-            if (exception.InnerException != null)
-            {
-                log.WriteLine(exception.InnerException.ToString());
-                log.WriteLine("");
-            }
-
-            log.Close();
         }
     }
 }

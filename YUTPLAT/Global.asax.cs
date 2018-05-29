@@ -26,9 +26,9 @@ namespace YUTPLAT
         {
             Exception exception = Server.GetLastError();
             Response.Clear();
-
-            LogException(exception);
-
+            
+            LogHelper.LogException(exception);
+            
             HttpException httpException = exception as HttpException;
 
             string mensaje;
@@ -75,27 +75,6 @@ namespace YUTPLAT
             {
                 Response.Redirect("~/Error/HttpErrorGeneral?q=" + Server.UrlEncode(msgEncrypt));
             }
-        }
-
-        private void LogException(Exception exception)
-        {
-            string nameLog = "C:/logs/YUTPLAT_" + DateTime.Now.ToShortDateString().Replace("/", "_") + ".log";
-
-            TextWriter log = null;
-            log = new StreamWriter(nameLog, true);
-
-            log.WriteLine("");
-            log.WriteLine(DateTime.Now.ToString());
-            log.WriteLine(exception.ToString());
-            log.WriteLine("");
-
-            if(exception.InnerException != null)
-            {
-                log.WriteLine(exception.InnerException.ToString());
-                log.WriteLine("");
-            }
-
-            log.Close();
-        }
+        }       
     }
 }
