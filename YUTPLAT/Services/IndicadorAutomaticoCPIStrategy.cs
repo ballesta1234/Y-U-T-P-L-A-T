@@ -143,7 +143,7 @@ namespace YUTPLAT.Services.Interface
                 }
             }
 
-            return suma / count;
+            return decimal.Round(suma / count, 2);
         }
 
         public byte[] ObtenerArchivo(int anio, int mes)

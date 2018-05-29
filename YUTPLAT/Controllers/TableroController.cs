@@ -28,6 +28,8 @@ namespace YUTPLAT.Controllers
         [EncryptedActionParameter]
         public async Task<ActionResult> Ver(string msgExito)
         {
+            LimpiarSession();
+
             TableroViewModel model = new TableroViewModel();
             model.Titulo = "Tablero de comando ";
 
@@ -55,6 +57,8 @@ namespace YUTPLAT.Controllers
 
         public ActionResult Gauge()
         {
+            LimpiarSession();
+
             DemoViewModel model = new DemoViewModel();
             model.Titulo = "Dashboard";
             ViewBag.Titulo = model.Titulo;
@@ -64,6 +68,8 @@ namespace YUTPLAT.Controllers
 
         public ActionResult Tablero()
         {
+            LimpiarSession();
+
             TableroViewModel model = new TableroViewModel();
             model.Titulo = "Tablero de comando";
             ViewBag.Titulo = model.Titulo;
@@ -73,7 +79,9 @@ namespace YUTPLAT.Controllers
 
         [HttpPost]
         public async Task<ActionResult> ObtenerHeatMapViewModel(string nombre)
-        {            
+        {
+            LimpiarSession();
+
             BuscarIndicadorViewModel model = new BuscarIndicadorViewModel();
 
             model.PersonaLogueadaViewModel = (PersonaViewModel)Session["Persona"];            
@@ -96,6 +104,8 @@ namespace YUTPLAT.Controllers
         [HttpPost]
         public async Task<ActionResult> ObtenerGaugeViewModel(long grupo)
         {
+            LimpiarSession();
+
             PersonaViewModel personaViewModel = (PersonaViewModel)Session["Persona"];
             int anio = (await AnioTableroService.GetById(Int32.Parse((string)Session["IdAnioTablero"]))).Anio;
             return Json(await MedicionService.ObtenerGaugeViewModel(grupo, anio, personaViewModel, true), JsonRequestBehavior.AllowGet);
@@ -104,6 +114,8 @@ namespace YUTPLAT.Controllers
         [HttpPost]
         public async Task<ActionResult> ObtenerLineViewModel(long grupo)
         {
+            LimpiarSession();
+
             PersonaViewModel personaViewModel = (PersonaViewModel)Session["Persona"];
             int anio = (await AnioTableroService.GetById(Int32.Parse((string)Session["IdAnioTablero"]))).Anio;
             return Json(await MedicionService.ObtenerLineViewModel(grupo, anio, personaViewModel), JsonRequestBehavior.AllowGet);
@@ -120,7 +132,9 @@ namespace YUTPLAT.Controllers
                 ModelState.AddModelError(string.Empty, "Verifique que todos los campos estén cargados y sean correctos.");
                 return PartialView("Medicion/_Crear", model);
             }
-            
+
+            LimpiarSession();
+
             model.Anio = (await AnioTableroService.GetById(Int32.Parse((string)Session["IdAnioTablero"]))).Anio;
             model.FechaCarga = DateTimeHelper.OntenerFechaActual().ToString("dd/MM/yyyy HH:mm tt");
             model.UsuarioCargo = User.Identity.Name;
@@ -141,6 +155,8 @@ namespace YUTPLAT.Controllers
                 return PartialView("Medicion/_CrearAutomatico", model);
             }
 
+            LimpiarSession();
+
             model.Anio = (await AnioTableroService.GetById(Int32.Parse((string)Session["IdAnioTablero"]))).Anio;
             model.FechaCarga = DateTimeHelper.OntenerFechaActual().ToString("dd/MM/yyyy HH:mm tt");
             model.UsuarioCargo = User.Identity.Name;
@@ -152,6 +168,8 @@ namespace YUTPLAT.Controllers
         [HttpPost]
         public async Task<ActionResult> AbrirModalCargaMedicion(int idIndicador, int mes, int idAnio, int? idMedicion, long grupo, bool tieneAccesoEscritura, bool esAutomatico)
         {
+            LimpiarSession();
+
             PersonaViewModel personaViewModel = (PersonaViewModel)Session["Persona"];            
             AnioTableroViewModel anioViewModel = await AnioTableroService.GetById(idAnio);
             MedicionViewModel medicionViewModel = await MedicionService.ObtenerMedicionViewModel(idIndicador, mes, idMedicion, grupo, anioViewModel.Anio, personaViewModel, true);
@@ -174,12 +192,16 @@ namespace YUTPLAT.Controllers
             {
                 view = "Medicion/_CrearAutomatico";
             }
-            
+           
+            Session["FrenarRevision_" + personaViewModel.NombreUsuario] = true;
+
             return PartialView(view, medicionViewModel);
         }
 
         public async Task<JsonResult> BuscarAnios(string nombreAnio)
         {
+            LimpiarSession();
+
             AnioTableroViewModel filtro = new AnioTableroViewModel();
             filtro.Descripcion = nombreAnio;
             filtro.Habilitado = true;
@@ -189,14 +211,48 @@ namespace YUTPLAT.Controllers
 
         public ActionResult CambiarAnioTablero(string idAnio)
         {
+            LimpiarSession();
+
             Session["IdAnioTablero"] = idAnio;
             return Json(new { success = true });
         }
 
         public ActionResult CambiarAreaTablero(string idArea)
         {
+            LimpiarSession();
+
             Session["IdAreaTablero"] = idArea;
             return Json(new { success = true });
+        }
+
+        public ActionResult Revisar()
+        {
+            PersonaViewModel personaViewModel = (PersonaViewModel)Session["Persona"];
+
+            bool frenarRevision = (bool)Session["FrenarRevision_" + personaViewModel.NombreUsuario];
+
+            if (!frenarRevision)
+            {
+                bool aa = false;
+                if ((DateTime.Now.Millisecond + DateTime.Now.Second) % 2 == 0)
+                    aa = true;
+
+                return Json(new { success = false });
+            }
+
+            return Json(new { success = false });
+        }
+
+        public JsonResult CerrarPopup()
+        {
+            LimpiarSession();
+            return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+        }
+
+        private void LimpiarSession()
+        {
+            PersonaViewModel personaViewModel = (PersonaViewModel)Session["Persona"];
+            Session["FrenarRevision_" + personaViewModel.NombreUsuario] = false;
         }
 
     }

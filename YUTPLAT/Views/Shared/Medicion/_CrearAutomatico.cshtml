@@ -80,6 +80,19 @@
         });
     }
 
+    function cerrar() {       
+        jQuery.ajax({            
+            url: '@Url.Action("CerrarPopup", "Tablero")',
+            type: 'post',
+            beforeSend: function () {                
+            },
+            success: function (response) {               
+            },
+            complete: function (data) {               
+            }
+        });
+    }
+
 </script>
 
 @using (Html.BeginForm("CargarMedicionAutomatica", "Tablero", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { id = "form", role = "form" }))
@@ -152,7 +165,7 @@
     </div>
     <div class="modal-footer">
         <input type="submit" class="btn btn-fill btn-info" value="Guardar" />
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="javascript:cerrar();">Cerrar</button>
     </div>
 
     @Html.HiddenFor(m => m.IndicadorID)

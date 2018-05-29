@@ -3,6 +3,22 @@
 
 @model MedicionViewModel
 
+<script type="text/javascript">
+    function cerrar() {
+        jQuery.ajax({
+            url: '@Url.Action("CerrarPopup", "Tablero")',
+            type: 'post',
+            beforeSend: function () {
+            },
+            success: function (response) {
+            },
+            complete: function (data) {
+            }
+        });
+    }
+
+</script>
+
 <div class="modal-body">
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12">
@@ -58,5 +74,5 @@
     </div>
 </div>
 <div class="modal-footer">
-    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="javascript:cerrar();">Cerrar</button>
 </div>
