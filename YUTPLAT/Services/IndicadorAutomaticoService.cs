@@ -72,7 +72,7 @@ namespace YUTPLAT.Services.Interface
 
         public decimal RecalcularIndicador(int anio, int mes, int idIndicador)
         {
-            return GetStrategy(idIndicador).RecalcularIndicador(mes, anio);
+            return GetStrategy(idIndicador).RecalcularIndicador(mes, anio, idIndicador);
         }
 
         private IIndicadorAutomaticoStrategy GetStrategy(int idIndicador)

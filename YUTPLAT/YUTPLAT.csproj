@@ -429,6 +429,7 @@
     <Compile Include="Services\AnioTableroService.cs" />
     <Compile Include="Services\IndicadorAutomaticoCPILlaveManoStrategy.cs" />
     <Compile Include="Services\IndicadorAutomaticoCPIServiciosStrategy.cs" />
+    <Compile Include="Services\Interface\IndicadorAutomaticoStrategy.cs" />
     <Compile Include="Services\MailApplicationStrategy.cs" />
     <Compile Include="Services\MailDatabaseStrategy.cs" />
     <Compile Include="Services\MailSendgridStrategy.cs" />
