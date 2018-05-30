@@ -93,7 +93,9 @@ namespace YUTPLAT.App_Start
 
         private static void RegisterStrategies(IKernel kernel)
         {
-            kernel.Bind<IIndicadorAutomaticoStrategy>().To<IndicadorAutomaticoCPIStrategy>();           
+            kernel.Bind<IndicadorAutomaticoCPIStrategy>().To<IndicadorAutomaticoCPIStrategy>();
+            kernel.Bind<IndicadorAutomaticoCPIServiciosStrategy>().To<IndicadorAutomaticoCPIServiciosStrategy>();
+            kernel.Bind<IndicadorAutomaticoCPILlaveManoStrategy>().To<IndicadorAutomaticoCPILlaveManoStrategy>();
         }
     }
 }

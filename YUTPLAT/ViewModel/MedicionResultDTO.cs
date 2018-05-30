@@ -10,6 +10,7 @@
         public int? EV { get; set; }
         public int? AC { get; set; }
         public decimal? CPI { get; set; }
+        public bool? Servicio { get; set; }
     }
 }
 

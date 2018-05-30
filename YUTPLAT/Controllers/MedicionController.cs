@@ -11,33 +11,32 @@ namespace YUTPLAT.Controllers
     public class MedicionController : Controller
     {
         public IMedicionService MedicionService { get; set; }
-        public IIndicadorAutomaticoStrategy IndicadorAutomaticoCPIStrategy { get; set; }
+        public IIndicadorAutomaticoService IndicadorAutomaticoService { get; set; }
         public IAnioTableroService AnioTableroService { get; set; }
 
         public MedicionController(IMedicionService medicionService,
-                                  IIndicadorAutomaticoStrategy indicadorAutomaticoCPIStrategy,
+                                  IIndicadorAutomaticoService indicadorAutomaticoService,
                                   AnioTableroService anioTableroService)
         {
             this.MedicionService = medicionService;
-            IndicadorAutomaticoCPIStrategy = indicadorAutomaticoCPIStrategy;
+            IndicadorAutomaticoService = indicadorAutomaticoService;
             AnioTableroService = anioTableroService;
         }
 
         public async Task<JsonResult> Recalcular(int idIndicador, int mes)
         {
             int anio = (await AnioTableroService.GetById(Int32.Parse((string)Session["IdAnioTablero"]))).Anio;
-
-            // Por el momento solo es automático el indicador para CPI
-            decimal valor = IndicadorAutomaticoCPIStrategy.RecalcularIndicador(mes, anio);
+                        
+            decimal valor = IndicadorAutomaticoService.RecalcularIndicador(anio, mes, idIndicador);
             return Json(valor, JsonRequestBehavior.AllowGet);
         }
 
         [HttpGet]
         [EncryptedActionParameter]
-        public async Task<FileContentResult> ExportToExcel(string mes)
+        public async Task<FileContentResult> ExportToExcel(string mes, int idIndicador)
         {
             int anio = (await AnioTableroService.GetById(Int32.Parse((string)Session["IdAnioTablero"]))).Anio;
-            return File(IndicadorAutomaticoCPIStrategy.ObtenerArchivo(anio, Int32.Parse(mes)), ExcelExportHelper.ExcelContentType, "DetalleIndicador.xlsx");
+            return File(IndicadorAutomaticoService.ObtenerArchivo(anio, Int32.Parse(mes), idIndicador), ExcelExportHelper.ExcelContentType, "DetalleIndicador.xlsx");
         }
     }    
 }

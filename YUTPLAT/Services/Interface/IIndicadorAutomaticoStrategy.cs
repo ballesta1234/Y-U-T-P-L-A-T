@@ -7,6 +7,6 @@ namespace YUTPLAT.Services.Interface
     {
         void EjecutarIndicador(IndicadorViewModel indicadorViewModel);        
         decimal RecalcularIndicador(int mes, int anio);
-        byte[] ObtenerArchivo(int anio, int mes);
+        byte[] ObtenerArchivo(int anio, int mes, int idIndicador);
     }
 }

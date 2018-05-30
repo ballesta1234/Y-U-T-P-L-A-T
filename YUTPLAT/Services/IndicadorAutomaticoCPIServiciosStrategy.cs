@@ -9,11 +9,11 @@ using System.Configuration;
 
 namespace YUTPLAT.Services.Interface
 {
-    public class IndicadorAutomaticoCPIStrategy : IIndicadorAutomaticoStrategy
+    public class IndicadorAutomaticoCPIServiciosStrategy : IIndicadorAutomaticoStrategy
     {
         private IMedicionService MedicionService { get; set; }
 
-        public IndicadorAutomaticoCPIStrategy(IMedicionService medicionService)
+        public IndicadorAutomaticoCPIServiciosStrategy(IMedicionService medicionService)
         {
             this.MedicionService = medicionService;
         }
@@ -24,6 +24,8 @@ namespace YUTPLAT.Services.Interface
         {
             lock (thisLock)
             {
+                YUTPLATEntities spContext = new YUTPLATEntities();
+
                 int mesACalcular = 0;
                 int anioACalcular = 0;
 
@@ -128,7 +130,7 @@ namespace YUTPLAT.Services.Interface
         private IList<MedicionResultDTO> ObtenerDetallesMediciones(int mes, int anio)
         {
             YUTPLATEntities spContext = new YUTPLATEntities();
-            return AutoMapper.Mapper.Map<IList<MedicionResultDTO>>(spContext.ObtenerMedicionesPorMesAnio(mes, anio).ToList());
+            return AutoMapper.Mapper.Map<IList<MedicionResultDTO>>(spContext.ObtenerMedicionesPorMesAnioServicio(mes, anio).ToList());
         }
 
         private decimal ObtenerValorMedicionCPI(IList<MedicionResultDTO> mediciones)

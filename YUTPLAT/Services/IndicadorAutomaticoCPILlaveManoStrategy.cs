@@ -9,11 +9,11 @@ using System.Configuration;
 
 namespace YUTPLAT.Services.Interface
 {
-    public class IndicadorAutomaticoCPIStrategy : IIndicadorAutomaticoStrategy
+    public class IndicadorAutomaticoCPILlaveManoStrategy : IIndicadorAutomaticoStrategy
     {
         private IMedicionService MedicionService { get; set; }
 
-        public IndicadorAutomaticoCPIStrategy(IMedicionService medicionService)
+        public IndicadorAutomaticoCPILlaveManoStrategy(IMedicionService medicionService)
         {
             this.MedicionService = medicionService;
         }
@@ -24,6 +24,8 @@ namespace YUTPLAT.Services.Interface
         {
             lock (thisLock)
             {
+                YUTPLATEntities spContext = new YUTPLATEntities();
+
                 int mesACalcular = 0;
                 int anioACalcular = 0;
 
@@ -54,6 +56,7 @@ namespace YUTPLAT.Services.Interface
                     medicionMes.FechaCarga = DateTimeHelper.OntenerFechaActual().ToString("dd/MM/yyyy HH:mm tt");
                     medicionMes.UsuarioCargo = "Automático Sistema";
                     medicionMes.Anio = anioACalcular;
+                    
                     medicionMes.Valor = ObtenerValorMedicionCPI(medicionesNuevas).ToString().Replace(",", ".").TrimEnd('0').TrimEnd('.');
 
                     if (string.IsNullOrEmpty(medicionMes.Valor))
@@ -113,22 +116,22 @@ namespace YUTPLAT.Services.Interface
                     string file = anio.ToString() + "_" + mes.ToString() + ".xlsx";
 
                     if (File.Exists(tempDirectory + file))
-                    {                        
+                    {
                         File.Delete(tempDirectory + file);
                     }
 
                     GenerarExcel(mes, anio, (List<MedicionResultDTO>)mediciones);
                 }
-                catch(Exception ex) { }             
+                catch (Exception ex) { }
             }
-            
+
             return ObtenerValorMedicionCPI(mediciones);
         }
 
         private IList<MedicionResultDTO> ObtenerDetallesMediciones(int mes, int anio)
         {
             YUTPLATEntities spContext = new YUTPLATEntities();
-            return AutoMapper.Mapper.Map<IList<MedicionResultDTO>>(spContext.ObtenerMedicionesPorMesAnio(mes, anio).ToList());
+            return AutoMapper.Mapper.Map<IList<MedicionResultDTO>>(spContext.ObtenerMedicionesPorMesAnioNoServicio(mes, anio).ToList());
         }
 
         private decimal ObtenerValorMedicionCPI(IList<MedicionResultDTO> mediciones)

@@ -13,8 +13,7 @@ namespace YUTPLAT.Services.Interface
     public class IndicadorService : IIndicadorService
     {
         private IIndicadorRepository IndicadorRepository { get; set; }
-        private IIndicadorAutomaticoRepository IndicadorAutomaticoRepository { get; set; }
-        private IIndicadorAutomaticoService IndicadorAutomaticoService { get; set; }
+        private IIndicadorAutomaticoRepository IndicadorAutomaticoRepository { get; set; }     
         private IResponsableIndicadorRepository ResponsableIndicadorRepository { get; set; }
         private IInteresadoIndicadorRepository InteresadoIndicadorRepository { get; set; }
         private IMetaRepository MetaRepository { get; set; }
@@ -23,8 +22,7 @@ namespace YUTPLAT.Services.Interface
         private IAccesoIndicadorRepository AccesoIndicadorRepository { get; set; }
 
         public IndicadorService(IIndicadorRepository indicadorRepository,
-                                IIndicadorAutomaticoRepository indicadorAutomaticoRepository,
-                                IIndicadorAutomaticoService indicadorAutomaticoService,
+                                IIndicadorAutomaticoRepository indicadorAutomaticoRepository,                              
                                 IResponsableIndicadorRepository responsableIndicadorRepository,
                                 IInteresadoIndicadorRepository interesadoIndicadorRepository,
                                 IMetaRepository metaRepository,
@@ -33,8 +31,7 @@ namespace YUTPLAT.Services.Interface
                                 IAccesoIndicadorRepository accesoIndicadorRepository)
         {
             this.IndicadorRepository = indicadorRepository;
-            this.IndicadorAutomaticoRepository = indicadorAutomaticoRepository;
-            this.IndicadorAutomaticoService = indicadorAutomaticoService;
+            this.IndicadorAutomaticoRepository = indicadorAutomaticoRepository;       
             this.ResponsableIndicadorRepository = responsableIndicadorRepository;
             this.InteresadoIndicadorRepository = interesadoIndicadorRepository;
             this.MetaRepository = metaRepository;
@@ -172,8 +169,8 @@ namespace YUTPLAT.Services.Interface
 
                     IndicadorAutomaticoViewModel indicadorAutomaticoViewModel = AutoMapper.Mapper.Map<IndicadorAutomaticoViewModel>(indicadorAutomatico);
 
-                    IndicadorAutomaticoService.DetenerJob(indicadorAutomaticoViewModel);
-                    IndicadorAutomaticoService.IniciarJob(indicadorAutomaticoViewModel);
+                    IndicadorAutomaticoRepository.DetenerJob(indicadorAutomaticoViewModel);
+                    IndicadorAutomaticoRepository.IniciarJob(indicadorAutomaticoViewModel);
                 }
             }
 

@@ -369,28 +369,34 @@
     <Compile Include="Models\Meta.cs" />
     <Compile Include="Models\FrecuenciaMedicionIndicador.cs" />
     <Compile Include="Models\InteresadoIndicador.cs" />
+    <Compile Include="Models\ObtenerMedicionesPorMesAnioNoServicio_Result.cs">
+      <DependentUpon>YUTPLATEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ObtenerMedicionesPorMesAnioServicio_Result.cs">
+      <DependentUpon>YUTPLATEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\ObtenerMedicionesPorMesAnio_Result.cs">
-      <DependentUpon>YUTPLATModel.tt</DependentUpon>
+      <DependentUpon>YUTPLATEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ResponsableIndicador.cs" />
     <Compile Include="Models\Indicador.cs" />
     <Compile Include="Models\Objetivo.cs" />
     <Compile Include="Models\Area.cs" />
     <Compile Include="HangfireNinject\NinjectJobActivator.cs" />
-    <Compile Include="Models\YUTPLATModel.Context.cs">
+    <Compile Include="Models\YUTPLATEntities.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>YUTPLATModel.Context.tt</DependentUpon>
+      <DependentUpon>YUTPLATEntities.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\YUTPLATModel.cs">
+    <Compile Include="Models\YUTPLATEntities.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>YUTPLATModel.tt</DependentUpon>
+      <DependentUpon>YUTPLATEntities.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\YUTPLATModel.Designer.cs">
+    <Compile Include="Models\YUTPLATEntities.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>YUTPLATModel.edmx</DependentUpon>
+      <DependentUpon>YUTPLATEntities.edmx</DependentUpon>
     </Compile>
     <Compile Include="Repositories\AccesoIndicadorRepository.cs" />
     <Compile Include="Repositories\AnioTableroRepository.cs" />
@@ -421,6 +427,8 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Context\YutplatDbContext.cs" />
     <Compile Include="Services\AnioTableroService.cs" />
+    <Compile Include="Services\IndicadorAutomaticoCPILlaveManoStrategy.cs" />
+    <Compile Include="Services\IndicadorAutomaticoCPIServiciosStrategy.cs" />
     <Compile Include="Services\MailApplicationStrategy.cs" />
     <Compile Include="Services\MailDatabaseStrategy.cs" />
     <Compile Include="Services\MailSendgridStrategy.cs" />
@@ -494,6 +502,7 @@
     <Content Include="Content\select2-bootstrap.css" />
     <Content Include="Content\select2.css" />
     <Content Include="Content\select2.min.css" />
+    <Content Include="ExcelsExportacion\dummy.txt" />
     <Content Include="images\loading.gif" />
     <Content Include="images\paisaje.jpg" />
     <Content Include="images\bosque.jpg" />
@@ -595,24 +604,24 @@
     <Content Include="Content\bootstrap\alerts.less" />
     <Content Include="Content\_bootstrap-datetimepicker.less" />
     <Content Include="Content\bootstrap-datetimepicker-build.less" />
-    <EntityDeploy Include="Models\YUTPLATModel.edmx">
+    <EntityDeploy Include="Models\YUTPLATEntities.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>YUTPLATModel.Designer.cs</LastGenOutput>
+      <LastGenOutput>YUTPLATEntities.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <Content Include="Models\YUTPLATModel.edmx.diagram">
-      <DependentUpon>YUTPLATModel.edmx</DependentUpon>
+    <Content Include="Models\YUTPLATEntities.edmx.diagram">
+      <DependentUpon>YUTPLATEntities.edmx</DependentUpon>
     </Content>
     <None Include="Properties\PublishProfiles\29_PROD_CASA.pubxml" />
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
-    <Content Include="Models\YUTPLATModel.Context.tt">
+    <Content Include="Models\YUTPLATEntities.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>YUTPLATModel.edmx</DependentUpon>
-      <LastGenOutput>YUTPLATModel.Context.cs</LastGenOutput>
+      <DependentUpon>YUTPLATEntities.edmx</DependentUpon>
+      <LastGenOutput>YUTPLATEntities.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="Models\YUTPLATModel.tt">
+    <Content Include="Models\YUTPLATEntities.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>YUTPLATModel.edmx</DependentUpon>
-      <LastGenOutput>YUTPLATModel.cs</LastGenOutput>
+      <DependentUpon>YUTPLATEntities.edmx</DependentUpon>
+      <LastGenOutput>YUTPLATEntities.cs</LastGenOutput>
     </Content>
     <Content Include="Scripts\bootstrap-checkbox-radio-switch.js" />
     <Content Include="Scripts\Graficos\d3.tip.v0.6.3.js" />
@@ -652,7 +661,6 @@
     <Content Include="Scripts\select2.full.js" />
     <Content Include="Scripts\select2.full.min.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Temp\dummy.txt" />
     <Content Include="Views\Home\assets\img\default-avatar.png" />
     <Content Include="Views\Home\assets\img\favicon.ico" />
     <Content Include="Views\Home\assets\img\loading-bubbles.svg" />

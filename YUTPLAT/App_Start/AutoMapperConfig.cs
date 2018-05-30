@@ -114,7 +114,30 @@ namespace YUTPLAT.App_Start
                     .ForMember(x => x.Anio, x => x.MapFrom(y => y.anio))
                     .ForMember(x => x.EV, x => x.MapFrom(y => y.ev))
                     .ForMember(x => x.AC, x => x.MapFrom(y => y.ac))
-                    .ForMember(x => x.CPI, x => x.MapFrom(y => y.cpi));
+                    .ForMember(x => x.CPI, x => x.MapFrom(y => y.cpi))
+                    .ForMember(x => x.Servicio, x => x.MapFrom(y => y.servicio));
+
+                    cfg.CreateMap<ObtenerMedicionesPorMesAnioServicio_Result, MedicionResultDTO>()
+                    .ForMember(x => x.Mes, x => x.MapFrom(y => y.mes))
+                    .ForMember(x => x.Nombre, x => x.MapFrom(y => y.nombre))
+                    .ForMember(x => x.HorasTotales, x => x.MapFrom(y => y.horas_totales))
+                    .ForMember(x => x.Horas, x => x.MapFrom(y => y.horas))
+                    .ForMember(x => x.Anio, x => x.MapFrom(y => y.anio))
+                    .ForMember(x => x.EV, x => x.MapFrom(y => y.ev))
+                    .ForMember(x => x.AC, x => x.MapFrom(y => y.ac))
+                    .ForMember(x => x.CPI, x => x.MapFrom(y => y.cpi))
+                    .ForMember(x => x.Servicio, x => x.MapFrom(y => y.servicio));
+
+                    cfg.CreateMap<ObtenerMedicionesPorMesAnioNoServicio_Result, MedicionResultDTO>()
+                    .ForMember(x => x.Mes, x => x.MapFrom(y => y.mes))
+                    .ForMember(x => x.Nombre, x => x.MapFrom(y => y.nombre))
+                    .ForMember(x => x.HorasTotales, x => x.MapFrom(y => y.horas_totales))
+                    .ForMember(x => x.Horas, x => x.MapFrom(y => y.horas))
+                    .ForMember(x => x.Anio, x => x.MapFrom(y => y.anio))
+                    .ForMember(x => x.EV, x => x.MapFrom(y => y.ev))
+                    .ForMember(x => x.AC, x => x.MapFrom(y => y.ac))
+                    .ForMember(x => x.CPI, x => x.MapFrom(y => y.cpi))
+                    .ForMember(x => x.Servicio, x => x.MapFrom(y => y.servicio));
 
                     cfg.CreateMap<MedicionResultDTO, MedicionExportarDTO>()
                     .ForMember(x => x.Mes, x => x.MapFrom(y => Helpers.EnumHelper<Enums.Enum.Mes>.Parse(y.Mes.Value.ToString())))                    

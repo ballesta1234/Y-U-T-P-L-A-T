@@ -25,19 +25,19 @@ namespace YUTPLAT.Services.Interface
         private IMedicionRepository MedicionRepository { get; set; }
         private IIndicadorRepository IndicadorRepository { get; set; }
         private IIndicadorService IndicadorService { get; set; }
-        private IIndicadorAutomaticoService IndicadorAutomaticoService { get; set; }        
+        private IIndicadorAutomaticoRepository IndicadorAutomaticoRepository { get; set; }        
         private IPersonaRepository PersonaRepository { get; set; }
 
         public MedicionService(IMedicionRepository medicionRepository,
                                IIndicadorRepository indicadorRepository,
                                IIndicadorService indicadorService,
-                               IIndicadorAutomaticoService indicadorAutomaticoService,                               
+                               IIndicadorAutomaticoRepository indicadorAutomaticoRepository,                               
                                IPersonaRepository personaRepository)
         {
             this.MedicionRepository = medicionRepository;
             this.IndicadorRepository = indicadorRepository;
             this.IndicadorService = indicadorService;
-            this.IndicadorAutomaticoService = indicadorAutomaticoService;            
+            this.IndicadorAutomaticoRepository = indicadorAutomaticoRepository;            
             this.PersonaRepository = personaRepository;
         }
 
@@ -251,7 +251,7 @@ namespace YUTPLAT.Services.Interface
         public async Task<HeatMapViewModel> ObtenerHeatMapViewModel(BuscarIndicadorViewModel buscarIndicadorViewModel)
         {
             Persona persona = await PersonaRepository.GetByUserName(buscarIndicadorViewModel.PersonaLogueadaViewModel.NombreUsuario).FirstOrDefaultAsync();
-            IList<IndicadorAutomaticoViewModel> todosIndicadoresAutomaticos = this.IndicadorAutomaticoService.Todos();
+            IList<IndicadorAutomaticoViewModel> todosIndicadoresAutomaticos = AutoMapper.Mapper.Map<IList<IndicadorAutomaticoViewModel>>(IndicadorAutomaticoRepository.Todos().ToList());
 
             IList<FilaHeatMapViewModel> filasHeatMapViewModel = AutoMapper.Mapper.Map<IList<FilaHeatMapViewModel>>(IndicadorRepository.Buscar(buscarIndicadorViewModel).ToList());
 

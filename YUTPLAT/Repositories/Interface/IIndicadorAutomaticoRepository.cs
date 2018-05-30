@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using YUTPLAT.Models;
+using YUTPLAT.ViewModel;
 
 namespace YUTPLAT.Repositories.Interface
 {
@@ -12,5 +13,8 @@ namespace YUTPLAT.Repositories.Interface
         Task<int> Guardar(IndicadorAutomatico indicadorAutomatico);
 
         IQueryable<IndicadorAutomatico> GetByIdIndicador(int idIndicador);
+
+        void IniciarJob(IndicadorAutomaticoViewModel indicadorAutomatico);
+        void DetenerJob(IndicadorAutomaticoViewModel indicadorAutomatico);
     }
 }

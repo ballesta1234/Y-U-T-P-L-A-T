@@ -110,7 +110,7 @@
                         <button type="button" class="btn btn-secondary" onclick="javascript:recalcularMedicion();">Recalcular</button>
                     </div>
                     <div class="col-xs-4 col-sm-2 col-md-2">
-                        <button type="button" class="btn btn-secondary" onclick="location.href='@Url.Action("ExportToExcel", "Medicion", new { q = MyExtensions.Encrypt(new { mes = (int)Model.Mes }) })'">Exportar</button>
+                        <button type="button" class="btn btn-secondary" onclick="location.href='@Url.Action("ExportToExcel", "Medicion", new { q = MyExtensions.Encrypt(new { mes = (int)Model.Mes, idIndicador = Model.IndicadorID }) })'">Exportar</button>
                     </div>
                     <div class="col-xs-1 col-sm-1 col-md-1">
                         <div id="loader" style="display: none;">

@@ -65,7 +65,9 @@ namespace YUTPLAT.Enums
 
         public enum CategoriaIndicadorAutomatico
         {
-            CPI = 1
+            CPI = 1,
+            CPI_Servicios = 2,
+            CPI_Llave_En_Mano = 3
         }
 
         public enum MailTipo

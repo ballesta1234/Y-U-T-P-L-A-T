@@ -40,5 +40,31 @@ namespace YUTPLAT.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ObtenerMedicionesPorMesAnio_Result>("ObtenerMedicionesPorMesAnio", mesParameter, anioParameter);
         }
+    
+        public virtual ObjectResult<ObtenerMedicionesPorMesAnioNoServicio_Result> ObtenerMedicionesPorMesAnioNoServicio(Nullable<int> mes, Nullable<int> anio)
+        {
+            var mesParameter = mes.HasValue ?
+                new ObjectParameter("Mes", mes) :
+                new ObjectParameter("Mes", typeof(int));
+    
+            var anioParameter = anio.HasValue ?
+                new ObjectParameter("Anio", anio) :
+                new ObjectParameter("Anio", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ObtenerMedicionesPorMesAnioNoServicio_Result>("ObtenerMedicionesPorMesAnioNoServicio", mesParameter, anioParameter);
+        }
+    
+        public virtual ObjectResult<ObtenerMedicionesPorMesAnioServicio_Result> ObtenerMedicionesPorMesAnioServicio(Nullable<int> mes, Nullable<int> anio)
+        {
+            var mesParameter = mes.HasValue ?
+                new ObjectParameter("Mes", mes) :
+                new ObjectParameter("Mes", typeof(int));
+    
+            var anioParameter = anio.HasValue ?
+                new ObjectParameter("Anio", anio) :
+                new ObjectParameter("Anio", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<ObtenerMedicionesPorMesAnioServicio_Result>("ObtenerMedicionesPorMesAnioServicio", mesParameter, anioParameter);
+        }
     }
 }

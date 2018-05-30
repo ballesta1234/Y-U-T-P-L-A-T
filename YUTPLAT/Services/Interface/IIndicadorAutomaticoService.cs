@@ -8,7 +8,7 @@ namespace YUTPLAT.Services.Interface
         void GenerarJobsTareasAutomaticas();
         IList<IndicadorAutomaticoViewModel> Todos();
 
-        void IniciarJob(IndicadorAutomaticoViewModel indicadorAutomatico);
-        void DetenerJob(IndicadorAutomaticoViewModel indicadorAutomatico);
+        byte[] ObtenerArchivo(int anio, int mes, int idIndicador);
+        decimal RecalcularIndicador(int anio, int mes, int idIndicador);
     }
 }

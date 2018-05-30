@@ -40,7 +40,7 @@
 -- );
 
 INSERT INTO TEMP_INDICADORES VALUES(
-	'SPI o Schedule Performance Index: Earned Value / Planned Value de los proyectos activos llave en mano, incluyendo en garantía',
+	'SPI',
 	'SPI o Schedule Performance Index: Earned Value / Planned Value de los proyectos activos llave en mano, incluyendo en garantía',	
 	'Mensual',	
 	'Medir el progreso de los proyectos en curso en comparación con el progreso planeado para corregir posibles desvíos',
@@ -82,7 +82,7 @@ INSERT INTO TEMP_INDICADORES VALUES(
 );
 
 INSERT INTO TEMP_INDICADORES VALUES(
-	'CPI o Cost Performance Index: Earned Value/Actual Cost de los proyectos activos llave en mano, incluyendo en garantía',
+	'CPI',
 	'CPI o Cost Performance Index: Earned Value/Actual Cost de los proyectos activos llave en mano, incluyendo en garantía',	
 	'Mensual',	
 	'Mejorar la eficiencia del método de estimación',

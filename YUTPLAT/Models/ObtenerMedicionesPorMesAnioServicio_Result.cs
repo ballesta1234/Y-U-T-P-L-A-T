@@ -11,7 +11,7 @@ namespace YUTPLAT.Models
 {
     using System;
     
-    public partial class ObtenerMedicionesPorMesAnio_Result
+    public partial class ObtenerMedicionesPorMesAnioServicio_Result
     {
         public string nombre { get; set; }
         public Nullable<int> horas_totales { get; set; }
