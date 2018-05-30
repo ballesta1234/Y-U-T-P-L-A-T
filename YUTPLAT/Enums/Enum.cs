@@ -76,5 +76,10 @@ namespace YUTPLAT.Enums
             Aplicacion = 2,
             BaseDatos = 3
         }
+
+        public enum TipoAuditoria
+        {
+            UltimaActualizacionVistaTablero = 1
+        }
     }
 }

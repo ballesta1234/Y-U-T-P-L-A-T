@@ -14,14 +14,17 @@ namespace YUTPLAT.Controllers
         public IMedicionService MedicionService { get; set; }
         public IAnioTableroService AnioTableroService { get; set; }
         public IAreaService AreaService { get; set; }
+        public ITableroService TableroService { get; set; }
 
         public TableroController(IMedicionService medicionService,
                                  IAnioTableroService anioTableroService,
-                                 IAreaService areaService)
+                                 IAreaService areaService,
+                                 ITableroService tableroService)
         {
             this.MedicionService = medicionService;
             this.AnioTableroService = anioTableroService;
             this.AreaService = areaService;
+            this.TableroService = tableroService;
         }
 
         [HttpGet]

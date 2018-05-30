@@ -20,6 +20,7 @@ namespace YUTPLAT.Context
         public virtual IDbSet<ArchivoSQL> ArchivosSQL { get; set; }
         public virtual IDbSet<AccesoIndicador> AccesosIndicadores { get; set; }
         public virtual IDbSet<AnioTablero> AniosTablero { get; set; }
+        public virtual IDbSet<Auditoria> Auditorias { get; set; }
 
         public YutplatDbContext() : base("YUTPLAT", throwIfV1Schema: false)
         {

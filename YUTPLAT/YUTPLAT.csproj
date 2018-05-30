@@ -361,8 +361,13 @@
     <Compile Include="Migrations\201805272010313_Se elimina archivo generado medicion.Designer.cs">
       <DependentUpon>201805272010313_Se elimina archivo generado medicion.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201805301810371_Nueva tabla auditoria.cs" />
+    <Compile Include="Migrations\201805301810371_Nueva tabla auditoria.Designer.cs">
+      <DependentUpon>201805301810371_Nueva tabla auditoria.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\ArchivoSQL.cs" />
     <Compile Include="Models\AnioTablero.cs" />
+    <Compile Include="Models\Auditoria.cs" />
     <Compile Include="Models\IndicadorAutomatico.cs" />
     <Compile Include="Models\Medicion.cs" />
     <Compile Include="Models\AccesoIndicador.cs" />
@@ -400,8 +405,10 @@
     </Compile>
     <Compile Include="Repositories\AccesoIndicadorRepository.cs" />
     <Compile Include="Repositories\AnioTableroRepository.cs" />
+    <Compile Include="Repositories\AuditoriaRepository.cs" />
     <Compile Include="Repositories\IndicadorAutomaticoRepository.cs" />
     <Compile Include="Repositories\Interface\IAnioTableroRepository.cs" />
+    <Compile Include="Repositories\Interface\IAuditoriaRepository.cs" />
     <Compile Include="Repositories\Interface\IIndicadorAutomaticoRepository.cs" />
     <Compile Include="Repositories\Interface\INotificacionRepository.cs" />
     <Compile Include="Repositories\NotificacionRepository.cs" />
@@ -427,8 +434,12 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Context\YutplatDbContext.cs" />
     <Compile Include="Services\AnioTableroService.cs" />
+    <Compile Include="Services\Interface\ITableroService.cs" />
+    <Compile Include="Services\TableroService.cs" />
+    <Compile Include="Services\AuditoriaService.cs" />
     <Compile Include="Services\IndicadorAutomaticoCPILlaveManoStrategy.cs" />
     <Compile Include="Services\IndicadorAutomaticoCPIServiciosStrategy.cs" />
+    <Compile Include="Services\Interface\IAuditoriaService.cs" />
     <Compile Include="Services\Interface\IndicadorAutomaticoStrategy.cs" />
     <Compile Include="Services\MailApplicationStrategy.cs" />
     <Compile Include="Services\MailDatabaseStrategy.cs" />
@@ -458,6 +469,8 @@
     <Compile Include="Validadores\ValidarMeta.cs" />
     <Compile Include="Validadores\ValidarLista.cs" />
     <Compile Include="ViewModel\AnioTableroViewModel.cs" />
+    <Compile Include="ViewModel\AuditoriaViewModel.cs" />
+    <Compile Include="ViewModel\BuscarAuditoriaViewModel.cs" />
     <Compile Include="ViewModel\BuscarUsuarioViewModel.cs" />
     <Compile Include="ViewModel\IndicadorAutomaticoViewModel.cs" />
     <Compile Include="ViewModel\CeldaHeatMapViewModel.cs" />
@@ -800,6 +813,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201805272010313_Se elimina archivo generado medicion.resx">
       <DependentUpon>201805272010313_Se elimina archivo generado medicion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805301810371_Nueva tabla auditoria.resx">
+      <DependentUpon>201805301810371_Nueva tabla auditoria.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
