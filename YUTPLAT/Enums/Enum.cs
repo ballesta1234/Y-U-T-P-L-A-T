@@ -79,7 +79,8 @@ namespace YUTPLAT.Enums
 
         public enum TipoAuditoria
         {
-            UltimaActualizacionVistaTablero = 1
+            UltimaActualizacionVistaTablero = 1,
+            ModificacionIndicador = 2
         }
     }
 }

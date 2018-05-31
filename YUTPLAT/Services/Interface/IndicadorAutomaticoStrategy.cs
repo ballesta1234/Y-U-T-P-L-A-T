@@ -84,13 +84,15 @@ namespace YUTPLAT.Services.Interface
                     string[] columnas = GetColumnasExportacion();
                     string titulo = GetTituloExportacion(mesStr, anio.ToString());
 
-                    byte[] filecontent = ExcelExportHelper.ExportExcel(medicionesExportar, titulo, false, columnas);
+                    FileStream fs = File.Create(archivo);
 
-                    using (FileStream fs = File.Create(archivo))
+                    if (medicionesExportar.Count > 0)
                     {
+                        byte[] filecontent = ExcelExportHelper.ExportExcel(medicionesExportar, titulo, false, columnas);
                         fs.Write(filecontent, 0, filecontent.Length);
-                        fs.Close();
                     }
+
+                    fs.Close();                    
                 }
                 catch (Exception ex) { }
             }

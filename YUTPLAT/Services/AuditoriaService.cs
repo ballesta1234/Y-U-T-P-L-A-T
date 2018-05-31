@@ -19,12 +19,12 @@ namespace YUTPLAT.Services.Interface
         public async Task<IList<AuditoriaViewModel>> Buscar(BuscarAuditoriaViewModel filtro)
         {
             return AutoMapper.Mapper.Map<IList<AuditoriaViewModel>>(await AuditoriaRepository.Buscar(filtro.Busqueda).ToListAsync());           
-        }
+        }       
 
         public async Task<int> Guardar(AuditoriaViewModel auditoriaViewModel)
         {
             Auditoria auditoria = AutoMapper.Mapper.Map<Auditoria>(auditoriaViewModel);
-
+            auditoria.Usuario = null;
             await AuditoriaRepository.Guardar(auditoria);
 
             return auditoria.Id;

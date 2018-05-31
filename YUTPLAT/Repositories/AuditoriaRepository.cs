@@ -32,7 +32,7 @@ namespace YUTPLAT.Repositories
 
             if (filtro.TipoAuditoria != null)
             {
-                queryable = queryable.Where(a => a.TipoAuditoria == filtro.TipoAuditoria);
+                queryable = queryable.Where(a => (int)a.TipoAuditoria == (int)filtro.TipoAuditoria);
             }
             if (filtro.FechaCreacion != null)
             {   

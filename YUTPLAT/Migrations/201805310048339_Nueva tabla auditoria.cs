@@ -15,18 +15,18 @@ namespace YUTPLAT.Migrations
                         FechaCreacion = c.DateTime(nullable: false),
                         Descripcion = c.String(),
                         TipoAuditoria = c.Int(nullable: false),
-                        Usuario_Id = c.String(maxLength: 128),
+                        UsuarioID = c.String(maxLength: 128),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.AspNetUsers", t => t.Usuario_Id)
-                .Index(t => t.Usuario_Id);
+                .ForeignKey("dbo.AspNetUsers", t => t.UsuarioID)
+                .Index(t => t.UsuarioID);
             
         }
         
         public override void Down()
         {
-            DropForeignKey("dbo.Auditoria", "Usuario_Id", "dbo.AspNetUsers");
-            DropIndex("dbo.Auditoria", new[] { "Usuario_Id" });
+            DropForeignKey("dbo.Auditoria", "UsuarioID", "dbo.AspNetUsers");
+            DropIndex("dbo.Auditoria", new[] { "UsuarioID" });
             DropTable("dbo.Auditoria");
         }
     }

@@ -19,6 +19,7 @@ namespace YUTPLAT.Services.Interface
         private IMetaRepository MetaRepository { get; set; }
         private IMedicionRepository MedicionRepository { get; set; }
         private IPersonaRepository PersonaRepository { get; set; }
+        private IAuditoriaService AuditoriaService { get; set; }
         private IAccesoIndicadorRepository AccesoIndicadorRepository { get; set; }
 
         public IndicadorService(IIndicadorRepository indicadorRepository,
@@ -26,6 +27,7 @@ namespace YUTPLAT.Services.Interface
                                 IResponsableIndicadorRepository responsableIndicadorRepository,
                                 IInteresadoIndicadorRepository interesadoIndicadorRepository,
                                 IMetaRepository metaRepository,
+                                IAuditoriaService auditoriaService,
                                 IMedicionRepository medicionRepository,
                                 IPersonaRepository personaRepository,
                                 IAccesoIndicadorRepository accesoIndicadorRepository)
@@ -35,6 +37,7 @@ namespace YUTPLAT.Services.Interface
             this.ResponsableIndicadorRepository = responsableIndicadorRepository;
             this.InteresadoIndicadorRepository = interesadoIndicadorRepository;
             this.MetaRepository = metaRepository;
+            this.AuditoriaService = auditoriaService;
             this.MedicionRepository = medicionRepository;
             this.PersonaRepository = personaRepository;
             this.AccesoIndicadorRepository = accesoIndicadorRepository;
@@ -106,7 +109,7 @@ namespace YUTPLAT.Services.Interface
             }
         }
 
-        public async Task<int> Guardar(IndicadorViewModel indicadorViewModel)
+        public async Task<int> Guardar(IndicadorViewModel indicadorViewModel, PersonaViewModel personaGuarda)
         {
             bool modificado = false;
 
@@ -194,8 +197,21 @@ namespace YUTPLAT.Services.Interface
                     }
                 }
             }
-            
+
+            await AuditarModificacionIndicador(personaGuarda);
+
             return indicador.IndicadorID;
+        }
+
+        private async Task AuditarModificacionIndicador(PersonaViewModel personaViewModel)
+        {
+            AuditoriaViewModel auditoria = new AuditoriaViewModel();
+            auditoria.Descripcion = "Modificación del indicador";
+            auditoria.UsuarioViewModel = personaViewModel;
+            auditoria.TipoAuditoria = Enums.Enum.TipoAuditoria.ModificacionIndicador;
+            auditoria.FechaCreacion = DateTimeHelper.OntenerFechaActual();
+
+            await this.AuditoriaService.Guardar(auditoria);
         }
 
         private bool HayCambios(Indicador indicadorOriginal, IndicadorViewModel indicadorCargado)

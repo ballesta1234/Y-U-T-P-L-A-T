@@ -12,6 +12,8 @@ namespace YUTPLAT.Models
         public DateTime FechaCreacion { get; set; }
         public string Descripcion { get; set; }
         public Enums.Enum.TipoAuditoria TipoAuditoria { get; set; }
-        public Persona Usuario { get; set; }
+        
+        public virtual Persona Usuario { get; set; }
+        public string UsuarioID { get; set; }
     }
 }

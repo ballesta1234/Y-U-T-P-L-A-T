@@ -153,6 +153,7 @@ namespace YUTPLAT.App_Start
                     .ForMember(x => x.IndicadorViewModel, x => x.MapFrom(y => y.Indicador));
 
                     cfg.CreateMap<AuditoriaViewModel, Auditoria>()
+                    .ForMember(x => x.UsuarioID, x => x.MapFrom(y => !string.IsNullOrEmpty(y.UsuarioViewModel.Id) ? (y.UsuarioViewModel.Id) : ""))
                     .ForMember(x => x.Usuario, x => x.MapFrom(y => y.UsuarioViewModel));
 
                     cfg.CreateMap<Auditoria, AuditoriaViewModel>()

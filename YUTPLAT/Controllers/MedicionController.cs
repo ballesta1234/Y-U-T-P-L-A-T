@@ -33,10 +33,10 @@ namespace YUTPLAT.Controllers
 
         [HttpGet]
         [EncryptedActionParameter]
-        public async Task<FileContentResult> ExportToExcel(string mes, int idIndicador)
+        public async Task<FileContentResult> ExportToExcel(string mes, string idIndicador)
         {
             int anio = (await AnioTableroService.GetById(Int32.Parse((string)Session["IdAnioTablero"]))).Anio;
-            return File(IndicadorAutomaticoService.ObtenerArchivo(anio, Int32.Parse(mes), idIndicador), ExcelExportHelper.ExcelContentType, "DetalleIndicador.xlsx");
+            return File(IndicadorAutomaticoService.ObtenerArchivo(anio, Int32.Parse(mes), Int32.Parse(idIndicador)), ExcelExportHelper.ExcelContentType, "DetalleIndicador.xlsx");
         }
     }    
 }

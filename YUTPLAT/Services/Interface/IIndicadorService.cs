@@ -14,6 +14,6 @@ namespace YUTPLAT.Services.Interface
 
         Task<IList<IndicadorViewModel>> Buscar(BuscarIndicadorViewModel filtro);
 
-        Task<int> Guardar(IndicadorViewModel indicadorViewModel);        
+        Task<int> Guardar(IndicadorViewModel indicadorViewModel, PersonaViewModel personaGuarda);
     }
 }

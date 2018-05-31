@@ -33,7 +33,7 @@ namespace YUTPLAT.Services.Interface
 
         public override string GetTituloExportacion(string mes, string anio)
         {
-            string titulo = "Detalle indicador CPI - " + mes + " - " + anio.ToString();
+            string titulo = "Detalle indicador CPI Servicios - " + mes + " - " + anio.ToString();
             return titulo;
         }
     }

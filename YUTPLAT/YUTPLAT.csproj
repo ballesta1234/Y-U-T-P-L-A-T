@@ -361,9 +361,9 @@
     <Compile Include="Migrations\201805272010313_Se elimina archivo generado medicion.Designer.cs">
       <DependentUpon>201805272010313_Se elimina archivo generado medicion.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201805301810371_Nueva tabla auditoria.cs" />
-    <Compile Include="Migrations\201805301810371_Nueva tabla auditoria.Designer.cs">
-      <DependentUpon>201805301810371_Nueva tabla auditoria.cs</DependentUpon>
+    <Compile Include="Migrations\201805310048339_Nueva tabla auditoria.cs" />
+    <Compile Include="Migrations\201805310048339_Nueva tabla auditoria.Designer.cs">
+      <DependentUpon>201805310048339_Nueva tabla auditoria.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\ArchivoSQL.cs" />
     <Compile Include="Models\AnioTablero.cs" />
@@ -814,8 +814,8 @@
     <EmbeddedResource Include="Migrations\201805272010313_Se elimina archivo generado medicion.resx">
       <DependentUpon>201805272010313_Se elimina archivo generado medicion.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201805301810371_Nueva tabla auditoria.resx">
-      <DependentUpon>201805301810371_Nueva tabla auditoria.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201805310048339_Nueva tabla auditoria.resx">
+      <DependentUpon>201805310048339_Nueva tabla auditoria.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

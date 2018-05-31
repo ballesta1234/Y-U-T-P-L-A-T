@@ -55,6 +55,8 @@ namespace YUTPLAT.Controllers
             ViewBag.Titulo = model.Titulo;
             ViewBag.MensageExito = msgExito;
 
+            await TableroService.AuditarVisualizacionTablero((PersonaViewModel)Session["Persona"]);
+
             return View(model);
         }
 
@@ -228,7 +230,7 @@ namespace YUTPLAT.Controllers
             return Json(new { success = true });
         }
 
-        public ActionResult Revisar()
+        public async Task<JsonResult> Revisar()
         {
             PersonaViewModel personaViewModel = (PersonaViewModel)Session["Persona"];
 
@@ -236,11 +238,7 @@ namespace YUTPLAT.Controllers
 
             if (!frenarRevision)
             {
-                bool aa = false;
-                if ((DateTime.Now.Millisecond + DateTime.Now.Second) % 2 == 0)
-                    aa = true;
-
-                return Json(new { success = false });
+                return Json(new { success = await TableroService.ActualizarTablero(personaViewModel) });
             }
 
             return Json(new { success = false });

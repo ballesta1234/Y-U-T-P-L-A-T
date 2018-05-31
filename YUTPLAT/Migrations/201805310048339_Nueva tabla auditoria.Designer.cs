@@ -13,7 +13,7 @@ namespace YUTPLAT.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201805301810371_Nueva tabla auditoria"; }
+            get { return "201805310048339_Nueva tabla auditoria"; }
         }
         
         string IMigrationMetadata.Source

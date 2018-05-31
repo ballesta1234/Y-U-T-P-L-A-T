@@ -137,10 +137,10 @@ namespace YUTPLAT.Controllers
 
             ViewBag.Titulo = model.Titulo;
 
-            int idIndicador = await IndicadorService.Guardar(model);
+            PersonaViewModel persona =  (PersonaViewModel)Session["Persona"];
 
-            string idUsuario = ((PersonaViewModel)Session["Persona"]).Id;
-
+            int idIndicador = await IndicadorService.Guardar(model, persona);
+            
             object parametros = new { q = MyExtensions.Encrypt(new { id = idIndicador, msgExito = "El indicador se ha guardado exitosamente." }) };
             
             return RedirectToAction("Editar", "Indicador", parametros);           
@@ -193,11 +193,12 @@ namespace YUTPLAT.Controllers
             ViewBag.Titulo = model.Titulo;
 
             model.FechaUltimaModificacion = DateTimeHelper.OntenerFechaActual().ToString("dd/MM/yyyy HH:mm tt");
-            model.UltimoUsuarioModifico = User.Identity.Name;            
-            int idIndicador = await IndicadorService.Guardar(model);
-            
-            string idUsuario = ((PersonaViewModel)Session["Persona"]).Id;
+            model.UltimoUsuarioModifico = User.Identity.Name;
 
+            PersonaViewModel persona =  (PersonaViewModel)Session["Persona"];
+
+            int idIndicador = await IndicadorService.Guardar(model, persona);
+            
             object parametros = new { q = MyExtensions.Encrypt(new { id = idIndicador, msgExito = "El indicador se ha guardado exitosamente." }) };
                         
             return RedirectToAction("Editar", "Indicador", parametros);            
