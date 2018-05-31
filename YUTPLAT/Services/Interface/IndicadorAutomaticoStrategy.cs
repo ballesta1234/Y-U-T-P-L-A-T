@@ -94,7 +94,10 @@ namespace YUTPLAT.Services.Interface
 
                     fs.Close();                    
                 }
-                catch (Exception ex) { }
+                catch (Exception ex)
+                {
+                    LogHelper.LogException(ex);
+                }
             }
         }
 
@@ -117,7 +120,10 @@ namespace YUTPLAT.Services.Interface
 
                     GenerarExcel(mes, anio, idIndicador, (List<MedicionResultDTO>)mediciones);
                 }
-                catch (Exception ex) { }
+                catch (Exception ex)
+                {
+                    LogHelper.LogException(ex);
+                }
             }
 
             return ObtenerValorMedicionCPI(mediciones);

@@ -135,13 +135,16 @@ namespace YUTPLAT.Services.Interface
                             string cuerpoMail = CrearTablaHtmlCargaMediciones(tabla, persona.NombreApellido).ToString();                            
                             await mailStrategy.EnviarCorreo(persona.Email, "[Y U T P L A T] Indicadores incompletos", cuerpoMail);
                         }
-                        catch (Exception ex) { }
+                        catch (Exception ex)
+                        {
+                            LogHelper.LogException(ex);
+                        }
                     }
                 }
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                LogHelper.LogException(ex);
             }
         }
 
@@ -188,7 +191,10 @@ namespace YUTPLAT.Services.Interface
                                 string cuerpoMail = CrearTablaHtmlMedicionesInaceptables(tabla, persona.NombreApellido).ToString();                                
                                 await mailStrategy.EnviarCorreo(persona.Email, "[Y U T P L A T] Indicadores no satisfactorios", cuerpoMail);                                
                             }
-                            catch (Exception ex) { }
+                            catch (Exception ex)
+                            {
+                                LogHelper.LogException(ex);
+                            }
                         }
 
                         foreach (Medicion medicion in mediciones)
@@ -201,7 +207,7 @@ namespace YUTPLAT.Services.Interface
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                LogHelper.LogException(ex);
             }
         }
 
