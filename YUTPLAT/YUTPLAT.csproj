@@ -365,6 +365,10 @@
     <Compile Include="Migrations\201805310048339_Nueva tabla auditoria.Designer.cs">
       <DependentUpon>201805310048339_Nueva tabla auditoria.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201806012027092_Se agrega no aplica en la medicion.cs" />
+    <Compile Include="Migrations\201806012027092_Se agrega no aplica en la medicion.Designer.cs">
+      <DependentUpon>201806012027092_Se agrega no aplica en la medicion.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\ArchivoSQL.cs" />
     <Compile Include="Models\AnioTablero.cs" />
     <Compile Include="Models\Auditoria.cs" />
@@ -816,6 +820,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201805310048339_Nueva tabla auditoria.resx">
       <DependentUpon>201805310048339_Nueva tabla auditoria.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806012027092_Se agrega no aplica en la medicion.resx">
+      <DependentUpon>201806012027092_Se agrega no aplica en la medicion.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

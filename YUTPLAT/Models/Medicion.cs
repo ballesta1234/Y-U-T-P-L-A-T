@@ -20,5 +20,6 @@ namespace YUTPLAT.Models
         public string UsuarioCargo { get; set; }        
         public string Comentario { get; set; }
         public bool SeDebeNotificar { get; set; }
+        public bool NoAplica { get; set; }
     }
 }
