@@ -15,9 +15,9 @@ namespace YUTPLAT.Services.Interface
     {
         public static string Inaceptable { get { return "#DF0101"; } }
         public static string AMejorar { get { return "#F79F81"; } }
-        public static string Aceptable { get { return "#F7FE2E"; } }
+        public static string Aceptable { get { return "#ffff66"; } }
         public static string Satisfactoria { get { return "#81F781"; } }
-        public static string Excelente { get { return "#0B610B"; } }
+        public static string Excelente { get { return "#009900"; } }
 
         public static readonly string[] ColorMetaInaceptableExcelente = { Inaceptable, AMejorar, Aceptable, Satisfactoria, Excelente };
         public static readonly string[] ColorMetaExcelenteInaceptable = { Excelente, Satisfactoria, Aceptable, AMejorar, Inaceptable };

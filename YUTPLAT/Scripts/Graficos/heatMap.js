@@ -24,6 +24,7 @@ $(function () {
         .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+    /*
     var tip = d3.tip()
         .attr('class', 'd3-tip')
         .style("visibility", "visible")
@@ -31,8 +32,8 @@ $(function () {
         .html(function (d) {
             return "Valor:  <span style='color:white'>" + d.Medicion;
         });
-
-    tip(svg.append("g"));
+        */
+   // tip(svg.append("g"));
 
     svg.append('text')
       .attr("x", -10)
@@ -179,17 +180,38 @@ $(function () {
             .attr("height", gridSize - 10) // alto de la celda
             .style("fill", "gray")
             .attr("class", "square")
-            .on('mouseover', function (d, i) {
-                if (d.MedicionCargada)
-                    tip.show(d, i);
-            })
-            .on('mouseout', tip.hide)
+           // .on('mouseover', function (d, i) {
+           //     if (d.MedicionCargada)
+           //         tip.show(d, i);
+          //  })
+            //.on('mouseout', tip.hide)
             .on('click', function (d) {
                 abrirModalCargaMedicion(d.IdIndicador, d.Mes, d.IdMedicion, d.NombreMes, d.GrupoIndicador, d.TieneAccesoLecturaEscritura, d.EsAutomatico, d.NombreIndicador);
             });
 
+    svg.selectAll(".dim2")
+        .data(heatMap.Celdas)
+        .enter().append("text")        
+        .attr("x", function (d) { return ((d.Mes - 1) * (gridSize + 10)) + 300 + (((gridSize + 8) - (7 * d.Medicion.toString().length)) / 2); })
+        .attr("y", function (d) { return (d.IndiceIndicador - 1) * (gridSize - 8) + 20; })
+        .style("fill", "rgb(32,32,32)")
+        .text(function (d) {
+            if (d.MedicionCargada)
+                return d.Medicion;
+            else
+                return "";
+        })
+        .on('mouseover', function (d, i) {
+           // if (d.MedicionCargada)
+             //   tip.show(d, i);
+        })
+       // .on('mouseout', tip.hide)
+        .on('click', function (d) {
+            abrirModalCargaMedicion(d.IdIndicador, d.Mes, d.IdMedicion, d.NombreMes, d.GrupoIndicador, d.TieneAccesoLecturaEscritura, d.EsAutomatico, d.NombreIndicador);
+        });
+    
     heatMapGrafico.transition().style("fill", function (d) { return d.ColorMeta; });
-    heatMapGrafico.append("title").text(function (d) { return d.Medicion; });
+    //heatMapGrafico.append("title").text(function (d) { return d.Medicion; });
 });
 
 function contarIndicadoresPorArea(heatMap) {
@@ -362,7 +384,7 @@ function wrapHorizontalPalabra(text, width, posicionX, centrarHorizontal, centra
 }
 
 function centrarVerticalTextoNoRotado(tspans, cantFilas) {
-    
+
     if (cantFilas == 1 && tspans.length == 2)
         return;
 
@@ -370,7 +392,7 @@ function centrarVerticalTextoNoRotado(tspans, cantFilas) {
         tspans[0].attr("dy", 0.55 + "em");
         return;
     }
-    
+
     if (cantFilas == 2 && tspans.length == 1) {
         tspans[0].attr("dy", 1.75 + "em");
         return;
