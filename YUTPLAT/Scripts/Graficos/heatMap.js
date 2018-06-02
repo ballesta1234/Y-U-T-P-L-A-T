@@ -192,12 +192,23 @@ $(function () {
     svg.selectAll(".dim2")
         .data(heatMap.Celdas)
         .enter().append("text")        
-        .attr("x", function (d) { return ((d.Mes - 1) * (gridSize + 10)) + 300 + (((gridSize + 8) - (7 * d.Medicion.toString().length)) / 2); })
+        .attr("x", function (d) {
+
+            var i = d.Medicion.toString().length;
+
+            if (d.NoAplica) {
+                i = 3;
+            }
+
+            return ((d.Mes - 1) * (gridSize + 10)) + 300 + (((gridSize + 8) - (7 * i)) / 2);
+        })
         .attr("y", function (d) { return (d.IndiceIndicador - 1) * (gridSize - 8) + 20; })
         .style("fill", "rgb(32,32,32)")
         .text(function (d) {
             if (d.MedicionCargada)
                 return d.Medicion;
+            else if (d.NoAplica)
+                return "N/A";
             else
                 return "";
         })

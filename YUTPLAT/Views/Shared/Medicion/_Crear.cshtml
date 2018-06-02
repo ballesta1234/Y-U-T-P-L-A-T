@@ -58,10 +58,20 @@
 
         jQuery("#NoAplica").click(function () {
             jQuery("#Valor").val("");
-            jQuery("#Valor").prop('disabled', $('#NoAplica').prop('checked'));
-        });
 
-        jQuery("#Valor").prop('disabled', $('#NoAplica').prop('checked'));
+            var noAplica = jQuery('#NoAplica').prop('checked');
+            jQuery("#Valor").prop('disabled', noAplica);
+
+            if (noAplica) {
+                jQuery("#Valor").rules("remove", "required");
+            }            
+        });
+        
+        if (jQuery('#NoAplica').prop('checked')) {
+            jQuery("#Valor").val("");
+        }
+
+        jQuery("#Valor").prop('disabled', jQuery('#NoAplica').prop('checked'));
 
     });
 
@@ -87,15 +97,18 @@
 
         <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-12">
-                @Html.LabelFor(m => m.Valor)
                 <div class="row">
                     <div class="col-xs-6 col-sm-3 col-md-3">
+                        @Html.LabelFor(m => m.Valor)
                         @Html.TextBoxFor(m => m.Valor, new { @class = "form-control" })
-                    </div>
 
-                    <div class="col-xs-6 col-sm-3 col-md-3">
-                        @Html.LabelFor(m => m.NoAplica)
-                        @Html.CheckBoxFor(m => m.NoAplica)
+                    </div>
+                    <div class="col-xs-3 col-sm-3 col-md-3">
+                        <div class="form-check">
+                            <label>
+                                @Html.CheckBoxFor(m => m.NoAplica) <span class="label-text">No aplica</span>
+                            </label>
+                        </div>
                     </div>
                 </div>
                 <span class="aclaracion">(caracter punto "." como separador decimal)</span>
@@ -148,34 +161,34 @@
         <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="javascript:cerrar();">Cerrar</button>
     </div>
 
-            @Html.HiddenFor(m => m.IndicadorID)
-            @Html.HiddenFor(m => m.MedicionId)
-            @Html.HiddenFor(m => m.Mes)
+    @Html.HiddenFor(m => m.IndicadorID)
+    @Html.HiddenFor(m => m.MedicionId)
+    @Html.HiddenFor(m => m.Mes)
 
-            @Html.HiddenFor(m => m.IndicadorViewModel.Nombre)
+    @Html.HiddenFor(m => m.IndicadorViewModel.Nombre)
 
-            @Html.HiddenFor(m => m.IndicadorViewModel.MetaExcelenteViewModel.Signo1)
-            @Html.HiddenFor(m => m.IndicadorViewModel.MetaExcelenteViewModel.Signo2)
-            @Html.HiddenFor(m => m.IndicadorViewModel.MetaExcelenteViewModel.Valor1)
-            @Html.HiddenFor(m => m.IndicadorViewModel.MetaExcelenteViewModel.Valor2)
+    @Html.HiddenFor(m => m.IndicadorViewModel.MetaExcelenteViewModel.Signo1)
+    @Html.HiddenFor(m => m.IndicadorViewModel.MetaExcelenteViewModel.Signo2)
+    @Html.HiddenFor(m => m.IndicadorViewModel.MetaExcelenteViewModel.Valor1)
+    @Html.HiddenFor(m => m.IndicadorViewModel.MetaExcelenteViewModel.Valor2)
 
-            @Html.HiddenFor(m => m.IndicadorViewModel.MetaSatisfactoriaViewModel.Signo1)
-            @Html.HiddenFor(m => m.IndicadorViewModel.MetaSatisfactoriaViewModel.Signo2)
-            @Html.HiddenFor(m => m.IndicadorViewModel.MetaSatisfactoriaViewModel.Valor1)
-            @Html.HiddenFor(m => m.IndicadorViewModel.MetaSatisfactoriaViewModel.Valor2)
+    @Html.HiddenFor(m => m.IndicadorViewModel.MetaSatisfactoriaViewModel.Signo1)
+    @Html.HiddenFor(m => m.IndicadorViewModel.MetaSatisfactoriaViewModel.Signo2)
+    @Html.HiddenFor(m => m.IndicadorViewModel.MetaSatisfactoriaViewModel.Valor1)
+    @Html.HiddenFor(m => m.IndicadorViewModel.MetaSatisfactoriaViewModel.Valor2)
 
-            @Html.HiddenFor(m => m.IndicadorViewModel.MetaAceptableViewModel.Signo1)
-            @Html.HiddenFor(m => m.IndicadorViewModel.MetaAceptableViewModel.Signo2)
-            @Html.HiddenFor(m => m.IndicadorViewModel.MetaAceptableViewModel.Valor1)
-            @Html.HiddenFor(m => m.IndicadorViewModel.MetaAceptableViewModel.Valor2)
+    @Html.HiddenFor(m => m.IndicadorViewModel.MetaAceptableViewModel.Signo1)
+    @Html.HiddenFor(m => m.IndicadorViewModel.MetaAceptableViewModel.Signo2)
+    @Html.HiddenFor(m => m.IndicadorViewModel.MetaAceptableViewModel.Valor1)
+    @Html.HiddenFor(m => m.IndicadorViewModel.MetaAceptableViewModel.Valor2)
 
-            @Html.HiddenFor(m => m.IndicadorViewModel.MetaAMejorarViewModel.Signo1)
-            @Html.HiddenFor(m => m.IndicadorViewModel.MetaAMejorarViewModel.Signo2)
-            @Html.HiddenFor(m => m.IndicadorViewModel.MetaAMejorarViewModel.Valor1)
-            @Html.HiddenFor(m => m.IndicadorViewModel.MetaAMejorarViewModel.Valor2)
+    @Html.HiddenFor(m => m.IndicadorViewModel.MetaAMejorarViewModel.Signo1)
+    @Html.HiddenFor(m => m.IndicadorViewModel.MetaAMejorarViewModel.Signo2)
+    @Html.HiddenFor(m => m.IndicadorViewModel.MetaAMejorarViewModel.Valor1)
+    @Html.HiddenFor(m => m.IndicadorViewModel.MetaAMejorarViewModel.Valor2)
 
-            @Html.HiddenFor(m => m.IndicadorViewModel.MetaInaceptableViewModel.Signo1)
-            @Html.HiddenFor(m => m.IndicadorViewModel.MetaInaceptableViewModel.Signo2)
-            @Html.HiddenFor(m => m.IndicadorViewModel.MetaInaceptableViewModel.Valor1)
-            @Html.HiddenFor(m => m.IndicadorViewModel.MetaInaceptableViewModel.Valor2)
+    @Html.HiddenFor(m => m.IndicadorViewModel.MetaInaceptableViewModel.Signo1)
+    @Html.HiddenFor(m => m.IndicadorViewModel.MetaInaceptableViewModel.Signo2)
+    @Html.HiddenFor(m => m.IndicadorViewModel.MetaInaceptableViewModel.Valor1)
+    @Html.HiddenFor(m => m.IndicadorViewModel.MetaInaceptableViewModel.Valor2)
 }

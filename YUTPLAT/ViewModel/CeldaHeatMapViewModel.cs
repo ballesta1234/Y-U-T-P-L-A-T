@@ -13,8 +13,9 @@
         public int Mes { get; set; }
         public string Medicion { get; set; }
         public string ColorMeta { get; set; } 
-        public bool MedicionCargada { get; set; }   
-        
+        public bool MedicionCargada { get; set; }
+        public bool NoAplica { get; set; }
+
         public CeldaHeatMapViewModel()
         {
             this.Medicion = "0";

@@ -316,13 +316,20 @@ namespace YUTPLAT.Services.Interface
                             celdaHeatMapViewModel.EsAutomatico = todosIndicadoresAutomaticos.Any(ia => ia.IndicadorViewModel.Grupo == celdaHeatMapViewModel.GrupoIndicador);
 
                             if (medicionesPorMes.Any(m => m.IndicadorViewModel.Grupo == indicador.Grupo && m.Mes == mes))
-                            {
+                            {                                
                                 MedicionViewModel medicionPorMes = medicionesPorMes.First(m => m.IndicadorViewModel.Grupo == indicador.Grupo && m.Mes == mes);
-
-                                celdaHeatMapViewModel.Medicion = medicionPorMes.Valor;
                                 celdaHeatMapViewModel.IdMedicion = medicionPorMes.MedicionId;
-                                celdaHeatMapViewModel.ColorMeta = ObtenerColorCeldaHeatMap(medicionPorMes);
-                                celdaHeatMapViewModel.MedicionCargada = true;
+
+                                if (!medicionPorMes.NoAplica)
+                                {
+                                    celdaHeatMapViewModel.Medicion = medicionPorMes.Valor;                                    
+                                    celdaHeatMapViewModel.ColorMeta = ObtenerColorCeldaHeatMap(medicionPorMes);
+                                    celdaHeatMapViewModel.MedicionCargada = true;
+                                }
+                                else
+                                {
+                                    celdaHeatMapViewModel.NoAplica = true;
+                                }
                             }
 
                             celdasHeatMapViewModel.Add(celdaHeatMapViewModel);
@@ -401,51 +408,57 @@ namespace YUTPLAT.Services.Interface
 
         public async Task<int> GuardarMedicion(MedicionViewModel medicionViewModel)
         {
-            Medicion medicionActual = await MedicionRepository.GetById(medicionViewModel.MedicionId).FirstOrDefaultAsync();
-            
-            string colorActual = null;
-
-            if(medicionActual != null)
+            if (!medicionViewModel.NoAplica)
             {
-                MedicionViewModel medicionViewModelActual = AutoMapper.Mapper.Map<MedicionViewModel>(medicionActual);
-                colorActual = ObtenerColorCeldaHeatMap(medicionViewModelActual);
-            }
-            
-            string colorNuevo =  ObtenerColorCeldaHeatMap(medicionViewModel);
+                Medicion medicionActual = await MedicionRepository.GetById(medicionViewModel.MedicionId).FirstOrDefaultAsync();
 
-            if(colorNuevo.Equals(Inaceptable))
-            {
-                if(colorActual == null || !colorActual.Equals(colorNuevo))
+                string colorActual = null;
+
+                if (medicionActual != null)
                 {
-                    medicionViewModel.SeDebeNotificar = true;
+                    MedicionViewModel medicionViewModelActual = AutoMapper.Mapper.Map<MedicionViewModel>(medicionActual);
+                    colorActual = ObtenerColorCeldaHeatMap(medicionViewModelActual);
+                }
+
+                string colorNuevo = ObtenerColorCeldaHeatMap(medicionViewModel);
+
+                if (colorNuevo.Equals(Inaceptable))
+                {
+                    if (colorActual == null || !colorActual.Equals(colorNuevo))
+                    {
+                        medicionViewModel.SeDebeNotificar = true;
+                    }
                 }
             }
 
             Medicion medicion = AutoMapper.Mapper.Map<Medicion>(medicionViewModel);
             medicion.Indicador = null;
-            
+                       
             return await MedicionRepository.Guardar(medicion);
         }
 
         public int GuardarMedicionNoTask(MedicionViewModel medicionViewModel)
         {
-            Medicion medicionActual = MedicionRepository.GetById(medicionViewModel.MedicionId).FirstOrDefault();
-
-            string colorActual = null;
-
-            if (medicionActual != null)
+            if (!medicionViewModel.NoAplica)
             {
-                MedicionViewModel medicionViewModelActual = AutoMapper.Mapper.Map<MedicionViewModel>(medicionActual);
-                colorActual = ObtenerColorCeldaHeatMap(medicionViewModelActual);
-            }
+                Medicion medicionActual = MedicionRepository.GetById(medicionViewModel.MedicionId).FirstOrDefault();
 
-            string colorNuevo = ObtenerColorCeldaHeatMap(medicionViewModel);
+                string colorActual = null;
 
-            if (colorNuevo.Equals(Inaceptable))
-            {
-                if (colorActual == null || !colorActual.Equals(colorNuevo))
+                if (medicionActual != null)
                 {
-                    medicionViewModel.SeDebeNotificar = true;
+                    MedicionViewModel medicionViewModelActual = AutoMapper.Mapper.Map<MedicionViewModel>(medicionActual);
+                    colorActual = ObtenerColorCeldaHeatMap(medicionViewModelActual);
+                }
+
+                string colorNuevo = ObtenerColorCeldaHeatMap(medicionViewModel);
+
+                if (colorNuevo.Equals(Inaceptable))
+                {
+                    if (colorActual == null || !colorActual.Equals(colorNuevo))
+                    {
+                        medicionViewModel.SeDebeNotificar = true;
+                    }
                 }
             }
 

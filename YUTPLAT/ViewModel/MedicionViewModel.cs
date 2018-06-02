@@ -15,7 +15,7 @@ namespace YUTPLAT.ViewModel
 
         [Required]
         [RegularExpression("^[-]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?(\\.[0-9]?[0-9]?[0-9]?)?$", ErrorMessage = "El valor tiene que tener hasta 12 dígitos y hasta 3 decimales")]
-        [Display(Name = "Valor de la medición")]
+        [Display(Name = "Valor")]
         public string Valor { get; set; }
 
         public string FechaCarga { get; set; }

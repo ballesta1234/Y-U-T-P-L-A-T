@@ -129,8 +129,8 @@ namespace YUTPLAT.Controllers
         [HttpPost]
         [AllowAnonymous]
         public async Task<ActionResult> CargarMedicion(MedicionViewModel model)
-        {
-            if (!ModelState.IsValidField("Valor") ||
+        {            
+            if ( (!model.NoAplica && !ModelState.IsValidField("Valor")) ||
                 !ModelState.IsValidField("Comentario") ||
                 !MedicionService.ValidaMedicion(model))
             {
