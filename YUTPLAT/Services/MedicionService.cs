@@ -71,6 +71,8 @@ namespace YUTPLAT.Services.Interface
             MedicionViewModel filtro = new MedicionViewModel();
             filtro.Grupo = grupo;
             filtro.Anio = anio;
+            filtro.BuscarPorNoAplica = true;
+            filtro.NoAplica = false;
 
             return AutoMapper.Mapper.Map<IList<LineViewModel>>((await MedicionRepository.Buscar(filtro).ToListAsync()).OrderBy(m => m.Mes));
         }
@@ -80,6 +82,8 @@ namespace YUTPLAT.Services.Interface
             MedicionViewModel filtro = new MedicionViewModel();
             filtro.Grupo = grupo;
             filtro.Anio = anio;
+            filtro.BuscarPorNoAplica = true;
+            filtro.NoAplica = false;
 
             IList<MedicionViewModel> medicionesViewModel = await Buscar(filtro);
 

@@ -65,6 +65,10 @@ namespace YUTPLAT.Repositories
             {
                 queryable = queryable.Where(m => m.SeDebeNotificar == filtro.SeDebeNotificar.Value);
             }
+            if (filtro.BuscarPorNoAplica)
+            {
+                queryable = queryable.Where(m => m.NoAplica == filtro.NoAplica);
+            }
 
             return queryable;
         }

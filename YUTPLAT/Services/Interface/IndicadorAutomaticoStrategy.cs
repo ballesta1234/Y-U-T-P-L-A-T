@@ -66,7 +66,7 @@ namespace YUTPLAT.Services.Interface
         
         public void GenerarExcel(int mes, int anio, int idIndicador, List<MedicionResultDTO> mediciones)
         {
-            string archivo = ObtenerPatrArchivoCompleto(anio, mes, idIndicador);
+            string archivo = ObtenerPathArchivoCompleto(anio, mes, idIndicador);
             
             if (!File.Exists(archivo))
             {
@@ -85,13 +85,8 @@ namespace YUTPLAT.Services.Interface
                     string titulo = GetTituloExportacion(mesStr, anio.ToString());
 
                     FileStream fs = File.Create(archivo);
-
-                    if (medicionesExportar.Count > 0)
-                    {
-                        byte[] filecontent = ExcelExportHelper.ExportExcel(medicionesExportar, titulo, false, columnas);
-                        fs.Write(filecontent, 0, filecontent.Length);
-                    }
-
+                    byte[] filecontent = ExcelExportHelper.ExportExcel(medicionesExportar, titulo, false, columnas);
+                    fs.Write(filecontent, 0, filecontent.Length);
                     fs.Close();                    
                 }
                 catch (Exception ex)
@@ -111,7 +106,7 @@ namespace YUTPLAT.Services.Interface
                 {
                     mediciones = ObtenerDetallesMediciones(mes, anio);
 
-                    string archivo = ObtenerPatrArchivoCompleto(anio, mes, idIndicador);
+                    string archivo = ObtenerPathArchivoCompleto(anio, mes, idIndicador);
                     
                     if (File.Exists(archivo))
                     {
@@ -149,7 +144,7 @@ namespace YUTPLAT.Services.Interface
                 return 0;
         }
 
-        private string ObtenerPatrArchivoCompleto(int anio, int mes, int idIndicador)
+        private string ObtenerPathArchivoCompleto(int anio, int mes, int idIndicador)
         {
             string pathExcels = ConfigurationManager.AppSettings["PathExcelExportacion"];
             string directory = AppDomain.CurrentDomain.BaseDirectory + pathExcels + idIndicador.ToString() + "\\";
@@ -166,7 +161,7 @@ namespace YUTPLAT.Services.Interface
 
         public byte[] ObtenerArchivo(int anio, int mes, int idIndicador)
         {
-            string archivo = ObtenerPatrArchivoCompleto(anio, mes, idIndicador);
+            string archivo = ObtenerPathArchivoCompleto(anio, mes, idIndicador);
 
             byte[] fileBytes = null;
 

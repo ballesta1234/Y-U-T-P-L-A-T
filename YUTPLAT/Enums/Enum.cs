@@ -80,7 +80,8 @@ namespace YUTPLAT.Enums
         public enum TipoAuditoria
         {
             UltimaActualizacionVistaTablero = 1,
-            ModificacionIndicador = 2
+            ModificacionIndicador = 2,
+            LoginUsuario = 3
         }
     }
 }

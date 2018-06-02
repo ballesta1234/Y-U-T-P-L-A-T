@@ -6,6 +6,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using YUTPLAT.ViewModel;
 using YUTPLAT.Services.Interface;
+using YUTPLAT.Helpers;
 
 namespace YUTPLAT.Controllers
 {
@@ -17,12 +18,15 @@ namespace YUTPLAT.Controllers
 
         public IAnioTableroService AnioTableroService { get; set; }
         public IPersonaService PersonaService { get; set; }
+        public IAuditoriaService AuditoriaService { get; set; }
 
         public AccountController(IPersonaService personaService,
-                                 IAnioTableroService anioTableroService)
+                                 IAnioTableroService anioTableroService,
+                                 IAuditoriaService auditoriaService)
         {
             this.PersonaService = personaService;
             this.AnioTableroService = anioTableroService;
+            this.AuditoriaService = auditoriaService;
         }
 
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
@@ -79,7 +83,9 @@ namespace YUTPLAT.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    Session["Persona"] = await PersonaService.GetByUserName(model.User);
+                    PersonaViewModel persona = await PersonaService.GetByUserName(model.User);
+                    Session["Persona"] = persona;
+                    AuditarIngreso(persona);
                     return await RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");               
@@ -90,6 +96,16 @@ namespace YUTPLAT.Controllers
             }
         }
 
+        private void AuditarIngreso(PersonaViewModel persona)
+        {
+            AuditoriaViewModel auditoria = new AuditoriaViewModel();
+            auditoria.Descripcion = "Ingreso de " + persona.NombreUsuario;
+            auditoria.FechaCreacion = DateTimeHelper.OntenerFechaActual();
+            auditoria.TipoAuditoria = Enums.Enum.TipoAuditoria.LoginUsuario;
+            auditoria.UsuarioViewModel = persona;
+
+            AuditoriaService.Guardar(auditoria);
+        }
 
         [HttpGet]
         public ActionResult LogOff()

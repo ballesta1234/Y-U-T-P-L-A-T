@@ -29,6 +29,8 @@ namespace YUTPLAT.ViewModel
 
         [Display(Name = "No aplica")]
         public bool NoAplica { get; set; }
+
+        public bool BuscarPorNoAplica { get; set; }
     }
 }
 

@@ -178,7 +178,7 @@ namespace YUTPLAT.Controllers
             PersonaViewModel personaViewModel = (PersonaViewModel)Session["Persona"];            
             AnioTableroViewModel anioViewModel = await AnioTableroService.GetById(idAnio);
             MedicionViewModel medicionViewModel = await MedicionService.ObtenerMedicionViewModel(idIndicador, mes, idMedicion, grupo, anioViewModel.Anio, personaViewModel, true);
-            
+
             DateTime fechaActual = DateTimeHelper.OntenerFechaActual();
 
             string view = "Medicion/_Crear";
