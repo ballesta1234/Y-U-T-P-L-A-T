@@ -77,11 +77,13 @@ namespace YUTPLAT.App_Start
                    .ForMember(x => x.EsAdmin, x => x.MapFrom(y => y.EsAdmin()))
                    .ForMember(x => x.EsUsuario, x => x.MapFrom(y => y.EsUsuario()))
                    .ForMember(x => x.NombreRol, x => x.MapFrom(y => y.Rol))
+                   .ForMember(x => x.Habilitado, x => x.MapFrom(y => !y.LockoutEnabled))
                    .ForMember(x => x.IdArea, x => x.MapFrom(y => y.Area != null ? y.Area.Id.ToString() : null))
                    .ForMember(x => x.AreaViewModel, x => x.MapFrom(y => y.Area != null ? y.Area : null));
 
                     cfg.CreateMap<PersonaViewModel, Persona>()
                    .ForMember(x => x.UserName, x => x.MapFrom(y => y.NombreUsuario))
+                   .ForMember(x => x.LockoutEnabled, x => x.MapFrom(y => !y.Habilitado))
                    .ForMember(x => x.Rol, x => x.MapFrom(y => EnumHelper<Enums.Enum.Rol>.GetDisplayValue(EnumHelper<Enums.Enum.Rol>.Parse(y.NombreRol))))
                    .ForMember(x => x.AreaID, x => x.MapFrom(y => y.AreaViewModel != null && y.AreaViewModel.Id > 0 ? y.AreaViewModel.Id : (int?)null));
 

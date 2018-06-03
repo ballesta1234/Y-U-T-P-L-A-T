@@ -32,7 +32,8 @@ namespace YUTPLAT
                         "~/Scripts/light-bootstrap-dashboard.js",
                         "~/Scripts/select2.full.min.js",
                         "~/Scripts/Graficos/d3.v3.js",
-                        "~/Scripts/Graficos/d3.tip.v0.6.3.js"
+                        "~/Scripts/Graficos/d3.tip.v0.6.3.js",
+                        "~/Scripts/bootstrap-toggle.js"
                         ));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
@@ -44,7 +45,8 @@ namespace YUTPLAT
                         "~/Content/pe-icon-7-stroke.css",
                         "~/Content/animate.min.css",                        
                         "~/Content/select2-bootstrap.css",
-                        "~/Content/select2.min.css"
+                        "~/Content/select2.min.css",
+                        "~/Content/bootstrap-toggle.css"
                         ));           
         }
     }

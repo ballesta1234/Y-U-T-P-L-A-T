@@ -10,6 +10,26 @@
         if ($('#NombreRol').val() == 'operador' || $('#NombreRol').val() == 'usuario') {
             $("#divArea").show();
         }
+
+        $('#chkHabilitado').change(function () {
+            $('#Habilitado').val(($(this).prop('checked')));
+        })
+
+        if ($('#Habilitado').val().toLowerCase() == 'true') {
+            $('#chkHabilitado').bootstrapToggle('on');            
+            $('#chkHabilitado').attr('disabled', true);
+            $('.toggle-on').attr('disabled', true);
+            $('.toggle-off').attr('disabled', true);
+            $('.toggle-handle').attr('disabled', true);
+        }
+        else {
+            $('#chkHabilitado').bootstrapToggle('off');
+            $('#chkHabilitado').attr('disabled', true);
+            $('.toggle-on').attr('disabled', true);
+            $('.toggle-off').attr('disabled', true);
+            $('.toggle-handle').attr('disabled', true);
+        }
+
     });
 </script>
 
@@ -54,6 +74,17 @@
                                         @Html.DropDownListFor(m => m.IdArea, new SelectList(new List<SelectListItem> { new SelectListItem { Text = Model.AreaViewModel.Nombre, Value = Model.AreaViewModel.Id.ToString() } }, "Value", "Text"), new { @id = "ddlAreas", @class = "form-control", @disabled = "true" })
                                     }
                                 </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-6 col-md-3">
+                                @Html.LabelFor(m => m.Habilitado)
+                                <br />
+                                <div>
+                                    <input id="chkHabilitado" checked data-toggle="toggle" type="checkbox" data-on="Habilitado" data-off="Deshabilitado">
+                                    @Html.HiddenFor(m => m.Habilitado)
+                                </div>
+                                
                             </div>
                         </div>
                         <div class="row">

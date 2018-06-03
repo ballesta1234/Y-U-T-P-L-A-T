@@ -88,7 +88,8 @@ namespace YUTPLAT.Controllers
                     AuditarIngreso(persona);
                     return await RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
-                    return View("Lockout");               
+                    ModelState.AddModelError("", "Usuario deshabilitado. Contáctese con el administrador.");
+                    return View(model);
                 case SignInStatus.Failure:
                 default:
                     ModelState.AddModelError("", "Intento de inicio de sesión no válido.");

@@ -102,12 +102,17 @@ namespace YUTPLAT.Repositories
                 user.Apellido = persona.Apellido;
                 user.Rol = persona.Rol;
                 user.AreaID = persona.AreaID;
-               
+                user.LockoutEnabled = persona.LockoutEnabled;
+
+                var lockoutEndDate = new DateTimeOffset(DateTimeHelper.OntenerFechaActual().AddYears(100));
+                await manager.SetLockoutEndDateAsync(user.Id, lockoutEndDate);
+                await manager.SetLockoutEnabledAsync(user.Id, user.LockoutEnabled);
+
                 if (!String.IsNullOrEmpty(contrasenia))
                 {                    
-                    user.PasswordHash = manager.PasswordHasher.HashPassword(contrasenia);
+                    user.PasswordHash = manager.PasswordHasher.HashPassword(contrasenia);                                        
                 }
-
+                        
                 await manager.UpdateAsync(user);
             }
             else
@@ -120,13 +125,18 @@ namespace YUTPLAT.Repositories
                     Nombre = persona.Nombre,
                     Apellido = persona.Apellido,
                     Rol = persona.Rol,
-                    AreaID = persona.AreaID                    
+                    AreaID = persona.AreaID,
+                    LockoutEnabled = persona.LockoutEnabled               
                 };
-
+                              
                 await manager.CreateAsync(user, contrasenia);
                 await manager.AddToRoleAsync(user.Id, user.Rol);
-            }        
-            
+
+                var lockoutEndDate = new DateTimeOffset(DateTimeHelper.OntenerFechaActual().AddYears(100));
+                await manager.SetLockoutEndDateAsync(user.Id, lockoutEndDate);
+                await manager.SetLockoutEnabledAsync(user.Id, user.LockoutEnabled);
+            }
+
             return user.Id;
         }
 

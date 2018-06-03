@@ -3,7 +3,7 @@
 
 <script type="text/javascript">
     $(document).ready(function () {
-        
+
         $("#errorGeneral").hide();
 
         $("input[type=text]").keydown(function () {
@@ -26,17 +26,17 @@
             var rol = e.params.args.data.id;
 
             if (rol == ' ' || rol == 'admin') {
-                $("#divArea").hide();                
+                $("#divArea").hide();
             }
             if (rol == 'operador' || rol == 'usuario') {
-                $("#divArea").show();                
+                $("#divArea").show();
             }
-            else if (rol == 'admin') {              
+            else if (rol == 'admin') {
                 $("#ddlAreas").rules("remove", "required");
             }
         });
-        
-        if($("#EsAdmin").val() == 'True') {
+
+        if ($("#EsAdmin").val() == 'True') {
             if ($('#NombreRol option:selected').text() == ' ' || $('#NombreRol option:selected').text() == 'admin') {
                 $("#divArea").hide();
             }
@@ -45,8 +45,19 @@
                 $("#divArea").show();
             }
         }
-        else {           
+        else {
             $("#divArea").show();
+        }
+
+        $('#chkHabilitado').change(function () {
+            $('#Habilitado').val(($(this).prop('checked')));
+        })
+        
+        if ($('#Habilitado').val().toLowerCase() == 'true') {
+            $('#chkHabilitado').bootstrapToggle('on');            
+        }
+        else {
+            $('#chkHabilitado').bootstrapToggle('off');
         }
     });
 
@@ -62,7 +73,7 @@
                         <h4 class="title">Crear</h4>
                     </div>
                     <div class="content">
-                        @using (Html.BeginForm("Crear", "Persona", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { id="form", role = "form" }))
+                        @using (Html.BeginForm("Crear", "Persona", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { id = "form", role = "form" }))
                         {
                             <div id="errorGeneral" style="display:none;" class="text-danger">
                                 Verifique que todos los campos estén cargados y sean correctos.
@@ -133,7 +144,7 @@
                                 <div class="col-xs-12 col-sm-6 col-md-3">
                                     @Html.LabelFor(m => m.ConfirmarContrasenia)
                                     <span class="text-danger">*</span>
-                                    @Html.TextBoxFor(m => m.ConfirmarContrasenia, new { @class = "form-control", type = "password" })                                    
+                                    @Html.TextBoxFor(m => m.ConfirmarContrasenia, new { @class = "form-control", type = "password" })
                                     @Html.ValidationMessageFor(m => m.ConfirmarContrasenia, "", new { @class = "text-danger" })
                                 </div>
                                 <div class="col-xs-12 col-sm-6 col-md-3">
@@ -160,6 +171,14 @@
                                 </div>
                             </div>
                             <div class="row">
+                                <div class="col-xs-12 col-sm-6 col-md-3">
+                                    @Html.LabelFor(m => m.Habilitado)
+                                    <br />
+                                    <input id="chkHabilitado" checked data-toggle="toggle" type="checkbox" data-on="Habilitado" data-off="Deshabilitado">
+                                    @Html.HiddenFor(m => m.Habilitado)
+                                </div>
+                            </div>
+                            <div class="row">
                                 <div class="col-lg-12">
                                     <h6>
                                         <small>
@@ -175,7 +194,7 @@
                                 </div>
                             </div>
 
-                            @Html.HiddenFor(m => m.EsAdmin)
+                                @Html.HiddenFor(m => m.EsAdmin)
                         }
                     </div>
                 </div>
@@ -196,7 +215,7 @@
             delay: 250,
             data: function (params) {
                 return {
-                    nombreArea: params.term,                    
+                    nombreArea: params.term,
                 };
             },
             processResults: function (data, page) {
@@ -242,7 +261,7 @@
             array.push(procesarResultado(resultados[i]));
         }
         return array
-    } 
+    }
 
     $('.filter-modal select').css('width', '100%');
 

@@ -8,6 +8,11 @@ namespace YUTPLAT.ViewModel
 {
     public class PersonaViewModel
     {
+        public PersonaViewModel()
+        {
+            Habilitado = true;
+        }
+
         public string Id { get; set; }
         public string Titulo { get; set; }
         
@@ -57,6 +62,9 @@ namespace YUTPLAT.ViewModel
         [Required]
         [ValidarEnumRol]
         public string NombreRol { get; set; }
+
+        [Display(Name = "Estado")]
+        public bool Habilitado { get; set; }
 
         public string NombreApellido
         {

@@ -46,6 +46,17 @@
         
         $("#Contrasenia").rules("remove", "required");
         $("#ConfirmarContrasenia").rules("remove", "required");
+
+        $('#chkHabilitado').change(function () {
+            $('#Habilitado').val(($(this).prop('checked')));
+        })
+
+        if ($('#Habilitado').val().toLowerCase() == 'true') {
+            $('#chkHabilitado').bootstrapToggle('on');            
+        }
+        else {
+            $('#chkHabilitado').bootstrapToggle('off');
+        }
     });
 
 </script>
@@ -153,6 +164,14 @@
                                         }
 
                                     </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12 col-sm-6 col-md-3">
+                                    @Html.LabelFor(m => m.Habilitado)
+                                    <br />
+                                    <input id="chkHabilitado" checked data-toggle="toggle" type="checkbox" data-on="Habilitado" data-off="Deshabilitado">
+                                    @Html.HiddenFor(m => m.Habilitado)
                                 </div>
                             </div>
                             <div class="row">
