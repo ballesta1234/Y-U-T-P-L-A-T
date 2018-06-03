@@ -150,6 +150,7 @@ namespace YUTPLAT.Services.Interface
 
                 escalas.EscalaValores = new decimal[6] { minimoEscala, valorAMejorar, valorAceptable, valorSatisfactorio, valorExcelente, maximoEscala };
                 escalas.EscalaColores = ColorMetaInaceptableExcelente;
+                escalas.EscalaDeInaceptableAExcelente = true;
             }
             else
             {
@@ -179,6 +180,7 @@ namespace YUTPLAT.Services.Interface
 
                 escalas.EscalaValores = new decimal[6] { minimoEscala, valorExcelente, valorSatisfactorio, valorAceptable, valorAMejorar, maximoEscala };
                 escalas.EscalaColores = ColorMetaExcelenteInaceptable;
+                escalas.EscalaDeInaceptableAExcelente = false;
             }
 
             return escalas;
@@ -239,17 +241,157 @@ namespace YUTPLAT.Services.Interface
             int i = 0;
 
             decimal valorMedicion = decimal.Parse(medicion.Valor.Replace(".", ","));
-
+            
             while (valorMedicion >= valor && i < 5)
             {
-                i++;
+                i++;               
                 valor = escalas.EscalaValores[i];
             }
 
             if (i == 0)
                 i++;
+                        
+            int j = DesempatarColor(medicion, escalas);
+
+            if (j > 0)
+                i = j;
 
             return escalas.EscalaColores[i - 1];
+        }
+
+        private int DesempatarColor(MedicionViewModel medicion, EscalaGraficosViewModel escalas)
+        {        
+            decimal valorMedicion = decimal.Parse(medicion.Valor.Replace(".", ","));
+            int i = -1;
+
+            if (escalas.EscalaDeInaceptableAExcelente)
+            {                     
+                Meta meta = AutoMapper.Mapper.Map<Meta>(medicion.IndicadorViewModel.MetaInaceptableViewModel);
+                bool estaEnLaMeta = ValorEnLaMeta(meta, valorMedicion);
+                
+                if(estaEnLaMeta)
+                {
+                    i = 1;
+                }
+                else
+                {                    
+                    meta = AutoMapper.Mapper.Map<Meta>(medicion.IndicadorViewModel.MetaAMejorarViewModel);
+                    estaEnLaMeta = ValorEnLaMeta(meta, valorMedicion);
+
+                    if (estaEnLaMeta)
+                    {
+                        i = 2;
+                    }
+                    else
+                    {
+                        meta = AutoMapper.Mapper.Map<Meta>(medicion.IndicadorViewModel.MetaAceptableViewModel);
+                        estaEnLaMeta = ValorEnLaMeta(meta, valorMedicion);
+
+                        if (estaEnLaMeta)
+                        {
+                            i = 3;
+                        }
+                        else
+                        {
+                            meta = AutoMapper.Mapper.Map<Meta>(medicion.IndicadorViewModel.MetaSatisfactoriaViewModel);
+                            estaEnLaMeta = ValorEnLaMeta(meta, valorMedicion);
+
+                            if (estaEnLaMeta)
+                            {
+                                i = 4;
+                            }
+                            else
+                            {
+                                meta = AutoMapper.Mapper.Map<Meta>(medicion.IndicadorViewModel.MetaExcelenteViewModel);
+                                estaEnLaMeta = ValorEnLaMeta(meta, valorMedicion);
+
+                                if (estaEnLaMeta)
+                                {
+                                    i = 5;
+                                }
+                            }
+                        }
+                    }
+                }              
+            }
+            else
+            {
+                Meta meta = AutoMapper.Mapper.Map<Meta>(medicion.IndicadorViewModel.MetaExcelenteViewModel);
+                bool estaEnLaMeta = ValorEnLaMeta(meta, valorMedicion);
+
+                if (estaEnLaMeta)
+                {
+                    i = 1;
+                }
+                else
+                {
+                    meta = AutoMapper.Mapper.Map<Meta>(medicion.IndicadorViewModel.MetaSatisfactoriaViewModel);
+                    estaEnLaMeta = ValorEnLaMeta(meta, valorMedicion);
+
+                    if (estaEnLaMeta)
+                    {
+                        i = 2;
+                    }
+                    else
+                    {
+                        meta = AutoMapper.Mapper.Map<Meta>(medicion.IndicadorViewModel.MetaAceptableViewModel);
+                        estaEnLaMeta = ValorEnLaMeta(meta, valorMedicion);
+
+                        if (estaEnLaMeta)
+                        {
+                            i = 3;
+                        }
+                        else
+                        {
+                            meta = AutoMapper.Mapper.Map<Meta>(medicion.IndicadorViewModel.MetaAMejorarViewModel);
+                            estaEnLaMeta = ValorEnLaMeta(meta, valorMedicion);
+
+                            if (estaEnLaMeta)
+                            {
+                                i = 4;
+                            }
+                            else
+                            {
+                                meta = AutoMapper.Mapper.Map<Meta>(medicion.IndicadorViewModel.MetaInaceptableViewModel);
+                                estaEnLaMeta = ValorEnLaMeta(meta, valorMedicion);
+
+                                if (estaEnLaMeta)
+                                {
+                                    i = 5;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            return i;
+        }
+
+        private bool ValorEnLaMeta(Meta meta, decimal valor)
+        {
+            bool estaEnLaMeta = false;
+
+            if (meta.Valor1 != null && 
+                meta.Valor1 == valor && 
+                (meta.Signo1 == Enums.Enum.Signo.Igual || 
+                 meta.Signo1 == Enums.Enum.Signo.MayorOIgual || 
+                 meta.Signo1 == Enums.Enum.Signo.MenorOIgual)
+                )
+            {
+                estaEnLaMeta = true;
+            }
+            else if (meta.Valor2 != null &&
+                meta.Valor2 == valor &&
+                (meta.Signo2 == Enums.Enum.Signo.Igual ||
+                 meta.Signo2 == Enums.Enum.Signo.MayorOIgual ||
+                 meta.Signo2 == Enums.Enum.Signo.MenorOIgual)
+                )
+            {
+                estaEnLaMeta = true;
+            }
+
+            return estaEnLaMeta;
         }
 
         public async Task<HeatMapViewModel> ObtenerHeatMapViewModel(BuscarIndicadorViewModel buscarIndicadorViewModel)

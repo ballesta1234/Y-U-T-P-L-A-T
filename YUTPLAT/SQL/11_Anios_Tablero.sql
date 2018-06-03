@@ -1,5 +1,4 @@
 
-INSERT INTO [dbo].[AnioTablero] ([Descripcion], [Anio], [Habilitado]) VALUES( 'Año 2017', 2017, 1);
 INSERT INTO [dbo].[AnioTablero] ([Descripcion], [Anio], [Habilitado]) VALUES( 'Año 2018', 2018, 1);
 INSERT INTO [dbo].[AnioTablero] ([Descripcion], [Anio], [Habilitado]) VALUES( 'Año 2019', 2019, 0);
 INSERT INTO [dbo].[AnioTablero] ([Descripcion], [Anio], [Habilitado]) VALUES( 'Año 2020', 2020, 0);
