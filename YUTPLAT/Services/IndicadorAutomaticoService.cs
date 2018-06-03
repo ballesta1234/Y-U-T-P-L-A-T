@@ -39,22 +39,22 @@ namespace YUTPLAT.Services.Interface
                         RecurringJob.AddOrUpdate<IndicadorAutomaticoCPIStrategy>(
                            indicadorAutomatico.Nombre,
                            x => x.EjecutarIndicador(indicadorAutomatico.IndicadorViewModel),
-                           Cron.Minutely);
-                           //Cron.Monthly(5, 1, 0)); // El 5 de cada mes a la 1:00 a.m.
+                           //Cron.Minutely);
+                           Cron.Monthly(5, 1, 0)); // El 5 de cada mes a la 1:00 a.m.
                         break;
                     case Enums.Enum.CategoriaIndicadorAutomatico.CPI_Servicios:
                         RecurringJob.AddOrUpdate<IndicadorAutomaticoCPIServiciosStrategy>(
                            indicadorAutomatico.Nombre,
                            x => x.EjecutarIndicador(indicadorAutomatico.IndicadorViewModel),
-                           Cron.Minutely);
-                           //Cron.Monthly(5, 1, 15)); // El 5 de cada mes a la 1:15 a.m.
+                           //Cron.Minutely);
+                           Cron.Monthly(5, 1, 15)); // El 5 de cada mes a la 1:15 a.m.
                         break;
                     case Enums.Enum.CategoriaIndicadorAutomatico.CPI_Llave_En_Mano:
                         RecurringJob.AddOrUpdate<IndicadorAutomaticoCPILlaveManoStrategy>(
                            indicadorAutomatico.Nombre,
                            x => x.EjecutarIndicador(indicadorAutomatico.IndicadorViewModel),
-                           Cron.Minutely);
-                           //Cron.Monthly(5, 1, 30)); // El 5 de cada mes a la 1:30 a.m.
+                           //Cron.Minutely);
+                           Cron.Monthly(5, 1, 30)); // El 5 de cada mes a la 1:30 a.m.
                         break;
                 }
             }
