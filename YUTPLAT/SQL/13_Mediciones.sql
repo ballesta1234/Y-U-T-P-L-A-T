@@ -388,46 +388,46 @@ VALUES(@ID_INDICADOR, 4, 0.17, GETDATE(), 'jdelvalle', NULL, 2018, 0, 0)
 SELECT @ID_INDICADOR = IndicadorID FROM dbo.Indicador WHERE Nombre = 'Promedio de puntajes de satisfacción global en la encuesta al cliente'
 
 INSERT INTO dbo.Medicion(IndicadorID, Mes, Valor, FechaCarga, UsuarioCargo, Comentario, Anio, SeDebeNotificar, NoAplica)
-VALUES(@ID_INDICADOR, 1, 0.72, GETDATE(), 'nvaniggia', NULL, 2018, 0, 0)
+VALUES(@ID_INDICADOR, 1, 0.72, GETDATE(), 'ncaniggia', NULL, 2018, 0, 0)
 
 INSERT INTO dbo.Medicion(IndicadorID, Mes, Valor, FechaCarga, UsuarioCargo, Comentario, Anio, SeDebeNotificar, NoAplica)
-VALUES(@ID_INDICADOR, 2, 0.72, GETDATE(), 'nvaniggia', NULL, 2018, 0, 0)
+VALUES(@ID_INDICADOR, 2, 0.72, GETDATE(), 'ncaniggia', NULL, 2018, 0, 0)
 
 INSERT INTO dbo.Medicion(IndicadorID, Mes, Valor, FechaCarga, UsuarioCargo, Comentario, Anio, SeDebeNotificar, NoAplica)
-VALUES(@ID_INDICADOR, 3, 0.72, GETDATE(), 'nvaniggia', NULL, 2018, 0, 0)
+VALUES(@ID_INDICADOR, 3, 0.72, GETDATE(), 'ncaniggia', NULL, 2018, 0, 0)
 
 INSERT INTO dbo.Medicion(IndicadorID, Mes, Valor, FechaCarga, UsuarioCargo, Comentario, Anio, SeDebeNotificar, NoAplica)
-VALUES(@ID_INDICADOR, 4, 0.72, GETDATE(), 'nvaniggia', NULL, 2018, 0, 0)
+VALUES(@ID_INDICADOR, 4, 0.72, GETDATE(), 'ncaniggia', NULL, 2018, 0, 0)
 
 
 
 SELECT @ID_INDICADOR = IndicadorID FROM dbo.Indicador WHERE Nombre = 'Encuesta al Cliente (Proyectos)'
 
 INSERT INTO dbo.Medicion(IndicadorID, Mes, Valor, FechaCarga, UsuarioCargo, Comentario, Anio, SeDebeNotificar, NoAplica)
-VALUES(@ID_INDICADOR, 1, 0.58, GETDATE(), 'nvaniggia', NULL, 2018, 0, 0)
+VALUES(@ID_INDICADOR, 1, 0.58, GETDATE(), 'ncaniggia', NULL, 2018, 0, 0)
 
 INSERT INTO dbo.Medicion(IndicadorID, Mes, Valor, FechaCarga, UsuarioCargo, Comentario, Anio, SeDebeNotificar, NoAplica)
-VALUES(@ID_INDICADOR, 2, 0.58, GETDATE(), 'nvaniggia', NULL, 2018, 0, 0)
+VALUES(@ID_INDICADOR, 2, 0.58, GETDATE(), 'ncaniggia', NULL, 2018, 0, 0)
 
 INSERT INTO dbo.Medicion(IndicadorID, Mes, Valor, FechaCarga, UsuarioCargo, Comentario, Anio, SeDebeNotificar, NoAplica)
-VALUES(@ID_INDICADOR, 3, 0.58, GETDATE(), 'nvaniggia', NULL, 2018, 0, 0)
+VALUES(@ID_INDICADOR, 3, 0.58, GETDATE(), 'ncaniggia', NULL, 2018, 0, 0)
 
 INSERT INTO dbo.Medicion(IndicadorID, Mes, Valor, FechaCarga, UsuarioCargo, Comentario, Anio, SeDebeNotificar, NoAplica)
-VALUES(@ID_INDICADOR, 4, 0.58, GETDATE(), 'nvaniggia', NULL, 2018, 0, 0)
+VALUES(@ID_INDICADOR, 4, 0.58, GETDATE(), 'ncaniggia', NULL, 2018, 0, 0)
 
 
 
 SELECT @ID_INDICADOR = IndicadorID FROM dbo.Indicador WHERE Nombre = 'Encuesta al Cliente (Capacitaciones)'
 
 INSERT INTO dbo.Medicion(IndicadorID, Mes, Valor, FechaCarga, UsuarioCargo, Comentario, Anio, SeDebeNotificar, NoAplica)
-VALUES(@ID_INDICADOR, 1, 0, GETDATE(), 'nvaniggia', NULL, 2018, 0, 1)
+VALUES(@ID_INDICADOR, 1, 0, GETDATE(), 'ncaniggia', NULL, 2018, 0, 1)
 
 INSERT INTO dbo.Medicion(IndicadorID, Mes, Valor, FechaCarga, UsuarioCargo, Comentario, Anio, SeDebeNotificar, NoAplica)
-VALUES(@ID_INDICADOR, 2, 0, GETDATE(), 'nvaniggia', NULL, 2018, 0, 1)
+VALUES(@ID_INDICADOR, 2, 0, GETDATE(), 'ncaniggia', NULL, 2018, 0, 1)
 
 INSERT INTO dbo.Medicion(IndicadorID, Mes, Valor, FechaCarga, UsuarioCargo, Comentario, Anio, SeDebeNotificar, NoAplica)
-VALUES(@ID_INDICADOR, 3, 0, GETDATE(), 'nvaniggia', NULL, 2018, 0, 1)
+VALUES(@ID_INDICADOR, 3, 0, GETDATE(), 'ncaniggia', NULL, 2018, 0, 1)
 
 INSERT INTO dbo.Medicion(IndicadorID, Mes, Valor, FechaCarga, UsuarioCargo, Comentario, Anio, SeDebeNotificar, NoAplica)
-VALUES(@ID_INDICADOR, 4, 0, GETDATE(), 'nvaniggia', NULL, 2018, 0, 1)
+VALUES(@ID_INDICADOR, 4, 0, GETDATE(), 'ncaniggia', NULL, 2018, 0, 1)
 
