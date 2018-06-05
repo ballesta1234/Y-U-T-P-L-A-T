@@ -143,7 +143,7 @@ INSERT INTO TEMP_INDICADORES VALUES(
 	0.40, 5, 1, 0.60, 
 	0.60, 5, 1, 0.70, 
 	0.70, 5, 1, 0.90, 
-	0.90, 5, 1, 1,
+	0.90, 5, 5, 1,
 	
 	'amolinari',
 	'jbarbosa'
