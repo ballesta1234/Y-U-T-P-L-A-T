@@ -557,7 +557,7 @@ BEGIN
 	DECLARE @UsarLinkedServer VARCHAR(300)
 	SELECT @UsarLinkedServer = Valor FROM dbo.Parametros WHERE Clave = ''UsarLinkedServer''
 	
-	IF(@UsarLinkedServer = ''true'')
+	IF(@UsarLinkedServer = 1)
 	BEGIN 	
 		SELECT cast([nombre] as nvarchar(max)) as nombre
 		  ,cast([horas_totales] as int) as horas_totales
@@ -596,7 +596,7 @@ BEGIN
 	DECLARE @UsarLinkedServer VARCHAR(300)
 	SELECT @UsarLinkedServer = Valor FROM dbo.Parametros WHERE Clave = ''UsarLinkedServer''
 	
-	IF(@UsarLinkedServer = ''true'')
+	IF(@UsarLinkedServer = 1)
 	BEGIN 	
 		SELECT cast([nombre] as nvarchar(max)) as nombre
 		  ,cast([horas_totales] as int) as horas_totales
@@ -637,7 +637,7 @@ BEGIN
 	DECLARE @UsarLinkedServer VARCHAR(300)
 	SELECT @UsarLinkedServer = Valor FROM dbo.Parametros WHERE Clave = ''UsarLinkedServer''
 	
-	IF(@UsarLinkedServer = ''true'')
+	IF(@UsarLinkedServer = 1)
 	BEGIN 	
 		SELECT cast([nombre] as nvarchar(max)) as nombre
 		  ,cast([horas_totales] as int) as horas_totales
