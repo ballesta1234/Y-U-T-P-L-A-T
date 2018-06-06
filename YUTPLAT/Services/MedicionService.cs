@@ -25,19 +25,19 @@ namespace YUTPLAT.Services.Interface
         private IMedicionRepository MedicionRepository { get; set; }
         private IIndicadorRepository IndicadorRepository { get; set; }
         private IIndicadorService IndicadorService { get; set; }
-        private IIndicadorAutomaticoRepository IndicadorAutomaticoRepository { get; set; }        
+        private IIndicadorAutomaticoRepository IndicadorAutomaticoRepository { get; set; }
         private IPersonaRepository PersonaRepository { get; set; }
 
         public MedicionService(IMedicionRepository medicionRepository,
                                IIndicadorRepository indicadorRepository,
                                IIndicadorService indicadorService,
-                               IIndicadorAutomaticoRepository indicadorAutomaticoRepository,                               
+                               IIndicadorAutomaticoRepository indicadorAutomaticoRepository,
                                IPersonaRepository personaRepository)
         {
             this.MedicionRepository = medicionRepository;
             this.IndicadorRepository = indicadorRepository;
             this.IndicadorService = indicadorService;
-            this.IndicadorAutomaticoRepository = indicadorAutomaticoRepository;            
+            this.IndicadorAutomaticoRepository = indicadorAutomaticoRepository;
             this.PersonaRepository = personaRepository;
         }
 
@@ -241,16 +241,16 @@ namespace YUTPLAT.Services.Interface
             int i = 0;
 
             decimal valorMedicion = decimal.Parse(medicion.Valor.Replace(".", ","));
-            
+
             while (valorMedicion >= valor && i < 5)
             {
-                i++;               
+                i++;
                 valor = escalas.EscalaValores[i];
             }
 
             if (i == 0)
                 i++;
-                        
+
             int j = DesempatarColor(medicion, escalas);
 
             if (j > 0)
@@ -260,21 +260,21 @@ namespace YUTPLAT.Services.Interface
         }
 
         private int DesempatarColor(MedicionViewModel medicion, EscalaGraficosViewModel escalas)
-        {        
+        {
             decimal valorMedicion = decimal.Parse(medicion.Valor.Replace(".", ","));
             int i = -1;
 
             if (escalas.EscalaDeInaceptableAExcelente)
-            {                     
+            {
                 Meta meta = AutoMapper.Mapper.Map<Meta>(medicion.IndicadorViewModel.MetaInaceptableViewModel);
                 bool estaEnLaMeta = ValorEnLaMeta(meta, valorMedicion);
-                
-                if(estaEnLaMeta)
+
+                if (estaEnLaMeta)
                 {
                     i = 1;
                 }
                 else
-                {                    
+                {
                     meta = AutoMapper.Mapper.Map<Meta>(medicion.IndicadorViewModel.MetaAMejorarViewModel);
                     estaEnLaMeta = ValorEnLaMeta(meta, valorMedicion);
 
@@ -312,7 +312,7 @@ namespace YUTPLAT.Services.Interface
                             }
                         }
                     }
-                }              
+                }
             }
             else
             {
@@ -372,10 +372,10 @@ namespace YUTPLAT.Services.Interface
         {
             bool estaEnLaMeta = false;
 
-            if (meta.Valor1 != null && 
-                meta.Valor1 == valor && 
-                (meta.Signo1 == Enums.Enum.Signo.Igual || 
-                 meta.Signo1 == Enums.Enum.Signo.MayorOIgual || 
+            if (meta.Valor1 != null &&
+                meta.Valor1 == valor &&
+                (meta.Signo1 == Enums.Enum.Signo.Igual ||
+                 meta.Signo1 == Enums.Enum.Signo.MayorOIgual ||
                  meta.Signo1 == Enums.Enum.Signo.MenorOIgual)
                 )
             {
@@ -462,13 +462,13 @@ namespace YUTPLAT.Services.Interface
                             celdaHeatMapViewModel.EsAutomatico = todosIndicadoresAutomaticos.Any(ia => ia.IndicadorViewModel.Grupo == celdaHeatMapViewModel.GrupoIndicador);
 
                             if (medicionesPorMes.Any(m => m.IndicadorViewModel.Grupo == indicador.Grupo && m.Mes == mes))
-                            {                                
+                            {
                                 MedicionViewModel medicionPorMes = medicionesPorMes.First(m => m.IndicadorViewModel.Grupo == indicador.Grupo && m.Mes == mes);
                                 celdaHeatMapViewModel.IdMedicion = medicionPorMes.MedicionId;
 
                                 if (!medicionPorMes.NoAplica)
                                 {
-                                    celdaHeatMapViewModel.Medicion = medicionPorMes.Valor;                                    
+                                    celdaHeatMapViewModel.Medicion = medicionPorMes.Valor;
                                     celdaHeatMapViewModel.ColorMeta = ObtenerColorCeldaHeatMap(medicionPorMes);
                                     celdaHeatMapViewModel.MedicionCargada = true;
                                 }
@@ -521,7 +521,7 @@ namespace YUTPLAT.Services.Interface
 
             return medicionViewModel;
         }
-        
+
         public async Task<MedicionViewModel> ObtenerMedicionViewModel(int idIndicador, int mes, int? idMedicion, long grupo, int anio, PersonaViewModel personaViewModel, bool buscarTodasLasAreas = false)
         {
             MedicionViewModel medicionViewModel = new MedicionViewModel();
@@ -579,7 +579,7 @@ namespace YUTPLAT.Services.Interface
 
             Medicion medicion = AutoMapper.Mapper.Map<Medicion>(medicionViewModel);
             medicion.Indicador = null;
-                       
+
             return await MedicionRepository.Guardar(medicion);
         }
 
@@ -616,7 +616,98 @@ namespace YUTPLAT.Services.Interface
 
         public bool ValidaMedicion(MedicionViewModel medicionViewModel)
         {
+            EscalaGraficosViewModel escalas = ObtenerEscalasGrafico(medicionViewModel.IndicadorViewModel);
+
+            decimal valor = escalas.EscalaValores[0];
+            int i = 0;
+
+            decimal valorMedicion = decimal.Parse(medicionViewModel.Valor.Replace(".", ","));
+
+            while (valorMedicion >= valor && i < 5)
+            {
+                i++;
+                valor = escalas.EscalaValores[i];
+            }
+
+            if (i == 0)
+                i++;
+
+            int j = DesempatarColor(medicionViewModel, escalas);
+
+            if (j > 0)
+                i = j;
+
+            if (i == 1 || i == 5)
+            {
+                if (escalas.EscalaDeInaceptableAExcelente)
+                {
+                    if (i == 1)
+                    {
+                        Meta meta = AutoMapper.Mapper.Map<Meta>(medicionViewModel.IndicadorViewModel.MetaInaceptableViewModel);
+                        return ValidaMedicionBorde(meta, valorMedicion);
+                    }
+                    else
+                    {
+                        Meta meta = AutoMapper.Mapper.Map<Meta>(medicionViewModel.IndicadorViewModel.MetaExcelenteViewModel);
+                        return ValidaMedicionBorde(meta, valorMedicion);
+                    }
+                }
+                else
+                {
+                    if (i == 1)
+                    {
+                        Meta meta = AutoMapper.Mapper.Map<Meta>(medicionViewModel.IndicadorViewModel.MetaExcelenteViewModel);
+                        return ValidaMedicionBorde(meta, valorMedicion);
+                    }
+                    else
+                    {
+                        Meta meta = AutoMapper.Mapper.Map<Meta>(medicionViewModel.IndicadorViewModel.MetaInaceptableViewModel);
+                        return ValidaMedicionBorde(meta, valorMedicion);
+                    }
+                }
+            }
+            else
+            {
+                return true;
+            }                    
+        }
+
+        private bool ValidaMedicionBorde(Meta meta, decimal valor)
+        {
+            if(meta.Valor1 != null && meta.Valor2 != null)
+            {
+                if((valor < meta.Valor1 && valor < meta.Valor2) ||
+                   (valor > meta.Valor1 && valor > meta.Valor2))
+                {
+                    return false;
+                }
+                else if(valor == meta.Valor1 && 
+                        meta.Signo1 != Enums.Enum.Signo.Igual &&
+                         meta.Signo1 != Enums.Enum.Signo.MayorOIgual && 
+                         meta.Signo1 != Enums.Enum.Signo.MenorOIgual)
+                {
+                    return false;
+                }
+                else if (valor == meta.Valor2 &&
+                        meta.Signo2 != Enums.Enum.Signo.Igual &&
+                         meta.Signo2 != Enums.Enum.Signo.MayorOIgual &
+                         meta.Signo2 != Enums.Enum.Signo.MenorOIgual)
+                {
+                    return false;
+                }
+            }
+            else if(meta.Valor1 != null)
+            {
+                if (meta.Signo1 == Enums.Enum.Signo.Igual && meta.Valor1 != valor)
+                    return false;
+            }
+            else
+            {
+                if (meta.Signo2 == Enums.Enum.Signo.Igual && meta.Valor2 != valor)
+                    return false;
+            }
+
             return true;
-        }        
+        }
     }
 }
