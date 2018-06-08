@@ -112,6 +112,7 @@ namespace YUTPLAT.Controllers
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+            Session["Persona"] = null;
             return RedirectToAction("Index", "Home");
         }
         
