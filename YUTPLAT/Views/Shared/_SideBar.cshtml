@@ -1,4 +1,4 @@
-﻿<div class="sidebar" data-color="purple" data-image="/images/sidebar-5.jpg">
+﻿<div class="sidebar hola" data-color="purple" data-image="/images/sidebar-5.jpg">
     <div class="sidebar-wrapper">
         <div class="logo">
             <a href="#" class="simple-text">
@@ -15,7 +15,7 @@
                 </a>
             </li>
             <li class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Indicador" &&
-                         ViewContext.RouteData.Values["Action"].ToString() == "Buscar" ? "active" : "")">
+                         ViewContext.RouteData.Values["Action"].ToString() == "Buscar" || ViewContext.RouteData.Values["Action"].ToString() == "Crear"? "active" : "")">
                 <a href="@Url.Action("Buscar", "Indicador")">
                     <i class="pe-7s-graph2"></i>
                     <p>Indicadores</p>

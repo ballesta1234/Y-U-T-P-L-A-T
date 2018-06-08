@@ -443,6 +443,11 @@ body > .navbar-collapse {
   .main-panel .navbar {
     margin-bottom: 0; }
 
+  .sidebar
+  {
+      position: fixed !important;
+  }
+
 .sidebar,
 .main-panel {
   max-height: 100%;
