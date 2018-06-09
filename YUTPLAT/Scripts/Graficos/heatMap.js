@@ -169,6 +169,7 @@ $(function () {
             .attr("width", gridSize + 8) // ancho de la celda
             .attr("height", gridSize - 10) // alto de la celda
             .style("fill", "gray")
+            .style("cursor", "pointer")
             .attr("class", "square")          
             .on('click', function (d) {
                 abrirModalCargaMedicion(d.IdIndicador, d.Mes, d.IdMedicion, d.NombreMes, d.GrupoIndicador, d.TieneAccesoLecturaEscritura, d.EsAutomatico, d.NombreIndicador);
