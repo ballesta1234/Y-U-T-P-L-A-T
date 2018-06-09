@@ -86,6 +86,8 @@ namespace YUTPLAT.ViewModel
         {
             get { return EsAdmin || (EsUsuario != null && EsUsuario.Value); }
         }
+
+        public PersonaViewModel PersonaLogueadaViewModel { get; set; }
     }
                 
     class PersonaViewModelComparer : IEqualityComparer<PersonaViewModel>

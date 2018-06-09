@@ -31,6 +31,8 @@ namespace YUTPLAT.ViewModel
         public bool NoAplica { get; set; }
 
         public bool BuscarPorNoAplica { get; set; }
+
+        public bool EsIndicadorAutomatico { get; set; }
     }
 }
 

@@ -128,13 +128,20 @@ namespace YUTPLAT.Controllers
 
             PersonaViewModel personaLogueadaViewModel = (PersonaViewModel)Session["Persona"];
             model.EsAdmin = personaLogueadaViewModel.EsAdmin;
-
+            
             if (personaLogueadaViewModel.AreaViewModel != null)
             {
                 model.AreaViewModel = personaLogueadaViewModel.AreaViewModel;
                 model.IdArea = model.AreaViewModel.Id.ToString();
 
-                model.NombreRol = EnumHelper<Enums.Enum.Rol>.GetDisplayValue(Enums.Enum.Rol.Operador);
+                if (personaLogueadaViewModel.Id.Equals(model.Id))
+                {
+                    model.NombreRol = EnumHelper<Enums.Enum.Rol>.GetDisplayValue(Enums.Enum.Rol.Usuario);
+                }
+                else
+                {
+                    model.NombreRol = EnumHelper<Enums.Enum.Rol>.GetDisplayValue(Enums.Enum.Rol.Operador);
+                }
             }
 
             model.Titulo = "Usuarios";
@@ -150,13 +157,20 @@ namespace YUTPLAT.Controllers
         {
             PersonaViewModel personaLogueadaViewModel = (PersonaViewModel)Session["Persona"];
             model.EsAdmin = personaLogueadaViewModel.EsAdmin;
-
+            
             if (personaLogueadaViewModel.AreaViewModel != null)
             {
                 model.AreaViewModel = personaLogueadaViewModel.AreaViewModel;
                 model.IdArea = model.AreaViewModel.Id.ToString();
 
-                model.NombreRol = EnumHelper<Enums.Enum.Rol>.GetDisplayValue(Enums.Enum.Rol.Operador);
+                if (personaLogueadaViewModel.Id.Equals(model.Id))
+                {
+                    model.NombreRol = EnumHelper<Enums.Enum.Rol>.GetDisplayValue(Enums.Enum.Rol.Usuario);
+                }
+                else
+                {
+                    model.NombreRol = EnumHelper<Enums.Enum.Rol>.GetDisplayValue(Enums.Enum.Rol.Operador);
+                }
             }
 
             if (!String.IsNullOrEmpty(model.IdArea) && !model.IdArea.Equals("0"))
