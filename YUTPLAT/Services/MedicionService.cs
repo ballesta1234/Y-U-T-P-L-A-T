@@ -616,6 +616,11 @@ namespace YUTPLAT.Services.Interface
 
         public bool ValidaMedicion(MedicionViewModel medicionViewModel)
         {
+            if (medicionViewModel.NoAplica)
+            {
+                return true;
+            }
+
             EscalaGraficosViewModel escalas = ObtenerEscalasGrafico(medicionViewModel.IndicadorViewModel);
 
             decimal valor = escalas.EscalaValores[0];
