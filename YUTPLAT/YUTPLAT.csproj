@@ -742,6 +742,7 @@
     <Content Include="Views\Persona\Crear.cshtml" />
     <Content Include="Views\Persona\Editar.cshtml" />
     <Content Include="Views\Persona\Ver.cshtml" />
+    <Content Include="Views\Tablero\Error.cshtml" />
     <None Include="Web.29_PROD.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -14,6 +14,8 @@ namespace YUTPLAT.ViewModel
         }
 
         public string Id { get; set; }
+
+        [System.Web.Mvc.AllowHtml]
         public string Titulo { get; set; }
         
         [Required]
@@ -35,6 +37,7 @@ namespace YUTPLAT.ViewModel
         [Required]
         [Display(Name = "Nombre")]
         [StringLength(100)]
+        [System.Web.Mvc.AllowHtml]
         public string Nombre { get; set; }
 
         [Required]
@@ -55,6 +58,7 @@ namespace YUTPLAT.ViewModel
 
         [Required]
         [Display(Name = "Área")]
+        [System.Web.Mvc.AllowHtml]
         public string IdArea { get; set; }
 
         public string NombreOApellidoONombreUsuario { get; set; }
