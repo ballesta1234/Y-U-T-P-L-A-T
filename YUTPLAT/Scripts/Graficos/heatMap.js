@@ -7,7 +7,7 @@ $(function () {
 
     jQuery.noConflict();
 
-    var margin = { top: 40, right: 0, bottom: 0, left: 30 };
+    var margin = { top: 18, right: 0, bottom: 0, left: 30 };
 
     var heatMap = obtenerHeatMapViewModel();
 
@@ -19,13 +19,13 @@ $(function () {
     var height = (gridSize - 8) * heatMap.FilasHeatMapViewModel.length + gridSize + 1;
 
     var svg = d3.select("#chart").append("svg")
-        .attr("width", 940)
+        .attr("width", 964)
         .attr("height", height)
         .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
     
     svg.append('text')
-      .attr("x", -10)
+      .attr("x", 5)
       .attr("y", 0)
       .style("text-anchor", "middle")
       .attr("transform", "translate(" + gridSize / 2 + ", -6)")
@@ -33,7 +33,7 @@ $(function () {
       .text('Área');
 
     svg.append('text')
-      .attr("x", 152)
+      .attr("x", 175)
       .attr("y", 0)
       .style("text-anchor", "middle")
       .attr("transform", "translate(" + gridSize / 2 + ", -6)")
@@ -46,7 +46,7 @@ $(function () {
 
     var etiquetasAreas = svg.selectAll(".areas")
        .data(cantIndicadoresPorArea)
-       .enter()
+       .enter()       
        .append("text")
        .attr("transform", function (d, i) {
            if (d[1] <= 2)
@@ -69,13 +69,14 @@ $(function () {
            }
        })
        .style("text-anchor", "end")
-       .attr("class", "mono")
-       .call(wrap, true, true);
+       .attr("class", "mono")       
+       .call(wrap, true, true)
+       .append("title").text(function (d) { return d[0]; });
 
     svg.append("line")
        .attr("x1", -30)
        .attr("y1", 0)
-       .attr("x2", 300)
+       .attr("x2", 335)
        .attr("y2", 0)
        .attr("stroke-width", 0.4)
        .attr("stroke", "gray");
@@ -89,7 +90,7 @@ $(function () {
        .append("line")
        .attr("x1", -30)
        .attr("y1", function (d, i) { offsetLineaY1 += d[1]; return (offsetLineaY1) * (gridSize - 8); })
-       .attr("x2", 300)
+       .attr("x2", 335)
        .attr("y2", function (d, i) { offsetLineaY2 += d[1]; return (offsetLineaY2) * (gridSize - 8); })
        .attr("stroke-width", 0.4)
        .attr("stroke", "gray");
@@ -104,8 +105,7 @@ $(function () {
         .append("text")
         .text(function (d) {
             return d.NombreIndicador;
-        })
-        .attr("x", 150)
+        })        
         .attr("y", function (d, i) {
             var offsetYEtiqueta = 8;
             if (d.NombreIndicador.length >= 45) {
@@ -146,14 +146,14 @@ $(function () {
                 d3.select(this).classed("mono1", false);
                 d3.select(this).classed("text-mono1-hover", true);
             })
-            .call(wrapHorizontal, 234, 62);
+            .call(wrapHorizontal, 245, 83);
 
     // Etiquetas tipo meses
     var dim2Labels = svg.selectAll(".dim2Label")
         .data(heatMap.Meses)
         .enter().append("text")
             .text(function (d) { return d.substring(0, 3) + '.' })
-            .attr("x", function (d, i) { return (i + 1) * 50 + 252; })
+            .attr("x", function (d, i) { return (i + 1) * 50 + 290; })
             .attr("y", 0)
             .style("text-anchor", "middle")
             .attr("transform", "translate(" + gridSize / 2 + ", -6)")
@@ -162,7 +162,7 @@ $(function () {
     var heatMapGrafico = svg.selectAll(".dim2")
         .data(heatMap.Celdas)
         .enter().append("rect")
-            .attr("x", function (d) { return ((d.Mes - 1) * (gridSize + 10)) + 300; })
+            .attr("x", function (d) { return ((d.Mes - 1) * (gridSize + 10)) + 336; })
             .attr("y", function (d) { return (d.IndiceIndicador - 1) * (gridSize - 8); })
             .attr("rx", 3) // redondeado de la celda
             .attr("ry", 3) // redondeado de la celda
@@ -185,8 +185,7 @@ $(function () {
             if (d.NoAplica) {
                 i = 3;
             }
-
-            return ((d.Mes - 1) * (gridSize + 10)) + 300 + (((gridSize + 8) - (7 * i)) / 2);
+            return ((d.Mes - 1) * (gridSize + 10)) + 336 + (((gridSize + 8) - (7 * i)) / 2);
         })
         .attr("y", function (d) { return (d.IndiceIndicador - 1) * (gridSize - 8) + 20; })
         .style("fill", "rgb(32,32,32)")
@@ -231,7 +230,6 @@ function contarIndicadoresPorArea(heatMap) {
 }
 
 function wrap(text, centrarHorizontal, centrarVertical) {
-
     var cantFilasInicio = 0;
 
     text.each(function () {
@@ -239,7 +237,7 @@ function wrap(text, centrarHorizontal, centrarVertical) {
         cantFilasInicio += dictionaryIndicadoresPorArea[d3.select(this).text()];
 
         if (dictionaryIndicadoresPorArea[d3.select(this).text()] <= 2) {
-            wrapHorizontalPalabra(d3.select(this), 90, -24, centrarHorizontal, centrarVertical, dictionaryIndicadoresPorArea[d3.select(this).text()]);
+            wrapHorizontalPalabra(d3.select(this), 91, -13, centrarHorizontal, centrarVertical, dictionaryIndicadoresPorArea[d3.select(this).text()]);
         }
         else {
             wrapVerticalPalabra(d3.select(this), 32 * dictionaryIndicadoresPorArea[d3.select(this).text()], -32 * cantFilasInicio);
@@ -262,7 +260,7 @@ function wrapVerticalPalabra(text, width, posicionX) {
         tspan = text.text(null)
                     .append("tspan")
                     .style("text-anchor", "start")
-                    .attr("y", 0)
+                    .attr("y", 10)
                     .attr("x", 0)
                     .attr("dx", posicionX + "px")
 
@@ -279,7 +277,7 @@ function wrapVerticalPalabra(text, width, posicionX) {
             tspans.push(tspan);
 
             tspan = text.append("tspan")
-                        .attr("y", 0)
+                        .attr("y", 10)
                         .attr("x", 0)
                         .style("text-anchor", "start")
                         .attr("dx", posicionX + "px")
