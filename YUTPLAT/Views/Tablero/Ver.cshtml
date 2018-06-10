@@ -241,8 +241,17 @@
                                     @Html.DropDownListFor(m => m.AnioTableroID, Enumerable.Empty<SelectListItem>(), new { @id = "ddlAnios", @class = "form-control" })
                                 }
                             </div>
-                            <div class="col-xs-5 col-sm-3 col-md-3">                               
+                            <div class="col-xs-5 col-sm-3 col-md-3">
                                 @Html.DropDownListFor(m => m.AreaTableroId, new SelectList(new List<SelectListItem> { new SelectListItem { Text = Model.AreaTableroViewModel.Nombre, Value = Model.AreaTableroViewModel.Id.ToString() } }, "Value", "Text"), new { @id = "ddlAreas", @class = "form-control" })
+                            </div>
+                            <div class="col-xs-12 col-sm-12 col-md-7">
+                                <div style="padding-top: 10px;">
+                                    <span class="category" style="background-color:#009900; color:#202020;">&nbsp;Excelente&nbsp;</span>&nbsp;&nbsp;&nbsp;
+                                    <span class="category" style="background-color:#81F781; color:#202020;">&nbsp;Satisfactoria&nbsp;</span>&nbsp;&nbsp;&nbsp;
+                                    <span class="category" style="background-color:#ffff66; color:#202020;">&nbsp;Aceptable&nbsp;</span>&nbsp;&nbsp;&nbsp;
+                                    <span class="category" style="background-color:#F79F81; color:#202020;">&nbsp;A mejorar&nbsp;</span>&nbsp;&nbsp;&nbsp;
+                                    <span class="category" style="background-color:#DF0101; color:#202020;">&nbsp;Inaceptable&nbsp;</span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -370,11 +379,11 @@
     }
 
     $("#ddlAreas").select2({
-        ajax: {            
+        ajax: {
             beforeSend: function (xhr, opts) {
             },
             url: '@Url.Action("BuscarAreas", "Area")',
-            dataType: 'json',            
+            dataType: 'json',
             delay: 250,
             data: function (params) {
                 return {
@@ -466,11 +475,11 @@
 
     function fetchdata() {
         var serviceURL = '@Url.Action("Revisar", "Tablero")';
-        
+
         jQuery.ajax({
             type: "POST",
             url: serviceURL,
-            async: false,            
+            async: false,
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (response) {
@@ -479,12 +488,12 @@
                     window.location.href = "Ver";
                 }
             },
-            error: function errorFunc() {                          
+            error: function errorFunc() {
             },
-            complete: function (data) {                
+            complete: function (data) {
                 setTimeout(fetchdata, 5000);
             }
-        });        
+        });
     }
 
 </script>
