@@ -9,7 +9,12 @@
             </button>
 
             @{
-                var NombreApellido = ((YUTPLAT.ViewModel.PersonaViewModel)HttpContext.Current.Session["Persona"]).NombreApellido;
+                var NombreApellido = "";
+
+                if (HttpContext.Current.Session["Persona"] != null)
+                {
+                    NombreApellido = ((YUTPLAT.ViewModel.PersonaViewModel)HttpContext.Current.Session["Persona"]).NombreApellido;
+                }
             }
 
             <p class="navbar-brand">@ViewBag.Titulo</p>

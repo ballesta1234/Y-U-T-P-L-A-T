@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
 using YUTPLAT.Helpers;
 using static YUTPLAT.Enums.Enum;
 
@@ -9,9 +10,11 @@ namespace YUTPLAT.ViewModel
         public int MetaId { get; set; }
 
         [RegularExpression("^[-]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?(\\.[0-9]?[0-9]?[0-9]?)?$", ErrorMessage = "El valor tiene que tener hasta 12 dígitos y hasta 3 decimales")]
+        [AllowHtml]
         public string Valor1 { get; set; }
 
         [RegularExpression("^[-]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?[0-9]?(\\.[0-9]?[0-9]?[0-9]?)?$", ErrorMessage = "El valor tiene que tener hasta 12 dígitos y hasta 3 decimales")]
+        [AllowHtml]
         public string Valor2 { get; set; }
 
         public Signo Signo1 { get; set; }

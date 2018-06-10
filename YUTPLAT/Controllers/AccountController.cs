@@ -165,23 +165,23 @@ namespace YUTPLAT.Controllers
                 decodedUrl = Server.UrlDecode(returnUrl);
             }
 
+            Session["IdAnioTablero"] = (await AnioTableroService.GetActual()).AnioTableroID.ToString();
+
+            PersonaViewModel personaViewModel = (PersonaViewModel)Session["Persona"];
+
+            Session["IdAreaTablero"] = null;
+
+            if (!personaViewModel.EsAdmin)
+            {
+                Session["IdAreaTablero"] = personaViewModel.AreaViewModel.Id.ToString();
+            }
+
             if (Url.IsLocalUrl(decodedUrl))
             {
                 return Redirect(decodedUrl);
             }
             else
             {
-                Session["IdAnioTablero"] = (await AnioTableroService.GetActual()).AnioTableroID.ToString();
-                
-                PersonaViewModel personaViewModel = (PersonaViewModel)Session["Persona"];
-
-                Session["IdAreaTablero"] = null;
-
-                if (!personaViewModel.EsAdmin)
-                {
-                    Session["IdAreaTablero"] = personaViewModel.AreaViewModel.Id.ToString();
-                }
-
                 return RedirectToAction("Ver", "Tablero");
             }            
         }

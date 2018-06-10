@@ -84,7 +84,7 @@ namespace YUTPLAT.Controllers
 
         [HttpPost]
         public async Task<ActionResult> ObtenerHeatMapViewModel(string nombre)
-        {
+        { 
             LimpiarSession();
 
             BuscarIndicadorViewModel model = new BuscarIndicadorViewModel();
@@ -254,7 +254,11 @@ namespace YUTPLAT.Controllers
         private void LimpiarSession()
         {
             PersonaViewModel personaViewModel = (PersonaViewModel)Session["Persona"];
-            Session["FrenarRevision_" + personaViewModel.NombreUsuario] = false;
+
+            if (personaViewModel != null)
+            {
+                Session["FrenarRevision_" + personaViewModel.NombreUsuario] = false;
+            }
         }
 
     }

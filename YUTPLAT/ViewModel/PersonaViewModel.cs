@@ -20,13 +20,16 @@ namespace YUTPLAT.ViewModel
         [Display(Name = "Nombre de usuario")]
         [StringLength(15)]
         [System.Web.Mvc.Remote("ValidarNombreUsuario", "Persona", AdditionalFields = "NombreUsuarioOriginal")]
+        [System.Web.Mvc.AllowHtml]
         public string NombreUsuario { get; set; }
 
+        [System.Web.Mvc.AllowHtml]
         public string NombreUsuarioOriginal { get; set; }
 
         [Required]
         [Display(Name = "Email")]
         [StringLength(100)]
+        [System.Web.Mvc.AllowHtml]
         public string Email { get; set; }
 
         [Required]
@@ -37,6 +40,7 @@ namespace YUTPLAT.ViewModel
         [Required]
         [Display(Name = "Apellido")]
         [StringLength(100)]
+        [System.Web.Mvc.AllowHtml]
         public string Apellido { get; set; }
         
         [Required]
@@ -61,6 +65,7 @@ namespace YUTPLAT.ViewModel
         [Display(Name = "Rol")]
         [Required]
         [ValidarEnumRol]
+        [System.Web.Mvc.AllowHtml]
         public string NombreRol { get; set; }
 
         [Display(Name = "Estado")]

@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
 
 namespace YUTPLAT.ViewModel
 {
@@ -16,6 +17,7 @@ namespace YUTPLAT.ViewModel
         [Required]
         [Display(Name = "Nombre")]
         [StringLength(150)]
+        [AllowHtml]
         public string Nombre { get; set; }
 
         [Required]
@@ -26,12 +28,14 @@ namespace YUTPLAT.ViewModel
 
         [StringLength(2000)]
         [Display(Name = "Descripción")]
+        [AllowHtml]
         public string Descripcion { get; set; }
 
         [Display(Name = "Fecha creación")]
         public string FechaCreacion { get; set; }
 
         [Display(Name = "Último usuario modificó")]
+        [AllowHtml]
         public string UltimoUsuarioModifico { get; set; }
 
         [Display(Name = "Fecha modificación")]

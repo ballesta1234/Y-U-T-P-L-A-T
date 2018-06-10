@@ -137,7 +137,7 @@
                                     @Html.LabelFor(m => m.Contrasenia)
                                     <span class="text-danger">*</span>
                                     @Html.TextBoxFor(m => m.Contrasenia, new { @class = "form-control", type = "password" })
-                                    <span class="aclaracion">(máximo 15 caracteres)</span>
+                                    <span class="aclaracion">(entre 6 y 15 caracteres)</span>
                                     @Html.ValidationMessageFor(m => m.Contrasenia, "", new { @class = "text-danger" })
                                 </div>
 

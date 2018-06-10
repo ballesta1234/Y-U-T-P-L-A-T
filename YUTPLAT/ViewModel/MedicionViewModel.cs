@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
 using static YUTPLAT.Enums.Enum;
 
 namespace YUTPLAT.ViewModel
@@ -25,6 +26,7 @@ namespace YUTPLAT.ViewModel
 
         [StringLength(2000)]
         [Display(Name = "Comentario")]
+        [AllowHtml]
         public string Comentario { get; set; }
 
         [Display(Name = "No aplica")]
