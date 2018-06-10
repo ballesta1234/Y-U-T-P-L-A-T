@@ -363,7 +363,7 @@ function cargarGraficoLinea(dataLine) {
     xAxis = d3.svg.axis().scale(x).orient("bottom");
 
     y = d3.scale.linear().range([height, 0]);
-    y.domain([0, d3.max(dataLine, function (d) { return d.Valor; }) * 1.25]);
+    y.domain([d3.min(dataLine, function (d) { return d.Valor; }), d3.max(dataLine, function (d) { return d.Valor; })*1.25]);
 
     area = d3.svg.area()
       .x(function (d) { return x(d.Mes) + x.rangeBand() / 2; })
