@@ -15,7 +15,7 @@ namespace YUTPLAT.Validadores
         {
             IndicadorViewModel indicadorViewModel = (IndicadorViewModel)value;
 
-            if (indicadorViewModel != null && indicadorViewModel.Id > 0)
+            if ((indicadorViewModel != null && indicadorViewModel.MetaAceptableViewModel != null) || indicadorViewModel.Id > 0)
             {
                 IMedicionService medicionService = DependencyResolver.Current.GetService<IMedicionService>();
 

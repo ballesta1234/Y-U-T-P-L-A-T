@@ -194,11 +194,19 @@ namespace YUTPLAT.Services.Interface
 
             if (decimal.Parse(gauge.Valor.Replace(".", ",")) < gauge.Escala[0])
             {
-                gauge.Valor = (gauge.Escala[0] != 0 ? gauge.Escala[0].ToString().Replace(",", ".").TrimEnd('0').TrimEnd('.') : "0");
+                string valor = (gauge.Escala[0] != 0 ? gauge.Escala[0].ToString().Replace(",", ".") : "0");
+                valor = (valor.Contains(".") ? valor.TrimEnd('0').TrimEnd('.') : valor);
+
+                gauge.Valor = valor;
+
             }
             else if (decimal.Parse(gauge.Valor.Replace(".", ",")) > gauge.Escala[5])
             {
-                gauge.Valor = (gauge.Escala[5] != 0 ? gauge.Escala[5].ToString().Replace(",", ".").TrimEnd('0').TrimEnd('.') : "0");
+                string valor = (gauge.Escala[5] != 0 ? gauge.Escala[5].ToString().Replace(",", ".") : "0");
+                valor = (valor.Contains(".") ? valor.TrimEnd('0').TrimEnd('.') : valor);
+
+                gauge.Valor = valor;
+                
             }
         }
 
